@@ -1,0 +1,10 @@
+@import 'styles/normalize';
+@import 'styles/components';
+@import 'styles/fonts';
+@import 'styles/typography';
+
+@mixin yaari-styles {
+  @include yaari-normalize();
+  @include yaari-font-roboto();
+  @include yaari-typography();
+}

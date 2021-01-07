@@ -1,0 +1,35 @@
+@mixin yaari-typography {
+  h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+    line-height: $yaari-line-height;
+  }
+
+  h1 {
+    font-size: $yaari-h1;
+  }
+
+  h2 {
+    font-size: $yaari-h2;
+  }
+
+  h3 {
+    font-size: $yaari-h3;
+  }
+
+  h4 {
+    font-size: $yaari-h4;
+  }
+
+  h5 {
+    font-size: $yaari-h5;
+  }
+
+  h6 {
+    font-size: $yaari-h6;
+  }
+
+  p {
+    font-size: $yaari-default;
+  }
+}

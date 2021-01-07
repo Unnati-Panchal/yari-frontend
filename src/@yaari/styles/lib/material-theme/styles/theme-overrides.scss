@@ -1,0 +1,174 @@
+@mixin yaari-material-theme-overrides() {
+
+
+  .mat-form-field-prefix .mat-icon, .mat-form-field-suffix .mat-icon {
+    font-size: 100%;
+  }
+  /*
+  * Tooltip
+  */
+  .mat-tooltip {
+    font-size: 14px;
+    padding: 12px 14px;
+  }
+
+  .mat-form-field {
+    .mat-form-field-infix {
+      top: yaari-to-rem(2px);
+      border-top: 0;
+    }
+
+    &.mat-form-field-type-mat-input {
+      .mat-form-field-suffix {
+        top: yaari-to-rem(7px);
+      }
+    }
+
+    &.mat-form-field-type-mat-select {
+      .mat-form-field-infix {
+        .mat-select-arrow-wrapper {
+          transform: translateY(0%);
+        }
+      }
+    }
+
+    .mat-form-field-outline-start,
+    .mat-form-field-outline-end {
+      background: $yaari-background-light;
+    }
+
+    .mat-input-element {
+      caret-color: red;
+    }
+
+    &.mat-form-field-invalid .mat-form-field-label {
+      color: red;
+    }
+
+    &.mat-form-field-invalid .mat-form-field-ripple {
+      background: red;
+    }
+
+    .mat-error {
+      color: red;
+    }
+
+    &.mat-focused .mat-form-field-label {
+      color: red;
+    }
+
+    &.mat-focused .mat-form-field-ripple {
+      background: red;
+    }
+
+    .mat-form-field-label:not(.mat-form-field-empty) {
+      color: red;
+    }
+
+    & .mat-form-field-underline {
+      background: red;
+    }
+  }
+
+  /*
+  * Option
+  */
+
+  .mat-option:hover:not(.mat-option-disabled), .mat-option:focus:not(.mat-option-disabled) {
+    background: white;
+
+    .mat-option-text {
+      color: white;
+    }
+  }
+
+  .mat-option {
+
+    &.mat-selected {
+      background: white;
+
+      .mat-option-text {
+        color: black;
+      }
+
+      .mat-pseudo-checkbox.mat-pseudo-checkbox-checked, .mat-pseudo-checkbox.mat-pseudo-checkbox-indeterminate {
+        border-color: white;
+      }
+    }
+
+    &.large-height {
+      line-height: 66px;
+      height: 66px;
+    }
+  }
+
+  .mat-option-text {
+    color: black;
+  }
+
+  /*
+  * Checkbox
+  */
+  .mat-checkbox {
+    .mat-checkbox-inner-container {
+      margin-top: 0.25rem;
+      margin-right: $yaari-base / 2;
+    }
+  }
+
+  /*
+  * Form field
+  */
+  .mat-form-field-subscript-wrapper {
+    font-size: 85%; // Original value is 75%
+  }
+
+  /*
+  * Snackbar
+  */
+  .mat-snack-bar-container {
+    @include mat-elevation(9);
+
+    &.toast {
+      min-width: 50vw;
+      padding: 25px 25px;
+    }
+
+    &.light {
+      background-color: white;
+    }
+  }
+
+  /*
+  * Icon
+  */
+  .mat-icon {
+    &.mat-list-icon {
+      transform: scale(1.5);
+    }
+  }
+
+  /*
+  * Button
+  */
+  .mat-button,
+  .mat-stroked-button,
+  .mat-raised-button,
+  .mat-icon-button,
+  .mat-flat-button {
+    height: yaari-to-rem(44px);
+  }
+
+  .mat-stroked-button {
+    border: 1px solid black;
+    background-color: white;
+  }
+
+  .mat-list-base {
+    .mat-list-item {
+      .mat-list-item-content {
+        padding: 0;
+      }
+    }
+  }
+}

@@ -1,0 +1,10 @@
+@import 'styles/theme';
+@import 'styles/theme-overrides';
+@import 'variables';
+
+@mixin yaari-material-styles() {
+  html,
+  body {
+    @include yaari-material-theme-overrides();
+  }
+}

@@ -1,0 +1,24 @@
+@import '../mixins/misc';
+
+/**
+* Core Typography Values
+*
+* $yaari-text-base-size
+* $yaari-line-height
+*
+* used to align materials $yaari-typography and our own $yaari-font-size-*
+*/
+
+$yaari-text-base-size: 16px;
+$yaari-line-height: 1.17;
+
+$yaari-default-font-family: Roboto, "Helvetica Neue", sans-serif;
+
+$yaari-h1: yaari-to-rem(96px);
+$yaari-h2: yaari-to-rem(60px);
+$yaari-h3: yaari-to-rem(48px);
+$yaari-h4: yaari-to-rem(34px);
+$yaari-h5: yaari-to-rem(24px);
+$yaari-h6: yaari-to-rem(20px);
+$yaari-default: yaari-to-rem(18px);
+$yaari-default-small: yaari-to-rem(14px);

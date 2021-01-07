@@ -1,0 +1,10 @@
+@import 'lib/variables';
+@import 'lib/mixins';
+@import 'lib/styles';
+
+@import 'lib/material-theme/variables';
+@import 'lib/material-theme/mixins';
+@import 'lib/material-theme/styles';
+
+@include yaari-material-styles();
+@include yaari-styles();

@@ -1,0 +1,30 @@
+$default-align-items: stretch !default;
+$default-justify-content: flex-start !default;
+$default-flex-direction: row !default;
+$default-position: static !default;
+
+@mixin yaari-display-flex(
+  $align-items: $default-align-items,
+  $justify-content: $default-justify-content,
+  $flex-direction: $default-flex-direction
+) {
+  display: flex;
+  align-items: $align-items;
+  justify-content: $justify-content;
+  flex-direction: $flex-direction;
+}
+
+@function yaari-strip-unit($number) {
+  @if type-of($number) == 'number' and not unitless($number) {
+    @return $number / ($number * 0 + 1);
+  }
+  @return $number;
+}
+
+@function yaari-to-rem($value) {
+  @if unit($value) == 'px' {
+    @return yaari-strip-unit($value / $yaari-text-base-size) * 1rem;
+  } @else {
+    @error "Make sure `$value` is in px.";
+  }
+}
