@@ -16,6 +16,8 @@
     "paths": {
       "@yaari/*": ["./src/@yaari/*"],
       "~app/*": ["./src/app/*"],
+      "~env/*": ["./src/environments/*"],
+      "~store/*": ["./src/app/store/*"],
       "~auth/*": ["./src/app/modules/auth/*"],
       "~platform/*": ["./src/app/modules/platform/*"]
     }

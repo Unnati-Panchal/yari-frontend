@@ -29,7 +29,10 @@
             ],
             "scripts": [],
             "stylePreprocessorOptions": {
-              "includePaths": ["src/", "src/@yaari/styles/lib"]
+              "includePaths": [
+                "src/",
+                "src/@yaari/styles/lib"
+              ]
             }
           },
           "configurations": {
@@ -130,5 +133,8 @@
     "@schematics/angular:component": {
       "style": "scss"
     }
+  },
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
   }
 }
