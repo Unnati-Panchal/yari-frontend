@@ -1,6 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {HttpClientModule} from '@angular/common/http';
 
 import {environment} from '~env/environment';
 
@@ -37,6 +38,7 @@ export function getReducers(): ActionReducerMap<IAppState> {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    HttpClientModule,
     AppRoutingModule,
     StoreModule.forRoot(
       {...getReducers()},

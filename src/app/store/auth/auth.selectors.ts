@@ -1,8 +1,9 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import * as fromAuth from '~store/auth/auth.reducer';
+import * as fromAuthReducer from '~store/auth/auth.reducer';
 
-export const selectBaseFeature = createFeatureSelector<fromAuth.IAuthState>(fromAuth.authFeatureKey);
+export const selectBaseFeature = createFeatureSelector<fromAuthReducer.IAuthState>(fromAuthReducer.authFeatureKey);
 
-export const getIsLoading = createSelector(selectBaseFeature, (state: fromAuth.IAuthState) => state.isLoading);
-export const getIsError = createSelector(selectBaseFeature, (state: fromAuth.IAuthState) => state.isError);
+export const getIsLoading = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.loading);
+export const getIsError = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.error);
+export const getSupplierRegResponse = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.supplierRegResponse);

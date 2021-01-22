@@ -1,12 +1,18 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-
+const modules = [
+  ReactiveFormsModule,
+  FormsModule
+];
 
 @NgModule({
   declarations: [],
   imports: [
-    CommonModule
-  ]
+    CommonModule,
+    ...modules
+  ],
+  exports: [...modules]
 })
 export class SharedModule { }
