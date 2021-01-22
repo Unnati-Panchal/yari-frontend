@@ -1,1 +1,45 @@
-<p>registration works!</p>
+<div class="fixed-width">
+
+    <header>
+        <img class="logo" src="/assets/images/yaari-logo.png">
+    </header>
+</div>
+
+<div class="content-container top-shadow">
+
+    <div class="fixed-width">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 bg-cover p-5" style="background-image: url(/assets/images/yaari-man.jpg);">
+                    <h2 class="text-white red-line">Welcome</h2>
+                </div>
+                <div class="col-sm-6 p-5">
+                    <h3 class="red-line">Sign in</h3>
+
+
+                    <div class="form-group">
+                        <label for="Email">Email : </label>
+                        <mat-form-field appearance="fill">
+                            <mat-label>Enter your email</mat-label>
+                            <input matInput placeholder="pat@example.com" required>
+                        </mat-form-field>
+
+                        <label for="Password">Password : </label>
+                        <mat-form-field appearance="">
+                            <mat-label>Enter password</mat-label>
+                            <input matInput #input type="password" formControlName="password">
+                        </mat-form-field>
+                    </div>
+
+                    <button mat-button>Sign In</button>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
