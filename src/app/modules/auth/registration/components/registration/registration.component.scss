@@ -6,6 +6,9 @@
 html, p, h1, h2, h3, h4, h5, ul, ol {
     font-family: 'Poppins', sans-serif;
 } 
+p {
+    font-size: 14px;
+}
 
 h2 {
     font-weight: bold;
@@ -13,20 +16,63 @@ h2 {
 }
 
 .red-line {
-    font-weight: 300;
     display: inline-block;
     padding-bottom: 5px;
     position: relative;
-  }
-  .red-line:before{
+
+  &:before {
       content: "";
       position: absolute;
-      width: 30%;
       height: 1px;
       bottom: 0;
-  
-      border-bottom: 5px solid red;
+      border-bottom: 5px solid #f62101;
+      width:30%;
   }
+}
+h2.red-line {
+    &:before {
+        width:48px;
+    }
+}
+h3.red-line {
+    &:before {
+        width:20px;
+    }
+}
+.small-text {
+    font-size: 11px;
+}
+.text-bold {
+    font-weight: bold;
+}
+.yaari-btn {
+    
+    border-radius: 10px;
+    color: #FFF;
+    height: auto;
+    padding: 7px 10px;
+    line-height: normal;
+    &.red-btn {
+        background-color: #f62101;
+    }
+    .mat-icon {
+        font-size: 14px;
+        height: 18px;
+        width: 14px;
+    }
+}
+
+.yaari-input {
+    input, select {
+    width: 100%;
+    border: 1px solid #363636;
+    border-radius: 10px; 
+    padding: 5px 10px;
+        &:focus {
+            outline: none;
+        }
+    }
+}
 
 .fixed-width {
     max-width: 1440px !important;
@@ -87,6 +133,10 @@ h2 {
 
 .text-white {
     color:#FFF;
+}
+
+.text-red {
+    color: #f62101;
 }
 
 // *********************** Bootsrap grid ***********************

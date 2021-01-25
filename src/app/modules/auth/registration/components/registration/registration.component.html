@@ -18,21 +18,23 @@
 
 
                     <div class="form-group">
-                        <label for="Email">Email : </label>
-                        <mat-form-field appearance="fill">
-                            <mat-label>Enter your email</mat-label>
-                            <input matInput placeholder="pat@example.com" required>
-                        </mat-form-field>
+                        <label for="Email">Email</label>
+                        <div class="yaari-input mb-3">
+                            <input matInput placeholder="email address" formControlName="email" required>
+                        </div>
 
-                        <label for="Password">Password : </label>
-                        <mat-form-field appearance="">
-                            <mat-label>Enter password</mat-label>
-                            <input matInput #input type="password" formControlName="password">
-                        </mat-form-field>
+                        <label for="Password">Password</label>
+                        <div class="yaari-input">
+                            <input matInput placeholder="Enter your password" type="password" formControlName="password"
+                                required>
+                            <p class="small-text my-2 text-right"><a href="#">Forgot Password?</a></p>
+                        </div>
                     </div>
-
-                    <button mat-button>Sign In</button>
-
+                    <div class="text-center">
+                        <button mat-button class="yaari-btn red-btn px-4">Sign In</button>
+                        <p class="small-text my-2">Don't have an account? <a href="" class="text-bold">Register now</a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </div>
@@ -40,6 +42,227 @@
     </div>
 </div>
 
+<h4 class="text-center my-5">************************************* REGISTER PAGE
+    ************************************************</h4>
+
+
+<div class="fixed-width">
+
+    <header>
+        <img class="logo" src="/assets/images/yaari-logo.png">
+    </header>
+</div>
+
+<div class="content-container top-shadow">
+
+    <div class="fixed-width">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-6 bg-cover p-5" style="background-image: url(/assets/images/yaari-man2.jpg);">
+                    <h2 class="text-white red-line">Let's get Started</h2>
+                </div>
+                <div class="col-sm-6 p-5">
+                    <h3 class="red-line">Register</h3>
+
+
+                    <div class="form-group">
+                        <div class="row">
+
+                            <div class="col-12 mb-3">
+                                <label for="business">Business Name<span class="text-red">*</span> </label>
+                                <div class="yaari-input">
+                                    <input matInput placeholder="Business Name" formControlName="business" required>
+                                </div>
+                            </div>
+
+                            <div class="col-12 mb-3">
+                                <label for="businessType">Register As<span class="text-red">*</span></label>
+                                <mat-radio-group aria-label="Register As">
+                                    <mat-radio-button class="mr-3" value="Retailer">Retailer</mat-radio-button>
+                                    <mat-radio-button class="mr-3" value="Manufacturer">Manufacturer</mat-radio-button>
+                                    <mat-radio-button value="Wholesaler">Wholesaler</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+
+
+
+                            <div class="col-12"><label for="Email">Email ID<span class="text-red">*</span></label></div>
+                            <div class="col-sm-7">
+
+                                <div class="yaari-input mb-3">
+                                    <input matInput placeholder="email address" formControlName="email" required>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-5">
+                                <button mat-button class="yaari-btn red-btn px-4">Verify Email</button>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <label for="phone">Phone Number<span class="text-red">*</span></label>
+                                <div class="yaari-input mb-3">
+                                    <input matInput placeholder="Phone number" formControlName="phone" required>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="row">
+                            <div class="col-sm-7">
+                                <label for="State">State<span class="text-red">*</span></label>
+                                <div class="yaari-input mb-3">
+                                    <select name="state" id="state" matNativeControl required>
+                                        <option value=""></option>
+                                        <option value="state1">state1</option>
+                                        <option value="state2">state2</option>
+                                        <option value="state3">state3</option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="col-sm-5">
+                                <label for="City">City<span class="text-red">*</span></label>
+                                <div class="yaari-input mb-3">
+                                    <select name="city" id="city" matNativeControl required>
+                                        <option value=""></option>
+                                        <option value="city1">city1</option>
+                                        <option value="city2">city2</option>
+                                        <option value="city3">city3</option>
+                                    </select>
+
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12 mb-2">
+                                <label for="GST">Do you have a GST number?<span class="text-red">*</span></label>
+                                <mat-radio-group aria-label="GST">
+                                    <mat-radio-button class="mr-3" value="Yes">Yes</mat-radio-button>
+                                    <mat-radio-button class="mr-3" value="No">No</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                            <div class="col-12">
+
+                                <label for="GSTnumber">If Yes Please Enter Your GST Certificate Number
+                                    And Upload GST Certificate<span class="text-red">*</span></label>
+                            </div>
+                            <div class="col-12 col-lg-5">
+                                <div class="yaari-input mb-3">
+                                    <input matInput formControlName="GSTnumber" required>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-7">
+                                <button mat-button class="yaari-btn red-btn px-4">Upload GST Certificate</button>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+
+                                <label for="PANcard">Enter Your Business PAN Card Number And Upload
+                                    Business PAN card<span class="text-red">*</span></label>
+                            </div>
+                            <div class="col-12 col-lg-6">
+                                <div class="yaari-input mb-3">
+                                    <input matInput formControlName="PANcard" required>
+                                </div>
+                            </div>
+
+                            <div class="col-12 col-lg-6">
+                                <button mat-button class="yaari-btn red-btn px-4">Upload PAN Card</button>
+                            </div>
+
+
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label for="stockCount">Enter Average Monthly Stock Count You Want
+                                    To Share On Yaari<span class="text-red">*</span></label>
+                            </div>
+                            <div class="col-12">
+                                <mat-radio-group aria-label="stockCount">
+                                    <mat-radio-button class="mr-3" value="less100">Less than 100</mat-radio-button>
+                                    <mat-radio-button class="mr-3" value="more100">More than 100</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-12">
+                                <label for="priceRange">Select Among Different Price Range<span
+                                        class="text-red">*</span></label>
+                            </div>
+                            <div class="col-12">
+                                <mat-radio-group aria-label="priceRange">
+                                    <mat-radio-button class="mr-3 d-block" value="less100">Less than 250
+                                    </mat-radio-button>
+                                    <mat-radio-button class="mr-3 d-block" value="more100">Between 250 to 500
+                                    </mat-radio-button>
+                                    <mat-radio-button class="mr-3 d-block" value="more100">Between 500 to 700
+                                    </mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                        </div>
+
+                        <p class="text-bold">More Information</p>
+
+
+                        <div class="row mb-4">
+                            <div class="col-sm-12">
+                                <label for="bank">Bank Name<span class="text-red">*</span></label>
+                                <div class="yaari-input mb-3">
+                                    <select name="bank" id="bank" matNativeControl required>
+                                        <option value=""></option>
+                                        <option value="Bank1">Bank1</option>
+                                        <option value="Bank2">Bank2</option>
+                                    </select>
+
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row mb-4">
+                            <div class="col-sm-12">
+                                <label for="IFSC">IFSC code<span class="text-red">*</span></label>
+                                <div class="yaari-input mb-3">
+                                    <input matInput formControlName="IFSC" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row mb-4">
+                            <div class="col-sm-12">
+                                <label for="cheque">Upload Cancelled Cheque<span class="text-red">*</span></label>
+                                <div class="yaari-input mb-3">
+                                    <button mat-button class="yaari-btn red-btn px-4 w-100">
+                                        <mat-icon>add_a_photo</mat-icon>
+                                        Upload Picture
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col-sm-12">
+                                <div class="yaari-input mb-3 text-center">
+                                    <button mat-button class="yaari-btn red-btn px-4">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
 
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
