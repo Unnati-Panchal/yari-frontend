@@ -4,6 +4,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import * as fromRoot from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import {ISupplierRegistration} from '~auth/registration/interfaces/supplier-registration.interface';
+import {ILogin} from '~auth/login/interfaces/supplier-login.interface';
 
 export const authFeatureKey = 'auth';
 
@@ -12,13 +13,15 @@ export interface IAuthState extends fromRoot.IAppState {
   error: HttpErrorResponse;
   supplierRegRequest: ISupplierRegistration;
   supplierRegResponse: ISupplierRegistration;
+  supplierLoginResponse: ILogin;
 }
 
 export const authInitialState: IAuthState = {
   loading: false,
   error: null,
   supplierRegRequest: null,
-  supplierRegResponse: null
+  supplierRegResponse: null,
+  supplierLoginResponse: null
 };
 
 const authReducer = createReducer(
@@ -35,6 +38,17 @@ const authReducer = createReducer(
     supplierRegResponse: action.supplierRegResponse
   })),
   on(fromAuthActions.supplierRegistrationError, (state, action) => ({ ...state, loading: false, error: action.error })),
+  on(fromAuthActions.supplierLogin, (state, action) => ({
+    ...state,
+    loading: true,
+    supplierLoginRequest: action.supplierLoginRequest
+  })),
+  on(fromAuthActions.supplierLoginSuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    supplierLoginResponse: action.supplierLoginResponse
+  })),
+  on(fromAuthActions.supplierLoginError, (state, action) => ({ ...state, loading: false, error: action.error })),
 
 );
 

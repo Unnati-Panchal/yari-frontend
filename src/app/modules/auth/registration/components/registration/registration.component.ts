@@ -40,8 +40,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
     const testCase = {
       contact_person: 'string',
-      phone_no: 324611113,
-      email_id: 'user1111111111@example.com',
+      phone_no: 3246111113,
+      email_id: 'user11111111111@example.com',
       city: 'string',
       type: 'manufacturer',
       price_range_min: 0,
