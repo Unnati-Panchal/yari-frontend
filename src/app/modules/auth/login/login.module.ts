@@ -5,11 +5,14 @@ import {LoginRoutingModule} from '~auth/login/login-routing.module';
 
 import {LoginComponent} from '~auth/login/components/login/login.component';
 
+import {SharedModule} from '@yaari/shared.module';
+
 @NgModule({
   declarations: [LoginComponent],
   imports: [
     CommonModule,
-    LoginRoutingModule
+    LoginRoutingModule,
+    SharedModule
   ]
 })
 export class LoginModule { }
