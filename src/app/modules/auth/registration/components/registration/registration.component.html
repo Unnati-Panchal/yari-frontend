@@ -13,13 +13,13 @@
             <div class="left-col bg-100 p-60" style="background-image: url(/assets/images/yaari-man.jpg);">
                 <h2 class="text-white red-line">Welcome</h2>
             </div>
-            <div class="right-col p-60">
+            <div class="right-col">
                 <h3 class="red-line">Sign in</h3>
 
-                <div class="form-group" style="max-width: 320px;">
+                <div class="form-group">
                     <label for="Email">Email</label>
 
-                    <input class="yaari-input mb-40 w-100" matInput placeholder="email address" formControlName="email"
+                    <input class="yaari-input w-100" matInput placeholder="email address" formControlName="email"
                         required>
 
 
@@ -27,10 +27,10 @@
 
                     <input class="yaari-input w-100" matInput placeholder="Enter your password" type="password"
                         formControlName="password" required>
-                    <p class="small-text my-20 text-right"><a href="#">Forgot Password?</a></p>
+                    <p class="small-text my-20 text-right max-300px"><a href="#">Forgot Password?</a></p>
 
                 </div>
-                <div class="text-center">
+                <div class="text-center max-300px">
                     <button mat-button class="yaari-btn red-btn px-60">Sign In</button>
                     <p class="small-text my-20">Don't have an account? <a href="" class="text-bold">Register now</a>
                     </p>
@@ -61,7 +61,7 @@
             <div class="left-col bg-100 p-60" style="background-image: url(/assets/images/yaari-man2.jpg);">
                 <h2 class="text-white red-line">Let's get Started</h2>
             </div>
-            <div class="right-col p-60">
+            <div class="right-col">
 
 
                 <h3 class="red-line">Register</h3>
@@ -71,16 +71,16 @@
 
                     <label for="business">Business Name<span class="text-red">*</span> </label>
 
-                    <input class="yaari-input mb-40" matInput placeholder="Business Name" formControlName="business"
-                        required>
+                    <input class="yaari-input mb-20 w-100" matInput placeholder="Business Name"
+                        formControlName="business" required>
 
 
 
 
                     <label for="businessType">Register As<span class="text-red">*</span></label>
                     <mat-radio-group aria-label="Register As">
-                        <mat-radio-button class="mr-3" value="Retailer">Retailer</mat-radio-button>
-                        <mat-radio-button class="mr-3" value="Manufacturer">Manufacturer</mat-radio-button>
+                        <mat-radio-button class="mr-20" value="Retailer">Retailer</mat-radio-button>
+                        <mat-radio-button class="mr-20" value="Manufacturer">Manufacturer</mat-radio-button>
                         <mat-radio-button value="Wholesaler">Wholesaler</mat-radio-button>
                     </mat-radio-group>
 
@@ -92,16 +92,14 @@
 
 
 
-                    <input class="yaari-input mb-40" matInput placeholder="email address" formControlName="email"
+                    <input class="yaari-input mr-20" matInput placeholder="email address" formControlName="email"
                         required>
-
 
                     <button mat-button class="yaari-btn red-btn px-4">Verify Email</button>
 
                     <label for="phone">Phone Number<span class="text-red">*</span></label>
 
-                    <input class="yaari-input mb-40" matInput placeholder="Phone number" formControlName="phone"
-                        required>
+                    <input class="yaari-input " matInput placeholder="Phone number" formControlName="phone" required>
 
 
 
@@ -110,7 +108,7 @@
                         <div class="column">
                             <label for="State">State<span class="text-red">*</span></label>
 
-                            <select class="yaari-input mb-40" name="state" id="state" matNativeControl required>
+                            <select class="yaari-input  mr-20" name="state" id="state" matNativeControl required>
                                 <option value=""></option>
                                 <option value="state1">state1</option>
                                 <option value="state2">state2</option>
@@ -122,7 +120,7 @@
                         <div class="column">
                             <label for="City">City<span class="text-red">*</span></label>
 
-                            <select class="yaari-input mb-40" name="city" id="city" matNativeControl required>
+                            <select class="yaari-input " name="city" id="city" matNativeControl required>
                                 <option value=""></option>
                                 <option value="city1">city1</option>
                                 <option value="city2">city2</option>
@@ -136,7 +134,7 @@
 
                     <label for="mainCategory">Main Category<span class="text-red">*</span></label>
 
-                    <select class="yaari-input mb-40" name="mainCategory" id="state" matNativeControl required>
+                    <select class="yaari-input " name="mainCategory" id="state" matNativeControl required>
                         <option value=""></option>
                         <option value="cat1">cat1</option>
                         <option value="cat2">cat2</option>
@@ -144,43 +142,30 @@
 
 
 
-
-
                     <label for="GST">Do you have a GST number?<span class="text-red">*</span></label>
                     <mat-radio-group aria-label="GST">
-                        <mat-radio-button class="mr-3" value="Yes">Yes</mat-radio-button>
-                        <mat-radio-button class="mr-3" value="No">No</mat-radio-button>
+                        <mat-radio-button class="mr-20" value="Yes">Yes</mat-radio-button>
+                        <mat-radio-button value="No">No</mat-radio-button>
                     </mat-radio-group>
 
                     <label for="GSTnumber">If Yes Please Enter Your GST Certificate Number
                         And Upload GST Certificate<span class="text-red">*</span></label>
 
-                    <div class="row mb-40">
 
-                        <div class="column">
-                            <input class="yaari-input mb-40" matInput formControlName="GSTnumber" required>
-                        </div>
+                    <input class="yaari-input mr-20" matInput formControlName="GSTnumber" required>
 
-                        <div class="column">
-                            <button mat-button class="yaari-btn red-btn px-40">Upload GST Certificate</button>
-                        </div>
-                    </div>
+                    <button mat-button class="yaari-btn red-btn">Upload GST Certificate</button>
+
+
 
                     <label for="PANcard">Enter Your Business PAN Card Number And Upload
                         Business PAN card<span class="text-red">*</span></label>
 
-                    <div class="row mb-40">
+                    <input class="yaari-input mr-20" matInput formControlName="PANcard" required>
 
-                        <div class="column">
-                            <input class="yaari-input mb-40" matInput formControlName="PANcard" required>
-                        </div>
-
-                        <div class="column">
-                            <button mat-button class="yaari-btn red-btn px-40">Upload PAN Card</button>
-                        </div>
+                    <button mat-button class="yaari-btn red-btn">Upload PAN Card</button>
 
 
-                    </div>
 
                     <label for="stockCount">Enter Average Monthly Stock Count You Want
                         To Share On Yaari<span class="text-red">*</span></label>
@@ -205,13 +190,13 @@
                     </mat-radio-group>
 
 
-                    <p class="text-bold">More Information</p>
+                    <p class="text-bold mt-40">More Information</p>
 
 
 
                     <label for="bank">Bank Name<span class="text-red">*</span></label>
 
-                    <select class="yaari-input mb-40" name="bank" id="bank" matNativeControl required>
+                    <select class="yaari-input w-100" name="bank" id="bank" matNativeControl required>
                         <option value=""></option>
                         <option value="Bank1">Bank1</option>
                         <option value="Bank2">Bank2</option>
@@ -222,24 +207,23 @@
 
                     <label for="IFSC">IFSC code<span class="text-red">*</span></label>
 
-                    <input class="yaari-input mb-40" matInput formControlName="IFSC" required>
+                    <input class="yaari-input w-100" matInput formControlName="IFSC" required>
 
 
 
 
                     <label for="cheque">Upload Cancelled Cheque<span class="text-red">*</span></label>
 
-                    <button mat-button class="yaari-btn red-btn px-60 w-100">
+                    <button mat-button class="yaari-btn red-btn px-60 w-100 mb-40">
                         <mat-icon>add_a_photo</mat-icon>
                         Upload Picture
                     </button>
 
-
-
-
-                    <button mat-button class="yaari-btn red-btn px-60">
-                        Submit
-                    </button>
+                    <div class="max-300px">
+                        <button mat-button class="yaari-btn red-btn px-60 mx-auto">
+                            Submit
+                        </button>
+                    </div>
 
 
                 </div>
