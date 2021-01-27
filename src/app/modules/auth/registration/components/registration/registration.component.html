@@ -27,10 +27,10 @@
 
                     <input class="yaari-input w-100" matInput placeholder="Enter your password" type="password"
                         formControlName="password" required>
-                    <p class="small-text my-20 text-right max-300px"><a href="#">Forgot Password?</a></p>
+                    <p class="small-text my-20 text-right dashboard-width"><a href="#">Forgot Password?</a></p>
 
                 </div>
-                <div class="text-center max-300px">
+                <div class="text-center dashboard-width">
                     <button mat-button class="yaari-btn red-btn px-60">Sign In</button>
                     <p class="small-text my-20">Don't have an account? <a href="" class="text-bold">Register now</a>
                     </p>
@@ -42,7 +42,7 @@
     </div>
 </div>
 
-<h4 class="text-center my-5">************************************* REGISTER PAGE
+<h4 class="text-center mt-50">************************************* REGISTER PAGE
     ************************************************</h4>
 
 
@@ -95,7 +95,7 @@
                     <input class="yaari-input mr-20" matInput placeholder="email address" formControlName="email"
                         required>
 
-                    <button mat-button class="yaari-btn red-btn px-4">Verify Email</button>
+                    <button mat-button class="yaari-btn red-btn px-60">Verify Email</button>
 
                     <label for="phone">Phone Number<span class="text-red">*</span></label>
 
@@ -221,7 +221,7 @@
                         Upload Picture
                     </button>
 
-                    <div class="max-300px">
+                    <div class="dashboard-width">
                         <button mat-button class="yaari-btn red-btn px-60 mx-auto">
                             Submit
                         </button>
@@ -236,7 +236,7 @@
 
 </div>
 
-<h4 class="text-center my-5">************************************* Upload product / dashboard
+<h4 class="text-center mt-50">************************************* Upload product / dashboard
     ************************************************</h4>
 
 
@@ -252,24 +252,26 @@
     <div class="fixed-width">
 
         <div class="row">
-            <div class="left-col bg-100 p-60" style="background-image: url(/assets/images/yaari-man.jpg);">
-                <h2 class="text-white red-line">Welcome</h2>
+            <div class="left-col bg-100 p-60" style="background-image: url(/assets/images/yaari-flyer.jpg);">
+                <!-- <h2 class="text-white red-line">Welcome</h2> -->
             </div>
             <div class="right-col">
-                <button mat-button class="yaari-btn red-btn dashboard-btn mb-40">
-                    <span class="material-icons">
-                        note_add
-                    </span>
-                    Upload Product Catalogue
-                </button>
+                <div class="dashboard-content">
 
-                <button mat-button class="yaari-btn red-btn dashboard-btn">
-                    <span class="material-icons">
-                        dashboard
-                    </span>
-                    Dashboard
-                </button>
+                    <button mat-button class="yaari-btn red-btn dashboard-btn mb-40">
+                        <span class="material-icons">
+                            note_add
+                        </span>
+                        Upload Product Catalogue
+                    </button>
 
+                    <button mat-button class="yaari-btn red-btn dashboard-btn">
+                        <span class="material-icons">
+                            dashboard
+                        </span>
+                        Dashboard
+                    </button>
+                </div>
 
             </div>
         </div>
@@ -277,3 +279,84 @@
 
     </div>
 </div>
+
+
+
+<h4 class="text-center mt-50">************************************* Upload product Catalogue
+    ************************************************</h4>
+
+
+<div class="fixed-width">
+
+    <header>
+        <img class="logo" src="/assets/images/yaari-logo.png">
+    </header>
+</div>
+
+<div class="content-container top-shadow">
+
+    <div class="fixed-width">
+
+        <div class="row">
+            <div class="left-col bg-100 p-60" style="background-image: url(/assets/images/photographer.jpg);">
+                <h2 class="text-white red-line">Upload Product Catalogue</h2>
+            </div>
+            <div class="right-col">
+                <div class="dashboard-content">
+
+                    <div class="flex-space-between">
+
+                        <select class="yaari-input " name="template" id="template" matNativeControl required>
+                            <option value="">Choose Template</option>
+                            <option value="template1">template1</option>
+                            <option value="template2">template2</option>
+                        </select>
+
+                        <button mat-button class="yaari-btn red-btn px-20">
+                            Download
+                        </button>
+                    </div>
+                    <div class="divider"></div>
+
+                    <mat-card class="uploadfilecontainer">
+                        <span class="material-icons">
+                            add_a_photo
+                        </span>
+                        <p>Drag files here or choose browse to select files</p>
+                    </mat-card>
+
+
+                    <div class="flex-space-between">
+                        <button mat-button class="yaari-btn red-btn px-20">
+                            Browse
+                        </button>
+                        <button mat-button class="yaari-btn red-btn px-20">
+                            Upload
+                        </button>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+
+
+<footer>
+    <div class="fixed-width">
+        <p class="text-white">Footer content - Copyright ©
+            <script type="text/javascript">
+                var d = new Date()
+                document.write(d.getFullYear())
+            </script>2021
+            Yaari
+        </p>
+    </div>
+</footer>

@@ -14,6 +14,12 @@ h2 {
     font-size: 2rem;
 }
 
+footer {
+    padding: 5px;
+    background-color: #f62101;
+    margin-top: 60px;
+}
+
 .red-line {
     display: inline-block;
     padding-bottom: 5px;
@@ -96,8 +102,13 @@ h3.red-line {
     padding-left: 7.375rem;
     padding-right: 7.375rem;
 }
-.max-300px {
+
+.dashboard-width, .dashboard-content {
     max-width: 300px;
+    width: 100%;
+}
+.dashboard-content {
+    margin: 0 auto;
 }
 
 @media (max-width: 1024px) {
@@ -187,7 +198,40 @@ h3.red-line {
     }
 }
 
+.divider {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 40px;
+    padding-top:20px;
+}
 
+
+.uploadfilecontainer {
+    background-color:#f1f1f1;
+    height: 200px;
+    width: 100%;
+    box-sizing:border-box;
+    margin-bottom: 20px;
+    .material-icons {
+        font-size: 120px;
+        color: #919191;
+        width: 120px;
+        margin: 0 auto;
+        display: block;
+    }
+    p {
+        font-size: 10px;
+        text-align: center;
+    }
+
+}
+
+.uploadfilecontainer:hover {
+    cursor: pointer;
+    background-color: #ccc !important;
+    opacity: 0.8;
+}
+
+// ***** Typography Utility classes *******
 
 .text-white {
     color:#FFF;
@@ -208,7 +252,7 @@ h3.red-line {
     display: block;
 }
 
-// spacing classes
+// ******* spacing classes ********
 .p-20 {
     padding: 20px;
 }
@@ -219,13 +263,17 @@ h3.red-line {
 .p-60 {
     padding: 60px;
 }
-.px-60 {
-    padding-right: 60px;
-    padding-left: 60px;
+.px-20 {
+    padding-right: 20px;
+    padding-left: 20px;
 }
 .px-40 {
     padding-right: 40px;
     padding-left: 40px;
+}
+.px-60 {
+    padding-right: 60px;
+    padding-left: 60px;
 }
 .mb-20 {
     margin-bottom:20px;
@@ -235,6 +283,9 @@ h3.red-line {
 }
 .mt-40 {
     margin-top:40px;
+}
+.mt-50 {
+    padding-top: 50px;
 }
 .mx-20 {
     padding-left: 20px;
