@@ -256,6 +256,7 @@ h3.red-line {
     border: 1px solid #999;
     border-collapse: collapse;
     width: 100%;
+    min-width: 500px;
     text-align: center;
     th {
         font-weight: bold;
@@ -264,7 +265,39 @@ h3.red-line {
     th, td {
         border: 1px solid #999;
       }
+      &::before {
+        position: absolute;
+        right: 5px;
+        top: 0;
+        height: 10px;
+        width: 63px;
+        background: url(/assets/images/swipe.svg);
+        background-size: cover;
+        content: ""
+      }
 }
+
+.table-wrapper {
+    overflow-x: scroll;
+    width: 100%;
+    padding-top:20px;
+    position: relative;
+}
+
+@media only screen and (min-width:768px) {
+    .table-wrapper {
+        overflow-x: auto;
+        box-sizing: border-box;
+        padding-top: 0;
+    }
+    .status-table:before {
+        display: none;
+    }
+}
+
+
+
+
 
 // ***** Typography Utility classes *******
 

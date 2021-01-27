@@ -440,66 +440,170 @@
             View
         </button>
 
-        <table class="status-table" cellspacing="0" cellpadding="5">
-            <tr>
-                <th>Sr. No</th>
-                <th>Catalogue ID</th>
-                <th>Type of Product</th>
-                <th>Date Uploaded</th>
-                <th>Status</th>
-                <th>Views</th>
-                <th>No. of Shares</th>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td>Kurti</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td>Saree</td>
-                <td></td>
-                <td>Uploaded</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td>Dress Material</td>
-                <td></td>
-                <td>Pending approval</td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td>Shirt</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-            </tr>
-            <tr>
-                <td></td>
-                <td></td>
-                <td>Pant</td>
-                <td></td>
-                <td>Rejected</td>
-                <td></td>
-                <td></td>
-            </tr>
-        </table>
+        <div class="table-wrapper">
+            <table class="status-table" cellspacing="0" cellpadding="5">
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Catalogue ID</th>
+                    <th>Type of Product</th>
+                    <th>Date Uploaded</th>
+                    <th>Status</th>
+                    <th>Views</th>
+                    <th>No. of Shares</th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Kurti</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Saree</td>
+                    <td></td>
+                    <td>Uploaded</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Dress Material</td>
+                    <td></td>
+                    <td>Pending approval</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Shirt</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td>Pant</td>
+                    <td></td>
+                    <td>Rejected</td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </table>
+        </div>
 
     </div>
 </div>
 
+
+
+
+
+
+
+<h4 class="text-center mt-50">************************************* Payment status
+    ************************************************</h4>
+
+
+<div class="fixed-width">
+
+    <header>
+        <img class="logo" src="/assets/images/yaari-logo.png">
+    </header>
+</div>
+
+<div class="content-container top-shadow">
+
+    <div class="fixed-width fullpage">
+
+
+        <h2 class="red-line">Payments</h2>
+
+        <p>Select Date Range</p>
+        <mat-form-field appearance="fill" class="mr-20">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate placeholder="Start date">
+                <input matEndDate placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+
+        <button mat-button class="yaari-btn red-btn px-20 mb-40">
+            View
+        </button>
+
+        <div class="table-wrapper">
+            <table class="status-table" cellspacing="0" cellpadding="5">
+                <tr>
+                    <th>Sr. No</th>
+                    <th>Order ID</th>
+                    <th>SKU Number</th>
+                    <th>Type of Product</th>
+                    <th>Date Sold</th>
+                    <th>Date Shipped</th>
+                    <th>Order Status</th>
+                    <th>Payment Mode</th>
+                    <th>Payment Status</th>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Sold</td>
+                    <td>COD</td>
+                    <td>In Process</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Returned</td>
+                    <td>Online</td>
+                    <td>Completed</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Exchanged</td>
+                    <td></td>
+                    <td>Not Applicable</td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>Canceled</td>
+                    <td></td>
+                    <td>Penalty</td>
+                </tr>
+
+            </table>
+        </div>
+
+    </div>
+</div>
 
 <!-- ********** Footer ******** -->
 <footer>
