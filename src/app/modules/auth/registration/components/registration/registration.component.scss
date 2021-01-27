@@ -72,16 +72,22 @@ h3.red-line {
        // height: 80px;
         padding: 10px;
         text-align: left;
+        margin-bottom: 30px;
         .material-icons {
             font-size: 40px;
             height: 44px;
             width: 40px;
         }
+        &:hover {
+            background-color: #848484;
+        }
     }
 }
 
 
-    input.yaari-input, select.yaari-input {
+    input.yaari-input,
+     select.yaari-input, 
+     ::ng-deep .mat-form-field-wrapper {
     //width: 100%;
     border: 1px solid #363636;
     border-radius: 10px; 
@@ -92,6 +98,17 @@ h3.red-line {
             outline: none;
         }
     }
+    ::ng-deep .mat-form-field-wrapper {
+        padding: 0;
+    }
+    ::ng-deep .mat-input-underline, ::ng-deep .mat-form-field-underline {
+        display: none;
+    }
+    
+    ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
+        background-color: transparent;
+    }
+    
 
 
 .fixed-width {
@@ -102,15 +119,6 @@ h3.red-line {
     padding-left: 7.375rem;
     padding-right: 7.375rem;
 }
-
-.dashboard-width, .dashboard-content {
-    max-width: 300px;
-    width: 100%;
-}
-.dashboard-content {
-    margin: 0 auto;
-}
-
 @media (max-width: 1024px) {
     .fixed-width {
         padding-left: 4.6875rem;
@@ -124,6 +132,19 @@ h3.red-line {
         padding-right: 25px;
     }
 }
+
+.fullpage {
+    padding: 60px;
+}
+.dashboard-width, .dashboard-content {
+    max-width: 300px;
+    width: 100%;
+}
+.dashboard-content {
+    margin: 0 auto;
+}
+
+
 .bg-cover {
     background-size: cover;
     background-position: center top;
@@ -229,6 +250,20 @@ h3.red-line {
     cursor: pointer;
     background-color: #ccc !important;
     opacity: 0.8;
+}
+
+.status-table {
+    border: 1px solid #999;
+    border-collapse: collapse;
+    width: 100%;
+    text-align: center;
+    th {
+        font-weight: bold;
+        background-color: #f2f2f2;
+    }
+    th, td {
+        border: 1px solid #999;
+      }
 }
 
 // ***** Typography Utility classes *******

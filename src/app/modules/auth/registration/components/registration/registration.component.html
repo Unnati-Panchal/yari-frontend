@@ -258,7 +258,7 @@
             <div class="right-col">
                 <div class="dashboard-content">
 
-                    <button mat-button class="yaari-btn red-btn dashboard-btn mb-40">
+                    <button mat-button class="yaari-btn red-btn dashboard-btn ">
                         <span class="material-icons">
                             note_add
                         </span>
@@ -349,6 +349,159 @@
 
 
 
+
+
+<h4 class="text-center mt-50">************************************* Dashboard
+    ************************************************</h4>
+
+
+<div class="fixed-width">
+
+    <header>
+        <img class="logo" src="/assets/images/yaari-logo.png">
+    </header>
+</div>
+
+<div class="content-container top-shadow">
+
+    <div class="fixed-width">
+
+        <div class="row">
+            <div class="left-col bg-100 p-60"
+                style="background-image: url(https://via.placeholder.com/800?text=Dashboard+image+placeholder);">
+
+
+
+                <h2 class="text-white red-line">Dashboard</h2>
+            </div>
+            <div class="right-col">
+                <div class="dashboard-content">
+
+
+                    <button mat-button class="yaari-btn red-btn dashboard-btn ">
+                        Payments
+                    </button>
+                    <button mat-button class="yaari-btn red-btn dashboard-btn ">
+                        Catalogue Status
+                    </button>
+                    <button mat-button class="yaari-btn red-btn dashboard-btn ">
+                        Ratings & Reviews
+                    </button>
+                    <button mat-button class="yaari-btn red-btn dashboard-btn ">
+                        Quality Scorecard
+                    </button>
+                    <button mat-button class="yaari-btn red-btn dashboard-btn">
+                        Exchange & Returns
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+
+    </div>
+</div>
+
+
+
+
+
+
+<h4 class="text-center mt-50">************************************* catalogue status
+    ************************************************</h4>
+
+
+<div class="fixed-width">
+
+    <header>
+        <img class="logo" src="/assets/images/yaari-logo.png">
+    </header>
+</div>
+
+<div class="content-container top-shadow">
+
+    <div class="fixed-width fullpage">
+
+
+        <h2 class="red-line">Catalogue Status</h2>
+
+        <p>Select Date Range</p>
+        <mat-form-field appearance="fill" class="mr-20">
+            <mat-label>Enter a date range</mat-label>
+            <mat-date-range-input [rangePicker]="picker">
+                <input matStartDate placeholder="Start date">
+                <input matEndDate placeholder="End date">
+            </mat-date-range-input>
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+
+        <button mat-button class="yaari-btn red-btn px-20 mb-40">
+            View
+        </button>
+
+        <table class="status-table" cellspacing="0" cellpadding="5">
+            <tr>
+                <th>Sr. No</th>
+                <th>Catalogue ID</th>
+                <th>Type of Product</th>
+                <th>Date Uploaded</th>
+                <th>Status</th>
+                <th>Views</th>
+                <th>No. of Shares</th>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Kurti</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Saree</td>
+                <td></td>
+                <td>Uploaded</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Dress Material</td>
+                <td></td>
+                <td>Pending approval</td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Shirt</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td></td>
+                <td>Pant</td>
+                <td></td>
+                <td>Rejected</td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+    </div>
+</div>
+
+
+<!-- ********** Footer ******** -->
 <footer>
     <div class="fixed-width">
         <p class="text-white">Footer content - Copyright ©
