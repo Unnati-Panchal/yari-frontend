@@ -362,7 +362,18 @@ span.underline {
 }
 
 
-
+.your-profile {
+    p {
+        margin-bottom: 10px;
+        padding-left: 8px;
+        &.display-field {
+            margin-bottom: 20px;
+            border-radius: 10px;
+            background-color: #efefef;
+            padding: 8px;
+        }
+    }
+}
 
 
 // ***** Typography Utility classes *******
