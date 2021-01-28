@@ -84,25 +84,35 @@ h3.red-line {
     }
 }
 
-
+    ::ng-deep .mat-form-field-wrapper,
+    ::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper,
     input.yaari-input,
-     select.yaari-input, 
-     ::ng-deep .mat-form-field-wrapper {
+     select.yaari-input {
     width: auto;
     min-width: 180px;
     border: 1px solid #363636;
     border-radius: 10px; 
     padding: 5px 10px;
     max-width: 300px;
-    height: 33px;
+    //height: 33px;
     box-sizing:border-box;
-    position: static;
+    //position: static;
         &:focus {
             outline: none;
         }
     }
+    // ::ng-deep html .mat-form-field-appearance-legacy .mat-form-field-infix,
+    // ::ng-deep html .mat-form-field-infix,
+    // ::ng-deep html .mat-form-field .mat-form-field-infix, 
+    // ::ng-deep body .mat-form-field .mat-form-field-infix {
+    //     top:-4px;
+    //     &:focus {
+    //         top:-7px;
+    //     }
+    //  }
+    
     ::ng-deep .mat-form-field-wrapper {
-        padding: 0;
+    //    padding: 0;
     }
     ::ng-deep .mat-input-underline, ::ng-deep .mat-form-field-underline {
         display: none;
@@ -111,6 +121,7 @@ h3.red-line {
     ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
         background-color: transparent;
     }
+    
 
 
 .fixed-width {
@@ -217,12 +228,16 @@ h3.red-line {
     max-width: 500px;
     width: 100%;
     margin: 0 auto;
-    label {
+    label,  .yaari-label {
         display: block;
         margin-bottom: 10px;
         margin-top:20px;
     }
 }
+
+
+
+
 
 .divider {
     border-bottom: 1px solid #ccc;
