@@ -10,8 +10,6 @@ import {IAppState} from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
 
-import {ILogin} from '~auth/login/interfaces/supplier-login.interface';
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -26,7 +24,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     select(fromAuthSelectors.getIsError),
     filter(error => !!error)
   );
-  public supplierRegistrationForm: FormGroup;
+  public loginForm: FormGroup;
+  public hide: boolean;
 
   private _subscription: Subscription = new Subscription();
 
@@ -37,13 +36,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.initLoginForm();
-
-    const testCase = {
-      username: 'user1111111111@example.com',
-      password: 'manufacturer'
-    };
-    this.supplierLogin(testCase);
-
     this.authorizedSupplier();
   }
 
@@ -51,13 +43,14 @@ export class LoginComponent implements OnInit, OnDestroy {
     this._subscription.unsubscribe();
   }
 
-  public supplierLogin(supplierLoginRequest: ILogin): void {
+  public supplierLogin(): void {
+    const supplierLoginRequest = this.loginForm.value;
     this._store.dispatch(fromAuthActions.supplierLogin({ supplierLoginRequest }));
   }
 
   public initLoginForm(): void {
-    this.supplierRegistrationForm = this._formBuilder.group({
-      username: ['', Validators.required],
+    this.loginForm = this._formBuilder.group({
+      username: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }

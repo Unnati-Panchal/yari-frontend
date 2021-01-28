@@ -10,3 +10,9 @@ export interface ISupplierRegistration {
   primary_category_id: number;
   has_gst: boolean;
 }
+
+
+export interface ICategory {
+  id: number;
+  name: string;
+}

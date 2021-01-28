@@ -1,10 +1,155 @@
+@import 'variables';
+@import 'mixins';
+
+:host {
+  main {
+    width: 100%;
+    height: calc(100vh - 100px);
+    @include yaari-display-flex();
+
+    section {
+      width: 50%;
+    }
+
+    .red-line {
+      height: $yaari-tiny;
+      background: $yaari-red;
+    }
+
+    .left-image {
+      background-image: url('~src/assets/images/registration.png');
+      background-size: cover;
+
+      h1 {
+        padding: $yaari-base * 2 0 $yaari-tiny yaari-to-rem(120px);
+        color: $yaari-light;
+        margin: 0;
+        font-size: $yaari-h1;
+        font-weight: bold;
+        line-height: 100%;
+      }
+
+      .red-line {
+        width: yaari-to-rem(100px);
+        margin-left: yaari-to-rem(120px);
+      }
+    }
+
+    .register-container {
+
+
+      .register-form {
+        padding: $yaari-base * 3 $yaari-large * 3;
+
+        section {
+          h3 {
+            margin: 0;
+            line-height: 100%;
+            font-size: $yaari-h3;
+            font-weight: 500;
+            color: $yaari-dark;
+          }
+
+          .red-line {
+            width: yaari-to-rem(50px);
+            margin-top: $yaari-tiny;
+          }
+        }
+
+        .form-fields {
+          width: 100%;
+          margin-top: $yaari-large;
+          overflow: auto;
+          height: calc(100vh - 275px);
+          padding-right: $yaari-base;
+
+          h4 {
+            font-size: $yaari-default;
+            font-weight: 500;
+            color: $yaari-dark;
+            white-space: pre-wrap;
+          }
+
+          .radio-buttons {
+            padding-bottom: $yaari-base;
+          }
+
+          .mat-radio-button {
+            margin-right: $yaari-base;
+          }
+
+          .small-form-group {
+            width: 60%;
+          }
+        }
+
+        .submit-btn-container {
+          @include yaari-display-flex(center, center);
+
+          button {
+            width: yaari-to-rem(260px);
+            height: $yaari-base * 3;
+            margin: $yaari-xlarge 0 $yaari-base 0;
+            padding: $yaari-small $yaari-large * 2;
+            border-radius: 24px;
+            background-color: $yaari-red;
+            font-size: $yaari-h4;
+            color: $yaari-light;
+          }
+        }
+      }
+
+
+
+      div {
+        width: 100%;
+
+        .mat-form-field {
+          width: 100%;
+
+          mat-icon {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&display=swap');
 
 html, p, h1, h2, h3, h4, h5, ul, ol {
     font-family: 'Poppins', sans-serif;
-} 
+}
 p {
     font-size: 14px;
 }
@@ -51,7 +196,7 @@ h3.red-line {
     font-weight: bold;
 }
 .yaari-btn {
-    
+
     border-radius: 10px;
     color: #FFF;
     height: auto;
@@ -66,7 +211,7 @@ h3.red-line {
     &.red-btn {
         background-color: #f62101;
     }
-    
+
     &.dashboard-btn {
         width: 100%;
        // height: 80px;
@@ -86,12 +231,12 @@ h3.red-line {
 
 
     input.yaari-input,
-     select.yaari-input, 
+     select.yaari-input,
      ::ng-deep .mat-form-field-wrapper {
     width: auto;
     min-width: 180px;
     border: 1px solid #363636;
-    border-radius: 10px; 
+    border-radius: 10px;
     padding: 5px 10px;
     max-width: 300px;
     height: 33px;
@@ -107,7 +252,7 @@ h3.red-line {
     ::ng-deep .mat-input-underline, ::ng-deep .mat-form-field-underline {
         display: none;
     }
-    
+
     ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
         background-color: transparent;
     }
@@ -194,8 +339,8 @@ h3.red-line {
     flex: 2;
     padding: 60px;
   }
-  
-  
+
+
   @media only screen and (max-width: 600px) {
     .row {
         display: block;
@@ -390,4 +535,4 @@ h3.red-line {
 }
 .w-50 {
     width: 50% !important;
-}
+}*/

@@ -3,7 +3,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 
 import * as fromRoot from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
-import {ISupplierRegistration} from '~auth/registration/interfaces/supplier-registration.interface';
+
+import {ICategory, ISupplierRegistration} from '~auth/registration/interfaces/supplier-registration.interface';
 import {ILogin} from '~auth/login/interfaces/supplier-login.interface';
 
 export const authFeatureKey = 'auth';
@@ -14,6 +15,9 @@ export interface IAuthState extends fromRoot.IAppState {
   supplierRegRequest: ISupplierRegistration;
   supplierRegResponse: ISupplierRegistration;
   supplierLoginResponse: ILogin;
+  email: string;
+  passwordRecoveryResponse: string;
+  categories: ICategory[];
 }
 
 export const authInitialState: IAuthState = {
@@ -21,7 +25,10 @@ export const authInitialState: IAuthState = {
   error: null,
   supplierRegRequest: null,
   supplierRegResponse: null,
-  supplierLoginResponse: null
+  supplierLoginResponse: null,
+  email: '',
+  passwordRecoveryResponse: '',
+  categories: []
 };
 
 const authReducer = createReducer(
@@ -49,6 +56,24 @@ const authReducer = createReducer(
     supplierLoginResponse: action.supplierLoginResponse
   })),
   on(fromAuthActions.supplierLoginError, (state, action) => ({ ...state, loading: false, error: action.error })),
+  on(fromAuthActions.passwordRecovery, (state, action) => ({
+    ...state,
+    loading: true,
+    email: action.email
+  })),
+  on(fromAuthActions.passwordRecoverySuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    passwordRecoveryResponse: action.passwordRecoveryResponse
+  })),
+  on(fromAuthActions.passwordRecoveryError, (state, action) => ({ ...state, loading: false, error: action.error })),
+  on(fromAuthActions.getCategories, (state) => ({...state, loading: true})),
+  on(fromAuthActions.getCategoriesSuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    categories: action.categories
+  })),
+  on(fromAuthActions.getCategoriesError, (state, action) => ({ ...state, loading: false, error: action.error })),
 
 );
 

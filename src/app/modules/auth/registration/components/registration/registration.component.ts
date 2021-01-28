@@ -10,7 +10,8 @@ import {IAppState} from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
 
-import {ISupplierRegistration} from '~auth/registration/interfaces/supplier-registration.interface';
+import {ICategory, ISupplierRegistration} from '~auth/registration/interfaces/supplier-registration.interface';
+import {CustomValidator} from '@yaari/utils/custom-validators';
 
 @Component({
   selector: 'app-registration',
@@ -22,11 +23,25 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     select(fromAuthSelectors.getSupplierRegResponse),
     filter(supplier => !!supplier)
   );
-  public isSupplierError$ = this._store.pipe(
+  public isError$ = this._store.pipe(
     select(fromAuthSelectors.getIsError),
     filter(error => !!error)
   );
-  public supplierRegistrationForm: FormGroup;
+  public categories$ = this._store.pipe(
+    select(fromAuthSelectors.getCategories),
+    filter(categories => !!categories)
+  );
+  public regForm: FormGroup;
+  public types = [
+    {label: 'Retailer', key: 'retailer'},
+    {label: 'Manufacturer', key: 'manufacturer'},
+    {label: 'Wholesaler', key: 'wholesaler'}
+  ];
+  public categories: ICategory[] = [
+    {name: 'test', id: 1},
+    {name: 'test', id: 2},
+    {name: 'test', id: 3}
+  ];
 
   private _subscription: Subscription = new Subscription();
 
@@ -38,20 +53,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.initRegistrationForm();
 
-    const testCase = {
-      contact_person: 'string',
-      phone_no: 3246111113,
-      email_id: 'user11111111111@example.com',
-      city: 'string',
-      type: 'manufacturer',
-      price_range_min: 0,
-      price_range_max: 0,
-      average_monthly_stock: 0,
-      primary_category_id: 1011,
-      has_gst: false
-    };
-    this.registerSupplier(testCase);
-
     this.supplierRegistration();
   }
 
@@ -59,32 +60,40 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this._subscription.unsubscribe();
   }
 
-  public registerSupplier(supplierRegRequest: ISupplierRegistration): void {
+  public registerSupplier(): void {
+    const supplierRegRequest: ISupplierRegistration = this.regForm.value;
     this._store.dispatch(fromAuthActions.supplierRegistration({ supplierRegRequest }));
   }
 
   public initRegistrationForm(): void {
-    this.supplierRegistrationForm = this._formBuilder.group({
-      contact_person: ['', Validators.required],
-      phone_no: ['', Validators.required],
-      email_id: ['', Validators.required],
-      city: ['', Validators.required],
-      type: ['', Validators.required],
-      price_range_min: ['', Validators.required],
-      price_range_max: ['', Validators.required],
-      average_monthly_stock: ['', Validators.required],
-      primary_category_id: ['', Validators.required],
-      has_gst: ['', Validators.required]
+    this.regForm = this._formBuilder.group({
+      contact_person: ['', [Validators.required]],
+      phone_no: ['', [Validators.required, CustomValidator.digitsOnly]],
+      email_id: ['', [Validators.required, Validators.email]],
+      city: ['', [Validators.required, CustomValidator.lettersOnly]],
+      type: ['', [Validators.required]],
+      price_range_min: ['', [Validators.required, CustomValidator.digitsOnly]],
+      price_range_max: ['', [Validators.required, CustomValidator.digitsOnly]],
+      average_monthly_stock: ['', [Validators.required, CustomValidator.digitsOnly]],
+      primary_category_id: ['', [Validators.required]],
+      has_gst: ['', [Validators.required]],
     });
   }
 
   public supplierRegistration(): void {
     this._subscription.add(
-      this.isSupplierError$.subscribe(error => console.log(error))
+      this.isError$.subscribe(error => console.log(error))
     );
 
     this._subscription.add(
       this.supplierResponse$.subscribe(supplierRegResponse => console.log(supplierRegResponse))
+    );
+
+    this._subscription.add(
+      this.categories$.subscribe(categories => {
+        console.log(categories);
+        this.categories = categories;
+      })
     );
   }
 

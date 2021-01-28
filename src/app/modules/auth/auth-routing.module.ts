@@ -13,6 +13,10 @@ const routes: Routes = [
         loadChildren: () => import('~auth/login/login.module').then(m => m.LoginModule)
       },
       {
+        path: 'password-recovery',
+        loadChildren: () => import('~auth/password-recovery/password-recovery.module').then(m => m.PasswordRecoveryModule)
+      },
+      {
         path: 'registration',
         loadChildren: () => import('~auth/registration/registration.module').then(m => m.RegistrationModule)
       },

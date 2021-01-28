@@ -9,3 +9,5 @@ export const getIsError = createSelector(selectBaseFeature, (state: fromAuthRedu
 export const getSupplierRegResponse = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.supplierRegResponse);
 export const getSupplierLoginResponse = createSelector(
   selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.supplierLoginResponse);
+
+export const getCategories = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.categories);

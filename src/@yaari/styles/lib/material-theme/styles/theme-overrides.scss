@@ -34,39 +34,39 @@
 
     .mat-form-field-outline-start,
     .mat-form-field-outline-end {
-      background: $yaari-background-light;
+      background: $yaari-light;
     }
 
     .mat-input-element {
-      caret-color: red;
+      caret-color: $yaari-dark;
     }
 
     &.mat-form-field-invalid .mat-form-field-label {
-      color: red;
+      color: $yaari-red;
     }
 
     &.mat-form-field-invalid .mat-form-field-ripple {
-      background: red;
+      background: $yaari-red;
     }
 
     .mat-error {
-      color: red;
+      color: $yaari-red;
     }
 
     &.mat-focused .mat-form-field-label {
-      color: red;
+      color: $yaari-dark;
     }
 
     &.mat-focused .mat-form-field-ripple {
-      background: red;
+      background: $yaari-dark;
     }
 
     .mat-form-field-label:not(.mat-form-field-empty) {
-      color: red;
+      color: $yaari-dark;
     }
 
     & .mat-form-field-underline {
-      background: red;
+      background: $yaari-dark;
     }
   }
 
@@ -78,7 +78,7 @@
     background: white;
 
     .mat-option-text {
-      color: white;
+      color: $yaari-dark;
     }
   }
 

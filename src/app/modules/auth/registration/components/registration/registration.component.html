@@ -1,46 +1,122 @@
-<div class="fixed-width">
+<main>
+  <section class="left-image">
+    <h1>Let's Get Started</h1>
+    <div class="red-line"></div>
+  </section>
+  <section class="register-container">
+    <form [formGroup]="regForm" (ngSubmit)="registerSupplier()" class="register-form">
 
-    <header>
-        <img class="logo" src="/assets/images/yaari-logo.png">
-    </header>
-</div>
+      <section>
+        <h3>Register</h3>
+        <div class="red-line"></div>
+      </section>
 
-<div class="content-container top-shadow">
-
-    <div class="fixed-width">
-
-        <div class="row">
-            <div class="left-col bg-100 p-60" style="background-image: url(/assets/images/yaari-man.jpg);">
-                <h2 class="text-white red-line">Welcome</h2>
-            </div>
-            <div class="right-col">
-                <h3 class="red-line">Sign in</h3>
-
-                <div class="form-group">
-                    <label for="Email">Email</label>
-
-                    <input class="yaari-input w-100" matInput placeholder="email address" formControlName="email"
-                        required>
-
-
-                    <label for="Password">Password</label>
-
-                    <input class="yaari-input w-100" matInput placeholder="Enter your password" type="password"
-                        formControlName="password" required>
-                    <p class="small-text my-20 text-right dashboard-width"><a href="#">Forgot Password?</a></p>
-
-                </div>
-                <div class="text-center dashboard-width">
-                    <button mat-button class="yaari-btn red-btn px-60">Sign In</button>
-                    <p class="small-text my-20">Don't have an account? <a href="" class="text-bold">Register now</a>
-                    </p>
-                </div>
-            </div>
+      <section class="form-fields">
+        <div>
+          <h4>Business Name<span class="required">*</span></h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Enter your business name</mat-label>
+            <input matInput formControlName="contact_person" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['contact_person'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
         </div>
 
+        <div class="radio-buttons">
+          <h4>Register as<span class="required">*</span></h4>
+          <mat-radio-group class="radio-group" formControlName="type">
+            <mat-radio-button *ngFor="let type of types" [value]="type.key">{{type.label}}</mat-radio-button>
+          </mat-radio-group>
+        </div>
 
-    </div>
-</div>
+        <div>
+          <h4>Email ID<span class="required">*</span></h4>
+          <mat-form-field appearance="outline">
+            <mat-label>Enter your email address</mat-label>
+            <input matInput formControlName="email_id" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['email_id'].hasError('required')">Required field</mat-error>
+            <mat-error *ngIf="regForm.controls['email_id'].hasError('email')">Please enter a valid email address</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Phone number<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter your phone number</mat-label>
+            <input matInput formControlName="phone_no" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['phone_no'].hasError('required')">Required field</mat-error>
+            <mat-error *ngIf="regForm.controls['phone_no'].hasError('invalidNumber')">Please enter only numbers</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>City<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter your city</mat-label>
+            <input matInput formControlName="city" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['city'].hasError('required')">Required field</mat-error>
+            <mat-error *ngIf="regForm.controls['city'].hasError('invalidLetters')">Please enter only letters</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Main Category<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter main category</mat-label>
+            <mat-select formControlName="primary_category_id">
+              <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="regForm.controls['primary_category_id'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="radio-buttons">
+          <h4>Do You Have GST Number?<span class="required">*</span></h4>
+          <mat-radio-group class="radio-group" formControlName="has_gst">
+            <mat-radio-button [value]="true">Yes</mat-radio-button>
+            <mat-radio-button [value]="false">No</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div>
+          <h4>Enter Average Monthy Stock Count You Want To Share On Yaari<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Please enter number</mat-label>
+            <input matInput formControlName="phone_no" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['average_monthly_stock'].hasError('required')">Required field</mat-error>
+            <mat-error *ngIf="regForm.controls['average_monthly_stock'].hasError('invalidNumber')">Please enter only numbers</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Select Among Different Price Range<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Min price</mat-label>
+            <input matInput formControlName="phone_no" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['price_range_min'].hasError('required')">Required field</mat-error>
+            <mat-error *ngIf="regForm.controls['price_range_min'].hasError('invalidNumber')">Please enter only numbers</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Select Among Different Price Range<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Max price</mat-label>
+            <input matInput formControlName="phone_no" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['price_range_max'].hasError('required')">Required field</mat-error>
+            <mat-error *ngIf="regForm.controls['price_range_max'].hasError('invalidNumber')">Please enter only numbers</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="form-group submit-btn-container">
+          <button mat-button [disabled]="!regForm.valid" class="btn login-btn">Submit</button>
+        </div>
+
+      </section>
+    </form>
+  </section>
+</main>
+
+<!--
 
 <h4 class="text-center mt-50">************************************* REGISTER PAGE
     ************************************************</h4>
@@ -253,7 +329,7 @@
 
         <div class="row">
             <div class="left-col bg-100 p-60" style="background-image: url(/assets/images/yaari-flyer.jpg);">
-                <!-- <h2 class="text-white red-line">Welcome</h2> -->
+                &lt;!&ndash; <h2 class="text-white red-line">Welcome</h2> &ndash;&gt;
             </div>
             <div class="right-col">
                 <div class="dashboard-content">
@@ -605,7 +681,7 @@
     </div>
 </div>
 
-<!-- ********** Footer ******** -->
+&lt;!&ndash; ********** Footer ******** &ndash;&gt;
 <footer>
     <div class="fixed-width">
         <p class="text-white">Footer content - Copyright ©
@@ -617,3 +693,4 @@
         </p>
     </div>
 </footer>
+-->

@@ -10,5 +10,14 @@
     font-size: $yaari-text-base-size;
     color: $yaari-black;
     line-height: $yaari-line-height;
+    overflow: hidden;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  .required {
+    color: $yaari-red;
   }
 }
