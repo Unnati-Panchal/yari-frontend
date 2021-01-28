@@ -9,6 +9,10 @@ p {
     font-size: 14px;
 }
 
+a {
+    text-decoration: none;
+}
+
 h2 {
     font-weight: bold;
     font-size: 2rem;
@@ -78,6 +82,7 @@ padding: 0;
   }
 }
 h2.red-line {
+    padding-bottom: 10px;
     &:before {
         width:48px;
     }
@@ -315,7 +320,6 @@ span.underline {
 }
 
 .status-table {
-    border: 1px solid #999;
     border-collapse: collapse;
     width: 100%;
     min-width: 600px;
@@ -366,7 +370,9 @@ span.underline {
 .text-white {
     color:#FFF;
 }
-
+.text-black {
+    color:#000;
+}
 .text-red {
     color: #f62101;
 }
