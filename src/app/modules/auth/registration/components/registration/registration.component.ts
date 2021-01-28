@@ -37,11 +37,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     {label: 'Manufacturer', key: 'manufacturer'},
     {label: 'Wholesaler', key: 'wholesaler'}
   ];
-  public categories: ICategory[] = [
-    {name: 'test', id: 1},
-    {name: 'test', id: 2},
-    {name: 'test', id: 3}
-  ];
+  public categories: ICategory[];
 
   private _subscription: Subscription = new Subscription();
 
@@ -92,7 +88,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this._subscription.add(
       this.categories$.subscribe(categories => {
         console.log(categories);
-        this.categories = categories;
+        this.categories = [
+          {name: 'test1', id: 1},
+          {name: 'test2', id: 2},
+          {name: 'test3', id: 3}
+        ];
       })
     );
   }

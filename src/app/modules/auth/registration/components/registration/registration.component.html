@@ -44,7 +44,7 @@
             <mat-label>Enter your phone number</mat-label>
             <input matInput formControlName="phone_no" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['phone_no'].hasError('required')">Required field</mat-error>
-            <mat-error *ngIf="regForm.controls['phone_no'].hasError('invalidNumber')">Please enter only numbers</mat-error>
+            <mat-error *ngIf="regForm.controls['phone_no'].hasError('invalidNumber')">Please enter only digits</mat-error>
           </mat-form-field>
         </div>
 
@@ -83,7 +83,7 @@
             <mat-label>Please enter number</mat-label>
             <input matInput formControlName="average_monthly_stock" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['average_monthly_stock'].hasError('required')">Required field</mat-error>
-            <mat-error *ngIf="regForm.controls['average_monthly_stock'].hasError('invalidNumber')">Please enter only numbers</mat-error>
+            <mat-error *ngIf="regForm.controls['average_monthly_stock'].hasError('invalidNumber')">Please enter only digits</mat-error>
           </mat-form-field>
         </div>
 
@@ -93,7 +93,7 @@
             <mat-label>Min price</mat-label>
             <input matInput formControlName="price_range_min" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['price_range_min'].hasError('required')">Required field</mat-error>
-            <mat-error *ngIf="regForm.controls['price_range_min'].hasError('invalidNumber')">Please enter only numbers</mat-error>
+            <mat-error *ngIf="regForm.controls['price_range_min'].hasError('invalidNumber')">Please enter only digits</mat-error>
           </mat-form-field>
         </div>
 
@@ -103,7 +103,7 @@
             <mat-label>Max price</mat-label>
             <input matInput formControlName="price_range_max" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['price_range_max'].hasError('required')">Required field</mat-error>
-            <mat-error *ngIf="regForm.controls['price_range_max'].hasError('invalidNumber')">Please enter only numbers</mat-error>
+            <mat-error *ngIf="regForm.controls['price_range_max'].hasError('invalidNumber')">Please enter only digits</mat-error>
           </mat-form-field>
         </div>
 
