@@ -81,7 +81,7 @@
           <h4>Enter Average Monthy Stock Count You Want To Share On Yaari<span class="required">*</span></h4>
           <mat-form-field appearance="outline" class="small-form-group">
             <mat-label>Please enter number</mat-label>
-            <input matInput formControlName="phone_no" autocomplete="nope">
+            <input matInput formControlName="average_monthly_stock" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['average_monthly_stock'].hasError('required')">Required field</mat-error>
             <mat-error *ngIf="regForm.controls['average_monthly_stock'].hasError('invalidNumber')">Please enter only numbers</mat-error>
           </mat-form-field>
@@ -91,7 +91,7 @@
           <h4>Select Among Different Price Range<span class="required">*</span></h4>
           <mat-form-field appearance="outline" class="small-form-group">
             <mat-label>Min price</mat-label>
-            <input matInput formControlName="phone_no" autocomplete="nope">
+            <input matInput formControlName="price_range_min" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['price_range_min'].hasError('required')">Required field</mat-error>
             <mat-error *ngIf="regForm.controls['price_range_min'].hasError('invalidNumber')">Please enter only numbers</mat-error>
           </mat-form-field>
@@ -101,7 +101,7 @@
           <h4>Select Among Different Price Range<span class="required">*</span></h4>
           <mat-form-field appearance="outline" class="small-form-group">
             <mat-label>Max price</mat-label>
-            <input matInput formControlName="phone_no" autocomplete="nope">
+            <input matInput formControlName="price_range_max" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['price_range_max'].hasError('required')">Required field</mat-error>
             <mat-error *ngIf="regForm.controls['price_range_max'].hasError('invalidNumber')">Please enter only numbers</mat-error>
           </mat-form-field>
