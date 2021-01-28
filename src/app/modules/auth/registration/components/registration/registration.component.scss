@@ -88,12 +88,15 @@ h3.red-line {
     input.yaari-input,
      select.yaari-input, 
      ::ng-deep .mat-form-field-wrapper {
-    //width: 100%;
+    width: auto;
+    min-width: 180px;
     border: 1px solid #363636;
     border-radius: 10px; 
     padding: 5px 10px;
     max-width: 300px;
+    height: 33px;
     box-sizing:border-box;
+    position: static;
         &:focus {
             outline: none;
         }
@@ -108,7 +111,6 @@ h3.red-line {
     ::ng-deep .mat-form-field-appearance-fill .mat-form-field-flex {
         background-color: transparent;
     }
-    
 
 
 .fixed-width {
@@ -259,7 +261,7 @@ h3.red-line {
     border: 1px solid #999;
     border-collapse: collapse;
     width: 100%;
-    min-width: 500px;
+    min-width: 600px;
     text-align: center;
     th {
         font-weight: bold;
@@ -384,8 +386,8 @@ h3.red-line {
 }
 
 .w-100 {
-    width: 100%;
+    width: 100% !important;
 }
 .w-50 {
-    width: 50%;
+    width: 50% !important;
 }
