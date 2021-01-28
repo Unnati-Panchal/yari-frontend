@@ -168,8 +168,24 @@ h3.red-line {
     background-repeat: no-repeat;
 }
 
+header {
+    padding: 20px 0;
+    .mat-toolbar {
+        button {
+            color: #000;
+            text-decoration: none;
+            .outline-button {
+                background-color: #FFF;
+                border: 1px solid red;
+                color: red;
+            }
+        }
+
+
+    }
+}
 .logo {
-    margin: 20px 80px;
+    margin: 0 80px;
     width: 40px;
 }
 
@@ -188,6 +204,11 @@ h3.red-line {
     display: flex;
     align-items: center;
 }
+
+.flex-spacer {
+    flex: 1 1 auto;
+  }
+
 
 .row {
     display: flex;
@@ -234,9 +255,6 @@ h3.red-line {
         margin-top:20px;
     }
 }
-
-
-
 
 
 .divider {
