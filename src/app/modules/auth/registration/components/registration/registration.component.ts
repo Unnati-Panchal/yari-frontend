@@ -48,8 +48,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   public ngOnInit(): void {
     this.initRegistrationForm();
-
     this.supplierRegistration();
+    this._store.dispatch(fromAuthActions.getCategories());
   }
 
   public ngOnDestroy(): void {
