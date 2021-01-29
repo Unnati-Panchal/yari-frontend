@@ -29,7 +29,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   );
   public categories$ = this._store.pipe(
     select(fromAuthSelectors.getCategories),
-    filter(categories => !!categories)
+    filter(categories => !!categories?.length)
   );
   public regForm: FormGroup;
   public types = [
@@ -82,18 +82,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     );
 
     this._subscription.add(
-      this.supplierResponse$.subscribe(supplierRegResponse => console.log(supplierRegResponse))
+      this.supplierResponse$.subscribe()
     );
 
     this._subscription.add(
-      this.categories$.subscribe(categories => {
-        console.log(categories);
-        this.categories = [
-          {name: 'test1', id: 1011},
-          {name: 'test2', id: 1011},
-          {name: 'test3', id: 1011}
-        ];
-      })
+      this.categories$.subscribe(cat => this.categories = cat)
     );
   }
 
