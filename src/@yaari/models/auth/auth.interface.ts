@@ -1,4 +1,4 @@
-export interface ISupplierRegistration {
+export interface IRegistration {
   contact_person: string;
   phone_no: number;
   email_id: string;
@@ -11,8 +11,8 @@ export interface ISupplierRegistration {
   has_gst: boolean;
 }
 
-
-export interface ICategory {
-  id: number;
-  name: string;
+export interface ILogin {
+  username: string;
+  password: string;
 }
+

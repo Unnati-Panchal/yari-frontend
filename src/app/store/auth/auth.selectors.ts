@@ -6,8 +6,5 @@ export const selectBaseFeature = createFeatureSelector<fromAuthReducer.IAuthStat
 
 export const getIsLoading = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.loading);
 export const getIsError = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.error);
-export const getSupplierRegResponse = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.supplierRegResponse);
-export const getSupplierLoginResponse = createSelector(
-  selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.supplierLoginResponse);
-
-export const getCategories = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.categories);
+export const getRegResponse = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.regResponse);
+export const getLoginResponse = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.loginResponse);

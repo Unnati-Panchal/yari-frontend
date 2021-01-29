@@ -3,59 +3,57 @@ import {HttpErrorResponse} from '@angular/common/http';
 
 import * as fromRoot from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
-
-import {ICategory, ISupplierRegistration} from '~auth/registration/interfaces/supplier-registration.interface';
-import {ILogin} from '~auth/login/interfaces/supplier-login.interface';
+import {ILogin, IRegistration} from '@yaari/models/auth/auth.interface';
 
 export const authFeatureKey = 'auth';
 
 export interface IAuthState extends fromRoot.IAppState {
   loading: boolean;
   error: HttpErrorResponse;
-  supplierRegRequest: ISupplierRegistration;
-  supplierRegResponse: ISupplierRegistration;
-  supplierLoginResponse: ILogin;
+  regRequest: IRegistration;
+  regResponse: IRegistration;
+  loginRequest: ILogin;
+  loginResponse: ILogin;
   email: string;
   passwordRecoveryResponse: string;
-  categories: ICategory[];
 }
 
 export const authInitialState: IAuthState = {
   loading: false,
   error: null,
-  supplierRegRequest: null,
-  supplierRegResponse: null,
-  supplierLoginResponse: null,
+  regRequest: null,
+  regResponse: null,
+  loginResponse: null,
+  loginRequest: null,
   email: '',
-  passwordRecoveryResponse: '',
-  categories: []
+  passwordRecoveryResponse: ''
 };
 
 const authReducer = createReducer(
   authInitialState,
   on(fromAuthActions.clearState, state => ({ ...state, loading: false, isError: null })),
-  on(fromAuthActions.supplierRegistration, (state, action) => ({
+  on(fromAuthActions.registration, (state, action) => ({
     ...state,
     loading: true,
-    supplierRegRequest: action.supplierRegRequest
+    regRequest: action.regRequest
   })),
-  on(fromAuthActions.supplierRegistrationSuccess, (state, action) => ({
+  on(fromAuthActions.registrationSuccess, (state, action) => ({
     ...state,
     loading: false,
-    supplierRegResponse: action.supplierRegResponse
+    regResponse: action.regResponse
   })),
-  on(fromAuthActions.supplierRegistrationError, (state, action) => ({ ...state, loading: false, error: action.error })),
-  on(fromAuthActions.supplierLogin, (state, action) => ({
+  on(fromAuthActions.registrationError, (state, action) => ({ ...state, loading: false, error: action.error })),
+  on(fromAuthActions.login, (state, action) => ({
     ...state,
     loading: true,
-    supplierLoginRequest: action.supplierLoginRequest
+    loginRequest: action.loginRequest
   })),
-  on(fromAuthActions.supplierLoginSuccess, (state, action) => ({
+  on(fromAuthActions.loginSuccess, (state, action) => ({
     ...state,
     loading: false,
-    supplierLoginResponse: action.supplierLoginResponse
+    loginResponse: action.loginResponse
   })),
-  on(fromAuthActions.supplierLoginError, (state, action) => ({ ...state, loading: false, error: action.error })),
+  on(fromAuthActions.loginError, (state, action) => ({ ...state, loading: false, error: action.error })),
   on(fromAuthActions.passwordRecovery, (state, action) => ({
     ...state,
     loading: true,
@@ -67,14 +65,6 @@ const authReducer = createReducer(
     passwordRecoveryResponse: action.passwordRecoveryResponse
   })),
   on(fromAuthActions.passwordRecoveryError, (state, action) => ({ ...state, loading: false, error: action.error })),
-  on(fromAuthActions.getCategories, (state) => ({...state, loading: true})),
-  on(fromAuthActions.getCategoriesSuccess, (state, action) => ({
-    ...state,
-    loading: false,
-    categories: action.categories
-  })),
-  on(fromAuthActions.getCategoriesError, (state, action) => ({ ...state, loading: false, error: action.error })),
-
 );
 
 // tslint:disable-next-line:typedef

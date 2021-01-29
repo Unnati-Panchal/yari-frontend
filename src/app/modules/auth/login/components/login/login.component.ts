@@ -16,11 +16,11 @@ import * as fromAuthSelectors from '~store/auth/auth.selectors';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit, OnDestroy {
-  public supplierResponse$ = this._store.pipe(
-    select(fromAuthSelectors.getSupplierLoginResponse),
+  public loginResponse$ = this._store.pipe(
+    select(fromAuthSelectors.getLoginResponse),
     filter(supplier => !!supplier)
   );
-  public isSupplierError$ = this._store.pipe(
+  public isError$ = this._store.pipe(
     select(fromAuthSelectors.getIsError),
     filter(error => !!error)
   );
@@ -44,8 +44,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public supplierLogin(): void {
-    const supplierLoginRequest = this.loginForm.value;
-    this._store.dispatch(fromAuthActions.supplierLogin({ supplierLoginRequest }));
+    const loginRequest = this.loginForm.value;
+    this._store.dispatch(fromAuthActions.login({ loginRequest }));
   }
 
   public initLoginForm(): void {
@@ -56,13 +56,8 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public authorizedSupplier(): void {
-    this._subscription.add(
-      this.isSupplierError$.subscribe(error => console.log(error))
-    );
-
-    this._subscription.add(
-      this.supplierResponse$.subscribe(supplierRegResponse => console.log(supplierRegResponse))
-    );
+    this._subscription.add(this.isError$.subscribe(error => console.log(error)));
+    this._subscription.add(this.loginResponse$.subscribe(login => console.log(login)));
   }
 
 }

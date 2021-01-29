@@ -1,17 +1,17 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-
 import {Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators';
-
 import {select, Store} from '@ngrx/store';
 
 import {IAppState} from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
+import * as fromProductsActions from '~store/products/products.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
-
-import {ICategory, ISupplierRegistration} from '~auth/registration/interfaces/supplier-registration.interface';
+import * as fromProductsSelectors from '~store/products/products.selectors';
 import {CustomValidator} from '@yaari/utils/custom-validators';
+import {ICategory} from '@yaari/models/product/product.interface';
+import {IRegistration} from '@yaari/models/auth/auth.interface';
 
 @Component({
   selector: 'app-registration',
@@ -20,7 +20,7 @@ import {CustomValidator} from '@yaari/utils/custom-validators';
 })
 export class RegistrationComponent implements OnInit, OnDestroy {
   public supplierResponse$ = this._store.pipe(
-    select(fromAuthSelectors.getSupplierRegResponse),
+    select(fromAuthSelectors.getRegResponse),
     filter(supplier => !!supplier)
   );
   public isError$ = this._store.pipe(
@@ -28,7 +28,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     filter(error => !!error)
   );
   public categories$ = this._store.pipe(
-    select(fromAuthSelectors.getCategories),
+    select(fromProductsSelectors.getCategories),
     filter(categories => !!categories?.length)
   );
   public regForm: FormGroup;
@@ -49,7 +49,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.initRegistrationForm();
     this.supplierRegistration();
-    this._store.dispatch(fromAuthActions.getCategories());
+    this._store.dispatch(fromProductsActions.getCategories());
   }
 
   public ngOnDestroy(): void {
@@ -57,8 +57,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   public registerSupplier(): void {
-    const supplierRegRequest: ISupplierRegistration = this.regForm.value;
-    this._store.dispatch(fromAuthActions.supplierRegistration({ supplierRegRequest }));
+    const regRequest: IRegistration = this.regForm.value;
+    this._store.dispatch(fromAuthActions.registration({ regRequest }));
   }
 
   public initRegistrationForm(): void {
@@ -77,17 +77,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   public supplierRegistration(): void {
-    this._subscription.add(
-      this.isError$.subscribe(error => console.log(error))
-    );
-
-    this._subscription.add(
-      this.supplierResponse$.subscribe()
-    );
-
-    this._subscription.add(
-      this.categories$.subscribe(cat => this.categories = cat)
-    );
+    this._subscription.add(this.isError$.subscribe(error => console.log(error)));
+    this._subscription.add(this.supplierResponse$.subscribe());
+    this._subscription.add(this.categories$.subscribe(cat => this.categories = cat));
   }
 
 }

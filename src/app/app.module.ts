@@ -12,19 +12,22 @@ import {routerReducer, RouterState, StoreRouterConnectingModule} from '@ngrx/rou
 
 import {IAppState} from '~store/app.state';
 import {AuthEffects} from '~store/auth/auth.effects';
+import {ProductsEffects} from '~store/products/products.effects';
 import * as fromAuth from '~store/auth/auth.reducer';
+import * as fromProducts from '~store/products/products.reducer';
 
 import {AppComponent} from '~app/app.component';
 import {AppRoutingModule} from '~app/app-routing.module';
 
-
 const reducers: ActionReducerMap<IAppState> = {
   ['router']: routerReducer,
-  [fromAuth.authFeatureKey]: fromAuth.reducer
+  [fromAuth.authFeatureKey]: fromAuth.reducer,
+  [fromProducts.productFeatureKey]: fromProducts.reducer
 };
 
 const effects = [
   AuthEffects,
+  ProductsEffects
 ];
 
 export function getReducers(): ActionReducerMap<IAppState> {

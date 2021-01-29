@@ -1,8 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-
 import {Subscription} from 'rxjs';
-
 import {Store} from '@ngrx/store';
 
 import {IAppState} from '~store/app.state';
