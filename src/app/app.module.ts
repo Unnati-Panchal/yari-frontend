@@ -15,19 +15,23 @@ import {AuthEffects} from '~store/auth/auth.effects';
 import {ProductsEffects} from '~store/products/products.effects';
 import * as fromAuth from '~store/auth/auth.reducer';
 import * as fromProducts from '~store/products/products.reducer';
+import * as fromThirdParty from '~store/third-party/third-party.reducer';
 
 import {AppComponent} from '~app/app.component';
 import {AppRoutingModule} from '~app/app-routing.module';
+import {ThirdPartyEffects} from '~store/third-party/third-party.effects';
 
 const reducers: ActionReducerMap<IAppState> = {
   ['router']: routerReducer,
   [fromAuth.authFeatureKey]: fromAuth.reducer,
-  [fromProducts.productFeatureKey]: fromProducts.reducer
+  [fromProducts.productFeatureKey]: fromProducts.reducer,
+  [fromThirdParty.thirdPartyFeatureKey]: fromThirdParty.reducer
 };
 
 const effects = [
   AuthEffects,
-  ProductsEffects
+  ProductsEffects,
+  ThirdPartyEffects
 ];
 
 export function getReducers(): ActionReducerMap<IAppState> {
