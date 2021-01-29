@@ -37,7 +37,8 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
 
   public initForm(): void {
     this.accountRecoveryForm = this._formBuilder.group({
-      email: ['', [Validators.required, Validators.email]]
+      email: ['', [Validators.required, Validators.email]],
+      user_role: 'supplier' // 'supplier' / 'admin'
     });
   }
 }

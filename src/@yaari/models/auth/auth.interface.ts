@@ -14,5 +14,6 @@ export interface IRegistration {
 export interface ILogin {
   username: string;
   password: string;
+  user_role: string;
 }
 
