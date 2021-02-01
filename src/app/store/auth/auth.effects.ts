@@ -8,7 +8,7 @@ import * as fromRouter from '~store/route/route.selectors';
 import * as fromAuthActions from '~store/auth/auth.actions';
 
 import {AuthService} from '@yaari/services/auth/auth.service';
-import {ILogin, IRegistration} from '@yaari/models/auth/auth.interface';
+import {ILogin, IRegistration, IToken} from '@yaari/models/auth/auth.interface';
 
 @Injectable()
 export class AuthEffects {
@@ -31,7 +31,7 @@ export class AuthEffects {
       map(action => action.loginRequest),
       switchMap((loginRequest: ILogin) =>
         this._authService.login(loginRequest).pipe(
-          map((loginResponse: ILogin) => fromAuthActions.loginSuccess({ loginResponse })),
+          map((token: IToken) => fromAuthActions.loginSuccess({ token })),
           catchError(error => of(fromAuthActions.loginError({ error })))
         )
       )

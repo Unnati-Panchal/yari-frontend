@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 import {environment} from '~env/environment';
-import {ILogin, IRegistration} from '@yaari/models/auth/auth.interface';
+import {ILogin, IRegistration, IToken} from '@yaari/models/auth/auth.interface';
 
 
 @Injectable({
@@ -21,7 +21,13 @@ export class AuthService {
     return this._http.post<string>(`${environment.API_BASE_URL}/api/v1/user/password-recovery/${email}`, email);
   }
 
-  public login(body: ILogin): Observable<ILogin> {
-    return this._http.post<ILogin>(`${environment.API_BASE_URL}/api/v1/user/login/access-token`, body);
+  public login(login: ILogin): Observable<IToken> {
+    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'})};
+    const body = new URLSearchParams();
+    body.set('username', login.username);
+    body.set('password', login.password);
+    body.set('user_role', login.user_role);
+    return this._http.post<IToken>
+    (`${environment.API_BASE_URL}/api/v1/user/login/access-token?user_role=supplier`, body.toString(), httpOptions);
   }
 }

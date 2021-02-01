@@ -17,3 +17,11 @@ export interface ILogin {
   user_role: string;
 }
 
+export interface IToken {
+  access_token: string;
+  access_token_expiry: string;
+  otp: string;
+  refresh_token: string;
+  token_type: string;
+}
+

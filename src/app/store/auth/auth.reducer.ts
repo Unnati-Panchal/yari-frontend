@@ -3,7 +3,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 
 import * as fromRoot from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
-import {ILogin, IRegistration} from '@yaari/models/auth/auth.interface';
+import {ILogin, IRegistration, IToken} from '@yaari/models/auth/auth.interface';
 
 export const authFeatureKey = 'auth';
 
@@ -13,7 +13,7 @@ export interface IAuthState extends fromRoot.IAppState {
   regRequest: IRegistration;
   regResponse: IRegistration;
   loginRequest: ILogin;
-  loginResponse: ILogin;
+  token: IToken;
   email: string;
   passwordRecoveryResponse: string;
 }
@@ -23,7 +23,7 @@ export const authInitialState: IAuthState = {
   error: null,
   regRequest: null,
   regResponse: null,
-  loginResponse: null,
+  token: null,
   loginRequest: null,
   email: '',
   passwordRecoveryResponse: ''
@@ -51,7 +51,7 @@ const authReducer = createReducer(
   on(fromAuthActions.loginSuccess, (state, action) => ({
     ...state,
     loading: false,
-    loginResponse: action.loginResponse
+    token: action.token
   })),
   on(fromAuthActions.loginError, (state, action) => ({ ...state, loading: false, error: action.error })),
   on(fromAuthActions.passwordRecovery, (state, action) => ({

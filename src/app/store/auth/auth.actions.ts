@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store';
 import {HttpErrorResponse} from '@angular/common/http';
 
-import {ILogin, IRegistration} from '@yaari/models/auth/auth.interface';
+import {ILogin, IRegistration, IToken} from '@yaari/models/auth/auth.interface';
 
 export const clearState = createAction('[AUTH] clear state');
 
@@ -14,7 +14,7 @@ export const registrationError = createAction('[AUTH] registration error', props
 
 export const login = createAction('[AUTH] login', props<{ loginRequest: ILogin }>());
 
-export const loginSuccess = createAction('[AUTH] login success', props<{ loginResponse: ILogin }>());
+export const loginSuccess = createAction('[AUTH] login success', props<{ token: IToken }>());
 
 export const loginError = createAction('[AUTH] login error', props<{ error: HttpErrorResponse }>());
 

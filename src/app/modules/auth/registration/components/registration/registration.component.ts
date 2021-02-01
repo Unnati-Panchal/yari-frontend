@@ -15,6 +15,7 @@ import * as fromThirdPartySelectors from '~store/third-party/third-party.selecto
 import {CustomValidator} from '@yaari/utils/custom-validators';
 import {ICategory} from '@yaari/models/product/product.interface';
 import {IRegistration} from '@yaari/models/auth/auth.interface';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-registration',
@@ -41,7 +42,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   private _subscription: Subscription = new Subscription();
 
   constructor(private _store: Store<IAppState>,
-              private _formBuilder: FormBuilder
+              private _formBuilder: FormBuilder,
+              private _router: Router
   ) {
   }
 
@@ -56,12 +58,18 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   public registerSupplier(): void {
+    this.regForm.updateValueAndValidity();
+    if (!this.regForm.valid) {
+      return;
+    }
     const regRequest: IRegistration = this.regForm.value;
     this._store.dispatch(fromAuthActions.registration({ regRequest }));
   }
 
   public initRegistrationForm(): void {
     this.regForm = this._formBuilder.group({
+      is_active: [true],
+      password: ['', [Validators.required]],
       contact_person: ['', [Validators.required]],
       phone_no: ['', [Validators.required, CustomValidator.digitsOnly]],
       email_id: ['', [Validators.required, Validators.email]],
@@ -72,8 +80,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       average_monthly_stock: ['', [Validators.required, CustomValidator.digitsOnly]],
       primary_category_id: ['', [Validators.required]],
       has_gst: ['', [Validators.required]],
-      certificate: ['', [Validators.required]],
-      panCard: ['', [Validators.required]],
+      // certificate: ['', [Validators.required]],
+      // panCard: ['', [Validators.required]],
     });
   }
 
@@ -82,7 +90,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this._subscription.add(this.isProductError$.subscribe(error => console.log(error)));
     this._subscription.add(this.isThirdPartyError$.subscribe(error => console.log(error)));
 
-    this._subscription.add(this.registrationResponse$.subscribe());
+    this._subscription.add(this.registrationResponse$.subscribe((registered) => {
+      console.log(registered);
+      this._router.navigate(['app/dashboard']);
+    }));
     this._subscription.add(this.categories$.subscribe(cat => this.categories = cat));
   }
 
