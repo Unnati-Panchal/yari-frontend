@@ -41,6 +41,10 @@
       .register-form {
         padding: $yaari-base * 3 $yaari-large * 3;
 
+        @include media-breakpoint(lt-lg) {
+          padding: $yaari-base $yaari-large;
+        }
+
         section {
           h3 {
             margin: 0;
@@ -62,6 +66,10 @@
           overflow: auto;
           height: calc(100vh - 275px);
           padding-right: $yaari-base;
+
+          @include media-breakpoint(lt-lg) {
+            margin-top: $yaari-base;
+          }
 
           h4 {
             font-size: $yaari-default;
@@ -95,6 +103,10 @@
             background-color: $yaari-red;
             font-size: $yaari-h4;
             color: $yaari-light;
+
+            @include media-breakpoint(lt-lg) {
+              margin: $yaari-small 0;
+            }
           }
         }
       }
