@@ -95,10 +95,10 @@
           @include yaari-display-flex(center, center);
 
           button {
+            @include yaari-display-flex(center, center);
             width: yaari-to-rem(260px);
             height: $yaari-base * 3;
             margin: $yaari-xlarge 0 $yaari-base 0;
-            padding: $yaari-small $yaari-large * 2;
             border-radius: 24px;
             background-color: $yaari-red;
             font-size: $yaari-h4;

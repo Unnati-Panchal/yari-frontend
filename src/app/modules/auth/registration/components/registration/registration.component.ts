@@ -1,20 +1,18 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Subscription} from 'rxjs';
+import {combineLatest, Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 
 import {IAppState} from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromProductsActions from '~store/products/products.actions';
-import * as fromThirdPartyActions from '~store/third-party/third-party.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
 import * as fromProductsSelectors from '~store/products/products.selectors';
-import * as fromThirdPartySelectors from '~store/third-party/third-party.selectors';
 
 import {CustomValidator} from '@yaari/utils/custom-validators';
 import {ICategory} from '@yaari/models/product/product.interface';
-import {IRegistration} from '@yaari/models/auth/auth.interface';
+import {IRegistration, IVerifyOtp} from '@yaari/models/auth/auth.interface';
 import {Router} from '@angular/router';
 
 @Component({
@@ -26,11 +24,17 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public registrationResponse$ = this._store.pipe(select(fromAuthSelectors.getRegResponse), filter(value => !!value));
   public isAuthError$ = this._store.pipe(select(fromAuthSelectors.getIsError), filter(error => !!error));
   public isProductError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(error => !!error));
-  public isThirdPartyError$ = this._store.pipe(select(fromThirdPartySelectors.getIsError), filter(error => !!error));
   public categories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(categories => !!categories?.length));
-  public emailVerification$ = this._store.pipe(select(fromThirdPartySelectors.getEmailVerificationResponse), filter(value => !!value));
-  public uploadGstCertificate$ = this._store.pipe(select(fromThirdPartySelectors.getUploadedGstCertificate), filter(value => !!value));
-  public uploadPanCard$ = this._store.pipe(select(fromThirdPartySelectors.getUploadedPanCard), filter(value => !!value));
+  public submitKYCForVerificationResponse$ = this._store.pipe(
+    select(fromAuthSelectors.submitKYCForVerificationResponse),
+    filter(value => !!value)
+  );
+  public panVerification$ = this._store.pipe(select(fromAuthSelectors.panVerification), filter(value => !!value));
+  public gstVerification$ = this._store.pipe(select(fromAuthSelectors.gstVerification), filter(value => !!value));
+  public bankVerification$ = this._store.pipe(select(fromAuthSelectors.bankVerification), filter(value => !!value));
+  public generateOtp$ = this._store.pipe(select(fromAuthSelectors.generateOtp), filter(value => !!value));
+  public verifyOtpResponse$ = this._store.pipe(select(fromAuthSelectors.verifyOtpResponse), filter(value => !!value));
+  public approveKYCResponse$ = this._store.pipe(select(fromAuthSelectors.approveKYCResponse), filter(value => !!value));
   public regForm: FormGroup;
   public types = [
     {label: 'Retailer', key: 'retailer'},
@@ -38,6 +42,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     {label: 'Wholesaler', key: 'wholesaler'}
   ];
   public categories: ICategory[];
+  public loading;
 
   private _subscription: Subscription = new Subscription();
 
@@ -58,12 +63,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   public registerSupplier(): void {
+    this.loading = true;
     this.regForm.updateValueAndValidity();
     if (!this.regForm.valid) {
+      this.loading = false;
       return;
     }
-    const regRequest: IRegistration = this.regForm.value;
-    this._store.dispatch(fromAuthActions.registration({ regRequest }));
+    const KYCVerification: IRegistration = this.regForm.value;
+    this._store.dispatch(fromAuthActions.submitKYCForVerification({KYCVerification}));
   }
 
   public initRegistrationForm(): void {
@@ -79,44 +86,83 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       price_range_max: ['', [Validators.required, CustomValidator.digitsOnly]],
       average_monthly_stock: ['', [Validators.required, CustomValidator.digitsOnly]],
       primary_category_id: ['', [Validators.required]],
-      has_gst: ['', [Validators.required]],
-      // certificate: ['', [Validators.required]],
-      // panCard: ['', [Validators.required]],
+      gst_no: ['', [Validators.required]],
+      pan_no: ['', [Validators.required]],
+      bank_account_name: ['', [Validators.required]],
+      bank_account_number: ['', [Validators.required]],
+      bank_name: ['', [Validators.required]],
+      bank_ifsc: ['', [Validators.required]],
+      bank_account_type: ['', [Validators.required]]
     });
   }
 
   public supplierRegistration(): void {
     this._subscription.add(this.isAuthError$.subscribe(error => console.log(error)));
     this._subscription.add(this.isProductError$.subscribe(error => console.log(error)));
-    this._subscription.add(this.isThirdPartyError$.subscribe(error => console.log(error)));
+    this._subscription.add(this.submitKYCForVerificationResponse$.subscribe((registered) => {
+      console.log(registered);
+      // this._store.dispatch(fromAuthActions.panVerification());
+      // this._store.dispatch(fromAuthActions.gstVerification());
+      // this._store.dispatch(fromAuthActions.bankVerification());
+      // this._store.dispatch(fromAuthActions.generateOtp());
+    }));
+
+    this._subscription.add(
+      combineLatest([
+        this.panVerification$,
+        this.gstVerification$,
+        this.bankVerification$,
+        this.generateOtp$
+      ]).subscribe(([panVerification, gstVerification, bankVerification, generateOtp]) => {
+        if (generateOtp) {
+          console.log(generateOtp);
+          this.regForm.get('email_id').setErrors({InvalidValue: true});
+
+          // const verifyOtp: IVerifyOtp = null;
+          // this._store.dispatch(fromAuthActions.verifyOtp({verifyOtp}));
+        }
+        if (panVerification) {
+          console.log(panVerification);
+          this.regForm.get('pan_no').setErrors({InvalidValue: true});
+        }
+        if (gstVerification) {
+          console.log(gstVerification);
+          this.regForm.get('gst_no').setErrors({InvalidValue: true});
+        }
+        if (bankVerification) {
+          console.log(bankVerification);
+          this.regForm.get('bank_account_number').setErrors({InvalidValue: true});
+        }
+        this.KYCApprove();
+      })
+    );
+
+    this._subscription.add(this.verifyOtpResponse$.subscribe((registered) => {
+      console.log(registered);
+      this.KYCApprove();
+    }));
+
+    this._subscription.add(this.approveKYCResponse$.subscribe((registered) => {
+      console.log(registered);
+      const regRequest = this.regForm.value;
+      this._store.dispatch(fromAuthActions.registration({regRequest}));
+    }));
 
     this._subscription.add(this.registrationResponse$.subscribe((registered) => {
       console.log(registered);
+      this.loading = false;
       this._router.navigate(['app/dashboard']);
     }));
-    this._subscription.add(this.categories$.subscribe(cat => this.categories = cat));
   }
 
-  // TODO update the html and the error msgs
-  public emailVerification(): void {
-    const email = this.regForm.value.email_id;
-    this._store.dispatch(fromThirdPartyActions.emailVerification({email}));
-
-    this._subscription.add(this.emailVerification$.subscribe(res => console.log(res)));
-  }
-
-  public uploadGstCertificate(): void {
-    const certificate = this.regForm.value.certificate;
-    this._store.dispatch(fromThirdPartyActions.uploadGstCertificate({certificate}));
-
-    this._subscription.add(this.uploadGstCertificate$.subscribe(res => console.log(res)));
-  }
-
-  public uploadPanCard(): void {
-    const panCard = this.regForm.value.panCard;
-    this._store.dispatch(fromThirdPartyActions.uploadPanCard({panCard}));
-
-    this._subscription.add(this.uploadPanCard$.subscribe(res => console.log(res)));
+  public KYCApprove(): void {
+    this.regForm.updateValueAndValidity();
+    if (!this.regForm.valid) {
+      this.loading = false;
+      return;
+    }
+    const approveKYC = this.regForm.value;
+    this._store.dispatch(fromAuthActions.approveKYC({approveKYC}));
   }
 
 }

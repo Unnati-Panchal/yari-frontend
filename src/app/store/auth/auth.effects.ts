@@ -8,7 +8,14 @@ import * as fromRouter from '~store/route/route.selectors';
 import * as fromAuthActions from '~store/auth/auth.actions';
 
 import {AuthService} from '@yaari/services/auth/auth.service';
-import {ILogin, IRegistration, IToken} from '@yaari/models/auth/auth.interface';
+import {
+  ILogin,
+  IRegistration,
+  ISubmitKYCForVerificationResponse,
+  IToken,
+  IVerifyOtp,
+  KYCDetailsResponse
+} from '@yaari/models/auth/auth.interface';
 
 @Injectable()
 export class AuthEffects {
@@ -38,7 +45,7 @@ export class AuthEffects {
     )
   );
 
-  public accountRecovery = createEffect(() =>
+  public accountRecovery$ = createEffect(() =>
     this._actions$.pipe(
       ofType(fromAuthActions.passwordRecovery),
       map(action => action.email),
@@ -46,6 +53,94 @@ export class AuthEffects {
         this._authService.passwordRecovery(email).pipe(
           map((passwordRecoveryResponse: string) => fromAuthActions.passwordRecoverySuccess({ passwordRecoveryResponse })),
           catchError(error => of(fromAuthActions.passwordRecoveryError({ error })))
+        )
+      )
+    )
+  );
+
+  public submitKYCForVerification$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAuthActions.submitKYCForVerification),
+      map(action => action.KYCVerification),
+      switchMap((reg: IRegistration) =>
+        this._authService.submitKYCForVerification(reg).pipe(
+          map((submitKYCForVerificationResponse: ISubmitKYCForVerificationResponse) =>
+            fromAuthActions.submitKYCForVerificationSuccess({ submitKYCForVerificationResponse })),
+          catchError(error => of(fromAuthActions.submitKYCForVerificationError({ error })))
+        )
+      )
+    )
+  );
+
+  public panVerification$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAuthActions.panVerification),
+      switchMap(() =>
+        this._authService.panVerification().pipe(
+          map((panVerification: KYCDetailsResponse) => fromAuthActions.panVerificationSuccess({ panVerification })),
+          catchError(error => of(fromAuthActions.panVerificationError({ error })))
+        )
+      )
+    )
+  );
+
+  public gstVerification$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAuthActions.gstVerification),
+      switchMap(() =>
+        this._authService.gstVerification().pipe(
+          map((gstVerification: KYCDetailsResponse) => fromAuthActions.gstVerificationSuccess({ gstVerification })),
+          catchError(error => of(fromAuthActions.gstVerificationError({ error })))
+        )
+      )
+    )
+  );
+
+  public bankVerification$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAuthActions.bankVerification),
+      switchMap(() =>
+        this._authService.bankVerification().pipe(
+          map((bankVerification: KYCDetailsResponse) => fromAuthActions.bankVerificationSuccess({ bankVerification })),
+          catchError(error => of(fromAuthActions.bankVerificationError({ error })))
+        )
+      )
+    )
+  );
+
+  public generateOtp$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAuthActions.generateOtp),
+      switchMap(() =>
+        this._authService.generateOtp().pipe(
+          map((generateOtp: KYCDetailsResponse) => fromAuthActions.generateOtpSuccess({ generateOtp })),
+          catchError(error => of(fromAuthActions.generateOtpError({ error })))
+        )
+      )
+    )
+  );
+
+  public verifyOtp$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAuthActions.verifyOtp),
+      map(action => action.verifyOtp),
+      switchMap((verifyOtp: IVerifyOtp) =>
+        this._authService.verifyOtp(verifyOtp).pipe(
+          map((verifyOtpResponse: KYCDetailsResponse) => fromAuthActions.verifyOtpSuccess({ verifyOtpResponse })),
+          catchError(error => of(fromAuthActions.verifyOtpError({ error })))
+        )
+      )
+    )
+  );
+
+  public approveKYC$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAuthActions.approveKYC),
+      map(action => action.approveKYC),
+      switchMap((approveKYC: IRegistration) =>
+        this._authService.approveKYC(approveKYC).pipe(
+          map((approveKYCResponse: IRegistration) => fromAuthActions.approveKYCSuccess({ approveKYCResponse })),
+          catchError(error => of(fromAuthActions.approveKYCError({ error })))
         )
       )
     )

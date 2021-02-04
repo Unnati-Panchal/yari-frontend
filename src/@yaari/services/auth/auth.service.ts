@@ -3,7 +3,7 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 import {environment} from '~env/environment';
-import {ILogin, IRegistration, IToken} from '@yaari/models/auth/auth.interface';
+import {ILogin, IRegistration, IToken, IVerifyOtp, KYCDetailsResponse} from '@yaari/models/auth/auth.interface';
 
 
 @Injectable({
@@ -11,10 +11,6 @@ import {ILogin, IRegistration, IToken} from '@yaari/models/auth/auth.interface';
 })
 export class AuthService {
   constructor(private _http: HttpClient) {
-  }
-
-  public registerSupplier(body: IRegistration): Observable<IRegistration> {
-    return this._http.post<IRegistration>(`${environment.API_BASE_URL}/api/v1/supplier/register`, body);
   }
 
   public passwordRecovery(email: string): Observable<string> {
@@ -29,5 +25,37 @@ export class AuthService {
     body.set('user_role', login.user_role);
     return this._http.post<IToken>
     (`${environment.API_BASE_URL}/api/v1/user/login/access-token?user_role=supplier`, body.toString(), httpOptions);
+  }
+
+  public submitKYCForVerification(body: IRegistration): Observable<IRegistration> {
+    return this._http.post<IRegistration>(`${environment.API_BASE_URL}/api/v1/supplier/kyc`, body);
+  }
+
+  public panVerification(): Observable<KYCDetailsResponse> {
+    return this._http.get<KYCDetailsResponse>(`${environment.API_BASE_URL}/api/v1/supplier/kyc/pan-verification`);
+  }
+
+  public gstVerification(): Observable<KYCDetailsResponse> {
+    return this._http.get<KYCDetailsResponse>(`${environment.API_BASE_URL}/api/v1/supplier/kyc/gst-verification`);
+  }
+
+  public bankVerification(): Observable<KYCDetailsResponse> {
+    return this._http.get<KYCDetailsResponse>(`${environment.API_BASE_URL}/api/v1/supplierbank-verification`);
+  }
+
+  public generateOtp(): Observable<KYCDetailsResponse> {
+    return this._http.get<KYCDetailsResponse>(`${environment.API_BASE_URL}/api/v1/supplier/kyc/generate-email-otp`);
+  }
+
+  public verifyOtp(body: IVerifyOtp): Observable<KYCDetailsResponse> {
+    return this._http.post<KYCDetailsResponse>(`${environment.API_BASE_URL}/api/v1/supplier/kyc/verify-email-otp`, body);
+  }
+
+  public approveKYC(body: IRegistration): Observable<IRegistration> {
+    return this._http.post<IRegistration>(`${environment.API_BASE_URL}/api/v1/supplier/kyc-approve`, body);
+  }
+
+  public registerSupplier(body: IRegistration): Observable<IRegistration> {
+    return this._http.post<IRegistration>(`${environment.API_BASE_URL}/api/v1/supplier/register`, body);
   }
 }

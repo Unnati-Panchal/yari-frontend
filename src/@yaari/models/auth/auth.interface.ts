@@ -8,7 +8,15 @@ export interface IRegistration {
   price_range_max: number;
   average_monthly_stock: number;
   primary_category_id: number;
-  has_gst: boolean;
+
+  // submitKYCForVerification
+  gst_no: string;
+  pan_no: string;
+  bank_account_name: string;
+  bank_account_number: string;
+  bank_name: string;
+  bank_ifsc: string;
+  bank_account_type: string;
 }
 
 export interface ILogin {
@@ -25,3 +33,29 @@ export interface IToken {
   token_type: string;
 }
 
+export interface ISubmitKYCForVerificationResponse {
+  // submitKYCForVerification
+  gst_no: string;
+  pan_no: string;
+  bank_account_name: string;
+  bank_account_number: string;
+  bank_name: string;
+  bank_ifsc: string;
+  bank_account_type: string;
+}
+
+export interface KYCDetailsResponse {
+  // submitKYCForVerification
+  gst_no: string;
+  pan_no: string;
+  bank_account_name: string;
+  bank_account_number: string;
+  bank_name: string;
+  bank_ifsc: string;
+  bank_account_type: string;
+}
+
+export interface IVerifyOtp {
+  otp: number;
+  email: string;
+}
