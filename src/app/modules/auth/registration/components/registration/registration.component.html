@@ -4,7 +4,7 @@
     <div class="red-line"></div>
   </section>
   <section class="register-container">
-    <form [formGroup]="regForm" (ngSubmit)="registerSupplier()" class="register-form">
+    <form [formGroup]="regForm" class="register-form">
 
       <section>
         <h3>Register</h3>
@@ -30,13 +30,24 @@
 
         <div>
           <h4>Email ID<span class="required">*</span></h4>
-          <mat-form-field appearance="outline">
-            <mat-label>Enter your email address</mat-label>
-            <input matInput formControlName="email_id" autocomplete="nope">
-            <mat-error *ngIf="regForm.controls['email_id'].hasError('required')">Required field</mat-error>
-            <mat-error *ngIf="regForm.controls['email_id'].hasError('email')">Please enter a valid email address</mat-error>
-            <mat-error *ngIf="regForm.controls['email_id'].hasError('InvalidValue')">OTP Verification failed</mat-error>
-          </mat-form-field>
+          <div class="mini-form-group-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Enter your email address</mat-label>
+              <input matInput formControlName="email_id" autocomplete="nope">
+              <mat-error *ngIf="regForm.controls['email_id'].hasError('required')">Required field</mat-error>
+              <mat-error *ngIf="regForm.controls['email_id'].hasError('email')">Please enter a valid email address
+              </mat-error>
+              <mat-error *ngIf="regForm.controls['email_id'].hasError('InvalidValue')">OTP Verification failed
+              </mat-error>
+              <mat-hint *ngIf="emailVerificationSuccessful" class="hint-message">OTP Verification Successful</mat-hint>
+            </mat-form-field>
+            <button mat-button (click)="verifyEmail($event)">
+              <span *ngIf="!loadingEmailVerification else LoadingSpinner">Verify Email</span>
+              <ng-template #LoadingSpinner>
+                <mat-spinner [diameter]="25"></mat-spinner>
+              </ng-template>
+            </button>
+          </div>
         </div>
 
         <div>
@@ -45,7 +56,8 @@
             <mat-label>Enter your phone number</mat-label>
             <input matInput formControlName="phone_no" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['phone_no'].hasError('required')">Required field</mat-error>
-            <mat-error *ngIf="regForm.controls['phone_no'].hasError('invalidNumber')">Please enter only digits</mat-error>
+            <mat-error *ngIf="regForm.controls['phone_no'].hasError('invalidNumber')">Please enter only digits
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -72,24 +84,51 @@
           </mat-form-field>
         </div>
 
-        <div>
-          <h4>GST Number<span class="required">*</span></h4>
-          <mat-form-field appearance="outline" class="small-form-group">
-            <mat-label>Enter your GST number</mat-label>
-            <input matInput formControlName="gst_no" autocomplete="nope">
-            <mat-error *ngIf="regForm.controls['gst_no'].hasError('required')">Required field</mat-error>
-            <mat-error *ngIf="regForm.controls['gst_no'].hasError('InvalidValue')">GST Number is not valid</mat-error>
-          </mat-form-field>
+        <div class="radio-buttons">
+          <h4>Do You Have GST Number?<span class="required">*</span></h4>
+          <mat-radio-group class="radio-group" formControlName="has_gst">
+            <mat-radio-button [value]="true">Yes</mat-radio-button>
+            <mat-radio-button [value]="false">No</mat-radio-button>
+          </mat-radio-group>
         </div>
 
         <div>
-          <h4>PAN Number<span class="required">*</span></h4>
-          <mat-form-field appearance="outline" class="small-form-group">
-            <mat-label>Enter your PAN number</mat-label>
-            <input matInput formControlName="pan_no" autocomplete="nope">
-            <mat-error *ngIf="regForm.controls['pan_no'].hasError('required')">Required field</mat-error>
-            <mat-error *ngIf="regForm.controls['pan_no'].hasError('InvalidValue')">PAN Number is not valid</mat-error>
-          </mat-form-field>
+          <h4>If Yes Please Enter Your GST Certificate Number And Upload GST Certificate<span
+            class="required">*</span></h4>
+          <div class="mini-form-group-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Enter your GST Certificate</mat-label>
+              <input matInput formControlName="gst_no" autocomplete="nope">
+              <mat-error *ngIf="regForm.controls['gst_no'].hasError('required')">Required field</mat-error>
+              <mat-error *ngIf="regForm.controls['gst_no'].hasError('InvalidValue')">GST Verification failed</mat-error>
+              <mat-hint *ngIf="gstVerificationSuccessful" class="hint-message">GST Verification Successful</mat-hint>
+            </mat-form-field>
+            <button mat-button (click)="verifyGst($event)">
+              <span *ngIf="!loadingGstVerification else LoadingSpinner">Upload GST Certificate</span>
+              <ng-template #LoadingSpinner>
+                <mat-spinner [diameter]="25"></mat-spinner>
+              </ng-template>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <h4>Enter Your Business PAN Card Number And Upload Business PAN card<span class="required">*</span></h4>
+          <div class="mini-form-group-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Enter your PAN Card</mat-label>
+              <input matInput formControlName="pan_no" autocomplete="nope">
+              <mat-error *ngIf="regForm.controls['pan_no'].hasError('required')">Required field</mat-error>
+              <mat-error *ngIf="regForm.controls['pan_no'].hasError('InvalidValue')">PAN Verification failed</mat-error>
+              <mat-hint *ngIf="panVerificationSuccessful" class="hint-message">PAN Verification Successful</mat-hint>
+            </mat-form-field>
+            <button mat-button (click)="verifyPan($event)">
+              <span *ngIf="!loadingPanVerification else LoadingSpinner">Upload PAN Card</span>
+              <ng-template #LoadingSpinner>
+                <mat-spinner [diameter]="25"></mat-spinner>
+              </ng-template>
+            </button>
+          </div>
         </div>
 
         <div>
@@ -107,7 +146,9 @@
             <mat-label>Enter your Bank Account Number</mat-label>
             <input matInput formControlName="bank_account_number" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['bank_account_number'].hasError('required')">Required field</mat-error>
-            <mat-error *ngIf="regForm.controls['bank_account_number'].hasError('InvalidValue')">Bank Verification failed</mat-error>
+            <mat-error *ngIf="regForm.controls['bank_account_number'].hasError('InvalidValue')">Bank Verification
+              failed
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -138,22 +179,15 @@
           </mat-form-field>
         </div>
 
-
-<!--        <div class="radio-buttons">
-          <h4>Do You Have GST Number?<span class="required">*</span></h4>
-          <mat-radio-group class="radio-group" formControlName="has_gst">
-            <mat-radio-button [value]="true">Yes</mat-radio-button>
-            <mat-radio-button [value]="false">No</mat-radio-button>
-          </mat-radio-group>
-        </div>-->
-
         <div>
           <h4>Enter Average Monthy Stock Count You Want To Share On Yaari<span class="required">*</span></h4>
           <mat-form-field appearance="outline" class="small-form-group">
             <mat-label>Please enter number</mat-label>
             <input matInput formControlName="average_monthly_stock" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['average_monthly_stock'].hasError('required')">Required field</mat-error>
-            <mat-error *ngIf="regForm.controls['average_monthly_stock'].hasError('invalidNumber')">Please enter only digits</mat-error>
+            <mat-error *ngIf="regForm.controls['average_monthly_stock'].hasError('invalidNumber')">Please enter only
+              digits
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -163,7 +197,8 @@
             <mat-label>Min price</mat-label>
             <input matInput formControlName="price_range_min" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['price_range_min'].hasError('required')">Required field</mat-error>
-            <mat-error *ngIf="regForm.controls['price_range_min'].hasError('invalidNumber')">Please enter only digits</mat-error>
+            <mat-error *ngIf="regForm.controls['price_range_min'].hasError('invalidNumber')">Please enter only digits
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -173,7 +208,8 @@
             <mat-label>Max price</mat-label>
             <input matInput formControlName="price_range_max" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['price_range_max'].hasError('required')">Required field</mat-error>
-            <mat-error *ngIf="regForm.controls['price_range_max'].hasError('invalidNumber')">Please enter only digits</mat-error>
+            <mat-error *ngIf="regForm.controls['price_range_max'].hasError('invalidNumber')">Please enter only digits
+            </mat-error>
           </mat-form-field>
         </div>
 
@@ -186,14 +222,16 @@
           </mat-form-field>
         </div>
 
-      </section>
+        <div class="form-group submit-btn-container">
+          <button mat-button class="btn login-btn" (click)="registerSupplier()">
+            <span *ngIf="!loading else LoadingSpinner">Submit</span>
+            <ng-template #LoadingSpinner>
+              <mat-spinner [diameter]="25"></mat-spinner>
+            </ng-template>
+          </button>
+        </div>
 
-      <div class="form-group submit-btn-container">
-        <button mat-button class="btn login-btn">
-          <span *ngIf="!loading else LoadingSpinner">Submit</span>
-          <ng-template #LoadingSpinner> <mat-spinner [diameter]="25"></mat-spinner></ng-template>
-        </button>
-      </div>
+      </section>
     </form>
   </section>
 </main>

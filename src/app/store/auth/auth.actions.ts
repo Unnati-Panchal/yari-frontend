@@ -5,7 +5,7 @@ import {
   ILogin,
   IRegistration,
   ISubmitKYCForVerificationResponse,
-  IToken,
+  IToken, IVerifyGstPan,
   IVerifyOtp,
   KYCDetailsResponse
 } from '@yaari/models/auth/auth.interface';
@@ -44,14 +44,14 @@ export const submitKYCForVerificationSuccess = createAction('[AUTH] submit KYC V
 export const submitKYCForVerificationError = createAction('[AUTH] submit KYC Verification error', props<{ error: HttpErrorResponse }>());
 
 
-export const panVerification = createAction('[AUTH] panVerification');
+export const panVerification = createAction('[AUTH] panVerification', props<{ panReq: IVerifyGstPan }>());
 
 export const panVerificationSuccess = createAction('[AUTH] panVerification success', props<{ panVerification: KYCDetailsResponse }>());
 
 export const panVerificationError = createAction('[AUTH] panVerification error', props<{ error: HttpErrorResponse }>());
 
 
-export const gstVerification = createAction('[AUTH] gstVerification');
+export const gstVerification = createAction('[AUTH] gstVerification', props<{ gstReq: IVerifyGstPan }>());
 
 export const gstVerificationSuccess = createAction('[AUTH] gstVerification success', props<{ gstVerification: KYCDetailsResponse }>());
 
@@ -65,7 +65,7 @@ export const bankVerificationSuccess = createAction('[AUTH] bankVerification suc
 export const bankVerificationError = createAction('[AUTH] bankVerification error', props<{ error: HttpErrorResponse }>());
 
 
-export const generateOtp = createAction('[AUTH] generateOtp');
+export const generateOtp = createAction('[AUTH] generateOtp', props<{ email: string }>());
 
 export const generateOtpSuccess = createAction('[AUTH] generateOtp success', props<{ generateOtp: KYCDetailsResponse }>());
 

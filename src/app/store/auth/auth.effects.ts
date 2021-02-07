@@ -12,7 +12,7 @@ import {
   ILogin,
   IRegistration,
   ISubmitKYCForVerificationResponse,
-  IToken,
+  IToken, IVerifyGstPan,
   IVerifyOtp,
   KYCDetailsResponse
 } from '@yaari/models/auth/auth.interface';
@@ -75,8 +75,9 @@ export class AuthEffects {
   public panVerification$ = createEffect(() =>
     this._actions$.pipe(
       ofType(fromAuthActions.panVerification),
-      switchMap(() =>
-        this._authService.panVerification().pipe(
+      map(action => action.panReq),
+      switchMap((panReq: IVerifyGstPan) =>
+        this._authService.panVerification(panReq).pipe(
           map((panVerification: KYCDetailsResponse) => fromAuthActions.panVerificationSuccess({ panVerification })),
           catchError(error => of(fromAuthActions.panVerificationError({ error })))
         )
@@ -87,8 +88,9 @@ export class AuthEffects {
   public gstVerification$ = createEffect(() =>
     this._actions$.pipe(
       ofType(fromAuthActions.gstVerification),
-      switchMap(() =>
-        this._authService.gstVerification().pipe(
+      map(action => action.gstReq),
+      switchMap((gstReq: IVerifyGstPan) =>
+        this._authService.gstVerification(gstReq).pipe(
           map((gstVerification: KYCDetailsResponse) => fromAuthActions.gstVerificationSuccess({ gstVerification })),
           catchError(error => of(fromAuthActions.gstVerificationError({ error })))
         )
@@ -111,8 +113,9 @@ export class AuthEffects {
   public generateOtp$ = createEffect(() =>
     this._actions$.pipe(
       ofType(fromAuthActions.generateOtp),
-      switchMap(() =>
-        this._authService.generateOtp().pipe(
+      map(action => action.email),
+      switchMap((email: string) =>
+        this._authService.generateOtp(email).pipe(
           map((generateOtp: KYCDetailsResponse) => fromAuthActions.generateOtpSuccess({ generateOtp })),
           catchError(error => of(fromAuthActions.generateOtpError({ error })))
         )

@@ -97,8 +97,8 @@ const authReducer = createReducer(
   on(fromAuthActions.submitKYCForVerificationError, (state, action) => ({...state, loading: false, error: action.error})),
 
 
-  on(fromAuthActions.panVerification, (state) => ({
-    ...state, loading: true
+  on(fromAuthActions.panVerification, (state, action) => ({
+    ...state, loading: true, panReq: action.panReq
   })),
   on(fromAuthActions.panVerificationSuccess, (state, action) => ({
     ...state, loading: false, panVerification: action.panVerification
@@ -106,8 +106,8 @@ const authReducer = createReducer(
   on(fromAuthActions.panVerificationError, (state, action) => ({...state, loading: false, error: action.error})),
 
 
-  on(fromAuthActions.gstVerification, (state) => ({
-    ...state, loading: true
+  on(fromAuthActions.gstVerification, (state, action) => ({
+    ...state, loading: true, gstReq: action.gstReq
   })),
   on(fromAuthActions.gstVerificationSuccess, (state, action) => ({
     ...state, loading: false, gstVerification: action.gstVerification
@@ -124,8 +124,8 @@ const authReducer = createReducer(
   on(fromAuthActions.bankVerificationError, (state, action) => ({...state, loading: false, error: action.error})),
 
 
-  on(fromAuthActions.generateOtp, (state) => ({
-    ...state, loading: true
+  on(fromAuthActions.generateOtp, (state, action) => ({
+    ...state, loading: true, email: action.email
   })),
   on(fromAuthActions.generateOtpSuccess, (state, action) => ({
     ...state, loading: false, generateOtp: action.generateOtp

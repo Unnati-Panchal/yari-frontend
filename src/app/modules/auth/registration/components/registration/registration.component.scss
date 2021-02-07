@@ -93,6 +93,23 @@
           .small-form-group {
             width: 60%;
           }
+
+          .mini-form-group-container {
+            @include yaari-display-flex(flex-start, space-between);
+
+            mat-form-field {
+              width: 40%;
+            }
+
+            button {
+              @include yaari-display-flex(center, center);
+              border-radius: 24px;
+              background-color: $yaari-red;
+              font-size: $yaari-h6;
+              color: $yaari-light;
+              width: yaari-to-rem(260px);
+            }
+          }
         }
 
         .submit-btn-container {
@@ -105,11 +122,11 @@
             background-color: $yaari-red;
             font-size: $yaari-h6;
             color: $yaari-light;
-
-            @include media-breakpoint(lt-lg) {
-              margin: $yaari-small 0;
-            }
           }
+        }
+
+        .hint-message {
+          color: #008800;
         }
       }
 

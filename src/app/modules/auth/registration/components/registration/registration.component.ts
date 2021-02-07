@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {combineLatest, Subscription} from 'rxjs';
+import {Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 
@@ -12,7 +12,6 @@ import * as fromProductsSelectors from '~store/products/products.selectors';
 
 import {CustomValidator} from '@yaari/utils/custom-validators';
 import {ICategory} from '@yaari/models/product/product.interface';
-import {IRegistration, IVerifyOtp} from '@yaari/models/auth/auth.interface';
 import {Router} from '@angular/router';
 
 @Component({
@@ -25,14 +24,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public isAuthError$ = this._store.pipe(select(fromAuthSelectors.getIsError), filter(error => !!error));
   public isProductError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(error => !!error));
   public categories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(categories => !!categories?.length));
-  public submitKYCForVerificationResponse$ = this._store.pipe(
-    select(fromAuthSelectors.submitKYCForVerificationResponse), filter(value => !!value));
   public panVerification$ = this._store.pipe(select(fromAuthSelectors.panVerification), filter(value => !!value));
   public gstVerification$ = this._store.pipe(select(fromAuthSelectors.gstVerification), filter(value => !!value));
-  public bankVerification$ = this._store.pipe(select(fromAuthSelectors.bankVerification), filter(value => !!value));
   public generateOtp$ = this._store.pipe(select(fromAuthSelectors.generateOtp), filter(value => !!value));
   public verifyOtpResponse$ = this._store.pipe(select(fromAuthSelectors.verifyOtpResponse), filter(value => !!value));
-  public approveKYCResponse$ = this._store.pipe(select(fromAuthSelectors.approveKYCResponse), filter(value => !!value));
   public regForm: FormGroup;
   public types = [
     {label: 'Retailer', key: 'retailer'},
@@ -41,6 +36,12 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   ];
   public categories: ICategory[];
   public loading;
+  public loadingEmailVerification: boolean;
+  public loadingGstVerification: boolean;
+  public emailVerificationSuccessful: boolean;
+  public gstVerificationSuccessful: boolean;
+  public loadingPanVerification: boolean;
+  public panVerificationSuccessful: boolean;
 
   private _subscription: Subscription = new Subscription();
 
@@ -53,6 +54,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public ngOnInit(): void {
     this.initRegistrationForm();
     this.supplierRegistration();
+    this.emailVerification();
+    this.gstVerification();
+    this.panVerification();
     this._store.dispatch(fromProductsActions.getCategories());
   }
 
@@ -67,8 +71,23 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.loading = false;
       return;
     }
-    const KYCVerification: IRegistration = this.regForm.value;
-    this._store.dispatch(fromAuthActions.submitKYCForVerification({KYCVerification}));
+    if (!this.emailVerificationSuccessful) {
+      this.loading = false;
+      this.regForm.get('email_id').setErrors({InvalidValue: true});
+      return;
+    }
+    if (!this.panVerificationSuccessful) {
+      this.loading = false;
+      this.regForm.get('pan_no').setErrors({InvalidValue: true});
+      return;
+    }
+    if (!this.gstVerificationSuccessful) {
+      this.loading = false;
+      this.regForm.get('gst_no').setErrors({InvalidValue: true});
+      return;
+    }
+    const regRequest = this.regForm.value;
+    this._store.dispatch(fromAuthActions.registration({regRequest}));
   }
 
   public initRegistrationForm(): void {
@@ -84,6 +103,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       price_range_max: ['', [Validators.required, CustomValidator.digitsOnly]],
       average_monthly_stock: ['', [Validators.required, CustomValidator.digitsOnly]],
       primary_category_id: ['', [Validators.required]],
+      has_gst: ['', [Validators.required]],
       gst_no: ['', [Validators.required]],
       pan_no: ['', [Validators.required]],
       bank_account_name: ['', [Validators.required]],
@@ -94,73 +114,125 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     });
   }
 
-  public supplierRegistration(): void {
-    this._subscription.add(this.isAuthError$.subscribe(error => console.log(error)));
-    this._subscription.add(this.isProductError$.subscribe(error => console.log(error)));
-    this._subscription.add(this.submitKYCForVerificationResponse$.subscribe((registered) => {
-      console.log(registered);
-      // this._store.dispatch(fromAuthActions.panVerification());
-      // this._store.dispatch(fromAuthActions.gstVerification());
-      // this._store.dispatch(fromAuthActions.bankVerification());
-      // this._store.dispatch(fromAuthActions.generateOtp());
-    }));
+  public verifyEmail(event): void {
+    event.preventDefault();
+    this.loadingEmailVerification = true;
+    const email = this.regForm.value.email_id;
+    if (!email) {
+      this.regForm.get('email_id').setErrors({required: true});
+      this.loadingEmailVerification = false;
+      return;
+    }
+    this._store.dispatch(fromAuthActions.generateOtp({email}));
+  }
 
-    this._subscription.add(
-      combineLatest([
-        this.panVerification$,
-        this.gstVerification$,
-        this.bankVerification$,
-        this.generateOtp$
-      ]).subscribe(([panVerification, gstVerification, bankVerification, generateOtp]) => {
-        if (generateOtp) {
-          console.log(generateOtp);
-          this.regForm.get('email_id').setErrors({InvalidValue: true});
-
-          // const verifyOtp: IVerifyOtp = null;
-          // this._store.dispatch(fromAuthActions.verifyOtp({verifyOtp}));
+  public emailVerification(): void {
+    this._subscription.add(this.generateOtp$.subscribe((registered) => {
+        this.loadingEmailVerification = false;
+        if (registered.message === 'Success') {
+          const verifyOtp = {
+            email: registered.email_id,
+            otp: registered.otp,
+          };
+          this._store.dispatch(fromAuthActions.verifyOtp({verifyOtp}));
+        } else {
+          this.emailVerificationSuccessful = false;
         }
-        if (panVerification) {
-          console.log(panVerification);
-          this.regForm.get('pan_no').setErrors({InvalidValue: true});
-        }
-        if (gstVerification) {
-          console.log(gstVerification);
-          this.regForm.get('gst_no').setErrors({InvalidValue: true});
-        }
-        if (bankVerification) {
-          console.log(bankVerification);
-          this.regForm.get('bank_account_number').setErrors({InvalidValue: true});
-        }
-        this.KYCApprove();
+      },
+      () => {
+        this.loadingEmailVerification = false;
+        this.regForm.get('email_id').setErrors({InvalidValue: true});
+        this.emailVerificationSuccessful = false;
       })
     );
 
     this._subscription.add(this.verifyOtpResponse$.subscribe((registered) => {
-      console.log(registered);
-      this.KYCApprove();
-    }));
+        this.loadingEmailVerification = false;
+        this.emailVerificationSuccessful = registered.message === 'Success';
+      },
+      () => {
+        this.loadingEmailVerification = false;
+        this.regForm.get('email_id').setErrors({InvalidValue: true});
+        this.emailVerificationSuccessful = false;
+      })
+    );
+  }
 
-    this._subscription.add(this.approveKYCResponse$.subscribe((registered) => {
-      console.log(registered);
-      const regRequest = this.regForm.value;
-      this._store.dispatch(fromAuthActions.registration({regRequest}));
-    }));
+  public verifyGst(event): void {
+    event.preventDefault();
+    this.loadingGstVerification = true;
+    const gstReq = {
+      gst_no: this.regForm.value.gst_no,
+      name: this.regForm.value.contact_person
+    };
+    if (!gstReq?.name || !gstReq?.gst_no) {
+      this.regForm.get('gst_no').setErrors({required: true});
+      this.regForm.get('contact_person').setErrors({required: true});
+      this.loadingGstVerification = false;
+      return;
+    }
+    this._store.dispatch(fromAuthActions.gstVerification({gstReq}));
+  }
 
-    this._subscription.add(this.registrationResponse$.subscribe((registered) => {
-      console.log(registered);
+  public gstVerification(): void {
+    this._subscription.add(this.gstVerification$.subscribe((registered) => {
+        this.loadingGstVerification = false;
+        if (registered.details === 'GST Verified') {
+          this.gstVerificationSuccessful = true;
+        } else {
+          this.loadingGstVerification = false;
+          this.regForm.get('gst_no').setErrors({InvalidValue: true});
+        }
+      },
+      () => {
+        this.loadingGstVerification = false;
+        this.regForm.get('gst_no').setErrors({InvalidValue: true});
+        this.gstVerificationSuccessful = false;
+      })
+    );
+  }
+
+  public verifyPan(event): void {
+    event.preventDefault();
+    this.loadingPanVerification = true;
+    const panReq = {
+      pan_no: this.regForm.value.pan_no,
+      name: this.regForm.value.contact_person
+    };
+    if (!panReq?.name || !panReq?.pan_no) {
+      this.regForm.get('pan_no').setErrors({required: true});
+      this.regForm.get('contact_person').setErrors({required: true});
+      this.loadingPanVerification = false;
+      return;
+    }
+    this._store.dispatch(fromAuthActions.panVerification({panReq}));
+  }
+
+  public panVerification(): void {
+    this._subscription.add(this.panVerification$.subscribe((registered) => {
+        this.loadingPanVerification = false;
+        if (registered.details === 'PAN Verified') {
+          this.panVerificationSuccessful = true;
+        } else {
+          this.panVerificationSuccessful = false;
+          this.regForm.get('pan_no').setErrors({InvalidValue: true});
+        }
+      },
+      () => {
+        this.loadingPanVerification = false;
+        this.regForm.get('pan_no').setErrors({InvalidValue: true});
+        this.panVerificationSuccessful = false;
+      })
+    );
+  }
+
+  public supplierRegistration(): void {
+    this._subscription.add(this.isAuthError$.subscribe(error => console.log(error)));
+    this._subscription.add(this.isProductError$.subscribe(error => console.log(error)));
+    this._subscription.add(this.registrationResponse$.subscribe(() => {
       this.loading = false;
       this._router.navigate(['app/dashboard']);
     }));
-  }
-
-  public KYCApprove(): void {
-    this.regForm.updateValueAndValidity();
-    if (!this.regForm.valid) {
-      this.loading = false;
-      return;
-    }
-    const approveKYC = this.regForm.value;
-    this._store.dispatch(fromAuthActions.approveKYC({approveKYC}));
   }
 
 }

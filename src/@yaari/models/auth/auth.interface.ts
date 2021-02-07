@@ -53,9 +53,23 @@ export interface KYCDetailsResponse {
   bank_name: string;
   bank_ifsc: string;
   bank_account_type: string;
+
+  email_id?: string;
+  is_active?: boolean;
+  status?: number;
+  message?: string;
+  otp?: number;
+
+  details?: string;
 }
 
 export interface IVerifyOtp {
   otp: number;
   email: string;
+}
+
+export interface IVerifyGstPan {
+  name: number;
+  gst_no?: string;
+  pan_no?: string;
 }
