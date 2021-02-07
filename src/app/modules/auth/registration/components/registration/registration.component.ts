@@ -26,9 +26,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public isProductError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(error => !!error));
   public categories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(categories => !!categories?.length));
   public submitKYCForVerificationResponse$ = this._store.pipe(
-    select(fromAuthSelectors.submitKYCForVerificationResponse),
-    filter(value => !!value)
-  );
+    select(fromAuthSelectors.submitKYCForVerificationResponse), filter(value => !!value));
   public panVerification$ = this._store.pipe(select(fromAuthSelectors.panVerification), filter(value => !!value));
   public gstVerification$ = this._store.pipe(select(fromAuthSelectors.gstVerification), filter(value => !!value));
   public bankVerification$ = this._store.pipe(select(fromAuthSelectors.bankVerification), filter(value => !!value));

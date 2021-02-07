@@ -186,14 +186,14 @@
           </mat-form-field>
         </div>
 
-        <div class="form-group submit-btn-container">
-          <button mat-button class="btn login-btn">
-            <span *ngIf="!loading else LoadingSpinner">Submit</span>
-            <ng-template #LoadingSpinner> <mat-spinner [diameter]="25"></mat-spinner></ng-template>
-          </button>
-        </div>
-
       </section>
+
+      <div class="form-group submit-btn-container">
+        <button mat-button class="btn login-btn">
+          <span *ngIf="!loading else LoadingSpinner">Submit</span>
+          <ng-template #LoadingSpinner> <mat-spinner [diameter]="25"></mat-spinner></ng-template>
+        </button>
+      </div>
     </form>
   </section>
 </main>
