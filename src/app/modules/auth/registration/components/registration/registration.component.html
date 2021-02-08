@@ -37,12 +37,32 @@
               <mat-error *ngIf="regForm.controls['email_id'].hasError('required')">Required field</mat-error>
               <mat-error *ngIf="regForm.controls['email_id'].hasError('email')">Please enter a valid email address
               </mat-error>
-              <mat-error *ngIf="regForm.controls['email_id'].hasError('InvalidValue')">OTP Verification failed
+              <mat-error *ngIf="regForm.controls['email_id'].hasError('InvalidValue')">Email Verification failed
               </mat-error>
-              <mat-hint *ngIf="emailVerificationSuccessful" class="hint-message">OTP Verification Successful</mat-hint>
+              <mat-hint *ngIf="emailVerificationSuccessful" class="hint-message">Email Verification Successful</mat-hint>
             </mat-form-field>
             <button mat-button (click)="verifyEmail($event)">
               <span *ngIf="!loadingEmailVerification else LoadingSpinner">Verify Email</span>
+              <ng-template #LoadingSpinner>
+                <mat-spinner [diameter]="25"></mat-spinner>
+              </ng-template>
+            </button>
+          </div>
+        </div>
+
+        <div>
+          <h4>OTP Number<span class="required">*</span></h4>
+          <div class="mini-form-group-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Enter the OTP Number from your email</mat-label>
+              <input matInput formControlName="otp_no" autocomplete="nope">
+              <mat-error *ngIf="regForm.controls['otp_no'].hasError('required')">Required field</mat-error>
+              <mat-error *ngIf="regForm.controls['otp_no'].hasError('InvalidValue')">OTP Verification failed
+              </mat-error>
+              <mat-hint *ngIf="otpVerificationSuccessful" class="hint-message">OTP Verification Successful</mat-hint>
+            </mat-form-field>
+            <button mat-button (click)="verifyOtp($event)">
+              <span *ngIf="!loadingOtpVerification else LoadingSpinner">Verify OTP</span>
               <ng-template #LoadingSpinner>
                 <mat-spinner [diameter]="25"></mat-spinner>
               </ng-template>

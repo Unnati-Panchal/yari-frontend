@@ -38,10 +38,12 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public loading;
   public loadingEmailVerification: boolean;
   public loadingGstVerification: boolean;
-  public emailVerificationSuccessful: boolean;
-  public gstVerificationSuccessful: boolean;
+  public loadingOtpVerification: boolean;
   public loadingPanVerification: boolean;
-  public panVerificationSuccessful: boolean;
+  public otpVerificationSuccessful: string;
+  public emailVerificationSuccessful: string;
+  public gstVerificationSuccessful: string;
+  public panVerificationSuccessful: string;
 
   private _subscription: Subscription = new Subscription();
 
@@ -55,6 +57,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.initRegistrationForm();
     this.supplierRegistration();
     this.emailVerification();
+    this.otpVerification();
     this.gstVerification();
     this.panVerification();
     this._store.dispatch(fromProductsActions.getCategories());
@@ -86,7 +89,20 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.regForm.get('gst_no').setErrors({InvalidValue: true});
       return;
     }
+    if (!this.gstVerificationSuccessful) {
+      this.loading = false;
+      this.regForm.get('gst_no').setErrors({InvalidValue: true});
+      return;
+    }
+    if (!this.otpVerificationSuccessful) {
+      this.loading = false;
+      this.regForm.get('otp_no').setErrors({InvalidValue: true});
+      return;
+    }
     const regRequest = this.regForm.value;
+    regRequest.email_id = this.emailVerificationSuccessful;
+    regRequest.pan_no = this.panVerificationSuccessful;
+    regRequest.gst_no = this.gstVerificationSuccessful;
     this._store.dispatch(fromAuthActions.registration({regRequest}));
   }
 
@@ -97,6 +113,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       contact_person: ['', [Validators.required]],
       phone_no: ['', [Validators.required, CustomValidator.digitsOnly]],
       email_id: ['', [Validators.required, Validators.email]],
+      otp_no: ['', [Validators.required]],
       city: ['', [Validators.required, CustomValidator.lettersOnly]],
       type: ['', [Validators.required]],
       price_range_min: ['', [Validators.required, CustomValidator.digitsOnly]],
@@ -112,6 +129,43 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       bank_ifsc: ['', [Validators.required]],
       bank_account_type: ['', [Validators.required]]
     });
+  }
+
+  public verifyOtp(event): void {
+    event.preventDefault();
+    this.loadingOtpVerification = true;
+    const email = this.regForm.value.email_id;
+    const otp = this.regForm.value.otp_no;
+    if (!email) {
+      this.regForm.get('email_id').setErrors({required: true});
+      this.loadingOtpVerification = false;
+      return;
+    }
+    if (!otp) {
+      this.regForm.get('otp_no').setErrors({required: true});
+      this.loadingOtpVerification = false;
+      return;
+    }
+    const verifyOtp = {email, otp};
+    this._store.dispatch(fromAuthActions.verifyOtp({verifyOtp}));
+  }
+
+  public otpVerification(): void {
+    this._subscription.add(this.verifyOtpResponse$.subscribe((registered) => {
+        this.loadingOtpVerification = false;
+        if (registered.message === 'Success') {
+          this.otpVerificationSuccessful = registered.email_id;
+        } else {
+          this.otpVerificationSuccessful = '';
+          this.regForm.get('otp_no').setErrors({InvalidValue: true});
+        }
+      },
+      () => {
+        this.loadingOtpVerification = false;
+        this.regForm.get('otp_no').setErrors({InvalidValue: true});
+        this.otpVerificationSuccessful = '';
+      })
+    );
   }
 
   public verifyEmail(event): void {
@@ -130,30 +184,16 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this._subscription.add(this.generateOtp$.subscribe((registered) => {
         this.loadingEmailVerification = false;
         if (registered.message === 'Success') {
-          const verifyOtp = {
-            email: registered.email_id,
-            otp: registered.otp,
-          };
-          this._store.dispatch(fromAuthActions.verifyOtp({verifyOtp}));
+          this.emailVerificationSuccessful = registered.email_id;
         } else {
-          this.emailVerificationSuccessful = false;
+          this.emailVerificationSuccessful = '';
+          this.regForm.get('email_id').setErrors({InvalidValue: true});
         }
       },
       () => {
         this.loadingEmailVerification = false;
         this.regForm.get('email_id').setErrors({InvalidValue: true});
-        this.emailVerificationSuccessful = false;
-      })
-    );
-
-    this._subscription.add(this.verifyOtpResponse$.subscribe((registered) => {
-        this.loadingEmailVerification = false;
-        this.emailVerificationSuccessful = registered.message === 'Success';
-      },
-      () => {
-        this.loadingEmailVerification = false;
-        this.regForm.get('email_id').setErrors({InvalidValue: true});
-        this.emailVerificationSuccessful = false;
+        this.emailVerificationSuccessful = '';
       })
     );
   }
@@ -178,16 +218,16 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this._subscription.add(this.gstVerification$.subscribe((registered) => {
         this.loadingGstVerification = false;
         if (registered.details === 'GST Verified') {
-          this.gstVerificationSuccessful = true;
+          this.gstVerificationSuccessful = registered.gst_no;
         } else {
-          this.loadingGstVerification = false;
+          this.gstVerificationSuccessful = '';
           this.regForm.get('gst_no').setErrors({InvalidValue: true});
         }
       },
       () => {
         this.loadingGstVerification = false;
         this.regForm.get('gst_no').setErrors({InvalidValue: true});
-        this.gstVerificationSuccessful = false;
+        this.gstVerificationSuccessful = '';
       })
     );
   }
@@ -212,16 +252,16 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this._subscription.add(this.panVerification$.subscribe((registered) => {
         this.loadingPanVerification = false;
         if (registered.details === 'PAN Verified') {
-          this.panVerificationSuccessful = true;
+          this.panVerificationSuccessful = registered.pan_no;
         } else {
-          this.panVerificationSuccessful = false;
+          this.panVerificationSuccessful = '';
           this.regForm.get('pan_no').setErrors({InvalidValue: true});
         }
       },
       () => {
         this.loadingPanVerification = false;
         this.regForm.get('pan_no').setErrors({InvalidValue: true});
-        this.panVerificationSuccessful = false;
+        this.panVerificationSuccessful = '';
       })
     );
   }
