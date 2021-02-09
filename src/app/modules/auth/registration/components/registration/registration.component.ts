@@ -123,7 +123,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       average_monthly_stock: ['', [Validators.required, CustomValidator.digitsOnly]],
       primary_category_id: ['', [Validators.required]],
       has_gst: ['', [Validators.required]],
-      gst_no: ['', [Validators.required]],
+      gst_no: [''],
       pan_no: ['', [Validators.required]],
       bank_account_name: ['', [Validators.required]],
       bank_account_number: ['', [Validators.required]],
@@ -131,6 +131,17 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       bank_ifsc: ['', [Validators.required]],
       bank_account_type: ['', [Validators.required]]
     });
+
+    this._subscription.add(
+      this.regForm.get('has_gst').valueChanges.subscribe( val => {
+        if (val) {
+          this.regForm.get('gst_no').setValidators([Validators.required]);
+        } else {
+          this.regForm.get('gst_no').clearValidators();
+        }
+        this.regForm.updateValueAndValidity();
+      })
+    );
   }
 
   public verifyOtp(event): void {
