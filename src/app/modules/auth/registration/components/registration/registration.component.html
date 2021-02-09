@@ -120,7 +120,7 @@
               <mat-label>Enter your GST Certificate</mat-label>
               <input matInput formControlName="gst_no" autocomplete="nope">
               <mat-error *ngIf="regForm.controls['gst_no'].hasError('required')">Required field</mat-error>
-              <mat-error *ngIf="regForm.controls['gst_no'].hasError('InvalidValue')">GST Verification failed</mat-error>
+              <mat-error *ngIf="regForm.controls['gst_no'].hasError('InvalidValue')">{{gstVerificationFailureReason}}</mat-error>
               <mat-hint *ngIf="gstVerificationSuccessful" class="hint-message">GST Verification Successful</mat-hint>
             </mat-form-field>
             <button mat-button (click)="verifyGst($event)">
@@ -139,7 +139,7 @@
               <mat-label>Enter your PAN Card</mat-label>
               <input matInput formControlName="pan_no" autocomplete="nope">
               <mat-error *ngIf="regForm.controls['pan_no'].hasError('required')">Required field</mat-error>
-              <mat-error *ngIf="regForm.controls['pan_no'].hasError('InvalidValue')">PAN Verification failed</mat-error>
+              <mat-error *ngIf="regForm.controls['pan_no'].hasError('InvalidValue')">{{panVerificationFailureReason}}</mat-error>
               <mat-hint *ngIf="panVerificationSuccessful" class="hint-message">PAN Verification Successful</mat-hint>
             </mat-form-field>
             <button mat-button (click)="verifyPan($event)">

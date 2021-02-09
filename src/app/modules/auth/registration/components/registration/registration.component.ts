@@ -43,7 +43,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public otpVerificationSuccessful: string;
   public emailVerificationSuccessful: string;
   public gstVerificationSuccessful: string;
+  public gstVerificationFailureReason: string;
   public panVerificationSuccessful: string;
+  public panVerificationFailureReason: string;
 
   private _subscription: Subscription = new Subscription();
 
@@ -205,12 +207,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       gst_no: this.regForm.value.gst_no,
       name: this.regForm.value.contact_person
     };
-    if (!gstReq?.name || !gstReq?.gst_no) {
-      this.regForm.get('gst_no').setErrors({required: true});
-      this.regForm.get('contact_person').setErrors({required: true});
-      this.loadingGstVerification = false;
-      return;
-    }
     this._store.dispatch(fromAuthActions.gstVerification({gstReq}));
   }
 
@@ -222,12 +218,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         } else {
           this.gstVerificationSuccessful = '';
           this.regForm.get('gst_no').setErrors({InvalidValue: true});
+          this.gstVerificationFailureReason = registered.details;
         }
       },
-      () => {
+      (error) => {
         this.loadingGstVerification = false;
         this.regForm.get('gst_no').setErrors({InvalidValue: true});
         this.gstVerificationSuccessful = '';
+        this.gstVerificationFailureReason = error.details;
       })
     );
   }
@@ -239,12 +237,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       pan_no: this.regForm.value.pan_no,
       name: this.regForm.value.contact_person
     };
-    if (!panReq?.name || !panReq?.pan_no) {
-      this.regForm.get('pan_no').setErrors({required: true});
-      this.regForm.get('contact_person').setErrors({required: true});
-      this.loadingPanVerification = false;
-      return;
-    }
     this._store.dispatch(fromAuthActions.panVerification({panReq}));
   }
 
@@ -256,12 +248,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         } else {
           this.panVerificationSuccessful = '';
           this.regForm.get('pan_no').setErrors({InvalidValue: true});
+          this.panVerificationFailureReason = registered.details;
         }
       },
-      () => {
+      (error) => {
         this.loadingPanVerification = false;
         this.regForm.get('pan_no').setErrors({InvalidValue: true});
         this.panVerificationSuccessful = '';
+        this.panVerificationFailureReason = error.details;
       })
     );
   }
