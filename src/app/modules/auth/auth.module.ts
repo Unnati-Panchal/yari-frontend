@@ -6,9 +6,10 @@ import {AuthRoutingModule} from '~auth/auth-routing.module';
 import {AuthComponent} from '~auth/auth.component';
 
 import {SharedModule} from '@yaari/shared.module';
+import { ContactUsComponent } from './contact-us/contact-us.component';
 
 @NgModule({
-  declarations: [AuthComponent],
+  declarations: [AuthComponent, ContactUsComponent],
   imports: [
     CommonModule,
     AuthRoutingModule,

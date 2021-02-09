@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 
 import {AuthComponent} from '~auth/auth.component';
+import {ContactUsComponent} from '~auth/contact-us/contact-us.component';
 
 const routes: Routes = [
   {
@@ -19,6 +20,10 @@ const routes: Routes = [
       {
         path: 'registration',
         loadChildren: () => import('~auth/registration/registration.module').then(m => m.RegistrationModule)
+      },
+      {
+        path: 'contact-us',
+        component: ContactUsComponent
       },
       {path: '**', redirectTo: '/auth/login'}
     ]

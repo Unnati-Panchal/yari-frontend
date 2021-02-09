@@ -1,26 +1,26 @@
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { TestBed } from '@angular/core/testing';
 
-import * as fromThirdPartyReducer from '~store/third-party/third-party.reducer';
+import * as fromProfileReducer from '~store/profile/profile.reducer';
 import * as fromRoot from '~store/app.state';
-import {ThirdPartyEffects} from '~store/third-party/third-party.effects';
+import {ProfileEffects} from '~store/profile/profile.effects';
 
-describe('ThirdPartyEffects', () => {
-  let effects: ThirdPartyEffects;
+describe('ProfileEffects', () => {
+  let effects: ProfileEffects;
   let store: MockStore<fromRoot.IAppState>;
 
-  const initialState: fromRoot.IAppState = fromThirdPartyReducer.thirdPartyInitialState;
+  const initialState: fromRoot.IAppState = fromProfileReducer.profileInitialState;
 
   beforeEach(() => {
 
     TestBed.configureTestingModule({
       providers: [
-        ThirdPartyEffects,
+        ProfileEffects,
         provideMockStore({ initialState })
       ]
     });
 
-    effects = TestBed.inject<ThirdPartyEffects>(ThirdPartyEffects);
+    effects = TestBed.inject<ProfileEffects>(ProfileEffects);
     store = TestBed.inject<MockStore<fromRoot.IAppState>>(MockStore);
   });
 
