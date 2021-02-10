@@ -1,9 +1,79 @@
 import {createAction, props} from '@ngrx/store';
 import {HttpErrorResponse} from '@angular/common/http';
-import {IBucket} from '@yaari/models/profile/profile.interface';
+import {
+  IAddRemoveImage,
+  IBucket,
+  IBucketItems,
+  ICreateBucket,
+  IImageResponse,
+  IInsertBucket
+} from '@yaari/models/profile/profile.interface';
 
 export const getBuckets = createAction('[PROFILE] get buckets');
 
-export const getBucketsSuccess = createAction('[PROFILE] get buckets success', props<{ buckets: IBucket[]}>());
+export const getBucketsSuccess = createAction('[PROFILE] get buckets success', props<{ buckets: IBucket[] }>());
 
 export const getBucketsError = createAction('[PROFILE] get buckets error', props<{ error: HttpErrorResponse }>());
+
+
+export const getBucketItems = createAction('[PROFILE] get bucket items', props<{ bucketId: number }>());
+
+export const getBucketItemsSuccess = createAction('[PROFILE] get bucket items success', props<{ bucketItems: IBucketItems[] }>());
+
+export const getBucketItemsError = createAction('[PROFILE] get bucket items error', props<{ error: HttpErrorResponse }>());
+
+
+export const deleteBucketItem = createAction('[PROFILE] delete bucket item', props<{ bucketId: number }>());
+
+export const deleteBucketItemSuccess = createAction('[PROFILE] delete bucket item success', props<{ msg: string }>());
+
+export const deleteBucketItemError = createAction('[PROFILE] delete bucket item error', props<{ error: HttpErrorResponse }>());
+
+
+export const insertBucketItem = createAction('[PROFILE] insert bucket item', props<{ requestInsertBody: IInsertBucket }>());
+
+export const insertBucketItemSuccess = createAction('[PROFILE] insert bucket item success', props<{ msg: string }>());
+
+export const insertBucketItemError = createAction('[PROFILE] insert bucket item error', props<{ error: HttpErrorResponse }>());
+
+
+export const createBucket = createAction('[PROFILE] create bucket', props<{ requestCreateBody: ICreateBucket }>());
+
+export const createBucketSuccess = createAction('[PROFILE] create bucket success', props<{ id: string }>());
+
+export const createBucketError = createAction('[PROFILE] create bucket error', props<{ error: HttpErrorResponse }>());
+
+
+export const updateBucket = createAction('[PROFILE] update bucket', props<{ requestCreateBody: ICreateBucket }>());
+
+export const updateBucketSuccess = createAction('[PROFILE] update bucket success', props<{ msg: string }>());
+
+export const updateBucketError = createAction('[PROFILE] update bucket error', props<{ error: HttpErrorResponse }>());
+
+
+export const addImageToBucket = createAction('[PROFILE] add image to bucket', props<{ addImage: IAddRemoveImage }>());
+
+export const addImageToBucketSuccess = createAction('[PROFILE] add image to bucket success', props<{ msg: string }>());
+
+export const addImageToBucketError = createAction('[PROFILE] add image to bucket error', props<{ error: HttpErrorResponse }>());
+
+
+export const removeImage = createAction('[PROFILE] remove image', props<{ removeImage: IAddRemoveImage }>());
+
+export const removeImageSuccess = createAction('[PROFILE] remove image success', props<{ msg: string }>());
+
+export const removeImageError = createAction('[PROFILE] remove image error', props<{ error: HttpErrorResponse }>());
+
+
+export const uploadImage = createAction('[PROFILE] upload image', props<{ file: string }>());
+
+export const uploadImageSuccess = createAction('[PROFILE] upload image success', props<{ url: string }>());
+
+export const uploadImageError = createAction('[PROFILE] upload image error', props<{ error: HttpErrorResponse }>());
+
+
+export const getImages = createAction('[PROFILE] get images', props<{ bucketId: number}>());
+
+export const getImagesSuccess = createAction('[PROFILE] get images success', props<{ images: IImageResponse }>());
+
+export const getImagesError = createAction('[PROFILE] get images error', props<{ error: HttpErrorResponse }>());
