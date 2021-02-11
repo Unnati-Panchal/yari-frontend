@@ -1,1 +1,29 @@
-<p>catalogue works!</p>
+<main>
+  <section class="left-image">
+    <ng-container>
+      <h1>Upload Product Catalogue</h1>
+      <div class="red-line"></div>
+    </ng-container>
+  </section>
+  <section class="buttons-container">
+
+    <div class="upload-section">
+      <input type="file" (change)="fileChange($event)" name="file" />
+      <img [src]="'assets/images/drag_files.svg'" alt="drag image here"/>
+      <h3>Drag files here or choose browse to select files</h3>
+    </div>
+
+    <div class="buttons-box">
+      <div>
+        <button mat-button class="outlined-btn">
+          <span>Browse</span>
+        </button>
+      </div>
+      <div>
+        <button mat-button>
+          <span>Upload</span>
+        </button>
+      </div>
+    </div>
+  </section>
+</main>

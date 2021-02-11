@@ -1,0 +1,59 @@
+@import 'variables';
+@import 'mixins';
+
+:host {
+  main {
+    width: 100%;
+    height: calc(100vh - 100px);
+    @include yaari-display-flex();
+
+    section {
+      width: 100%;
+      padding: $yaari-base * 2 yaari-to-rem(120px);
+
+      div {
+        width: 100%;
+        @include yaari-display-flex(center, flex-start);
+
+        table {
+          width: 100%;
+        }
+      }
+
+      h3 {
+        padding-top: $yaari-base * 2;
+        margin: 0;
+        font-size: $yaari-h3;
+        font-weight: bold;
+        line-height: 100%;
+      }
+
+      h5 {
+        padding-top: $yaari-base * 2;
+        padding-bottom: $yaari-base;
+        margin: 0;
+        font-size: $yaari-h5;
+        font-weight: normal;
+        line-height: 100%;
+      }
+
+      .red-line {
+        width: yaari-to-rem(100px);
+        height: $yaari-tiny;
+        background: $yaari-red;
+      }
+
+      button {
+        @include yaari-display-flex(center, space-between);
+        padding: $yaari-tiny $yaari-xlarge;
+        border-radius: 24px;
+        background-color: $yaari-red;
+        font-size: $yaari-h6;
+        color: $yaari-light;
+        margin-bottom: $yaari-large / 2;
+        margin-left: $yaari-large;
+      }
+
+    }
+  }
+}

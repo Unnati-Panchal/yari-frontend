@@ -7,6 +7,12 @@ import { RatingsReviewsComponent } from './components/ratings-reviews/ratings-re
 import { QualityScoreCardComponent } from './components/quality-score-card/quality-score-card.component';
 import { ExchangeReturnComponent } from './components/exchange-return/exchange-return.component';
 import { MyProfileComponent } from './components/my-profile/my-profile.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {ReactiveFormsModule} from '@angular/forms';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatButtonModule} from '@angular/material/button';
+import {MatTableModule} from '@angular/material/table';
+import {MatNativeDateModule} from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -19,7 +25,13 @@ import { MyProfileComponent } from './components/my-profile/my-profile.component
   ],
   imports: [
     CommonModule,
-    ProfileRoutingModule
+    ProfileRoutingModule,
+    MatDatepickerModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatTableModule,
+    MatNativeDateModule,
   ]
 })
 export class ProfileModule {

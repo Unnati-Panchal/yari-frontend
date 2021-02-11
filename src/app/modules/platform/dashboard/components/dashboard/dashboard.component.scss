@@ -1,0 +1,64 @@
+@import 'variables';
+@import 'mixins';
+
+:host {
+  main {
+    width: 100%;
+    height: calc(100vh - 100px);
+    @include yaari-display-flex();
+
+    section {
+      width: 50%;
+    }
+
+    .left-image {
+      background-image: url('~src/assets/images/dashboard-background.png');
+      background-size: cover;
+
+      h1 {
+        padding: $yaari-base * 2 0 $yaari-tiny yaari-to-rem(120px);
+        color: $yaari-light;
+        margin: 0;
+        font-size: $yaari-h1;
+        font-weight: bold;
+        line-height: 100%;
+      }
+
+      .red-line {
+        width: yaari-to-rem(100px);
+        margin-left: yaari-to-rem(120px);
+        height: $yaari-tiny;
+        background: $yaari-red;
+      }
+    }
+
+    .buttons-container {
+      @include yaari-display-flex(center, center, column);
+
+      button {
+        @include yaari-display-flex(center, space-between);
+        width: yaari-to-rem(360px);
+        height: $yaari-xlarge;
+        border-radius: 24px;
+        background-color: $yaari-red;
+        font-size: $yaari-h6;
+        color: $yaari-light;
+        margin: $yaari-base 0;
+
+        mat-icon {
+          width: $yaari-large;
+        }
+
+        img {
+          width: $yaari-large;
+          height: $yaari-base;
+        }
+      }
+
+      div {
+        width: 100%;
+        @include yaari-display-flex(center, center);
+      }
+    }
+  }
+}

@@ -1,1 +1,57 @@
-<p>dashboard works!</p>
+<main>
+  <section class="left-image">
+    <ng-container *ngIf="isMainDashboard">
+      <h1>Dashboard</h1>
+      <div class="red-line"></div>
+    </ng-container>
+  </section>
+  <section class="buttons-container">
+    <ng-container *ngIf="!isMainDashboard; else mainDashboard">
+      <div>
+        <button [routerLink]="['/app/product/catalogue']" mat-button>
+          <img [src]="'assets/icons/file_upload.svg'" alt="file_upload"/>
+          <span>Upload Product Catalogue</span>
+        </button>
+      </div>
+      <div>
+        <button [routerLink]="['/app/product/specification']" mat-button>
+          <mat-icon>add</mat-icon>
+          <span>Update Product Specification</span>
+        </button>
+      </div>
+      <div>
+        <button mat-button (click)="isMainDashboard = !isMainDashboard">
+          <img [src]="'assets/icons/dashboard.svg'" alt="dashboard"/>
+          <span>Dashboard</span>
+        </button>
+      </div>
+    </ng-container>
+    <ng-template #mainDashboard>
+      <div>
+        <button [routerLink]="['/app/profile/payments']" mat-button>
+          <span>Payments</span>
+        </button>
+      </div>
+      <div>
+        <button [routerLink]="['/app/product/catalogue-status']" mat-button>
+          <span>Catalogue Status</span>
+        </button>
+      </div>
+      <div>
+        <button [routerLink]="['/app/profile/rating-and-reviews']" mat-button>
+          <span>Ratings & Reviews</span>
+        </button>
+      </div>
+      <div>
+        <button [routerLink]="['/app/profile/quality-score-card']" mat-button>
+          <span>Quality Scorecard</span>
+        </button>
+      </div>
+      <div>
+        <button [routerLink]="['/app/profile/exchange-return']" mat-button>
+          <span>Exchange & Returns</span>
+        </button>
+      </div>
+    </ng-template>
+  </section>
+</main>
