@@ -1,7 +1,7 @@
 import {BrowserModule} from '@angular/platform-browser';
 import {NgModule} from '@angular/core';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HttpClientModule} from '@angular/common/http';
+import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
 
 import {environment} from '~env/environment';
 
@@ -18,6 +18,9 @@ import * as fromProducts from '~store/products/products.reducer';
 
 import {AppComponent} from '~app/app.component';
 import {AppRoutingModule} from '~app/app-routing.module';
+import {AuthGuard} from '@yaari/guards/auth.guard';
+import {TokenInterceptor} from '@yaari/interceptors/token.interceptor';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
 
 const reducers: ActionReducerMap<IAppState> = {
   ['router']: routerReducer,
@@ -44,6 +47,7 @@ export function getReducers(): ActionReducerMap<IAppState> {
     BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
+    MatSnackBarModule,
     StoreModule.forRoot(
       {...getReducers()},
       {
@@ -60,7 +64,10 @@ export function getReducers(): ActionReducerMap<IAppState> {
     EffectsModule.forRoot(effects),
     StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production})
   ],
-  providers: [],
+  providers: [
+    AuthGuard,
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule {
