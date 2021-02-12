@@ -2,7 +2,7 @@ import {createAction, props} from '@ngrx/store';
 import {HttpErrorResponse} from '@angular/common/http';
 
 import {
-  ILogin,
+  ILogin, IOnboarders,
   IRegistration,
   ISubmitKYCForVerificationResponse,
   IToken, IVerifyGstPan,
@@ -84,3 +84,10 @@ export const approveKYC = createAction('[AUTH] approveKYC', props<{ approveKYC: 
 export const approveKYCSuccess = createAction('[AUTH] approveKYC success', props<{ approveKYCResponse: IRegistration }>());
 
 export const approveKYCError = createAction('[AUTH] approveKYC error', props<{ error: HttpErrorResponse }>());
+
+
+export const getOnboarders = createAction('[AUTH] get onboarders');
+
+export const getOnboardersSuccess = createAction('[AUTH] get onboarders success', props<{ onBoarders: IOnboarders[] }>());
+
+export const getOnboardersError = createAction('[AUTH] get onboarders error', props<{ error: HttpErrorResponse }>());

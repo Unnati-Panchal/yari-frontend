@@ -104,8 +104,12 @@
           <h4>Onboarded by<span class="required">*</span></h4>
           <mat-form-field appearance="outline" class="small-form-group">
             <mat-label>Enter onboarded by</mat-label>
-            <input matInput formControlName="onboarded_by" autocomplete="nope">
-            <mat-error *ngIf="regForm.controls['onboarded_by'].hasError('required')">Required field</mat-error>
+            <mat-select formControlName="onboarder_id">
+              <ng-container *ngIf="onboarders$ | async as onboarders">
+                <mat-option *ngFor="let onBoard of onboarders" [value]="onBoard.id">{{ onBoard.name }}</mat-option>
+              </ng-container>
+            </mat-select>
+            <mat-error *ngIf="regForm.controls['onboarder_id'].hasError('required')">Required field</mat-error>
           </mat-form-field>
         </div>
 

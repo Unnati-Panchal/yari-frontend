@@ -17,3 +17,4 @@ export const bankVerification = createSelector(selectBaseFeature, (state: fromAu
 export const generateOtp = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.generateOtp);
 export const verifyOtpResponse = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.verifyOtpResponse);
 export const approveKYCResponse = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.approveKYCResponse);
+export const onBoarders = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.onBoarders);

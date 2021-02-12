@@ -5,6 +5,7 @@ import * as fromRoot from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import {
   ILogin,
+  IOnboarders,
   IRegistration,
   ISubmitKYCForVerificationResponse,
   IToken,
@@ -33,6 +34,7 @@ export interface IAuthState extends fromRoot.IAppState {
   verifyOtpResponse: KYCDetailsResponse;
   approveKYC: IRegistration;
   approveKYCResponse: IRegistration;
+  onBoarders: IOnboarders[];
 }
 
 export const authInitialState: IAuthState = {
@@ -54,6 +56,7 @@ export const authInitialState: IAuthState = {
   verifyOtpResponse: null,
   approveKYC: null,
   approveKYCResponse: null,
+  onBoarders: []
 };
 
 const authReducer = createReducer(
@@ -149,7 +152,17 @@ const authReducer = createReducer(
     ...state, loading: false, approveKYCResponse: action.approveKYCResponse
   })),
   on(fromAuthActions.approveKYCError, (state, action) => ({...state, loading: false, error: action.error})),
+
+
+  on(fromAuthActions.getOnboarders, (state) => ({
+    ...state, loading: true
+  })),
+  on(fromAuthActions.getOnboardersSuccess, (state, action) => ({
+    ...state, loading: false, onBoarders: action.onBoarders
+  })),
+  on(fromAuthActions.getOnboardersError, (state, action) => ({...state, loading: false, error: action.error})),
 );
+
 
 // tslint:disable-next-line:typedef
 export function reducer(state: IAuthState | undefined, action: Action) {

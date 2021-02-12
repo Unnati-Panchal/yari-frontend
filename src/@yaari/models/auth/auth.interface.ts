@@ -73,3 +73,8 @@ export interface IVerifyGstPan {
   gst_no?: string;
   pan_no?: string;
 }
+
+export interface IOnboarders {
+  id: number;
+  name: string;
+}

@@ -28,6 +28,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public gstVerification$ = this._store.pipe(select(fromAuthSelectors.gstVerification), filter(value => !!value));
   public generateOtp$ = this._store.pipe(select(fromAuthSelectors.generateOtp), filter(value => !!value));
   public verifyOtpResponse$ = this._store.pipe(select(fromAuthSelectors.verifyOtpResponse), filter(value => !!value));
+  public onboarders$ = this._store.pipe(select(fromAuthSelectors.onBoarders), filter(onboarders => !!onboarders?.length));
   public regForm: FormGroup;
   public types = [
     {label: 'Retailer', key: 'retailer'},
@@ -63,6 +64,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.gstVerification();
     this.panVerification();
     this._store.dispatch(fromProductsActions.getCategories());
+    this._store.dispatch(fromAuthActions.getOnboarders());
   }
 
   public ngOnDestroy(): void {
@@ -118,7 +120,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       otp_no: ['', [Validators.required]],
       city: ['', [Validators.required, CustomValidator.lettersOnly]],
       state: ['', [Validators.required]],
-      onboarded_by: ['', [Validators.required]],
       type: ['', [Validators.required]],
       price_range_min: ['', [Validators.required, CustomValidator.digitsOnly]],
       price_range_max: ['', [Validators.required, CustomValidator.digitsOnly]],
@@ -131,7 +132,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       bank_account_number: ['', [Validators.required]],
       bank_name: ['', [Validators.required]],
       bank_ifsc: ['', [Validators.required]],
-      bank_account_type: ['', [Validators.required]]
+      bank_account_type: ['', [Validators.required]],
+      name_pan_card: ['', [Validators.required]],
+      onboarder_id: ['', [Validators.required]]
     });
 
     this._subscription.add(

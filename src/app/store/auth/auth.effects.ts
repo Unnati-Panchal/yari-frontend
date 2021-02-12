@@ -9,7 +9,7 @@ import * as fromAuthActions from '~store/auth/auth.actions';
 
 import {AuthService} from '@yaari/services/auth/auth.service';
 import {
-  ILogin,
+  ILogin, IOnboarders,
   IRegistration,
   ISubmitKYCForVerificationResponse,
   IToken, IVerifyGstPan,
@@ -144,6 +144,18 @@ export class AuthEffects {
         this._authService.approveKYC(approveKYC).pipe(
           map((approveKYCResponse: IRegistration) => fromAuthActions.approveKYCSuccess({ approveKYCResponse })),
           catchError(error => of(fromAuthActions.approveKYCError({ error })))
+        )
+      )
+    )
+  );
+
+  public getOnboarders$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAuthActions.getOnboarders),
+      switchMap(() =>
+        this._authService.getOnboarders().pipe(
+          map((onBoarders: IOnboarders[]) => fromAuthActions.getOnboardersSuccess({ onBoarders })),
+          catchError(error => of(fromAuthActions.getOnboardersError({ error })))
         )
       )
     )
