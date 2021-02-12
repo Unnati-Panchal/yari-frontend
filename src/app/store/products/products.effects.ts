@@ -7,7 +7,7 @@ import {of} from 'rxjs';
 import * as fromRouter from '~store/route/route.selectors';
 import * as fromProductsActions from '~store/products/products.actions';
 import {ProductsService} from '@yaari/services/products/products.service';
-import {IBulkUploadBasic, ICategory, IFileUpload, ISpecifications} from '@yaari/models/product/product.interface';
+import {IBulkUploadBasic, ICategory, IFileUpload, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
 
 @Injectable()
 export class ProductsEffects {
@@ -50,12 +50,12 @@ export class ProductsEffects {
 
   public getCatalogs$ = createEffect(() =>
     this._actions$.pipe(
-      ofType(fromProductsActions.bulkUploadCatalog),
-      map(action => action.fileUpload),
-      switchMap((fileUpload: IFileUpload) =>
-        this._productsService.bulkUploadCatalog(fileUpload).pipe(
-          map((bulkUploadBasic: IBulkUploadBasic) => fromProductsActions.bulkUploadCatalogSuccess({ bulkUploadBasic })),
-          catchError(error => of(fromProductsActions.bulkUploadCatalogError({ error })))
+      ofType(fromProductsActions.getCatalogs),
+      map(action => action.query),
+      switchMap((query: IQuery) =>
+        this._productsService.getCatalogs(query).pipe(
+          map((catalogs: IBulkUploadBasic[]) => fromProductsActions.getCatalogsSuccess({ catalogs })),
+          catchError(error => of(fromProductsActions.getCatalogsError({ error })))
         )
       )
     )
