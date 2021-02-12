@@ -1,5 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
+import {AuthGuard} from '@yaari/guards/auth.guard';
 
 const routes: Routes = [
   {
@@ -8,7 +9,8 @@ const routes: Routes = [
   },
   {
     path: 'app',
-    loadChildren: () => import('~platform/platform.module').then(m => m.PlatformModule)
+    loadChildren: () => import('~platform/platform.module').then(m => m.PlatformModule),
+    canActivate: [AuthGuard]
   },
   {path: '', pathMatch: 'full', redirectTo: 'auth/login'},
   {path: '**', redirectTo: 'auth/login'}

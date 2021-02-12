@@ -10,6 +10,7 @@ import {IAppState} from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
 import {Router} from '@angular/router';
+import {AuthService} from '@yaari/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -32,7 +33,8 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   constructor(private _store: Store<IAppState>,
               private _formBuilder: FormBuilder,
-              private _router: Router
+              private _router: Router,
+              private _auth: AuthService
   ) {
   }
 
@@ -61,7 +63,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public authorizedSupplier(): void {
     this._subscription.add(this.isError$.subscribe(error => console.log(error)));
     this._subscription.add(this.token$.subscribe((token) => {
-      console.log(token);
+      this._auth.accessToken = token.access_token;
       this._router.navigate(['app/dashboard']);
     })
     );

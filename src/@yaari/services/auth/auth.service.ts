@@ -4,13 +4,33 @@ import {Observable} from 'rxjs';
 
 import {environment} from '~env/environment';
 import {ILogin, IOnboarders, IRegistration, IToken, IVerifyGstPan, IVerifyOtp, KYCDetailsResponse} from '@yaari/models/auth/auth.interface';
+import {Router} from '@angular/router';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  constructor(private _http: HttpClient) {
+  private readonly _accessKeyStorageKey = 'yaari.accessKey';
+
+  constructor(private _http: HttpClient, private _router: Router) {
+  }
+
+  public get accessToken(): string {
+    return JSON.parse(sessionStorage.getItem(this._accessKeyStorageKey));
+  }
+
+  public set accessToken(accessToken: string) {
+    sessionStorage.setItem(this._accessKeyStorageKey, JSON.stringify(accessToken));
+  }
+
+  public logout(): void {
+    sessionStorage.clear();
+    this.redirectToLogin();
+  }
+
+  public redirectToLogin(): void {
+    this._router.navigate(['auth/login']);
   }
 
   public passwordRecovery(email: string): Observable<string> {
