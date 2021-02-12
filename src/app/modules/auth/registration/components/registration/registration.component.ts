@@ -117,6 +117,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       email_id: ['', [Validators.required, Validators.email]],
       otp_no: ['', [Validators.required]],
       city: ['', [Validators.required, CustomValidator.lettersOnly]],
+      state: ['', [Validators.required]],
+      onboarded_by: ['', [Validators.required]],
       type: ['', [Validators.required]],
       price_range_min: ['', [Validators.required, CustomValidator.digitsOnly]],
       price_range_max: ['', [Validators.required, CustomValidator.digitsOnly]],

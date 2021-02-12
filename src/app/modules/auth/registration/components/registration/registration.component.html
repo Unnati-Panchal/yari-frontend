@@ -13,7 +13,7 @@
 
       <section class="form-fields">
         <div>
-          <h4>Business Name<span class="required">*</span></h4>
+          <h4>Name<span class="required">*</span></h4>
           <mat-form-field appearance="outline">
             <mat-label>Enter your business name</mat-label>
             <input matInput formControlName="contact_person" autocomplete="nope">
@@ -88,6 +88,24 @@
             <input matInput formControlName="city" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['city'].hasError('required')">Required field</mat-error>
             <mat-error *ngIf="regForm.controls['city'].hasError('invalidLetters')">Please enter only letters</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>State<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter your state</mat-label>
+            <input matInput formControlName="state" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['state'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Onboarded by<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter onboarded by</mat-label>
+            <input matInput formControlName="onboarded_by" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['onboarded_by'].hasError('required')">Required field</mat-error>
           </mat-form-field>
         </div>
 
