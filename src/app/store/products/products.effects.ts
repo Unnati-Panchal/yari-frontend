@@ -80,7 +80,7 @@ export class ProductsEffects {
       map(action => action.catalogId),
       switchMap((catalogId: string) =>
         this._productsService.getBulkSpecificationsUploadTemplate(catalogId).pipe(
-          map((specTemplate: string) => fromProductsActions.getBulkSpecificationsUploadTemplateSuccess({ specTemplate })),
+          map((specTemplate: string[]) => fromProductsActions.getBulkSpecificationsUploadTemplateSuccess({ specTemplate })),
           catchError(error => of(fromProductsActions.getBulkSpecificationsUploadTemplateError({ error })))
         )
       )

@@ -37,8 +37,8 @@ export class ProductsService {
     return this._http.delete<any>(`${environment.API_BASE_URL}/api/v1/catalog?catalog_id=${catalogId}`);
   }
 
-  public getBulkSpecificationsUploadTemplate(catalogId: string): Observable<string> {
-    return this._http.get<string>
+  public getBulkSpecificationsUploadTemplate(catalogId: string): Observable<string[]> {
+    return this._http.get<string[]>
     (`${environment.API_BASE_URL}/api/v1/catalog/bulk-upload-specifications-properties?catalog_id=${catalogId}`);
   }
 

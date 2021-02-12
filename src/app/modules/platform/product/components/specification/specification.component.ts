@@ -2,8 +2,13 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import * as moment from 'moment';
+import * as fromProductsActions from '~store/products/products.actions';
+import {select, Store} from '@ngrx/store';
+import {IAppState} from '~store/app.state';
+import * as fromProductsSelectors from '~store/products/products.selectors';
+import {filter} from 'rxjs/operators';
 
-export interface PeriodicElement {
+export interface IProductSpecs {
   sr_no?: string;
   item?: string;
   occasion?: string;
@@ -13,15 +18,6 @@ export interface PeriodicElement {
   hemline?: string;
   next_day_dispatch?: string;
 }
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {sr_no: '1'},
-  {sr_no: '2'},
-  {sr_no: '3'},
-  {sr_no: '4'},
-  {sr_no: '5'}
-];
-
 
 @Component({
   selector: 'app-specification',
@@ -33,31 +29,40 @@ export class SpecificationComponent implements OnInit, OnDestroy {
     start: new FormControl(),
     end: new FormControl()
   });
-  displayedColumns: string[] = [
-    'sr_no', 'item', 'occasion', 'neck_pattern', 'sleeve_pattern', 'itemLength', 'hemline', 'next_day_dispatch'];
-  dataSource = ELEMENT_DATA;
+  displayedColumns: string[] = ['item', 'occasion', 'neck_pattern', 'sleeve_pattern', 'itemLength', 'hemline', 'next_day_dispatch'];
+  dataSource: IProductSpecs[];
 
   private _subscription: Subscription = new Subscription();
+  public getBulkSpecificationsUploadTemplate$ = this._store.pipe(
+    select(fromProductsSelectors.getBulkSpecificationsUploadTemplate),
+    filter(catalogs => !!catalogs)
+  );
 
-  constructor() { }
+  constructor(private _store: Store<IAppState>) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
   }
 
   ngOnInit(): void {
+    const catalogId = '1';
+    this._store.dispatch(fromProductsActions.getBulkSpecificationsUploadTemplate({catalogId}));
+    this.getCataloguesRes();
+  }
+
+  getCataloguesRes(): void {
     this._subscription.add(
-      this.range.valueChanges.subscribe( range => {
-        const start = moment(range.start)?.format('YYYY-MM-DD');
-        const end = moment(range.end)?.format('YYYY-MM-DD');
-        if (start && end && start !== 'Invalid date' && end !== 'Invalid date') {
-          console.log({startDate: start, endDate: end});
-        }
+      this.getBulkSpecificationsUploadTemplate$.subscribe((response) => {
+        this.dataSource = response.map(val => {
+          return {
+            item: val
+          };
+        });
       })
     );
   }
 
-  public submit(): void {
+  submit(): void {
 
   }
 

@@ -44,7 +44,7 @@ export const getBulkSpecificationsUploadTemplate = createAction('[PRODUCTS] getB
   props<{ catalogId: string }>());
 
 export const getBulkSpecificationsUploadTemplateSuccess = createAction('[PRODUCTS] getBulkSpecificationsUploadTemplate success',
-  props<{ specTemplate: string }>());
+  props<{ specTemplate: string[] }>());
 
 export const getBulkSpecificationsUploadTemplateError = createAction('[PRODUCTS] getBulkSpecificationsUploadTemplate error',
   props<{ error: HttpErrorResponse }>());

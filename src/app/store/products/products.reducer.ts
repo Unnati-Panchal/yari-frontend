@@ -16,7 +16,7 @@ export interface IProductsState extends fromRoot.IAppState {
   bulkUploadBasic: IBulkUploadBasic;
   catalogs: IBulkUploadBasic[];
   catalogId: string;
-  specTemplate: string;
+  specTemplate: string[];
   msg: string;
 }
 
@@ -28,7 +28,7 @@ export const productsInitialState: IProductsState = {
   bulkUploadBasic: null,
   catalogs: null,
   catalogId: '',
-  specTemplate: '',
+  specTemplate: [],
   msg: ''
 };
 
