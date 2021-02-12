@@ -1,4 +1,38 @@
 <header>
   <img src="/assets/images/yaari-logo.png" alt="yaari-logo"/>
+  <div>
+    <button mat-button class="logout" (click)="logout()">
+      <span>Log Out</span>
+    </button>
+    <button mat-icon-button [matMenuTriggerFor]="menu">
+      <mat-icon>menu</mat-icon>
+    </button>
+  </div>
 </header>
 <router-outlet></router-outlet>
+
+<mat-menu #menu="matMenu">
+  <div class="general-menu">
+    <button [routerLink]="['/app/product/catalogue']" mat-button>
+      <span>Upload Product Catalogue</span>
+    </button>
+    <button [routerLink]="['/app/product/specification']" mat-button>
+      <span>Update Product Specification</span>
+    </button>
+    <button [routerLink]="['/app/profile/payments']" mat-button>
+      <span>Payments</span>
+    </button>
+    <button [routerLink]="['/app/product/catalogue-status']" mat-button>
+      <span>Catalogue Status</span>
+    </button>
+    <button [routerLink]="['/app/profile/rating-and-reviews']" mat-button>
+      <span>Ratings & Reviews</span>
+    </button>
+    <button [routerLink]="['/app/profile/quality-score-card']" mat-button>
+      <span>Quality Scorecard</span>
+    </button>
+    <button [routerLink]="['/app/profile/exchange-return']" mat-button>
+      <span>Exchange & Returns</span>
+    </button>
+  </div>
+</mat-menu>

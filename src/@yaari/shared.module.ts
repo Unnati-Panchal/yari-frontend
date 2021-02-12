@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import {DndDirective} from '@yaari/directives/dnd.directive';
 
 const modules = [
   ReactiveFormsModule,
@@ -8,11 +9,11 @@ const modules = [
 ];
 
 @NgModule({
-  declarations: [],
+  declarations: [DndDirective],
   imports: [
     CommonModule,
     ...modules
   ],
-  exports: [...modules]
+  exports: [...modules, DndDirective]
 })
 export class SharedModule { }

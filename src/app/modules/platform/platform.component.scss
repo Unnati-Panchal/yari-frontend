@@ -1,15 +1,35 @@
-@use 'variables' as *;
-@use 'mixins' as *;
+@import 'variables';
+@import 'mixins';
 
 :host {
   header {
-    width: 100%;
+    @include yaari-display-flex(center, space-between);
     box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
     height: $header-height;
+    padding: 0 $yaari-large * 2;
 
     img {
-      margin: $yaari-large / 2 $yaari-large * 2;
+      margin: $yaari-large / 2 0;
       width: $yaari-large;
     }
+
+    div {
+      .logout {
+        border-radius: 24px;
+        font-size: $yaari-h6;
+        background-color: $yaari-light;
+        color: $yaari-red;
+        border: 1px solid $yaari-red;
+        margin: 0 $yaari-large / 2;
+      }
+    }
+  }
+}
+
+
+.general-menu {
+  button {
+    @include yaari-display-flex(flex-start, flex-start, column);
+    width: 100% !important;
   }
 }

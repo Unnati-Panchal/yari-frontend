@@ -1,40 +1,65 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import * as fromProductsActions from '~store/products/products.actions';
+import {Store} from '@ngrx/store';
+import {IAppState} from '~store/app.state';
+import {Subscription} from 'rxjs';
+import {ProductsService} from '@yaari/services/products/products.service';
+import * as fileSaver from 'file-saver';
 
 @Component({
   selector: 'app-catalogue',
   templateUrl: './catalogue.component.html',
   styleUrls: ['./catalogue.component.scss']
 })
-export class CatalogueComponent implements OnInit {
+export class CatalogueComponent implements OnInit, OnDestroy {
+  private _subscription: Subscription = new Subscription();
+  public selectedFile: File;
+  uploadedFile: string;
 
-  constructor() { }
+  constructor(private _store: Store<IAppState>, private _product: ProductsService) {
+  }
 
   ngOnInit(): void {
   }
 
-  fileChange(event): void {
-    const fileList: FileList = event.target.files;
-    if (fileList.length > 0) {
-      const file = fileList[0];
+  public ngOnDestroy(): void {
+    this._subscription.unsubscribe();
+  }
 
-      console.log(file);
+  downloadTemplate(): void {
+    this._subscription.add(
+      this._product.getBulkBasicUploadTemplate().subscribe(response => {
+        const blob = new Blob([response], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+        fileSaver.saveAs(blob, 'product_upload_template.xlsx');
+      })
+    );
+  }
 
-      // const formData = new FormData();
-      // formData.append('file', file, file.name);
-      //
-      // const headers = new Headers();
-      // // It is very important to leave the Content-Type empty
-      // // do not use headers.append('Content-Type', 'multipart/form-data');
-      // headers.append('Authorization', 'Bearer ' + 'eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9....');
-      // const options = new RequestOptions({headers: headers});
-      //
-      // this.http.post('https://api.mysite.com/uploadfile', formData, options)
-      //   .map(res => res.json())
-      //   .catch(error => Observable.throw(error))
-      //   .subscribe(
-      //     data => console.log('success'),
-      //     error => console.log(error)
-      //   );
+  upload(): void {
+    const fileUpload = {
+      file: this.selectedFile,
+      sub_category_id: 7
+    };
+    this._store.dispatch(fromProductsActions.bulkUploadCatalog({fileUpload}));
+    this.uploadedFile = `Successfully uploaded`;
+  }
+
+  onFileDropped($event): void {
+    this.prepareFilesList($event);
+  }
+
+  fileBrowseHandler(files): void {
+    this.prepareFilesList(files);
+  }
+
+  prepareFilesList(files: Array<any>): void {
+    for (const item of files) {
+      this.selectedFile = item;
+    }
+    if (this.selectedFile) {
+      this.uploadedFile = `Successfully added file ${this.selectedFile.name}. Click Upload`;
+    } else {
+      this.uploadedFile = `Try again`;
     }
   }
 

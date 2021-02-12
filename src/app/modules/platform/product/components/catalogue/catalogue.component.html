@@ -7,20 +7,44 @@
   </section>
   <section class="buttons-container">
 
-    <div class="upload-section">
-      <input type="file" (change)="fileChange($event)" name="file" />
+    <div class="buttons-box">
+      <div>
+        <mat-form-field appearance="outline">
+          <mat-label>Choose Template</mat-label>
+          <mat-select>
+            <mat-option value="Saree">Saree</mat-option>
+            <mat-option value="Kurti">Kurti Sets</mat-option>
+            <mat-option value="Men">Men T-shirt</mat-option>
+            <mat-option value="Clothing">Kids Clothing</mat-option>
+            <mat-option value="Jewellery">Jewellery</mat-option>
+            <mat-option value="Decor">Home Decor</mat-option>
+            <mat-option value="Makeup">Makeup</mat-option>
+            <mat-option value="Other">Other</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <button mat-button (click)="downloadTemplate()">
+          <span>Download</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="upload-section" appDnd (fileDropped)="onFileDropped($event)">
+      <input type="file" style="display: none" #fileDropRef id="fileDropRef" (change)="fileBrowseHandler($event.target.files)" />
       <img [src]="'assets/images/drag_files.svg'" alt="drag image here"/>
       <h3>Drag files here or choose browse to select files</h3>
     </div>
+    <h3>{{uploadedFile}}</h3>
 
     <div class="buttons-box">
       <div>
-        <button mat-button class="outlined-btn">
+        <button mat-button class="outlined-btn" (click)="fileDropRef.click()">
           <span>Browse</span>
         </button>
       </div>
       <div>
-        <button mat-button>
+        <button mat-button (click)="upload()">
           <span>Upload</span>
         </button>
       </div>
