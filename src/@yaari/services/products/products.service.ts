@@ -43,7 +43,8 @@ export class ProductsService {
   }
 
   public editSpecifications(spec: ISpecifications): Observable<{msg: string}> {
+    const body = spec.details;
     return this._http.put<{msg: string}>
-    (`${environment.API_BASE_URL}/api/v1/catalog/product/specifications?catalog_id=${spec.catalog_id}`, spec);
+    (`${environment.API_BASE_URL}/api/v1/catalog/product/specifications?catalog_id=${spec.catalog_id}`, body);
   }
 }

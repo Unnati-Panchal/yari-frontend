@@ -26,7 +26,12 @@ export interface IQuery {
 
 export interface ISpecifications {
   catalog_id: string;
+  details: ISpec[];
+}
+
+
+export interface ISpec {
   sku_id: string;
   next_day_dispatch: boolean;
-  specifications: {val: string}[];
+  specifications: any;
 }

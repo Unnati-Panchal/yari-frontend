@@ -53,7 +53,7 @@ export const getBulkSpecificationsUploadTemplateError = createAction('[PRODUCTS]
 export const editSpecifications = createAction('[PRODUCTS] editSpecifications',
   props<{ spec: ISpecifications }>());
 
-export const geditSpecificationsSuccess = createAction('[PRODUCTS] editSpecifications success');
+export const geditSpecificationsSuccess = createAction('[PRODUCTS] editSpecifications success', props<{ msg: string }>());
 
 export const editSpecificationsError = createAction('[PRODUCTS] editSpecifications error',
   props<{ error: HttpErrorResponse }>());

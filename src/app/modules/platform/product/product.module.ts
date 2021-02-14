@@ -13,6 +13,9 @@ import {MatNativeDateModule} from '@angular/material/core';
 import {MatTableModule} from '@angular/material/table';
 import {MatSelectModule} from '@angular/material/select';
 import {SharedModule} from '@yaari/shared.module';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatInputModule} from '@angular/material/input';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 @NgModule({
   declarations: [ProductComponent, CatalogueComponent, CatalogueStatusComponent, SpecificationComponent],
@@ -26,7 +29,10 @@ import {SharedModule} from '@yaari/shared.module';
     MatNativeDateModule,
     MatTableModule,
     MatSelectModule,
-    SharedModule
+    SharedModule,
+    MatProgressSpinnerModule,
+    MatInputModule,
+    MatCheckboxModule
   ]
 })
 export class ProductModule {

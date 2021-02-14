@@ -94,8 +94,8 @@ export class ProductsEffects {
       map(action => action.spec),
       switchMap((spec: ISpecifications) =>
         this._productsService.editSpecifications(spec).pipe(
-          map(() => fromProductsActions.geditSpecificationsSuccess()),
-          catchError(error => of(fromProductsActions.editSpecificationsError({ error })))
+          map((res) => fromProductsActions.geditSpecificationsSuccess({msg: res.msg})),
+          catchError((error) => of(fromProductsActions.editSpecificationsError({ error })))
         )
       )
     )
