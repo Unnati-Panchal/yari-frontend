@@ -28,8 +28,11 @@
 
 
 .general-menu {
+  background: $yaari-red;
+  color: $yaari-light;
+
   button {
     @include yaari-display-flex(flex-start, flex-start, column);
-    width: 100% !important;
+    width: 100%;
   }
 }
