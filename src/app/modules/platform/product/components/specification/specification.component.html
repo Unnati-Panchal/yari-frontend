@@ -3,19 +3,58 @@
     <h3>Update Product Specification</h3>
     <div class="red-line"></div>
 
-    <ng-container *ngIf="!loading; else Loading">
-      <h5>Catalogue 1</h5>
-
+    <ng-container *ngIf="!isSelectedCatalogue; else currentCatalogue">
+      <h5>Select Date Range</h5>
       <div>
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 crazy-table">
+        <mat-form-field appearance="outline">
+          <mat-label>Enter a date range</mat-label>
+          <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+            <input matStartDate formControlName="start" placeholder="Start date">
+            <input matEndDate formControlName="end" placeholder="End date">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
 
-          <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-            <th mat-header-cell *matHeaderCellDef> {{description[column] || column}} </th>
-            <td mat-cell *matCellDef="let element">
+          <mat-error *ngIf="range.controls.start.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+          <mat-error *ngIf="range.controls.end.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+          <mat-error *ngIf="range.controls.end.hasError('InvalidRange')">Please select valid date range</mat-error>
+        </mat-form-field>
+
+
+        <button mat-button (click)="viewCatalogueList()">
+          <span>View</span>
+        </button>
+      </div>
+
+      <div *ngFor="let catalog of catalogueList" class="catalogue-list">
+        <div>
+          <span>Catalogue {{catalog.id}}</span>
+          <div>
+            <button mat-button (click)="addSpecifications(catalog.id)">Add Specifications</button>
+            <button mat-button (click)="deleteCatalogue(catalog.id)" class="outlined-btn">Delete</button>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #currentCatalogue>
+      <ng-container *ngIf="!loading; else Loading">
+        <div class="catalogue-name">
+          <button mat-button (click)="backToCatalogueList()">
+            <span>< Back</span>
+          </button>
+          <h5>Catalogue {{isSelectedCatalogue}}</h5>
+        </div>
+
+        <div>
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 crazy-table">
+
+            <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
+              <th mat-header-cell *matHeaderCellDef> {{description[column] || column}} </th>
+              <td mat-cell *matCellDef="let element">
               <span *ngIf="column === 'next_day_dispatch'; else normalInput">
                   <mat-checkbox [(ngModel)]="element[column]" [value]="element[column] || false"></mat-checkbox>
               </span>
-              <ng-template #normalInput>
+                <ng-template #normalInput>
                 <span>
                   <mat-form-field>
                     <label>
@@ -23,28 +62,29 @@
                     </label>
                   </mat-form-field>
                 </span>
-              </ng-template>
-            </td>
-          </ng-container>
+                </ng-template>
+              </td>
+            </ng-container>
 
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-      </div>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+          </table>
+        </div>
 
-      <article>
-        <button mat-button (click)="submit()">
-          <span *ngIf="!submitBtnLoading else BtnLoading">Submit</span>
-          <ng-template #BtnLoading>
-            <mat-spinner [diameter]="25"></mat-spinner>
-          </ng-template>
-        </button>
-      </article>
-    </ng-container>
-    <ng-template #Loading>
-      <div class="loading-spinner">
-        <mat-spinner [diameter]="50" color="warn"></mat-spinner>
-      </div>
+        <article>
+          <button mat-button (click)="submit()">
+            <span *ngIf="!submitBtnLoading else BtnLoading">Submit</span>
+            <ng-template #BtnLoading>
+              <mat-spinner [diameter]="25"></mat-spinner>
+            </ng-template>
+          </button>
+        </article>
+      </ng-container>
+      <ng-template #Loading>
+        <div class="loading-spinner">
+          <mat-spinner [diameter]="50" color="warn"></mat-spinner>
+        </div>
+      </ng-template>
     </ng-template>
   </section>
 </main>

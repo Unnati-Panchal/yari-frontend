@@ -16,24 +16,26 @@ import {SharedModule} from '@yaari/shared.module';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatInputModule} from '@angular/material/input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [ProductComponent, CatalogueComponent, CatalogueStatusComponent, SpecificationComponent],
-  imports: [
-    CommonModule,
-    ProductRoutingModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatDatepickerModule,
-    ReactiveFormsModule,
-    MatNativeDateModule,
-    MatTableModule,
-    MatSelectModule,
-    SharedModule,
-    MatProgressSpinnerModule,
-    MatInputModule,
-    MatCheckboxModule
-  ]
+    imports: [
+        CommonModule,
+        ProductRoutingModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatDatepickerModule,
+        ReactiveFormsModule,
+        MatNativeDateModule,
+        MatTableModule,
+        MatSelectModule,
+        SharedModule,
+        MatProgressSpinnerModule,
+        MatInputModule,
+        MatCheckboxModule,
+        MatIconModule
+    ]
 })
 export class ProductModule {
 }

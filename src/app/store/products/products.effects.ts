@@ -67,7 +67,7 @@ export class ProductsEffects {
       map(action => action.catalogId),
       switchMap((catalogId: string) =>
         this._productsService.deleteCatalog(catalogId).pipe(
-          map(() => fromProductsActions.bulkUploadCatalogSuccess),
+          map(() => fromProductsActions.deleteCatalogSuccess),
           catchError(error => of(fromProductsActions.deleteCatalogError({ error })))
         )
       )

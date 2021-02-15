@@ -6,8 +6,9 @@ import {select, Store} from '@ngrx/store';
 import {IAppState} from '~store/app.state';
 import * as fromProductsSelectors from '~store/products/products.selectors';
 import {filter} from 'rxjs/operators';
-import {ISpecifications} from '@yaari/models/product/product.interface';
+import {IBulkUploadBasic, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import * as moment from 'moment';
 
 export interface IProductSpecs {
   sr_no?: string;
@@ -38,6 +39,9 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   dataSource: IProductSpecs[];
   loading: boolean;
   submitBtnLoading: boolean;
+  selectedDate: IQuery;
+  catalogueList: IBulkUploadBasic[];
+  isSelectedCatalogue: number;
 
   private _subscription: Subscription = new Subscription();
   public getBulkSpecificationsUploadTemplate$ = this._store.pipe(
@@ -52,6 +56,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
     select(fromProductsSelectors.getIsError),
     filter(error => !!error)
   );
+  public getCatalogues$ = this._store.pipe(select(fromProductsSelectors.getCatalogs), filter(catalogs => !!catalogs));
 
   constructor(private _store: Store<IAppState>, private _snackBar: MatSnackBar) { }
 
@@ -60,10 +65,17 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.loading = true;
-    const catalogId = '1';
-    this._store.dispatch(fromProductsActions.getBulkSpecificationsUploadTemplate({catalogId}));
     this.getCataloguesRes();
+
+    this._subscription.add(
+      this.range.valueChanges.subscribe( range => {
+        const start = moment(range.start)?.format('YYYY-MM-DD');
+        const end = moment(range.end)?.format('YYYY-MM-DD');
+        if (start && end && start !== 'Invalid date' && end !== 'Invalid date') {
+          this.selectedDate = {startDate: start, endDate: end};
+        }
+      })
+    );
   }
 
   getCataloguesRes(): void {
@@ -90,6 +102,22 @@ export class SpecificationComponent implements OnInit, OnDestroy {
         this.submitBtnLoading = false;
       })
     );
+
+    this._subscription.add(
+      this.getCatalogues$.subscribe((list) => {
+        this.catalogueList = list;
+      })
+    );
+
+    this._subscription.add(
+      this.getCatalogues$.subscribe((list) => {
+        this.catalogueList = list;
+      })
+    );
+  }
+
+  backToCatalogueList(): void {
+    this.isSelectedCatalogue = 0;
   }
 
   submit(): void {
@@ -106,6 +134,30 @@ export class SpecificationComponent implements OnInit, OnDestroy {
       details: specifications
     };
     this._store.dispatch(fromProductsActions.editSpecifications({spec}));
+  }
+
+  public viewCatalogueList(): void {
+    const query = this.selectedDate;
+    if (!query || !query?.startDate || !query?.endDate) {
+      this.range.get('end').setErrors({InvalidRange: true});
+      this.range.updateValueAndValidity();
+      return;
+    }
+    this._store.dispatch(fromProductsActions.getCatalogs({query}));
+  }
+
+  addSpecifications(catalogueId: number): void {
+    this.isSelectedCatalogue = catalogueId;
+    this.loading = true;
+    const catalogId = catalogueId.toString();
+    this._store.dispatch(fromProductsActions.getBulkSpecificationsUploadTemplate({catalogId}));
+
+  }
+
+  deleteCatalogue(catalogueId: number): void {
+    const catalogId = catalogueId.toString();
+    this._store.dispatch(fromProductsActions.deleteCatalog({catalogId}));
+    setTimeout(() => this.viewCatalogueList(), 3000);
   }
 
 }
