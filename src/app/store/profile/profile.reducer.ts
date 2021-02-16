@@ -12,6 +12,7 @@ import {
   IImageResponse,
   IInsertBucket
 } from '@yaari/models/profile/profile.interface';
+import {IPayment, IRatingAndReviews} from '@yaari/models/product/product.interface';
 
 export const profileFeatureKey = 'profile';
 
@@ -30,6 +31,8 @@ export interface IProfileState extends fromRoot.IAppState {
   file: string;
   url: string;
   images: IImageResponse;
+  payments: IPayment[];
+  ratingsAndReviews: IRatingAndReviews[];
 }
 
 export const profileInitialState: IProfileState = {
@@ -46,7 +49,9 @@ export const profileInitialState: IProfileState = {
   file: '',
   url: '',
   id: '',
-  images: null
+  images: null,
+  payments: [],
+  ratingsAndReviews: []
 };
 
 const profileReducer = createReducer(
@@ -175,6 +180,32 @@ const profileReducer = createReducer(
     images: action.images
   })),
   on(fromProfileActions.getImagesError, (state, action) => ({ ...state, loading: false, error: action.error })),
+
+
+  on(fromProfileActions.getSupplierSettlement, (state, action) => ({
+    ...state,
+    loading: true,
+    query: action.query
+  })),
+  on(fromProfileActions.getSupplierSettlementSuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    payments: action.payments
+  })),
+  on(fromProfileActions.getSupplierSettlementError, (state, action) => ({ ...state, loading: false, error: action.error })),
+
+
+
+  on(fromProfileActions.getRatingAndReviews, (state) => ({
+    ...state,
+    loading: true
+  })),
+  on(fromProfileActions.getRatingAndReviewsSuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    ratingsAndReviews: action.ratingsAndReviews
+  })),
+  on(fromProfileActions.getRatingAndReviewsError, (state, action) => ({ ...state, loading: false, error: action.error })),
 
 );
 

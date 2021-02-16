@@ -15,22 +15,26 @@ import {AuthEffects} from '~store/auth/auth.effects';
 import {ProductsEffects} from '~store/products/products.effects';
 import * as fromAuth from '~store/auth/auth.reducer';
 import * as fromProducts from '~store/products/products.reducer';
+import * as fromProfile from '~store/profile/profile.reducer';
 
 import {AppComponent} from '~app/app.component';
 import {AppRoutingModule} from '~app/app-routing.module';
 import {AuthGuard} from '@yaari/guards/auth.guard';
 import {TokenInterceptor} from '@yaari/interceptors/token.interceptor';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {ProfileEffects} from '~store/profile/profile.effects';
 
 const reducers: ActionReducerMap<IAppState> = {
   ['router']: routerReducer,
   [fromAuth.authFeatureKey]: fromAuth.reducer,
-  [fromProducts.productFeatureKey]: fromProducts.reducer
+  [fromProducts.productFeatureKey]: fromProducts.reducer,
+  [fromProfile.profileFeatureKey]: fromProfile.reducer
 };
 
 const effects = [
   AuthEffects,
-  ProductsEffects
+  ProductsEffects,
+  ProfileEffects
 ];
 
 export function getReducers(): ActionReducerMap<IAppState> {

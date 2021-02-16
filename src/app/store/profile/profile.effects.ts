@@ -15,6 +15,7 @@ import {
   IImageResponse,
   IInsertBucket
 } from '@yaari/models/profile/profile.interface';
+import {IPayment, IQuery, IRatingAndReviews} from '@yaari/models/product/product.interface';
 
 @Injectable()
 export class ProfileEffects {
@@ -143,6 +144,31 @@ export class ProfileEffects {
         this._profileService.getImages(bucketId).pipe(
           map((images: IImageResponse) => fromProfileActions.getImagesSuccess({ images })),
           catchError(error => of(fromProfileActions.getImagesError({ error })))
+        )
+      )
+    )
+  );
+
+  public getSupplierSettlement$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProfileActions.getSupplierSettlement),
+      map(action => action.query),
+      switchMap((query: IQuery) =>
+        this._profileService.getSupplierSettlement(query).pipe(
+          map((payments: IPayment[]) => fromProfileActions.getSupplierSettlementSuccess({ payments })),
+          catchError(error => of(fromProfileActions.getSupplierSettlementError(error)))
+        )
+      )
+    )
+  );
+
+  public getRatingAndReviews$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProfileActions.getRatingAndReviews),
+      switchMap(() =>
+        this._profileService.getRatingAndReviews().pipe(
+          map((ratingsAndReviews: IRatingAndReviews[]) => fromProfileActions.getRatingAndReviewsSuccess({ ratingsAndReviews })),
+          catchError(error => of(fromProfileActions.getRatingAndReviewsError(error)))
         )
       )
     )

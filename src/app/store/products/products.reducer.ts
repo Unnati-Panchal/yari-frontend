@@ -16,8 +16,10 @@ export interface IProductsState extends fromRoot.IAppState {
   bulkUploadBasic: IBulkUploadBasic;
   catalogs: IBulkUploadBasic[];
   catalogId: string;
+  categoryId: number;
   specTemplate: string[];
   msg: string;
+  subCategories: ICategory[];
 }
 
 export const productsInitialState: IProductsState = {
@@ -29,7 +31,9 @@ export const productsInitialState: IProductsState = {
   catalogs: null,
   catalogId: '',
   specTemplate: [],
-  msg: ''
+  msg: '',
+  categoryId: null,
+  subCategories: []
 };
 
 const productsReducer = createReducer(
@@ -41,6 +45,20 @@ const productsReducer = createReducer(
     categories: action.categories
   })),
   on(fromProductsActions.getCategoriesError, (state, action) => ({ ...state, loading: false, error: action.error })),
+
+
+  on(fromProductsActions.getSubCategories, (state, action) => ({
+    ...state,
+    loading: true,
+    categoryId: action.categoryId
+  })),
+  on(fromProductsActions.getSubCategoriesSuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    subCategories: action.subCategories
+  })),
+  on(fromProductsActions.getSubCategoriesError, (state, action) => ({ ...state, loading: false, error: action.error })),
+
 
 
   on(fromProductsActions.getBulkBasicUploadTemplate, (state) => ({...state, loading: true})),

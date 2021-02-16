@@ -15,6 +15,10 @@
         width: 100%;
         @include yaari-display-flex(center, flex-start);
 
+        &.centered {
+          @include yaari-display-flex(center, center);
+        }
+
         table {
           width: 100%;
         }

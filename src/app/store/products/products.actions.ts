@@ -10,6 +10,13 @@ export const getCategoriesSuccess = createAction('[PRODUCTS] get categories succ
 export const getCategoriesError = createAction('[PRODUCTS] get categories error', props<{ error: HttpErrorResponse }>());
 
 
+export const getSubCategories = createAction('[PRODUCTS] get sub categories', props<{ categoryId: number }>());
+
+export const getSubCategoriesSuccess = createAction('[PRODUCTS] get sub categories success', props<{ subCategories: ICategory[] }>());
+
+export const getSubCategoriesError = createAction('[PRODUCTS] get sub categories error', props<{ error: HttpErrorResponse }>());
+
+
 export const getBulkBasicUploadTemplate = createAction('[PRODUCTS] getBulkBasicUploadTemplate');
 
 export const getBulkBasicUploadTemplateSuccess = createAction('[PRODUCTS] getBulkBasicUploadTemplate success', props<{ file: any }>());

@@ -2,23 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import * as moment from 'moment';
-
-export interface PeriodicElement {
-  sr_no?: string;
-  sku_number?: string;
-  no_of_sales?: string;
-  reviews?: string;
-  views?: string;
-  no_of_shares?: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {sr_no: '1'},
-  {sr_no: '2'},
-  {sr_no: '3'},
-  {sr_no: '4'},
-  {sr_no: '5'},
-];
+import * as fromProfileActions from '~store/profile/profile.actions';
+import {select, Store} from '@ngrx/store';
+import {IAppState} from '~store/app.state';
+import * as fromProfileSelectors from '~store/profile/profile.selectors';
+import {filter} from 'rxjs/operators';
+import {IRatingAndReviews} from '@yaari/models/product/product.interface';
 
 @Component({
   selector: 'app-ratings-reviews',
@@ -31,30 +20,42 @@ export class RatingsReviewsComponent implements OnInit, OnDestroy {
     end: new FormControl()
   });
   displayedColumns: string[] = [
-    'sr_no', 'sku_number', 'no_of_sales', 'average_rating', 'reviews', 'views', 'no_of_shares'];
-  dataSource = ELEMENT_DATA;
+    'id', 'sku_id', 'product_name', 'country_of_origin', 'reviews', 'warranty', 'rating'];
+  dataSource: IRatingAndReviews[];
+  public getRatingAndReviews$ = this._store.pipe(select(fromProfileSelectors.getRatingAndReviews$), filter(value => !!value));
+  loading: boolean;
 
   private _subscription: Subscription = new Subscription();
 
-  constructor() { }
+  constructor(private _store: Store<IAppState>) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
   }
 
   ngOnInit(): void {
+    // this._subscription.add(
+    //   this.range.valueChanges.subscribe( range => {
+    //     const start = moment(range.start)?.format('YYYY-MM-DD');
+    //     const end = moment(range.end)?.format('YYYY-MM-DD');
+    //     if (start && end && start !== 'Invalid date' && end !== 'Invalid date') {
+    //       console.log({startDate: start, endDate: end});
+    //     }
+    //   })
+    // );
+    this._store.dispatch(fromProfileActions.getRatingAndReviews());
+    this.loading = true;
+
     this._subscription.add(
-      this.range.valueChanges.subscribe( range => {
-        const start = moment(range.start)?.format('YYYY-MM-DD');
-        const end = moment(range.end)?.format('YYYY-MM-DD');
-        if (start && end && start !== 'Invalid date' && end !== 'Invalid date') {
-          console.log({startDate: start, endDate: end});
-        }
+      this.getRatingAndReviews$.subscribe( (ratingsAndReviews) => {
+        this.dataSource = ratingsAndReviews;
+        this.loading = false;
       })
     );
-  }
-
-  public viewBtn(): void {
 
   }
+
+  // public viewBtn(): void {
+  //
+  // }
 }

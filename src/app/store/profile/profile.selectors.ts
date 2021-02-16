@@ -16,3 +16,6 @@ export const addImageToBucket$ = createSelector(selectBaseFeature, (state: fromP
 export const removeImage$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.msg);
 export const uploadImage$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.url);
 export const getImages$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.images);
+
+export const getSupplierSettlement$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.payments);
+export const getRatingAndReviews$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.ratingsAndReviews);

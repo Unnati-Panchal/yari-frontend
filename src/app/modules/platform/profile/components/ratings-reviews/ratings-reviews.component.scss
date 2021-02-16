@@ -18,6 +18,11 @@
         table {
           width: 100%;
         }
+
+        &.centered {
+          @include yaari-display-flex(center, center);
+          margin: $yaari-base 0;
+        }
       }
 
       h3 {

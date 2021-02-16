@@ -17,7 +17,20 @@ export class ProductsEffects {
       switchMap(() =>
         this._productsService.getCategories().pipe(
           map((categories: ICategory[]) => fromProductsActions.getCategoriesSuccess({ categories })),
-          catchError(error => of(fromProductsActions.getCategoriesError({ error })))
+          catchError(error => of(fromProductsActions.getCategoriesError(error)))
+        )
+      )
+    )
+  );
+
+  public getSubCategories$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProductsActions.getSubCategories),
+      map(action => action.categoryId),
+      switchMap((categoryId: number) =>
+        this._productsService.getSubCategories(categoryId).pipe(
+          map((subCategories: ICategory[]) => fromProductsActions.getSubCategoriesSuccess({ subCategories })),
+          catchError(error => of(fromProductsActions.getSubCategoriesError(error)))
         )
       )
     )
@@ -29,7 +42,7 @@ export class ProductsEffects {
       switchMap(() =>
         this._productsService.getBulkBasicUploadTemplate().pipe(
           map((file: any) => fromProductsActions.getBulkBasicUploadTemplateSuccess({ file })),
-          catchError(error => of(fromProductsActions.getBulkBasicUploadTemplateError({ error })))
+          catchError(error => of(fromProductsActions.getBulkBasicUploadTemplateError(error)))
         )
       )
     )
@@ -42,7 +55,7 @@ export class ProductsEffects {
       switchMap((fileUpload: IFileUpload) =>
         this._productsService.bulkUploadCatalog(fileUpload).pipe(
           map((bulkUploadBasic: IBulkUploadBasic) => fromProductsActions.bulkUploadCatalogSuccess({ bulkUploadBasic })),
-          catchError(error => of(fromProductsActions.bulkUploadCatalogError({ error })))
+          catchError(error => of(fromProductsActions.bulkUploadCatalogError(error)))
         )
       )
     )
@@ -55,7 +68,7 @@ export class ProductsEffects {
       switchMap((query: IQuery) =>
         this._productsService.getCatalogs(query).pipe(
           map((catalogs: IBulkUploadBasic[]) => fromProductsActions.getCatalogsSuccess({ catalogs })),
-          catchError(error => of(fromProductsActions.getCatalogsError({ error })))
+          catchError(error => of(fromProductsActions.getCatalogsError(error)))
         )
       )
     )
@@ -68,7 +81,7 @@ export class ProductsEffects {
       switchMap((catalogId: string) =>
         this._productsService.deleteCatalog(catalogId).pipe(
           map(() => fromProductsActions.deleteCatalogSuccess),
-          catchError(error => of(fromProductsActions.deleteCatalogError({ error })))
+          catchError(error => of(fromProductsActions.deleteCatalogError(error)))
         )
       )
     )
@@ -81,7 +94,7 @@ export class ProductsEffects {
       switchMap((catalogId: string) =>
         this._productsService.getBulkSpecificationsUploadTemplate(catalogId).pipe(
           map((specTemplate: string[]) => fromProductsActions.getBulkSpecificationsUploadTemplateSuccess({ specTemplate })),
-          catchError(error => of(fromProductsActions.getBulkSpecificationsUploadTemplateError({ error })))
+          catchError(error => of(fromProductsActions.getBulkSpecificationsUploadTemplateError(error)))
         )
       )
     )
@@ -95,7 +108,7 @@ export class ProductsEffects {
       switchMap((spec: ISpecifications) =>
         this._productsService.editSpecifications(spec).pipe(
           map((res) => fromProductsActions.geditSpecificationsSuccess({msg: res.msg})),
-          catchError((error) => of(fromProductsActions.editSpecificationsError({ error })))
+          catchError((error) => of(fromProductsActions.editSpecificationsError(error)))
         )
       )
     )

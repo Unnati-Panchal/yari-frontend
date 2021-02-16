@@ -10,24 +10,29 @@
     <div class="buttons-box">
       <div>
         <mat-form-field appearance="outline">
-          <mat-label>Choose Template</mat-label>
-          <mat-select>
-            <mat-option value="Saree">Saree</mat-option>
-            <mat-option value="Kurti">Kurti Sets</mat-option>
-            <mat-option value="Men">Men T-shirt</mat-option>
-            <mat-option value="Clothing">Kids Clothing</mat-option>
-            <mat-option value="Jewellery">Jewellery</mat-option>
-            <mat-option value="Decor">Home Decor</mat-option>
-            <mat-option value="Makeup">Makeup</mat-option>
-            <mat-option value="Other">Other</mat-option>
+          <mat-label>Choose Category</mat-label>
+          <mat-select [(ngModel)]="selectedCategory" (ngModelChange)="isSelectedCategory($event)">
+            <ng-container *ngIf="getCategories$ | async as categories">
+              <mat-option *ngFor="let category of categories" [value]="category.id">{{category.name}}</mat-option>
+            </ng-container>
           </mat-select>
         </mat-form-field>
       </div>
       <div>
-        <button mat-button (click)="downloadTemplate()">
-          <span>Download</span>
-        </button>
+        <mat-form-field appearance="outline">
+          <mat-label>Choose Sub Category</mat-label>
+          <mat-select [(ngModel)]="selectedSubCategoryId">
+            <ng-container *ngIf="getSubCategories$ | async as subCategories">
+              <mat-option *ngFor="let subCategory of subCategories" [value]="subCategory.id">{{subCategory.name}}</mat-option>
+            </ng-container>
+          </mat-select>
+        </mat-form-field>
       </div>
+    </div>
+    <div>
+      <button mat-button (click)="downloadTemplate()">
+        <span>Download</span>
+      </button>
     </div>
 
     <div class="upload-section" appDnd (fileDropped)="onFileDropped($event)">

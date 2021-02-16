@@ -8,6 +8,7 @@ import {
   IImageResponse,
   IInsertBucket
 } from '@yaari/models/profile/profile.interface';
+import {IPayment, IQuery, IRatingAndReviews} from '@yaari/models/product/product.interface';
 
 export const getBuckets = createAction('[PROFILE] get buckets');
 
@@ -77,3 +78,18 @@ export const getImages = createAction('[PROFILE] get images', props<{ bucketId: 
 export const getImagesSuccess = createAction('[PROFILE] get images success', props<{ images: IImageResponse }>());
 
 export const getImagesError = createAction('[PROFILE] get images error', props<{ error: HttpErrorResponse }>());
+
+
+export const getSupplierSettlement = createAction('[PROFILE] get supplier settlement', props<{ query: IQuery }>());
+
+export const getSupplierSettlementSuccess = createAction('[PROFILE] get supplier settlement success', props<{ payments: IPayment[] }>());
+
+export const getSupplierSettlementError = createAction('[PROFILE] get supplier settlement error', props<{ error: HttpErrorResponse }>());
+
+
+export const getRatingAndReviews = createAction('[PROFILE] get ratings and reviews');
+
+export const getRatingAndReviewsSuccess = createAction(
+  '[PROFILE] get ratings and reviews success', props<{ ratingsAndReviews: IRatingAndReviews[] }>());
+
+export const getRatingAndReviewsError = createAction('[PROFILE] get ratings and reviews error', props<{ error: HttpErrorResponse }>());

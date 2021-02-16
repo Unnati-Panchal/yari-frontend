@@ -2,25 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as moment from 'moment';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
-
-export interface PeriodicElement {
-  sr_no?: string;
-  order_id?: string;
-  sku_number?: string;
-  type_of_product?: string;
-  date_sold?: string;
-  date_snipped?: string;
-  order_status?: string;
-  payment_mode?: string;
-  payment_status?: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {order_status: 'Sold', payment_status: 'In Process', payment_mode: 'COD'},
-  {order_status: 'Returned', payment_status: 'Completed', payment_mode: 'Online'},
-  {order_status: 'Exchanged', payment_status: 'Not Applicable'},
-  {order_status: 'Cancelled', payment_status: 'Penaity'},
-];
+import * as fromProfileActions from '~store/profile/profile.actions';
+import {IPayment, IQuery} from '@yaari/models/product/product.interface';
+import {select, Store} from '@ngrx/store';
+import {IAppState} from '~store/app.state';
+import * as fromProfileSelectors from '~store/profile/profile.selectors';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-payments',
@@ -33,13 +20,19 @@ export class PaymentsComponent implements OnInit, OnDestroy {
     end: new FormControl()
   });
   displayedColumns: string[] = [
-    'sr_no', 'order_id', 'sku_number', 'type_of_product', 'date_sold', 'date_snipped', 'order_status', 'payment_mode', 'payment_status'
+    'order_id', 'order_status', 'order_total_price', 'order_total_tax', 'order_shipping_charges',
+    'order_total_discount', 'order_total_reseller_margin', 'payment_status', 'created_time', 'discard_reason'
   ];
-  dataSource = ELEMENT_DATA;
+  dataSource: IPayment[];
+  loading: boolean;
+  submitted: boolean;
+
+  query: IQuery;
+  public getSupplierSettlement$ = this._store.pipe(select(fromProfileSelectors.getSupplierSettlement$), filter(value => !!value));
 
   private _subscription: Subscription = new Subscription();
 
-  constructor() { }
+  constructor(private _store: Store<IAppState>) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
@@ -51,15 +44,30 @@ export class PaymentsComponent implements OnInit, OnDestroy {
         const start = moment(range.start)?.format('YYYY-MM-DD');
         const end = moment(range.end)?.format('YYYY-MM-DD');
         if (start && end && start !== 'Invalid date' && end !== 'Invalid date') {
-          console.log({startDate: start, endDate: end});
+          this.query = {startDate: start, endDate: end};
         }
+      })
+    );
+
+    this._subscription.add(
+      this.getSupplierSettlement$.subscribe( (payments) => {
+        this.dataSource = payments;
+        this.loading = false;
       })
     );
   }
 
   public viewBtn(): void {
-
+    if (!this.query) {
+      return;
+    }
+    const query = {
+      startDate: moment(this.query.startDate).valueOf(),
+      endDate: moment(this.query.endDate).valueOf(),
+    };
+    this.loading = true;
+    this.submitted = true;
+    this._store.dispatch(fromProfileActions.getSupplierSettlement({query}));
   }
-
 
 }

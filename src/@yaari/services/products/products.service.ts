@@ -16,6 +16,10 @@ export class ProductsService {
     return this._http.get<ICategory[]>(`${environment.API_BASE_URL}/api/v1/categories`);
   }
 
+  public getSubCategories(categoryId: number): Observable<ICategory[]> {
+    return this._http.get<ICategory[]>(`${environment.API_BASE_URL}/api/v1/category/sub-categories?category_id=${categoryId}`);
+  }
+
   public getBulkBasicUploadTemplate(): Observable<any> {
     // @ts-ignore
     return this._http.get<any>(`${environment.API_BASE_URL}/api/v1/catalog/bulk-upload-basic-template`, { responseType: 'blob' });

@@ -13,6 +13,7 @@ import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {MatNativeDateModule} from '@angular/material/core';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -23,16 +24,17 @@ import {MatNativeDateModule} from '@angular/material/core';
     ExchangeReturnComponent,
     MyProfileComponent
   ],
-  imports: [
-    CommonModule,
-    ProfileRoutingModule,
-    MatDatepickerModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatTableModule,
-    MatNativeDateModule,
-  ]
+    imports: [
+        CommonModule,
+        ProfileRoutingModule,
+        MatDatepickerModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatTableModule,
+        MatNativeDateModule,
+        MatProgressSpinnerModule,
+    ]
 })
 export class ProfileModule {
 }
