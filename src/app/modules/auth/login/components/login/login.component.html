@@ -19,6 +19,7 @@
             <input matInput formControlName="username" autocomplete="nope">
             <mat-error *ngIf="loginForm.controls['username'].hasError('required')">Email is required</mat-error>
             <mat-error *ngIf="loginForm.controls['username'].hasError('email')">Please enter a valid email address</mat-error>
+            <mat-error *ngIf="loginForm.controls['username'].hasError('invalidCredentials')">{{responseErrorMsg}}</mat-error>
           </mat-form-field>
         </div>
 
@@ -29,6 +30,7 @@
             <input matInput formControlName="password" [type]="!hide ? 'password' : 'text'" autocomplete="nope">
             <mat-icon matSuffix (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
             <mat-error *ngIf="loginForm.controls['password'].hasError('required')">Password is required</mat-error>
+            <mat-error *ngIf="loginForm.controls['password'].hasError('invalidCredentials')">{{responseErrorMsg}}</mat-error>
           </mat-form-field>
         </div>
       </section>

@@ -24,6 +24,8 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();
   public getCatalogues$ = this._store.pipe(select(fromProductsSelectors.getCatalogs), filter(catalogs => !!catalogs));
+  loading: boolean;
+  submitted: boolean;
 
   constructor(private _store: Store<IAppState>) { }
 
@@ -51,12 +53,17 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
       this.range.updateValueAndValidity();
       return;
     }
+    this.loading = true;
+    this.submitted = true;
     this._store.dispatch(fromProductsActions.getCatalogs({query}));
   }
 
   getCataloguesRes(): void {
     this._subscription.add(
-      this.getCatalogues$.subscribe((response) => this.dataSource = response)
+      this.getCatalogues$.subscribe((response) => {
+        this.loading = false;
+        this.dataSource = response;
+      })
     );
   }
 

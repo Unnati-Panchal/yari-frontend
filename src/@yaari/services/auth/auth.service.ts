@@ -5,6 +5,9 @@ import {Observable} from 'rxjs';
 import {environment} from '~env/environment';
 import {ILogin, IOnboarders, IRegistration, IToken, IVerifyGstPan, IVerifyOtp, KYCDetailsResponse} from '@yaari/models/auth/auth.interface';
 import {Router} from '@angular/router';
+import * as fromAuthActions from '~store/auth/auth.actions';
+import {Store} from '@ngrx/store';
+import {IAppState} from '~store/app.state';
 
 
 @Injectable({
@@ -13,7 +16,7 @@ import {Router} from '@angular/router';
 export class AuthService {
   private readonly _accessKeyStorageKey = 'yaari.accessKey';
 
-  constructor(private _http: HttpClient, private _router: Router) {
+  constructor(private _http: HttpClient, private _router: Router, private _store: Store<IAppState>) {
   }
 
   public get accessToken(): string {
@@ -26,6 +29,7 @@ export class AuthService {
 
   public logout(): void {
     sessionStorage.clear();
+    this._store.dispatch(fromAuthActions.clearState());
     this.redirectToLogin();
   }
 

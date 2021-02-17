@@ -6,6 +6,7 @@ import {RatingsReviewsComponent} from '~platform/profile/components/ratings-revi
 import {QualityScoreCardComponent} from '~platform/profile/components/quality-score-card/quality-score-card.component';
 import {ExchangeReturnComponent} from '~platform/profile/components/exchange-return/exchange-return.component';
 import {MyProfileComponent} from '~platform/profile/components/my-profile/my-profile.component';
+import {ContactUsPageComponent} from '~platform/profile/components/contact-us-page/contact-us-page.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
       {
         path: 'edit',
         component: MyProfileComponent
+      },
+      {
+        path: 'contact-us',
+        component: ContactUsPageComponent
       }
     ]
   }

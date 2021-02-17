@@ -23,6 +23,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   public getCategories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(cat => !!cat));
   public getSubCategories$ = this._store.pipe(select(fromProductsSelectors.getSubCategories), filter(sub => !!sub));
   public bulkUploadCatalog$ = this._store.pipe(select(fromProductsSelectors.bulkUploadCatalog), filter(b => !!b));
+  public getIsError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(err => !!err));
 
   constructor(private _store: Store<IAppState>, private _product: ProductsService) {
   }
@@ -30,6 +31,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._store.dispatch(fromProductsActions.getCategories());
     this._subscription.add(this.bulkUploadCatalog$.subscribe(() => this.uploadedFile = `Successfully uploaded`));
+    this._subscription.add(this.getIsError$.subscribe((error: any) => this.uploadedFile = error.detail));
   }
 
   public ngOnDestroy(): void {

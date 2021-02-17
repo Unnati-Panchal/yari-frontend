@@ -14,6 +14,8 @@ import {MatButtonModule} from '@angular/material/button';
 import {MatTableModule} from '@angular/material/table';
 import {MatNativeDateModule} from '@angular/material/core';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import { ContactUsPageComponent } from './components/contact-us-page/contact-us-page.component';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -22,19 +24,21 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
     RatingsReviewsComponent,
     QualityScoreCardComponent,
     ExchangeReturnComponent,
-    MyProfileComponent
+    MyProfileComponent,
+    ContactUsPageComponent
   ],
-    imports: [
-        CommonModule,
-        ProfileRoutingModule,
-        MatDatepickerModule,
-        ReactiveFormsModule,
-        MatFormFieldModule,
-        MatButtonModule,
-        MatTableModule,
-        MatNativeDateModule,
-        MatProgressSpinnerModule,
-    ]
+  imports: [
+    CommonModule,
+    ProfileRoutingModule,
+    MatDatepickerModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatTableModule,
+    MatNativeDateModule,
+    MatProgressSpinnerModule,
+    MatIconModule,
+  ]
 })
 export class ProfileModule {
 }

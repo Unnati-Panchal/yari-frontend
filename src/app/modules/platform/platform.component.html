@@ -1,6 +1,9 @@
 <header>
   <img src="/assets/images/yaari-logo.png" alt="yaari-logo"/>
   <div>
+    <button [routerLink]="['/app/profile/contact-us']" mat-button>
+      <span>Contact Us</span>
+    </button>
     <button mat-button class="logout" (click)="logout()">
       <span>Log Out</span>
     </button>

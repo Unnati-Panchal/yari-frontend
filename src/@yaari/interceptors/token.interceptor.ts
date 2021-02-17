@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest} from '@angular/common/http';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
-import {Observable, of} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {catchError} from 'rxjs/operators';
 import {AuthService} from '@yaari/services/auth/auth.service';
 
@@ -25,6 +25,7 @@ export class TokenInterceptor implements HttpInterceptor {
           this._snackBar.open(msg, '', {duration: 3000});
           return of(err);
         }
+        return throwError(err);
       })
     );
   }

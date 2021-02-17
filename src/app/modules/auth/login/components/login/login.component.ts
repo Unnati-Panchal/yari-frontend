@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   );
   public loginForm: FormGroup;
   public hide: boolean;
-
+  public responseErrorMsg: string;
   private _subscription: Subscription = new Subscription();
 
   constructor(private _store: Store<IAppState>,
@@ -61,7 +61,11 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public authorizedSupplier(): void {
-    this._subscription.add(this.isError$.subscribe(error => console.log(error)));
+    this._subscription.add(this.isError$.subscribe(error => {
+      this.loginForm.get('password').setErrors({invalidCredentials: true});
+      this.loginForm.get('username').setErrors({invalidCredentials: true});
+      this.responseErrorMsg = error.error.detail;
+    }));
     this._subscription.add(this.token$.subscribe((token) => {
       this._auth.accessToken = token.access_token;
       this._router.navigate(['app/dashboard']);
