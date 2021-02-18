@@ -12,7 +12,7 @@ import {
   IImageResponse,
   IInsertBucket
 } from '@yaari/models/profile/profile.interface';
-import {IPayment, IRatingAndReviews} from '@yaari/models/product/product.interface';
+import {IExchangeReturned, IPayment, IRatingAndReviews} from '@yaari/models/product/product.interface';
 
 export const profileFeatureKey = 'profile';
 
@@ -33,6 +33,7 @@ export interface IProfileState extends fromRoot.IAppState {
   images: IImageResponse;
   payments: IPayment[];
   ratingsAndReviews: IRatingAndReviews[];
+  exchangedReturned: IExchangeReturned[];
 }
 
 export const profileInitialState: IProfileState = {
@@ -51,7 +52,8 @@ export const profileInitialState: IProfileState = {
   id: '',
   images: null,
   payments: [],
-  ratingsAndReviews: []
+  ratingsAndReviews: [],
+  exchangedReturned: []
 };
 
 const profileReducer = createReducer(
@@ -206,6 +208,19 @@ const profileReducer = createReducer(
     ratingsAndReviews: action.ratingsAndReviews
   })),
   on(fromProfileActions.getRatingAndReviewsError, (state, action) => ({ ...state, loading: false, error: action.error })),
+
+
+  on(fromProfileActions.getExchangedReturned, (state, action) => ({
+    ...state,
+    loading: true,
+    query: action.query
+  })),
+  on(fromProfileActions.getExchangedReturnedSuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    exchangedReturned: action.exchangedReturned
+  })),
+  on(fromProfileActions.getExchangedReturnedError, (state, action) => ({ ...state, loading: false, error: action.error })),
 
 );
 

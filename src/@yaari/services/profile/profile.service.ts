@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '~env/environment';
 import {IAddRemoveImage, IBucket, IBucketItems, ICreateBucket, IInsertBucket} from '@yaari/models/profile/profile.interface';
-import {IPayment, IQuery, IRatingAndReviews} from '@yaari/models/product/product.interface';
+import {IExchangeReturned, IPayment, IQuery, IRatingAndReviews} from '@yaari/models/product/product.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -63,5 +63,10 @@ export class ProfileService {
   public getRatingAndReviews(): Observable<IRatingAndReviews[]> {
     return this._http.post<IRatingAndReviews[]>
     (`${environment.API_BASE_URL}/api/v1/product/ratings-reviews-supplier`, {});
+  }
+
+  public getExchangedReturned(query: IQuery): Observable<IExchangeReturned[]> {
+    return this._http.get<IExchangeReturned[]>
+    (`${environment.API_BASE_URL}/api/v1/supplier/returns/return_products?date_from=${query.startDate}&date_to=${query.endDate}&status=${query.status}`);
   }
 }

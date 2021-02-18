@@ -2,25 +2,13 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import * as moment from 'moment';
+import {ESalesStatus, IExchangeReturned, IQuery} from '@yaari/models/product/product.interface';
+import {select, Store} from '@ngrx/store';
+import * as fromProfileSelectors from '~store/profile/profile.selectors';
+import {filter} from 'rxjs/operators';
+import {IAppState} from '~store/app.state';
+import * as fromProfileActions from '~store/profile/profile.actions';
 
-export interface PeriodicElement {
-  sr_no?: string;
-  order_id?: string;
-  sku_number?: string;
-  date_shipped?: string;
-  exchange_or_return_date?: string;
-  product_type?: string;
-  penalty?: string;
-  penalty_amount?: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {sr_no: '1'},
-  {sr_no: '2'},
-  {sr_no: '3'},
-  {sr_no: '4'},
-  {sr_no: '5'}
-];
 
 @Component({
   selector: 'app-exchange-return',
@@ -33,30 +21,65 @@ export class ExchangeReturnComponent implements OnInit, OnDestroy {
     end: new FormControl()
   });
   displayedColumns: string[] = [
-    'sr_no', 'order_id', 'sku_number', 'date_shipped', 'exchange_or_return_date', 'product_type', 'penalty', 'penalty_amount'];
-  dataSource = ELEMENT_DATA;
+    'serial_num', 'order_id', 'product_sku_id', 'shipped_date', 'exchange_or_return_date', 'product_type', 'penalty', 'penalty_amount'];
+  dataSource: IExchangeReturned[];
+  public exchangedReturned$ = this._store.pipe(select(fromProfileSelectors.exchangedReturned$), filter(ex => !!ex));
+  public isError$ = this._store.pipe(select(fromProfileSelectors.getIsError$), filter(err => !!err));
+  loading: boolean;
+  submitted: boolean;
+  selectedDate: IQuery;
+  eSalesStatus = ESalesStatus;
 
   private _subscription: Subscription = new Subscription();
 
-  constructor() { }
+  constructor(private _store: Store<IAppState>) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
   }
 
   ngOnInit(): void {
+    this.getResults();
+  }
+
+  public viewBtn(status: ESalesStatus): void {
+    const query = {
+      startDate: this.selectedDate.startDate,
+      endDate: this.selectedDate.endDate,
+      status
+    };
+    if (!query || !query?.startDate || !query?.endDate) {
+      this.range.get('end').setErrors({InvalidRange: true});
+      this.range.updateValueAndValidity();
+      return;
+    }
+    this.loading = true;
+    this.submitted = true;
+    this._store.dispatch(fromProfileActions.getExchangedReturned({query}));
+  }
+
+  getResults(): void {
     this._subscription.add(
       this.range.valueChanges.subscribe( range => {
         const start = moment(range.start)?.format('YYYY-MM-DD');
         const end = moment(range.end)?.format('YYYY-MM-DD');
         if (start && end && start !== 'Invalid date' && end !== 'Invalid date') {
-          console.log({startDate: start, endDate: end});
+          this.selectedDate = {startDate: start, endDate: end};
         }
       })
     );
-  }
 
-  public viewBtn(): void {
-
+    this._subscription.add(
+      this.exchangedReturned$.subscribe((response) => {
+        this.loading = false;
+        this.dataSource = response;
+      })
+    );
+    this._subscription.add(
+      this.isError$.subscribe((error) => {
+        this.loading = false;
+        this.dataSource = [];
+      })
+    );
   }
 }

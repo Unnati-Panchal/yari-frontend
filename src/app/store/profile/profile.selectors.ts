@@ -19,3 +19,4 @@ export const getImages$ = createSelector(selectBaseFeature, (state: fromProfileR
 
 export const getSupplierSettlement$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.payments);
 export const getRatingAndReviews$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.ratingsAndReviews);
+export const exchangedReturned$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.exchangedReturned);

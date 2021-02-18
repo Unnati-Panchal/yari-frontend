@@ -8,7 +8,7 @@ import {
   IImageResponse,
   IInsertBucket
 } from '@yaari/models/profile/profile.interface';
-import {IPayment, IQuery, IRatingAndReviews} from '@yaari/models/product/product.interface';
+import {IExchangeReturned, IPayment, IQuery, IRatingAndReviews} from '@yaari/models/product/product.interface';
 
 export const getBuckets = createAction('[PROFILE] get buckets');
 
@@ -93,3 +93,10 @@ export const getRatingAndReviewsSuccess = createAction(
   '[PROFILE] get ratings and reviews success', props<{ ratingsAndReviews: IRatingAndReviews[] }>());
 
 export const getRatingAndReviewsError = createAction('[PROFILE] get ratings and reviews error', props<{ error: HttpErrorResponse }>());
+
+
+export const getExchangedReturned = createAction('[PROFILE] get exchanged and returned', props<{ query: IQuery }>());
+
+export const getExchangedReturnedSuccess = createAction('[PROFILE] get exchanged and returned success', props<{ exchangedReturned: IExchangeReturned[] }>());
+
+export const getExchangedReturnedError = createAction('[PROFILE] get exchanged and returned error', props<{ error: HttpErrorResponse }>());

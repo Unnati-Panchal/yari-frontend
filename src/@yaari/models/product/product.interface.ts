@@ -22,6 +22,12 @@ export interface IBulkUploadBasic {
 export interface IQuery {
   startDate: string | number;
   endDate: string | number;
+  status?: ESalesStatus;
+}
+
+export enum ESalesStatus {
+  Replaced = 'replaced', // exchanged
+  Returned = 'return_requested'
 }
 
 export interface ISpecifications {
@@ -91,4 +97,16 @@ export interface IRatingAndReviews {
   warranty: string;
   rating: number;
   reviews: string[];
+}
+
+
+export interface IExchangeReturned {
+  serial_num: number;
+  product_sku_id: string;
+  order_id: number;
+  shipped_date: string;
+  exchange_or_return_date: string;
+  product_type: string;
+  penalty: string;
+  penalty_amount: string;
 }

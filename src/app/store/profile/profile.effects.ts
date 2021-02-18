@@ -15,7 +15,7 @@ import {
   IImageResponse,
   IInsertBucket
 } from '@yaari/models/profile/profile.interface';
-import {IPayment, IQuery, IRatingAndReviews} from '@yaari/models/product/product.interface';
+import {IExchangeReturned, IPayment, IQuery, IRatingAndReviews} from '@yaari/models/product/product.interface';
 
 @Injectable()
 export class ProfileEffects {
@@ -169,6 +169,19 @@ export class ProfileEffects {
         this._profileService.getRatingAndReviews().pipe(
           map((ratingsAndReviews: IRatingAndReviews[]) => fromProfileActions.getRatingAndReviewsSuccess({ ratingsAndReviews })),
           catchError(error => of(fromProfileActions.getRatingAndReviewsError(error)))
+        )
+      )
+    )
+  );
+
+  public getExchangedReturned$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProfileActions.getExchangedReturned),
+      map(action => action.query),
+      switchMap((query: IQuery) =>
+        this._profileService.getExchangedReturned(query).pipe(
+          map((exchangedReturned: IExchangeReturned[]) => fromProfileActions.getExchangedReturnedSuccess({ exchangedReturned })),
+          catchError(error => of(fromProfileActions.getExchangedReturnedError(error)))
         )
       )
     )

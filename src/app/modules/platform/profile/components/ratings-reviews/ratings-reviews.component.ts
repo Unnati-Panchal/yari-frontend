@@ -1,7 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import * as moment from 'moment';
 import * as fromProfileActions from '~store/profile/profile.actions';
 import {select, Store} from '@ngrx/store';
 import {IAppState} from '~store/app.state';
