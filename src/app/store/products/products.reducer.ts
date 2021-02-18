@@ -16,10 +16,9 @@ export interface IProductsState extends fromRoot.IAppState {
   bulkUploadBasic: IBulkUploadBasic;
   catalogs: IBulkUploadBasic[];
   catalogId: string;
-  categoryId: number;
+  categoryId: string;
   specTemplate: string[];
   msg: string;
-  subCategories: ICategory[];
 }
 
 export const productsInitialState: IProductsState = {
@@ -29,36 +28,25 @@ export const productsInitialState: IProductsState = {
   file: null,
   bulkUploadBasic: null,
   catalogs: null,
-  catalogId: '',
+  catalogId: null,
   specTemplate: [],
   msg: '',
-  categoryId: null,
-  subCategories: []
+  categoryId: ''
 };
 
 const productsReducer = createReducer(
   productsInitialState,
-  on(fromProductsActions.getCategories, (state) => ({...state, loading: true})),
+  on(fromProductsActions.getCategories, (state, action) => ({
+    ...state,
+    loading: true,
+    categoryId: action.categoryId
+  })),
   on(fromProductsActions.getCategoriesSuccess, (state, action) => ({
     ...state,
     loading: false,
     categories: action.categories
   })),
   on(fromProductsActions.getCategoriesError, (state, action) => ({ ...state, loading: false, error: action.error })),
-
-
-  on(fromProductsActions.getSubCategories, (state, action) => ({
-    ...state,
-    loading: true,
-    categoryId: action.categoryId
-  })),
-  on(fromProductsActions.getSubCategoriesSuccess, (state, action) => ({
-    ...state,
-    loading: false,
-    subCategories: action.subCategories
-  })),
-  on(fromProductsActions.getSubCategoriesError, (state, action) => ({ ...state, loading: false, error: action.error })),
-
 
 
   on(fromProductsActions.getBulkBasicUploadTemplate, (state) => ({...state, loading: true})),

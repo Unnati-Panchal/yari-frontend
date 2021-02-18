@@ -6,7 +6,7 @@ export interface ICategory {
 
 export interface IFileUpload {
   file: File;
-  sub_category_id: number;
+  category_id: string;
 }
 
 

@@ -63,7 +63,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.otpVerification();
     this.gstVerification();
     this.panVerification();
-    this._store.dispatch(fromProductsActions.getCategories());
+    this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
     this._store.dispatch(fromAuthActions.getOnboarders());
   }
 

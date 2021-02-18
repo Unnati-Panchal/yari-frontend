@@ -35,6 +35,30 @@
     .buttons-container {
       @include yaari-display-flex(center, center, column);
 
+      .download-container {
+        width: 100%;
+        @include yaari-display-flex(center, center);
+
+        section {
+          @include yaari-display-flex(center, center, column);
+
+          mat-form-field {
+            .mat-form-field-wrapper ::ng-deep {
+              margin: 0;
+              padding: 0;
+            }
+          }
+
+          p {
+            font-size: $yaari-default-small;
+          }
+
+          &.download-btn {
+            margin-bottom: $yaari-large;
+          }
+        }
+      }
+
       .upload-section {
         @include yaari-display-flex(center, center, column);
         padding: 0 $yaari-large;
@@ -50,11 +74,6 @@
         h3 {
           color: $yaari-lighted-text;
         }
-      }
-
-      .buttons-box {
-        @include yaari-display-flex(center, center);
-        width: 70%;
       }
 
       button {

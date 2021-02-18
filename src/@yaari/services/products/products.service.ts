@@ -12,12 +12,12 @@ export class ProductsService {
   constructor(private _http: HttpClient) {
   }
 
-  public getCategories(): Observable<ICategory[]> {
-    return this._http.get<ICategory[]>(`${environment.API_BASE_URL}/api/v1/categories`);
-  }
-
-  public getSubCategories(categoryId: number): Observable<ICategory[]> {
-    return this._http.get<ICategory[]>(`${environment.API_BASE_URL}/api/v1/category/sub-categories?category_id=${categoryId}`);
+  public getCategories(categoryId: string): Observable<ICategory[]> {
+    let suffix = '';
+    if (categoryId) {
+      suffix = `?parent_category_id=${categoryId}`;
+    }
+    return this._http.get<ICategory[]>(`${environment.API_BASE_URL}/api/v1/categories${suffix}`);
   }
 
   public getBulkBasicUploadTemplate(): Observable<any> {
@@ -29,7 +29,7 @@ export class ProductsService {
     const formData = new FormData();
     formData.append('file', body.file, body.file.name);
     return this._http.post<IBulkUploadBasic>
-    (`${environment.API_BASE_URL}/api/v1/catalog/bulk-upload-basic?sub_category_id=${body.sub_category_id}`, formData);
+    (`${environment.API_BASE_URL}/api/v1/catalog/bulk-upload-basic?sub_category_id=${body.category_id}`, formData);
   }
 
   public getCatalogs(query: IQuery): Observable<IBulkUploadBasic[]> {

@@ -3,18 +3,11 @@ import {HttpErrorResponse} from '@angular/common/http';
 
 import {IBulkUploadBasic, ICategory, IFileUpload, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
 
-export const getCategories = createAction('[PRODUCTS] get categories');
+export const getCategories = createAction('[PRODUCTS] get categories', props<{ categoryId: string }>());
 
 export const getCategoriesSuccess = createAction('[PRODUCTS] get categories success', props<{ categories: ICategory[] }>());
 
 export const getCategoriesError = createAction('[PRODUCTS] get categories error', props<{ error: HttpErrorResponse }>());
-
-
-export const getSubCategories = createAction('[PRODUCTS] get sub categories', props<{ categoryId: number }>());
-
-export const getSubCategoriesSuccess = createAction('[PRODUCTS] get sub categories success', props<{ subCategories: ICategory[] }>());
-
-export const getSubCategoriesError = createAction('[PRODUCTS] get sub categories error', props<{ error: HttpErrorResponse }>());
 
 
 export const getBulkBasicUploadTemplate = createAction('[PRODUCTS] getBulkBasicUploadTemplate');

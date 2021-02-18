@@ -17,11 +17,10 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   private _subscription: Subscription = new Subscription();
   public selectedFile: File;
   uploadedFile: string;
-  selectedCategory: number;
-  selectedSubCategoryId: number;
+  selectedCategory: {id: string, name: string, terminal: boolean};
+  selectedCategoryMsg: string;
 
   public getCategories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(cat => !!cat));
-  public getSubCategories$ = this._store.pipe(select(fromProductsSelectors.getSubCategories), filter(sub => !!sub));
   public bulkUploadCatalog$ = this._store.pipe(select(fromProductsSelectors.bulkUploadCatalog), filter(b => !!b));
   public getIsError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(err => !!err));
 
@@ -29,7 +28,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._store.dispatch(fromProductsActions.getCategories());
+    this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
     this._subscription.add(this.bulkUploadCatalog$.subscribe(() => this.uploadedFile = `Successfully uploaded`));
     this._subscription.add(this.getIsError$.subscribe((error: any) => this.uploadedFile = error.detail));
   }
@@ -50,7 +49,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   upload(): void {
     const fileUpload = {
       file: this.selectedFile,
-      sub_category_id: this.selectedSubCategoryId
+      category_id: this.selectedCategory.id
     };
     this._store.dispatch(fromProductsActions.bulkUploadCatalog({fileUpload}));
   }
@@ -78,8 +77,14 @@ export class CatalogueComponent implements OnInit, OnDestroy {
     }
   }
 
-  public isSelectedCategory(categoryId: number): void {
-    this._store.dispatch(fromProductsActions.getSubCategories({categoryId}));
+  public isSelectedCategory(category: {id: string, name: string, terminal: boolean}): void {
+    if (!category?.terminal) {
+      const categoryId = category.id;
+      this._store.dispatch(fromProductsActions.getCategories({categoryId}));
+      this.selectedCategoryMsg = 'Please select a subcategory';
+    } else {
+      this.selectedCategoryMsg = '';
+    }
   }
 
 }

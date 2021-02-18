@@ -14,23 +14,11 @@ export class ProductsEffects {
   public getCategories$ = createEffect(() =>
     this._actions$.pipe(
       ofType(fromProductsActions.getCategories),
-      switchMap(() =>
-        this._productsService.getCategories().pipe(
+      map(action => action.categoryId),
+      switchMap((categoryId: string) =>
+        this._productsService.getCategories(categoryId).pipe(
           map((categories: ICategory[]) => fromProductsActions.getCategoriesSuccess({ categories })),
           catchError(error => of(fromProductsActions.getCategoriesError(error)))
-        )
-      )
-    )
-  );
-
-  public getSubCategories$ = createEffect(() =>
-    this._actions$.pipe(
-      ofType(fromProductsActions.getSubCategories),
-      map(action => action.categoryId),
-      switchMap((categoryId: number) =>
-        this._productsService.getSubCategories(categoryId).pipe(
-          map((subCategories: ICategory[]) => fromProductsActions.getSubCategoriesSuccess({ subCategories })),
-          catchError(error => of(fromProductsActions.getSubCategoriesError(error)))
         )
       )
     )
