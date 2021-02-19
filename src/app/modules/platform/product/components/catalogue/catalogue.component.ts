@@ -30,7 +30,11 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
     this._subscription.add(this.bulkUploadCatalog$.subscribe(() => this.uploadedFile = `Successfully uploaded`));
-    this._subscription.add(this.getIsError$.subscribe((error: any) => this.uploadedFile = error.detail));
+    this._subscription.add(this.getIsError$.subscribe((error: any) => {
+      if (error.detail[0]?.loc.find(msg => msg === 'category_id') && error.detail[0]?.msg === 'field required') {
+        this.uploadedFile = 'Category field is required!';
+      }
+    }));
   }
 
   public ngOnDestroy(): void {
@@ -49,7 +53,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   upload(): void {
     const fileUpload = {
       file: this.selectedFile,
-      category_id: this.selectedCategory.id
+      category_id: this.selectedCategory?.id
     };
     this._store.dispatch(fromProductsActions.bulkUploadCatalog({fileUpload}));
   }
