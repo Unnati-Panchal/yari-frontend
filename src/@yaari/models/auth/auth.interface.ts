@@ -17,6 +17,15 @@ export interface IRegistration {
   bank_name: string;
   bank_ifsc: string;
   bank_account_type: string;
+
+  // edit profile
+  is_active?: boolean;
+  name_pan_card?: string;
+  state?: string;
+  onboarder_id?: number;
+  id?: number;
+  approved?: boolean;
+  kyc_verified?: boolean;
 }
 
 export interface ILogin {
@@ -75,4 +84,15 @@ export interface IVerifyGstPan {
 export interface IOnboarders {
   id: number;
   name: string;
+}
+
+
+export interface IEditSupplierProfile {
+  contact_person: string;
+  phone_no: number;
+  email_id: string;
+  bank_account_name: string;
+  bank_account_number: string;
+  bank_name: string;
+  bank_ifsc: string;
 }

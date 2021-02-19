@@ -15,7 +15,7 @@ import {
   IImageResponse,
   IInsertBucket
 } from '@yaari/models/profile/profile.interface';
-import {IExchangeReturned, IPayment, IQuery, IRatingAndReviews} from '@yaari/models/product/product.interface';
+import {IExchangeReturned, IPayment, IQualityScoreCard, IQuery, IRatingAndReviews} from '@yaari/models/product/product.interface';
 
 @Injectable()
 export class ProfileEffects {
@@ -182,6 +182,19 @@ export class ProfileEffects {
         this._profileService.getExchangedReturned(query).pipe(
           map((exchangedReturned: IExchangeReturned[]) => fromProfileActions.getExchangedReturnedSuccess({ exchangedReturned })),
           catchError(error => of(fromProfileActions.getExchangedReturnedError(error)))
+        )
+      )
+    )
+  );
+
+  public getQualityScoreCard$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProfileActions.getQualityScoreCard),
+      map(action => action.query),
+      switchMap((query: IQuery) =>
+        this._profileService.getQualityScoreCard(query).pipe(
+          map((qualityScorecard: IQualityScoreCard[]) => fromProfileActions.getQualityScoreCardSuccess({ qualityScorecard })),
+          catchError(error => of(fromProfileActions.getQualityScoreCardError(error)))
         )
       )
     )

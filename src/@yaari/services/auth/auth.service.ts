@@ -3,7 +3,16 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 import {environment} from '~env/environment';
-import {ILogin, IOnboarders, IRegistration, IToken, IVerifyGstPan, IVerifyOtp, KYCDetailsResponse} from '@yaari/models/auth/auth.interface';
+import {
+  IEditSupplierProfile,
+  ILogin,
+  IOnboarders,
+  IRegistration,
+  IToken,
+  IVerifyGstPan,
+  IVerifyOtp,
+  KYCDetailsResponse
+} from '@yaari/models/auth/auth.interface';
 import {Router} from '@angular/router';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import {Store} from '@ngrx/store';
@@ -85,5 +94,9 @@ export class AuthService {
 
   public getOnboarders(): Observable<IOnboarders[]> {
     return this._http.get<IOnboarders[]>(`${environment.API_BASE_URL}/api/v1/supplier/onboarders`);
+  }
+
+  public editSupplier(supplierProfileChanges: IEditSupplierProfile): Observable<IRegistration> {
+    return this._http.put<IRegistration>(`${environment.API_BASE_URL}/api/v1/supplier`, supplierProfileChanges);
   }
 }

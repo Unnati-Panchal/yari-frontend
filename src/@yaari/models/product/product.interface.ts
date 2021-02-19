@@ -110,3 +110,12 @@ export interface IExchangeReturned {
   penalty: string;
   penalty_amount: string;
 }
+
+export interface IQualityScoreCard {
+  id: number;
+  sku_id: string;
+  quality_rating: number;
+  quality_score: number;
+  shared: number;
+  product_catalog_id: number;
+}

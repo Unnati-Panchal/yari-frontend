@@ -3,7 +3,13 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '~env/environment';
 import {IAddRemoveImage, IBucket, IBucketItems, ICreateBucket, IInsertBucket} from '@yaari/models/profile/profile.interface';
-import {IExchangeReturned, IPayment, IQuery, IRatingAndReviews} from '@yaari/models/product/product.interface';
+import {
+  IExchangeReturned,
+  IPayment,
+  IQualityScoreCard,
+  IQuery,
+  IRatingAndReviews
+} from '@yaari/models/product/product.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -68,5 +74,10 @@ export class ProfileService {
   public getExchangedReturned(query: IQuery): Observable<IExchangeReturned[]> {
     return this._http.get<IExchangeReturned[]>
     (`${environment.API_BASE_URL}/api/v1/supplier/returns/return_products?date_from=${query.startDate}&date_to=${query.endDate}&status=${query.status}`);
+  }
+
+  public getQualityScoreCard(query: IQuery): Observable<IQualityScoreCard[]> {
+    return this._http.get<IQualityScoreCard[]>
+    (`${environment.API_BASE_URL}/api/v1/catalog/products/quality?start_date=${query.startDate}&end_date=${query.endDate}`);
   }
 }

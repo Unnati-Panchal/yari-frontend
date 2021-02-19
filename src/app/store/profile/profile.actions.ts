@@ -8,7 +8,13 @@ import {
   IImageResponse,
   IInsertBucket
 } from '@yaari/models/profile/profile.interface';
-import {IExchangeReturned, IPayment, IQuery, IRatingAndReviews} from '@yaari/models/product/product.interface';
+import {
+  IExchangeReturned,
+  IPayment,
+  IQualityScoreCard,
+  IQuery,
+  IRatingAndReviews
+} from '@yaari/models/product/product.interface';
 
 export const getBuckets = createAction('[PROFILE] get buckets');
 
@@ -97,6 +103,15 @@ export const getRatingAndReviewsError = createAction('[PROFILE] get ratings and 
 
 export const getExchangedReturned = createAction('[PROFILE] get exchanged and returned', props<{ query: IQuery }>());
 
-export const getExchangedReturnedSuccess = createAction('[PROFILE] get exchanged and returned success', props<{ exchangedReturned: IExchangeReturned[] }>());
+export const getExchangedReturnedSuccess = createAction(
+  '[PROFILE] get exchanged and returned success', props<{ exchangedReturned: IExchangeReturned[] }>());
 
 export const getExchangedReturnedError = createAction('[PROFILE] get exchanged and returned error', props<{ error: HttpErrorResponse }>());
+
+
+export const getQualityScoreCard = createAction('[PROFILE] get quality scorecard', props<{ query: IQuery }>());
+
+export const getQualityScoreCardSuccess = createAction(
+  '[PROFILE] get quality scorecard success', props<{ qualityScorecard: IQualityScoreCard[] }>());
+
+export const getQualityScoreCardError = createAction('[PROFILE] get quality scorecard error', props<{ error: HttpErrorResponse }>());

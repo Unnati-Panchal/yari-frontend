@@ -2,23 +2,12 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import * as moment from 'moment';
-
-export interface PeriodicElement {
-  sr_no?: string;
-  sku_number?: string;
-  quality_rating?: string;
-  quality_score?: string;
-  no_of_shares?: string;
-  catalogue_id?: string;
-}
-
-const ELEMENT_DATA: PeriodicElement[] = [
-  {sr_no: '1'},
-  {sr_no: '2'},
-  {sr_no: '3'},
-  {sr_no: '4'},
-  {sr_no: '5'},
-];
+import {IQualityScoreCard, IQuery} from '@yaari/models/product/product.interface';
+import {select, Store} from '@ngrx/store';
+import * as fromProfileSelectors from '~store/profile/profile.selectors';
+import {filter} from 'rxjs/operators';
+import {IAppState} from '~store/app.state';
+import * as fromProfileActions from '~store/profile/profile.actions';
 
 @Component({
   selector: 'app-quality-score-card',
@@ -31,12 +20,15 @@ export class QualityScoreCardComponent implements OnInit, OnDestroy {
     end: new FormControl()
   });
   displayedColumns: string[] = [
-    'sr_no', 'sku_number', 'quality_rating', 'quality_score', 'no_of_shares', 'catalogue_id'];
-  dataSource = ELEMENT_DATA;
-
+    'id', 'sku_id', 'quality_rating', 'quality_score', 'shared', 'product_catalog_id'];
+  selectedDate: IQuery;
+  dataSource: IQualityScoreCard[];
   private _subscription: Subscription = new Subscription();
+  public qualityScoreCard$ = this._store.pipe(select(fromProfileSelectors.qualityScoreCard$), filter(q => !!q));
+  loading: boolean;
+  submitted: boolean;
 
-  constructor() { }
+  constructor(private _store: Store<IAppState>) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
@@ -48,14 +40,32 @@ export class QualityScoreCardComponent implements OnInit, OnDestroy {
         const start = moment(range.start)?.format('YYYY-MM-DD');
         const end = moment(range.end)?.format('YYYY-MM-DD');
         if (start && end && start !== 'Invalid date' && end !== 'Invalid date') {
-          console.log({startDate: start, endDate: end});
+          this.selectedDate = {startDate: start, endDate: end};
         }
       })
     );
+    this.getQualityscorecard();
   }
 
   public viewBtn(): void {
+    const query = this.selectedDate;
+    if (!query || !query?.startDate || !query?.endDate) {
+      this.range.get('end').setErrors({InvalidRange: true});
+      this.range.updateValueAndValidity();
+      return;
+    }
+    this.loading = true;
+    this.submitted = true;
+    this._store.dispatch(fromProfileActions.getQualityScoreCard({query}));
+  }
 
+  getQualityscorecard(): void {
+    this._subscription.add(
+      this.qualityScoreCard$.subscribe((response) => {
+        this.loading = false;
+        this.dataSource = response;
+      })
+    );
   }
 
 }
