@@ -19,6 +19,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   uploadedFile: string;
   selectedCategory: {id: string, name: string, terminal: boolean};
   selectedCategoryMsg: string;
+  categoriesChain: {name: string, isLast: boolean}[];
 
   public getCategories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(cat => !!cat));
   public bulkUploadCatalog$ = this._store.pipe(select(fromProductsSelectors.bulkUploadCatalog), filter(b => !!b));
@@ -82,6 +83,12 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   }
 
   public isSelectedCategory(category: {id: string, name: string, terminal: boolean}): void {
+    if (!this.categoriesChain?.length) {
+      this.categoriesChain = [{name: category.name, isLast: category.terminal}];
+    } else {
+      this.categoriesChain.push({name: category.name, isLast: category.terminal});
+    }
+
     if (!category?.terminal) {
       const categoryId = category.id;
       this._store.dispatch(fromProductsActions.getCategories({categoryId}));

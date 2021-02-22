@@ -28,12 +28,12 @@
     <div *ngIf="!loading && dataSource?.length" class="centered">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-        <ng-container matColumnDef="sr_no">
+        <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef> Sr. No. </th>
           <td mat-cell *matCellDef="let element"> {{element?.id}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="sku_number">
+        <ng-container matColumnDef="sku_id">
           <th mat-header-cell *matHeaderCellDef> SKU Number </th>
           <td mat-cell *matCellDef="let element"> {{element?.sku_id}} </td>
         </ng-container>
@@ -70,7 +70,7 @@
     <div *ngIf="loading" class="centered">
       <mat-spinner color="warn" [diameter]="50"></mat-spinner>
     </div>
-    <div *ngIf="!loading && !dataSource?.length" class="centered">
+    <div *ngIf="submitted && !loading && !dataSource?.length" class="centered">
       <p>Oops, nothing found.</p>
     </div>
   </section>

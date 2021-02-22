@@ -46,6 +46,18 @@ export class AuthEffects {
     )
   );
 
+  public supplierDetails$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAuthActions.supplierDetails),
+      switchMap(() =>
+        this._authService.supplierDetails().pipe(
+          map((supplierDetails: IRegistration) => fromAuthActions.supplierDetailsSuccess({ supplierDetails })),
+          catchError(error => of(fromAuthActions.supplierDetailsError({ error })))
+        )
+      )
+    )
+  );
+
   public loginSupplier$ = createEffect(() =>
     this._actions$.pipe(
       ofType(fromAuthActions.login),

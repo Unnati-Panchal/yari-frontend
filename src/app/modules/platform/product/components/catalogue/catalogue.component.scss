@@ -59,6 +59,11 @@
         }
       }
 
+      .selected-category {
+        @include yaari-display-flex(flex-start, flex-start);
+        width: 80%;
+      }
+
       .upload-section {
         @include yaari-display-flex(center, center, column);
         padding: 0 $yaari-large;

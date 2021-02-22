@@ -37,6 +37,7 @@ export interface IAuthState extends fromRoot.IAppState {
   approveKYCResponse: IRegistration;
   onBoarders: IOnboarders[];
   supplierProfileChanges: IEditSupplierProfile;
+  supplierDetails: IRegistration;
 }
 
 export const authInitialState: IAuthState = {
@@ -59,7 +60,8 @@ export const authInitialState: IAuthState = {
   approveKYC: null,
   approveKYCResponse: null,
   onBoarders: [],
-  supplierProfileChanges: null
+  supplierProfileChanges: null,
+  supplierDetails: null
 };
 
 const authReducer = createReducer(
@@ -83,6 +85,12 @@ const authReducer = createReducer(
     ...state, loading: false, regResponse: action.regResponse
   })),
   on(fromAuthActions.editSupplierError, (state, action) => ({...state, loading: false, error: action.error})),
+
+
+  on(fromAuthActions.supplierDetails, (state) => ({...state, loading: true})),
+  on(fromAuthActions.supplierDetailsSuccess, (state, action) => ({
+    ...state, loading: false, supplierDetails: action.supplierDetails})),
+  on(fromAuthActions.supplierDetailsError, (state, action) => ({...state, loading: false, error: action.error})),
 
 
   on(fromAuthActions.login, (state, action) => ({

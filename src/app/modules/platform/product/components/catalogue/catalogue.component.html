@@ -26,6 +26,16 @@
       </section>
     </div>
 
+    <div class="selected-category">
+      <p *ngIf="categoriesChain?.length">
+        Selected category:
+        <span *ngFor="let category of categoriesChain">
+          {{category.name}}
+          <span *ngIf="!category.isLast"> > </span>
+        </span>
+      </p>
+    </div>
+
     <div class="upload-section" appDnd (fileDropped)="onFileDropped($event)">
       <input type="file" style="display: none" #fileDropRef id="fileDropRef" (change)="fileBrowseHandler($event.target.files)" />
       <img [src]="'assets/images/drag_files.svg'" alt="drag image here"/>

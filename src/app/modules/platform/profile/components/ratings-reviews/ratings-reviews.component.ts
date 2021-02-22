@@ -23,6 +23,7 @@ export class RatingsReviewsComponent implements OnInit, OnDestroy {
   dataSource: IRatingAndReviews[];
   public getRatingAndReviews$ = this._store.pipe(select(fromProfileSelectors.getRatingAndReviews$), filter(value => !!value));
   loading: boolean;
+  submitted: boolean;
 
   private _subscription: Subscription = new Subscription();
 
@@ -42,13 +43,14 @@ export class RatingsReviewsComponent implements OnInit, OnDestroy {
     //     }
     //   })
     // );
-    this._store.dispatch(fromProfileActions.getRatingAndReviews());
     this.loading = true;
+    this._store.dispatch(fromProfileActions.getRatingAndReviews());
 
     this._subscription.add(
       this.getRatingAndReviews$.subscribe( (ratingsAndReviews) => {
         this.dataSource = ratingsAndReviews;
         this.loading = false;
+        this.submitted = true;
       })
     );
 

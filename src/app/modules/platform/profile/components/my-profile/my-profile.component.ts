@@ -1,15 +1,96 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Router} from '@angular/router';
+import {Subscription} from 'rxjs';
+import {filter} from 'rxjs/operators';
+import {select, Store} from '@ngrx/store';
+
+import {IAppState} from '~store/app.state';
+import * as fromAuthActions from '~store/auth/auth.actions';
+import * as fromAuthSelectors from '~store/auth/auth.selectors';
+
+import {CustomValidator} from '@yaari/utils/custom-validators';
+import {IEditSupplierProfile} from '@yaari/models/auth/auth.interface';
 
 @Component({
   selector: 'app-my-profile',
   templateUrl: './my-profile.component.html',
   styleUrls: ['./my-profile.component.scss']
 })
-export class MyProfileComponent implements OnInit {
+export class MyProfileComponent implements OnInit, OnDestroy {
+  public isAuthError$ = this._store.pipe(select(fromAuthSelectors.getIsError), filter(error => !!error));
+  public supplierDetails$ = this._store.pipe(select(fromAuthSelectors.supplierDetails$), filter(d => !!d));
+  public regForm: FormGroup;
+  public loading;
+  public isEditEnabled: boolean;
 
-  constructor() { }
+  private _subscription: Subscription = new Subscription();
 
-  ngOnInit(): void {
+  constructor(private _store: Store<IAppState>,
+              private _formBuilder: FormBuilder,
+              private _router: Router
+  ) {
+  }
+
+  public ngOnInit(): void {
+    this.initRegistrationForm();
+    this.supplierRegistration();
+    this._store.dispatch(fromAuthActions.supplierDetails());
+  }
+
+  public ngOnDestroy(): void {
+    this._subscription.unsubscribe();
+  }
+
+  public registerSupplier(): void {
+    this.loading = true;
+    this.regForm.updateValueAndValidity();
+    if (!this.regForm.valid) {
+      this.loading = false;
+      return;
+    }
+
+    const supplierProfileChanges: IEditSupplierProfile = this.regForm.value;
+    this._store.dispatch(fromAuthActions.editSupplier({supplierProfileChanges}));
+  }
+
+  public initRegistrationForm(): void {
+    this.regForm = this._formBuilder.group({
+      contact_person: ['', [Validators.required]],
+      phone_no: ['', [Validators.required, CustomValidator.digitsOnly]],
+      email_id: ['', [Validators.required, Validators.email]],
+      primary_category_id: ['', [Validators.required]],
+      gst_no: [''],
+      pan_no: ['', [Validators.required]],
+      bank_account_name: ['', [Validators.required]],
+      bank_account_number: ['', [Validators.required]],
+      bank_name: ['', [Validators.required]],
+      bank_ifsc: ['', [Validators.required]],
+      bank_account_type: ['', [Validators.required]],
+      name_pan_card: ['', [Validators.required]]
+    });
+
+    if (!this.isEditEnabled) {
+      this.regForm.disable();
+    }
+  }
+
+  public supplierRegistration(): void {
+    this._subscription.add(this.isAuthError$.subscribe(error => console.log(error)));
+    this._subscription.add(this.supplierDetails$.subscribe(details => {
+
+    }));
+  }
+
+  public enableEditing(): void {
+    this.regForm.get('contact_person').enable();
+    this.regForm.get('phone_no').enable();
+    this.regForm.get('email_id').enable();
+    this.regForm.get('bank_name').enable();
+    this.regForm.get('bank_account_number').enable();
+    this.regForm.get('bank_account_name').enable();
+    this.regForm.get('bank_ifsc').enable();
+    this.isEditEnabled = true;
   }
 
 }

@@ -99,4 +99,8 @@ export class AuthService {
   public editSupplier(supplierProfileChanges: IEditSupplierProfile): Observable<IRegistration> {
     return this._http.put<IRegistration>(`${environment.API_BASE_URL}/api/v1/supplier`, supplierProfileChanges);
   }
+
+  public supplierDetails(): Observable<IRegistration> {
+    return this._http.get<IRegistration>(`${environment.API_BASE_URL}/api/v1/suppliersupplier/details`);
+  }
 }

@@ -68,6 +68,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     }));
     this._subscription.add(this.token$.subscribe((token) => {
       this._auth.accessToken = token.access_token;
+      this._store.dispatch(fromAuthActions.supplierDetails());
       this._router.navigate(['app/dashboard']);
     })
     );

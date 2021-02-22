@@ -28,6 +28,14 @@ export const editSupplierSuccess = createAction('[AUTH] edit registration succes
 export const editSupplierError = createAction('[AUTH] edit registration error', props<{ error: HttpErrorResponse }>());
 
 
+export const supplierDetails = createAction('[AUTH] supplier details');
+
+export const supplierDetailsSuccess = createAction('[AUTH] supplier details success', props<{ supplierDetails: IRegistration }>());
+
+export const supplierDetailsError = createAction('[AUTH] supplier details error', props<{ error: HttpErrorResponse }>());
+
+
+
 export const login = createAction('[AUTH] login', props<{ loginRequest: ILogin }>());
 
 export const loginSuccess = createAction('[AUTH] login success', props<{ token: IToken }>());
