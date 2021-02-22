@@ -9,6 +9,7 @@ import * as fromAuthActions from '~store/auth/auth.actions';
 
 import {AuthService} from '@yaari/services/auth/auth.service';
 import {
+  IEditSupplierProfile,
   ILogin, IOnboarders,
   IRegistration,
   ISubmitKYCForVerificationResponse,
@@ -27,6 +28,19 @@ export class AuthEffects {
         this._authService.registerSupplier(regRequest).pipe(
           map((regResponse: IRegistration) => fromAuthActions.registrationSuccess({ regResponse })),
           catchError(error => of(fromAuthActions.registrationError({ error })))
+        )
+      )
+    )
+  );
+
+  public editSupplier$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAuthActions.editSupplier),
+      map(action => action.supplierProfileChanges),
+      switchMap((supplierProfileChanges: IEditSupplierProfile) =>
+        this._authService.editSupplier(supplierProfileChanges).pipe(
+          map((regResponse: IRegistration) => fromAuthActions.editSupplierSuccess({ regResponse })),
+          catchError(error => of(fromAuthActions.editSupplierError({ error })))
         )
       )
     )

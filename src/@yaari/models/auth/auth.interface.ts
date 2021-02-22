@@ -88,11 +88,11 @@ export interface IOnboarders {
 
 
 export interface IEditSupplierProfile {
-  contact_person: string;
-  phone_no: number;
-  email_id: string;
-  bank_account_name: string;
-  bank_account_number: string;
-  bank_name: string;
-  bank_ifsc: string;
+  contact_person?: string;
+  phone_no?: number;
+  email_id?: string;
+  bank_account_name?: string;
+  bank_account_number?: string;
+  bank_name?: string;
+  bank_ifsc?: string;
 }

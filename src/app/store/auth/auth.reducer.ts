@@ -4,6 +4,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import * as fromRoot from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import {
+  IEditSupplierProfile,
   ILogin,
   IOnboarders,
   IRegistration,
@@ -35,6 +36,7 @@ export interface IAuthState extends fromRoot.IAppState {
   approveKYC: IRegistration;
   approveKYCResponse: IRegistration;
   onBoarders: IOnboarders[];
+  supplierProfileChanges: IEditSupplierProfile;
 }
 
 export const authInitialState: IAuthState = {
@@ -56,7 +58,8 @@ export const authInitialState: IAuthState = {
   verifyOtpResponse: null,
   approveKYC: null,
   approveKYCResponse: null,
-  onBoarders: []
+  onBoarders: [],
+  supplierProfileChanges: null
 };
 
 const authReducer = createReducer(
@@ -71,6 +74,15 @@ const authReducer = createReducer(
     ...state, loading: false, regResponse: action.regResponse
   })),
   on(fromAuthActions.registrationError, (state, action) => ({...state, loading: false, error: action.error})),
+
+
+  on(fromAuthActions.editSupplier, (state, action) => ({
+    ...state, loading: true, supplierProfileChanges: action.supplierProfileChanges
+  })),
+  on(fromAuthActions.editSupplierSuccess, (state, action) => ({
+    ...state, loading: false, regResponse: action.regResponse
+  })),
+  on(fromAuthActions.editSupplierError, (state, action) => ({...state, loading: false, error: action.error})),
 
 
   on(fromAuthActions.login, (state, action) => ({

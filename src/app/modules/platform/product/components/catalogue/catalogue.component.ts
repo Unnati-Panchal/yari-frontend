@@ -53,7 +53,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   upload(): void {
     const fileUpload = {
       file: this.selectedFile,
-      category_id: this.selectedCategory?.id
+      category_id: this.selectedCategory.id
     };
     this._store.dispatch(fromProductsActions.bulkUploadCatalog({fileUpload}));
   }

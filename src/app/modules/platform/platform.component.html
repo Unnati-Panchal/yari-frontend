@@ -16,6 +16,9 @@
 
 <mat-menu #menu="matMenu">
   <div class="general-menu">
+    <button [routerLink]="['/app/profile/edit']" mat-button>
+      <span>My profile</span>
+    </button>
     <button [routerLink]="['/app/product/catalogue']" mat-button>
       <span>Upload Product Catalogue</span>
     </button>
