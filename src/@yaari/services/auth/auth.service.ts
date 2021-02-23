@@ -101,6 +101,6 @@ export class AuthService {
   }
 
   public supplierDetails(): Observable<IRegistration> {
-    return this._http.get<IRegistration>(`${environment.API_BASE_URL}/api/v1/suppliersupplier/details`);
+    return this._http.get<IRegistration>(`${environment.API_BASE_URL}/api/v1/supplier`);
   }
 }
