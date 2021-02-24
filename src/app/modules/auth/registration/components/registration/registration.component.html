@@ -52,7 +52,7 @@
 
         <div>
           <h4>OTP Number<span class="required">*</span></h4>
-          <div class="mini-form-group-container">
+          <div class="small-form-group">
             <mat-form-field appearance="outline">
               <mat-label>Enter the OTP Number from your email</mat-label>
               <input matInput formControlName="otp_no" autocomplete="nope">
@@ -61,12 +61,12 @@
               </mat-error>
               <mat-hint *ngIf="otpVerificationSuccessful" class="hint-message">OTP Verification Successful</mat-hint>
             </mat-form-field>
-            <button mat-button (click)="verifyOtp($event)">
-              <span *ngIf="!loadingOtpVerification else LoadingSpinner">Verify OTP</span>
-              <ng-template #LoadingSpinner>
-                <mat-spinner [diameter]="25"></mat-spinner>
-              </ng-template>
-            </button>
+<!--            <button mat-button (click)="verifyOtp($event)">-->
+<!--              <span *ngIf="!loadingOtpVerification else LoadingSpinner">Verify OTP</span>-->
+<!--              <ng-template #LoadingSpinner>-->
+<!--                <mat-spinner [diameter]="25"></mat-spinner>-->
+<!--              </ng-template>-->
+<!--            </button>-->
           </div>
         </div>
 
@@ -137,7 +137,7 @@
         <div>
           <h4>If Yes Please Enter Your GST Certificate Number And Upload GST Certificate<span
             class="required">*</span></h4>
-          <div class="mini-form-group-container">
+          <div class="small-form-group">
             <mat-form-field appearance="outline">
               <mat-label>Enter your GST Certificate</mat-label>
               <input matInput formControlName="gst_no" autocomplete="nope">
@@ -145,18 +145,18 @@
               <mat-error *ngIf="regForm.controls['gst_no'].hasError('InvalidValue')">{{gstVerificationFailureReason}}</mat-error>
               <mat-hint *ngIf="gstVerificationSuccessful" class="hint-message">GST Verification Successful</mat-hint>
             </mat-form-field>
-            <button mat-button (click)="verifyGst($event)">
-              <span *ngIf="!loadingGstVerification else LoadingSpinner">Upload GST Certificate</span>
-              <ng-template #LoadingSpinner>
-                <mat-spinner [diameter]="25"></mat-spinner>
-              </ng-template>
-            </button>
+<!--            <button mat-button (click)="verifyGst($event)">-->
+<!--              <span *ngIf="!loadingGstVerification else LoadingSpinner">Upload GST Certificate</span>-->
+<!--              <ng-template #LoadingSpinner>-->
+<!--                <mat-spinner [diameter]="25"></mat-spinner>-->
+<!--              </ng-template>-->
+<!--            </button>-->
           </div>
         </div>
 
         <div>
           <h4>Enter Your Business PAN Card Number And Upload Business PAN card<span class="required">*</span></h4>
-          <div class="mini-form-group-container">
+          <div class="small-form-group">
             <mat-form-field appearance="outline">
               <mat-label>Enter your PAN Card</mat-label>
               <input matInput formControlName="pan_no" autocomplete="nope">
@@ -164,12 +164,12 @@
               <mat-error *ngIf="regForm.controls['pan_no'].hasError('InvalidValue')">{{panVerificationFailureReason}}</mat-error>
               <mat-hint *ngIf="panVerificationSuccessful" class="hint-message">PAN Verification Successful</mat-hint>
             </mat-form-field>
-            <button mat-button (click)="verifyPan($event)">
-              <span *ngIf="!loadingPanVerification else LoadingSpinner">Upload PAN Card</span>
-              <ng-template #LoadingSpinner>
-                <mat-spinner [diameter]="25"></mat-spinner>
-              </ng-template>
-            </button>
+<!--            <button mat-button (click)="verifyPan($event)">-->
+<!--              <span *ngIf="!loadingPanVerification else LoadingSpinner">Upload PAN Card</span>-->
+<!--              <ng-template #LoadingSpinner>-->
+<!--                <mat-spinner [diameter]="25"></mat-spinner>-->
+<!--              </ng-template>-->
+<!--            </button>-->
           </div>
         </div>
 
