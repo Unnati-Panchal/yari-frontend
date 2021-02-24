@@ -41,7 +41,9 @@
       <img [src]="'assets/images/drag_files.svg'" alt="drag image here"/>
       <h3>Drag files here or choose browse to select files</h3>
     </div>
-    <h3>{{uploadedFile}}</h3>
+    <div *ngFor="let msg of uploadedFile">
+      <h3>{{msg}}</h3>
+    </div>
 
     <div class="buttons-box">
       <div>

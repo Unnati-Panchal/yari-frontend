@@ -16,7 +16,7 @@ import {filter} from 'rxjs/operators';
 export class CatalogueComponent implements OnInit, OnDestroy {
   private _subscription: Subscription = new Subscription();
   public selectedFile: File;
-  uploadedFile: string;
+  uploadedFile: string[];
   selectedCategory: {id: string, name: string, terminal: boolean};
   selectedCategoryMsg: string;
   categoriesChain: {name: string, isLast: boolean}[];
@@ -30,10 +30,10 @@ export class CatalogueComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
-    this._subscription.add(this.bulkUploadCatalog$.subscribe(() => this.uploadedFile = `Successfully uploaded`));
+    this._subscription.add(this.bulkUploadCatalog$.subscribe(() => this.uploadedFile = [`Successfully uploaded`]));
     this._subscription.add(this.getIsError$.subscribe((error: any) => {
-      if (error.detail[0]?.loc.find(msg => msg === 'category_id') && error.detail[0]?.msg === 'field required') {
-        this.uploadedFile = 'Category field is required!';
+      if (error.detail?.length) {
+        this.uploadedFile = error.detail;
       }
     }));
   }
@@ -73,12 +73,12 @@ export class CatalogueComponent implements OnInit, OnDestroy {
     }
     if (this.selectedFile) {
       if (!this.selectedFile?.name.includes('xlsx')) {
-        this.uploadedFile = `Please upload xlsx files only`;
+        this.uploadedFile = [`Please upload xlsx files only`];
       } else {
-        this.uploadedFile = `Successfully added file ${this.selectedFile.name}. Click Upload`;
+        this.uploadedFile = [`Successfully added file ${this.selectedFile.name}. Click Upload`];
       }
     } else {
-      this.uploadedFile = `Try again`;
+      this.uploadedFile = [`Try again`];
     }
   }
 

@@ -33,7 +33,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   });
   displayedColumns: string[];
   description = {
-    sku_id: 'SKU Number',
+    sku_id: 'Sr. No.',
     next_day_dispatch: 'Next Day Dispatch'
   };
   dataSource: IProductSpecs[];
@@ -82,8 +82,8 @@ export class SpecificationComponent implements OnInit, OnDestroy {
     this._subscription.add(
       this.getBulkSpecificationsUploadTemplate$.subscribe((response) => {
         const columns = Object.values(response);
-        this.displayedColumns = [...columns, 'sku_id', 'next_day_dispatch'];
-        this.dataSource = [{}, {}, {}, {}, {}];
+        this.displayedColumns = ['sku_id', ...columns, 'next_day_dispatch'];
+        this.dataSource = [{}];
         this.loading = false;
       })
     );
