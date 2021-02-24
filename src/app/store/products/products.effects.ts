@@ -7,7 +7,7 @@ import {of} from 'rxjs';
 import * as fromRouter from '~store/route/route.selectors';
 import * as fromProductsActions from '~store/products/products.actions';
 import {ProductsService} from '@yaari/services/products/products.service';
-import {IBulkUploadBasic, ICategory, IFileUpload, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
+import {IBulkUploadBasic, ICatalogProducts, ICategory, IFileUpload, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
 
 @Injectable()
 export class ProductsEffects {
@@ -97,6 +97,19 @@ export class ProductsEffects {
         this._productsService.editSpecifications(spec).pipe(
           map((res) => fromProductsActions.geditSpecificationsSuccess({msg: res.msg})),
           catchError((error) => of(fromProductsActions.editSpecificationsError(error)))
+        )
+      )
+    )
+  );
+
+  public getCatalogProducts$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProductsActions.getCatalogProducts),
+      map(action => action.catalogId),
+      switchMap((catalogId: string) =>
+        this._productsService.catalogProducts(catalogId).pipe(
+          map((catalogProducts: ICatalogProducts[]) => fromProductsActions.getCatalogProductsSuccess({ catalogProducts })),
+          catchError(error => of(fromProductsActions.getCatalogProductsError(error)))
         )
       )
     )

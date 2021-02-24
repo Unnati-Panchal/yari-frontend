@@ -4,7 +4,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import * as fromRoot from '~store/app.state';
 import * as fromProductsActions from '~store/products/products.actions';
 
-import {IBulkUploadBasic, ICategory} from '@yaari/models/product/product.interface';
+import {IBulkUploadBasic, ICatalogProducts, ICategory} from '@yaari/models/product/product.interface';
 
 export const productFeatureKey = 'products';
 
@@ -19,6 +19,7 @@ export interface IProductsState extends fromRoot.IAppState {
   categoryId: string;
   specTemplate: string[];
   msg: string;
+  catalogProducts: ICatalogProducts[];
 }
 
 export const productsInitialState: IProductsState = {
@@ -31,7 +32,8 @@ export const productsInitialState: IProductsState = {
   catalogId: null,
   specTemplate: [],
   msg: '',
-  categoryId: ''
+  categoryId: '',
+  catalogProducts: []
 };
 
 const productsReducer = createReducer(
@@ -119,6 +121,19 @@ const productsReducer = createReducer(
     loading: false
   })),
   on(fromProductsActions.editSpecificationsError, (state, action) => ({ ...state, loading: false, error: action.error })),
+
+
+  on(fromProductsActions.getCatalogProducts, (state, action) => ({
+    ...state,
+    loading: true,
+    catalogId: action.catalogId
+  })),
+  on(fromProductsActions.getCatalogProductsSuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    catalogProducts: action.catalogProducts
+  })),
+  on(fromProductsActions.getCatalogProductsError, (state, action) => ({ ...state, loading: false, error: action.error })),
 
 
 );

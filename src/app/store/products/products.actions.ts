@@ -1,7 +1,7 @@
 import {createAction, props} from '@ngrx/store';
 import {HttpErrorResponse} from '@angular/common/http';
 
-import {IBulkUploadBasic, ICategory, IFileUpload, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
+import {IBulkUploadBasic, ICatalogProducts, ICategory, IFileUpload, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
 
 export const getCategories = createAction('[PRODUCTS] get categories', props<{ categoryId: string }>());
 
@@ -56,4 +56,14 @@ export const editSpecifications = createAction('[PRODUCTS] editSpecifications',
 export const geditSpecificationsSuccess = createAction('[PRODUCTS] editSpecifications success', props<{ msg: string }>());
 
 export const editSpecificationsError = createAction('[PRODUCTS] editSpecifications error',
+  props<{ error: HttpErrorResponse }>());
+
+
+export const getCatalogProducts = createAction('[PRODUCTS] CatalogProducts',
+  props<{ catalogId: string }>());
+
+export const getCatalogProductsSuccess = createAction('[PRODUCTS] CatalogProducts success',
+  props<{ catalogProducts: ICatalogProducts[] }>());
+
+export const getCatalogProductsError = createAction('[PRODUCTS] CatalogProducts error',
   props<{ error: HttpErrorResponse }>());

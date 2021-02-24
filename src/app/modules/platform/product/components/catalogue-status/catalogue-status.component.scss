@@ -5,6 +5,7 @@
   main {
     width: 100%;
     height: calc(100vh - 100px);
+    overflow: auto;
     @include yaari-display-flex();
 
     section {
@@ -14,6 +15,10 @@
       div {
         width: 100%;
         @include yaari-display-flex(center, flex-start);
+
+        &.table-box {
+          padding-bottom: $yaari-large;
+        }
 
         table {
           width: 100%;

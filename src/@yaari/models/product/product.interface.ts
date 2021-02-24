@@ -119,3 +119,12 @@ export interface IQualityScoreCard {
   shared: number;
   product_catalog_id: number;
 }
+
+export interface ICatalogProducts {
+  id: number;
+  sku_id: string;
+  product_name: string;
+  next_day_dispatch: boolean;
+  specifications: any;
+  specDetails?: string[];
+}

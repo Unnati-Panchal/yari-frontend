@@ -26,7 +26,7 @@
       </button>
     </div>
 
-    <div *ngIf="!loading && dataSource?.length">
+    <div *ngIf="!loading && dataSource?.length" class="table-box">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
         <ng-container matColumnDef="catalogue_id">

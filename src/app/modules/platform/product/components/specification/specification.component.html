@@ -45,24 +45,43 @@
           <h5>Catalogue {{isSelectedCatalogue}}</h5>
         </div>
 
-        <div>
+        <div class="table-box">
           <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 crazy-table">
 
-            <ng-container *ngFor="let column of displayedColumns" [matColumnDef]="column">
-              <th mat-header-cell *matHeaderCellDef> {{description[column] || column}} </th>
+            <ng-container matColumnDef="id">
+              <th mat-header-cell *matHeaderCellDef> ID </th>
+              <td mat-cell *matCellDef="let element"> {{element?.id}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="sku_id">
+              <th mat-header-cell *matHeaderCellDef> SKU Number </th>
+              <td mat-cell *matCellDef="let element"> {{element?.sku_id}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="product_name">
+              <th mat-header-cell *matHeaderCellDef> Product Name </th>
+              <td mat-cell *matCellDef="let element"> {{element?.product_name}} </td>
+            </ng-container>
+
+            <ng-container *ngFor="let column of specKeys; let idx = index" [matColumnDef]="column">
+              <th mat-header-cell *matHeaderCellDef> {{column}} </th>
               <td mat-cell *matCellDef="let element">
-              <span *ngIf="column === 'next_day_dispatch'; else normalInput">
-                  <mat-checkbox [(ngModel)]="element[column]" [value]="element[column] || false"></mat-checkbox>
-              </span>
-                <ng-template #normalInput>
                 <span>
                   <mat-form-field>
                     <label>
-                      <input matInput [(ngModel)]="element[column]" [value]="element[column] || ''">
+                      <input matInput [(ngModel)]="element.specDetails[idx]" [value]="element.specDetails[idx] || ''">
                     </label>
                   </mat-form-field>
                 </span>
-                </ng-template>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="next_day_dispatch">
+              <th mat-header-cell *matHeaderCellDef> Next Day Dispatch </th>
+              <td mat-cell *matCellDef="let element">
+                <span>
+                  <mat-checkbox [(ngModel)]="element.next_day_dispatch" [value]="element.next_day_dispatch"></mat-checkbox>
+                </span>
               </td>
             </ng-container>
 

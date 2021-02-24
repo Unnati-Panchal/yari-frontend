@@ -9,6 +9,7 @@
 
     section {
       width: 90%;
+      overflow: auto;
       padding: $yaari-base * 2 yaari-to-rem(65px);
 
       .loading-spinner {
@@ -30,6 +31,10 @@
         width: 100%;
         overflow: auto;
         @include yaari-display-flex(center, flex-start);
+
+        &.table-box {
+          padding-bottom: $yaari-large;
+        }
 
         table {
 

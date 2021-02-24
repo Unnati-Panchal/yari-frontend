@@ -3,7 +3,7 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 import {environment} from '~env/environment';
-import {IBulkUploadBasic, ICategory, IFileUpload, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
+import {IBulkUploadBasic, ICatalogProducts, ICategory, IFileUpload, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -50,5 +50,10 @@ export class ProductsService {
     const body = spec.details;
     return this._http.put<{msg: string}>
     (`${environment.API_BASE_URL}/api/v1/catalog/product/specifications?catalog_id=${spec.catalog_id}`, body);
+  }
+
+  public catalogProducts(catalogId: string): Observable<ICatalogProducts[]> {
+    return this._http.get<ICatalogProducts[]>
+    (`${environment.API_BASE_URL}/api/v1/catalog/products?catalog_id=${catalogId}`);
   }
 }

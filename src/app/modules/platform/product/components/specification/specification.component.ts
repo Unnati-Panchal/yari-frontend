@@ -6,20 +6,10 @@ import {select, Store} from '@ngrx/store';
 import {IAppState} from '~store/app.state';
 import * as fromProductsSelectors from '~store/products/products.selectors';
 import {filter} from 'rxjs/operators';
-import {IBulkUploadBasic, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
+import {IBulkUploadBasic, ICatalogProducts, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import * as moment from 'moment';
-
-export interface IProductSpecs {
-  sr_no?: string;
-  item?: string;
-  occasion?: string;
-  neck_pattern?: string;
-  sleeve_pattern?: string;
-  itemLength?: string;
-  hemline?: string;
-  next_day_dispatch?: string;
-}
+import {Utilities} from '@yaari/utils/utlis';
 
 @Component({
   selector: 'app-specification',
@@ -32,11 +22,8 @@ export class SpecificationComponent implements OnInit, OnDestroy {
     end: new FormControl()
   });
   displayedColumns: string[];
-  description = {
-    sku_id: 'Sr. No.',
-    next_day_dispatch: 'Next Day Dispatch'
-  };
-  dataSource: IProductSpecs[];
+  specKeys: string[];
+  dataSource: ICatalogProducts[];
   loading: boolean;
   submitBtnLoading: boolean;
   selectedDate: IQuery;
@@ -44,8 +31,8 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   isSelectedCatalogue: number;
 
   private _subscription: Subscription = new Subscription();
-  public getBulkSpecificationsUploadTemplate$ = this._store.pipe(
-    select(fromProductsSelectors.getBulkSpecificationsUploadTemplate),
+  public getCatalogProducts$ = this._store.pipe(
+    select(fromProductsSelectors.getCatalogProducts$),
     filter(catalogs => !!catalogs?.length)
   );
   public isMsg$ = this._store.pipe(
@@ -80,10 +67,15 @@ export class SpecificationComponent implements OnInit, OnDestroy {
 
   getCataloguesRes(): void {
     this._subscription.add(
-      this.getBulkSpecificationsUploadTemplate$.subscribe((response) => {
-        const columns = Object.values(response);
-        this.displayedColumns = ['sku_id', ...columns, 'next_day_dispatch'];
-        this.dataSource = [{}];
+      this.getCatalogProducts$.subscribe((response) => {
+        this.specKeys = Object.keys(response[0]?.specifications);
+        this.displayedColumns = ['id', 'sku_id', 'product_name', ...this.specKeys, 'next_day_dispatch'];
+        this.dataSource = response.map( (item) => {
+          return {
+            ...item,
+            specDetails: Object.values(item.specifications)
+          };
+        });
         this.loading = false;
       })
     );
@@ -108,12 +100,6 @@ export class SpecificationComponent implements OnInit, OnDestroy {
         this.catalogueList = list;
       })
     );
-
-    this._subscription.add(
-      this.getCatalogues$.subscribe((list) => {
-        this.catalogueList = list;
-      })
-    );
   }
 
   backToCatalogueList(): void {
@@ -124,9 +110,11 @@ export class SpecificationComponent implements OnInit, OnDestroy {
     this.submitBtnLoading = true;
     const specifications = this.dataSource.map( (item: any) => {
       return {
-        sku_id: item?.sku_id ? item.sku_id : '',
-        next_day_dispatch: item?.next_day_dispatch ? item.next_day_dispatch : false,
-        specifications: item
+        id: item.id,
+        sku_id: item.sku_id,
+        next_day_dispatch: item?.next_day_dispatch,
+        product_name: item?.product_name,
+        specifications: Utilities.mapKeyValues(this.specKeys, item)
       };
     });
     const spec: ISpecifications = {
@@ -150,7 +138,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
     this.isSelectedCatalogue = catalogueId;
     this.loading = true;
     const catalogId = catalogueId.toString();
-    this._store.dispatch(fromProductsActions.getBulkSpecificationsUploadTemplate({catalogId}));
+    this._store.dispatch(fromProductsActions.getCatalogProducts({catalogId}));
 
   }
 
