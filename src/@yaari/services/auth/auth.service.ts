@@ -47,7 +47,7 @@ export class AuthService {
   }
 
   public passwordRecovery(email: string): Observable<string> {
-    return this._http.post<string>(`${environment.API_BASE_URL}/api/v1/user/password-recovery/${email}`, email);
+    return this._http.post<string>(`${environment.API_BASE_URL}/api/v1/user/password-recovery/${email}?user_role=supplier`, email);
   }
 
   public login(login: ILogin): Observable<IToken> {
