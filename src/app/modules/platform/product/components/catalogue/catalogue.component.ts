@@ -16,7 +16,7 @@ import {filter} from 'rxjs/operators';
 export class CatalogueComponent implements OnInit, OnDestroy {
   private _subscription: Subscription = new Subscription();
   public selectedFile: File;
-  uploadedFile: string[];
+  uploadedFile: any[];
   selectedCategory: {id: string, name: string, terminal: boolean};
   selectedCategoryMsg: string;
   categoriesChain: {name: string, isLast: boolean}[];
@@ -32,7 +32,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
     this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
     this._subscription.add(this.bulkUploadCatalog$.subscribe(() => this.uploadedFile = [`Successfully uploaded`]));
     this._subscription.add(this.getIsError$.subscribe((error: any) => {
-      if (error.detail?.length) {
+      if (error?.detail?.length) {
         this.uploadedFile = error.detail;
       }
     }));
@@ -54,7 +54,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   upload(): void {
     const fileUpload = {
       file: this.selectedFile,
-      category_id: this.selectedCategory.id
+      category_id: this.selectedCategory?.id
     };
     this._store.dispatch(fromProductsActions.bulkUploadCatalog({fileUpload}));
   }
