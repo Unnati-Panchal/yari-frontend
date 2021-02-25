@@ -37,6 +37,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public loadingEmailVerification: boolean;
   public emailVerificationSuccessful: string;
   errorMsgs: any[];
+  singleErrorMsg: string;
 
   private _subscription: Subscription = new Subscription();
 
@@ -146,11 +147,19 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   public supplierRegistration(): void {
     this._subscription.add(this.isAuthError$.subscribe((error: any) => {
-      this.errorMsgs = error.detail;
+      if (typeof error.detail === 'string') {
+        this.singleErrorMsg = error.detail;
+      } else {
+        this.errorMsgs = error.detail;
+      }
       this.loading = false;
     }));
     this._subscription.add(this.isProductError$.subscribe((error: any) => {
-      this.errorMsgs = error.detail;
+      if (typeof error.detail === 'string') {
+        this.singleErrorMsg = error.detail;
+      } else {
+        this.errorMsgs = error.detail;
+      }
       this.loading = false;
     }));
     this._subscription.add(this.registrationResponse$.subscribe(() => {
