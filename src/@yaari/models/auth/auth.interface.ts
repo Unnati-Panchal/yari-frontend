@@ -1,4 +1,5 @@
 export interface IRegistration {
+  profile_image?: string;
   contact_person: string;
   phone_no: number;
   email_id: string;

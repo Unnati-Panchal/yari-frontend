@@ -23,6 +23,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   public regForm: FormGroup;
   public loading;
   public isEditEnabled: boolean;
+  public profileImage = '/assets/images/registration.png';
 
   private _subscription: Subscription = new Subscription();
 
@@ -33,8 +34,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.initRegistrationForm();
     this.supplierRegistration();
+    this.initRegistrationForm();
     this._store.dispatch(fromAuthActions.supplierDetails());
   }
 
@@ -59,14 +60,12 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       contact_person: ['', [Validators.required]],
       phone_no: ['', [Validators.required, CustomValidator.digitsOnly]],
       email_id: ['', [Validators.required, Validators.email]],
-      primary_category_id: ['', [Validators.required]],
       gst_no: [''],
-      pan_no: ['', [Validators.required]],
+      type: [''],
       bank_account_name: ['', [Validators.required]],
       bank_account_number: ['', [Validators.required]],
       bank_name: ['', [Validators.required]],
       bank_ifsc: ['', [Validators.required]],
-      bank_account_type: ['', [Validators.required]],
       name_pan_card: ['', [Validators.required]]
     });
 
@@ -78,7 +77,17 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   public supplierRegistration(): void {
     this._subscription.add(this.isAuthError$.subscribe(error => console.log(error)));
     this._subscription.add(this.supplierDetails$.subscribe(details => {
-
+      this.profileImage = details?.profile_image;
+      this.regForm.get('contact_person').patchValue(details.contact_person);
+      this.regForm.get('phone_no').patchValue(details.phone_no);
+      this.regForm.get('email_id').patchValue(details.email_id);
+      this.regForm.get('gst_no').patchValue(details.gst_no);
+      this.regForm.get('type').patchValue(details.type);
+      this.regForm.get('bank_account_name').patchValue(details.bank_account_name);
+      this.regForm.get('bank_account_number').patchValue(details.bank_account_number);
+      this.regForm.get('bank_name').patchValue(details.bank_name);
+      this.regForm.get('bank_ifsc').patchValue(details.bank_ifsc);
+      this.regForm.get('name_pan_card').patchValue(details.name_pan_card);
     }));
   }
 

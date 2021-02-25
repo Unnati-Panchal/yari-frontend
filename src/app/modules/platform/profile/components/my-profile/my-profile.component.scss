@@ -17,8 +17,11 @@
     }
 
     .left-image {
-      background-image: url('~src/assets/images/registration.png');
-      background-size: cover;
+
+      img {
+        width: 100%;
+        height: 100%;
+      }
 
       h1 {
         padding: $yaari-base * 2 0 $yaari-tiny yaari-to-rem(120px);

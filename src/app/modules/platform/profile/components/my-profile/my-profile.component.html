@@ -2,6 +2,7 @@
   <section class="left-image">
 <!--    <h1>Let's Get Started</h1>-->
 <!--    <div class="red-line"></div>-->
+    <img [src]="profileImage" alt="profile image"/>
   </section>
   <section class="register-container">
     <form [formGroup]="regForm" class="register-form">
@@ -21,7 +22,6 @@
         <div>
           <h4>Name<span class="required">*</span></h4>
           <mat-form-field appearance="outline">
-            <mat-label>Enter your name</mat-label>
             <input matInput formControlName="contact_person" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['contact_person'].hasError('required')">Required field</mat-error>
           </mat-form-field>
@@ -30,7 +30,6 @@
         <div>
           <h4>Email ID<span class="required">*</span></h4>
           <mat-form-field appearance="outline">
-            <mat-label>Enter your email address</mat-label>
             <input matInput formControlName="email_id" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['email_id'].hasError('required')">Required field</mat-error>
             <mat-error *ngIf="regForm.controls['email_id'].hasError('email')">Please enter a valid email address
@@ -43,18 +42,10 @@
         <div>
           <h4>Phone number<span class="required">*</span></h4>
           <mat-form-field appearance="outline">
-            <mat-label>Enter your phone number</mat-label>
             <input matInput formControlName="phone_no" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['phone_no'].hasError('required')">Required field</mat-error>
             <mat-error *ngIf="regForm.controls['phone_no'].hasError('invalidNumber')">Please enter only digits
             </mat-error>
-          </mat-form-field>
-        </div>
-
-        <div>
-          <h4>Category</h4>
-          <mat-form-field appearance="outline">
-            <input matInput formControlName="primary_category_id" autocomplete="nope">
           </mat-form-field>
         </div>
 
@@ -66,16 +57,16 @@
         </div>
 
         <div>
-          <h4>PAN Number</h4>
+          <h4>Type</h4>
           <mat-form-field appearance="outline">
-            <input matInput formControlName="pan_no" autocomplete="nope">
+            <input matInput formControlName="type" autocomplete="nope">
           </mat-form-field>
         </div>
+
 
         <div>
           <h4>Account Holder's Name<span class="required">*</span></h4>
           <mat-form-field appearance="outline">
-            <mat-label>Enter your Bank Account Name</mat-label>
             <input matInput formControlName="bank_account_name" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['bank_account_name'].hasError('required')">Required field</mat-error>
           </mat-form-field>
@@ -84,7 +75,6 @@
         <div>
           <h4>Account Number<span class="required">*</span></h4>
           <mat-form-field appearance="outline">
-            <mat-label>Enter your Bank Account Number</mat-label>
             <input matInput formControlName="bank_account_number" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['bank_account_number'].hasError('required')">Required field</mat-error>
           </mat-form-field>
@@ -93,7 +83,6 @@
         <div>
           <h4>Bank Name<span class="required">*</span></h4>
           <mat-form-field appearance="outline">
-            <mat-label>Enter your Bank Name</mat-label>
             <input matInput formControlName="bank_name" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['bank_name'].hasError('required')">Required field</mat-error>
           </mat-form-field>
@@ -102,9 +91,15 @@
         <div>
           <h4>IFSC Code<span class="required">*</span></h4>
           <mat-form-field appearance="outline">
-            <mat-label>Enter your IFSC Code</mat-label>
             <input matInput formControlName="bank_ifsc" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['bank_ifsc'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>PAN Name</h4>
+          <mat-form-field appearance="outline">
+            <input matInput formControlName="name_pan_card" autocomplete="nope">
           </mat-form-field>
         </div>
 
