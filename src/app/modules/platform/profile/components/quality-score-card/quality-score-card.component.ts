@@ -20,7 +20,7 @@ export class QualityScoreCardComponent implements OnInit, OnDestroy {
     end: new FormControl()
   });
   displayedColumns: string[] = [
-    'id', 'sku_id', 'quality_rating', 'quality_score', 'shared', 'product_catalog_id'];
+    'sr_no', 'sku_id', 'quality_rating', 'quality_score', 'shared', 'product_catalog_id'];
   selectedDate: IQuery;
   dataSource: IQualityScoreCard[];
   private _subscription: Subscription = new Subscription();

@@ -19,7 +19,7 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
     start: new FormControl(),
     end: new FormControl()
   });
-  displayedColumns: string[] = ['catalogue_id', 'type_of_product', 'date_uploaded', 'status', 'views', 'shares'];
+  displayedColumns: string[] = ['sr_no', 'catalogue_id', 'type_of_product', 'date_uploaded', 'status', 'views', 'shares'];
   dataSource: IBulkUploadBasic[];
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();

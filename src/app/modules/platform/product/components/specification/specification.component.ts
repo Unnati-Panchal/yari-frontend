@@ -69,7 +69,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
     this._subscription.add(
       this.getCatalogProducts$.subscribe((response) => {
         this.specKeys = Object.keys(response[0]?.specifications);
-        this.displayedColumns = ['id', 'sku_id', 'product_name', ...this.specKeys, 'next_day_dispatch'];
+        this.displayedColumns = ['sr_no', 'sku_id', 'product_name', ...this.specKeys, 'next_day_dispatch'];
         this.dataSource = response.map( (item) => {
           return {
             ...item,
