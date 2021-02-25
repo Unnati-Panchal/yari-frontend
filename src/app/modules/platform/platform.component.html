@@ -1,5 +1,11 @@
 <header>
-  <img src="/assets/images/yaari-logo.png" alt="yaari-logo"/>
+  <div class="logo">
+    <img src="/assets/images/yaari-logo.png" alt="yaari-logo"/>
+    <p *ngIf="supplierDetails$ | async as supplierDetails">
+      <span class="underline-span">Hi</span>
+      <span>{{supplierDetails?.contact_person}}</span>
+    </p>
+  </div>
   <div>
     <button [routerLink]="['/app/profile/contact-us']" mat-button>
       <span>Contact Us</span>

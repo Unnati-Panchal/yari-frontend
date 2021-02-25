@@ -8,12 +8,35 @@
     height: $header-height;
     padding: 0 $yaari-large * 2;
 
-    img {
-      margin: $yaari-large / 2 0;
-      width: $yaari-large;
-    }
-
     div {
+
+      &.logo {
+        @include yaari-display-flex(center, flex-start);
+
+        img {
+          margin: $yaari-large / 2 0;
+          width: $yaari-large;
+        }
+
+        p {
+          margin: 0 $yaari-xlarge;
+
+          span {
+            font-size: $yaari-h4;
+
+
+            &.underline-span {
+              margin: 0 $yaari-small;
+              border-bottom: 5px solid $yaari-red;
+            }
+          }
+        }
+
+
+      }
+
+
+
       .logout {
         border-radius: 24px;
         font-size: $yaari-h6;
