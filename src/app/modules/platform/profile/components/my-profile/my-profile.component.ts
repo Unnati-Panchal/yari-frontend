@@ -20,10 +20,12 @@ import {IEditSupplierProfile} from '@yaari/models/auth/auth.interface';
 export class MyProfileComponent implements OnInit, OnDestroy {
   public isAuthError$ = this._store.pipe(select(fromAuthSelectors.getIsError), filter(error => !!error));
   public supplierDetails$ = this._store.pipe(select(fromAuthSelectors.supplierDetails$), filter(d => !!d));
+  public getRegResponse$ = this._store.pipe(select(fromAuthSelectors.getRegResponse), filter(d => !!d));
+  public url$ = this._store.pipe(select(fromAuthSelectors.url$), filter(d => !!d));
   public regForm: FormGroup;
   public loading;
   public isEditEnabled: boolean;
-  public profileImage = '/assets/images/registration.png';
+  public profileImage: string;
 
   private _subscription: Subscription = new Subscription();
 
@@ -34,8 +36,9 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit(): void {
-    this.supplierRegistration();
+    this.loading = true;
     this.initRegistrationForm();
+    this.supplierRegistration();
     this._store.dispatch(fromAuthActions.supplierDetails());
   }
 
@@ -75,9 +78,15 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   }
 
   public supplierRegistration(): void {
-    this._subscription.add(this.isAuthError$.subscribe(error => console.log(error)));
+    this._subscription.add(this.isAuthError$.subscribe(error => {
+      console.log(error);
+      this.loading = false;
+    }));
     this._subscription.add(this.supplierDetails$.subscribe(details => {
       this.profileImage = details?.profile_image;
+      if (!this.profileImage) {
+        this.profileImage = '/assets/images/registration.png';
+      }
       this.regForm.get('contact_person').patchValue(details.contact_person);
       this.regForm.get('phone_no').patchValue(details.phone_no);
       this.regForm.get('email_id').patchValue(details.email_id);
@@ -88,6 +97,17 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       this.regForm.get('bank_name').patchValue(details.bank_name);
       this.regForm.get('bank_ifsc').patchValue(details.bank_ifsc);
       this.regForm.get('name_pan_card').patchValue(details.name_pan_card);
+      this.loading = false;
+    }));
+
+    this._subscription.add(this.getRegResponse$.subscribe(() => {
+      this._store.dispatch(fromAuthActions.supplierDetails());
+      this.loading = false;
+    }));
+
+    this._subscription.add(this.url$.subscribe(() => {
+      this._store.dispatch(fromAuthActions.supplierDetails());
+      this.loading = false;
     }));
   }
 
@@ -100,6 +120,15 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     this.regForm.get('bank_account_name').enable();
     this.regForm.get('bank_ifsc').enable();
     this.isEditEnabled = true;
+  }
+
+  public uploadProfileImage(fileUpload: File): void {
+    this.loading = true;
+    this._store.dispatch(fromAuthActions.uploadSupplierPicture({fileUpload}));
+  }
+
+  fileBrowseHandler(files): void {
+    this.uploadProfileImage(files[0]);
   }
 
 }

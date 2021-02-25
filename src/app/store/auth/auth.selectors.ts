@@ -19,3 +19,5 @@ export const verifyOtpResponse = createSelector(selectBaseFeature, (state: fromA
 export const approveKYCResponse = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.approveKYCResponse);
 export const onBoarders = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.onBoarders);
 export const supplierDetails$ = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.supplierDetails);
+
+export const url$ = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.url);

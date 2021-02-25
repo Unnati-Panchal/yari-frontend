@@ -10,6 +10,7 @@ import {
   IVerifyOtp,
   KYCDetailsResponse
 } from '@yaari/models/auth/auth.interface';
+import {IBulkUploadBasic, IFileUpload} from '@yaari/models/product/product.interface';
 
 export const clearState = createAction('[AUTH] clear state');
 
@@ -105,3 +106,10 @@ export const getOnboarders = createAction('[AUTH] get onboarders');
 export const getOnboardersSuccess = createAction('[AUTH] get onboarders success', props<{ onBoarders: IOnboarders[] }>());
 
 export const getOnboardersError = createAction('[AUTH] get onboarders error', props<{ error: HttpErrorResponse }>());
+
+export const uploadSupplierPicture = createAction('[PRODUCTS] supplierPicture', props<{ fileUpload: File }>());
+
+export const uploadSupplierPictureSuccess =
+  createAction('[PRODUCTS] supplierPicture success', props<{ url: string }>());
+
+export const uploadSupplierPictureError = createAction('[PRODUCTS] supplierPicture error', props<{ error: HttpErrorResponse }>());

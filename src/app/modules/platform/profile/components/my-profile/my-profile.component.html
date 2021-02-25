@@ -1,10 +1,15 @@
 <main>
-  <section class="left-image">
-<!--    <h1>Let's Get Started</h1>-->
-<!--    <div class="red-line"></div>-->
-    <img [src]="profileImage" alt="profile image"/>
+  <section *ngIf="loading" class="centered">
+    <mat-spinner color="warn" [diameter]="50"></mat-spinner>
   </section>
-  <section class="register-container">
+  <section *ngIf="!loading" class="left-image"
+           [ngStyle]="{'background-image': (profileImage) ? 'url(' + profileImage + ')' : ''}">
+    <input type="file" style="display: none" #fileDropRef id="fileDropRef" (change)="fileBrowseHandler($event.target.files)" />
+    <button mat-button (click)="fileDropRef.click()">
+      <span>Upload Profile Picture</span>
+    </button>
+  </section>
+  <section *ngIf="!loading" class="register-container">
     <form [formGroup]="regForm" class="register-form">
 
       <div class="title-section">

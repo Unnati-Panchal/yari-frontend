@@ -38,6 +38,8 @@ export interface IAuthState extends fromRoot.IAppState {
   onBoarders: IOnboarders[];
   supplierProfileChanges: IEditSupplierProfile;
   supplierDetails: IRegistration;
+  fileUpload: File;
+  url: string;
 }
 
 export const authInitialState: IAuthState = {
@@ -61,7 +63,9 @@ export const authInitialState: IAuthState = {
   approveKYCResponse: null,
   onBoarders: [],
   supplierProfileChanges: null,
-  supplierDetails: null
+  supplierDetails: null,
+  fileUpload: null,
+  url: ''
 };
 
 const authReducer = createReducer(
@@ -172,6 +176,15 @@ const authReducer = createReducer(
     ...state, loading: false, approveKYCResponse: action.approveKYCResponse
   })),
   on(fromAuthActions.approveKYCError, (state, action) => ({...state, loading: false, error: action.error})),
+
+
+  on(fromAuthActions.uploadSupplierPicture, (state, action) => ({
+    ...state, loading: true, fileUpload: action.fileUpload
+  })),
+  on(fromAuthActions.uploadSupplierPictureSuccess, (state, action) => ({
+    ...state, loading: false, url: action.url
+  })),
+  on(fromAuthActions.uploadSupplierPictureError, (state, action) => ({...state, loading: false, error: action.error})),
 
 
   on(fromAuthActions.getOnboarders, (state) => ({

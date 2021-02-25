@@ -18,7 +18,6 @@ import * as fromAuthActions from '~store/auth/auth.actions';
 import {Store} from '@ngrx/store';
 import {IAppState} from '~store/app.state';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -103,4 +102,11 @@ export class AuthService {
   public supplierDetails(): Observable<IRegistration> {
     return this._http.get<IRegistration>(`${environment.API_BASE_URL}/api/v1/supplier`);
   }
+
+  public uploadSupplierPicture(file: any): Observable<{url: string}> {
+    const formData = new FormData();
+    formData.append('file', file, file.name);
+    return this._http.put<{url: string}>(`${environment.API_BASE_URL}/api/v1/supplier/image`, formData);
+  }
+
 }

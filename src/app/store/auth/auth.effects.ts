@@ -10,10 +10,12 @@ import * as fromAuthActions from '~store/auth/auth.actions';
 import {AuthService} from '@yaari/services/auth/auth.service';
 import {
   IEditSupplierProfile,
-  ILogin, IOnboarders,
+  ILogin,
+  IOnboarders,
   IRegistration,
   ISubmitKYCForVerificationResponse,
-  IToken, IVerifyGstPan,
+  IToken,
+  IVerifyGstPan,
   IVerifyOtp,
   KYCDetailsResponse
 } from '@yaari/models/auth/auth.interface';
@@ -182,6 +184,19 @@ export class AuthEffects {
         this._authService.getOnboarders().pipe(
           map((onBoarders: IOnboarders[]) => fromAuthActions.getOnboardersSuccess({ onBoarders })),
           catchError(error => of(fromAuthActions.getOnboardersError({ error })))
+        )
+      )
+    )
+  );
+
+  public uploadSupplierPicture$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAuthActions.uploadSupplierPicture),
+      map(action => action.fileUpload),
+      switchMap((fileUpload: File) =>
+        this._authService.uploadSupplierPicture(fileUpload).pipe(
+          map(({url}) => fromAuthActions.uploadSupplierPictureSuccess({ url })),
+          catchError(error => of(fromAuthActions.uploadSupplierPictureError(error)))
         )
       )
     )
