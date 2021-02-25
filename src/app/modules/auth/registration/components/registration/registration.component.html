@@ -55,18 +55,9 @@
           <div class="small-form-group">
             <mat-form-field appearance="outline">
               <mat-label>Enter the OTP Number from your email</mat-label>
-              <input matInput formControlName="otp_no" autocomplete="nope">
-              <mat-error *ngIf="regForm.controls['otp_no'].hasError('required')">Required field</mat-error>
-              <mat-error *ngIf="regForm.controls['otp_no'].hasError('InvalidValue')">OTP Verification failed
-              </mat-error>
-              <mat-hint *ngIf="otpVerificationSuccessful" class="hint-message">OTP Verification Successful</mat-hint>
+              <input matInput formControlName="otp" autocomplete="nope">
+              <mat-error *ngIf="regForm.controls['otp'].hasError('required')">Required field</mat-error>
             </mat-form-field>
-<!--            <button mat-button (click)="verifyOtp($event)">-->
-<!--              <span *ngIf="!loadingOtpVerification else LoadingSpinner">Verify OTP</span>-->
-<!--              <ng-template #LoadingSpinner>-->
-<!--                <mat-spinner [diameter]="25"></mat-spinner>-->
-<!--              </ng-template>-->
-<!--            </button>-->
           </div>
         </div>
 
@@ -142,15 +133,7 @@
               <mat-label>Enter your GST Certificate</mat-label>
               <input matInput formControlName="gst_no" autocomplete="nope">
               <mat-error *ngIf="regForm.controls['gst_no'].hasError('required')">Required field</mat-error>
-              <mat-error *ngIf="regForm.controls['gst_no'].hasError('InvalidValue')">{{gstVerificationFailureReason}}</mat-error>
-              <mat-hint *ngIf="gstVerificationSuccessful" class="hint-message">GST Verification Successful</mat-hint>
             </mat-form-field>
-<!--            <button mat-button (click)="verifyGst($event)">-->
-<!--              <span *ngIf="!loadingGstVerification else LoadingSpinner">Upload GST Certificate</span>-->
-<!--              <ng-template #LoadingSpinner>-->
-<!--                <mat-spinner [diameter]="25"></mat-spinner>-->
-<!--              </ng-template>-->
-<!--            </button>-->
           </div>
         </div>
 
@@ -161,16 +144,17 @@
               <mat-label>Enter your PAN Card</mat-label>
               <input matInput formControlName="pan_no" autocomplete="nope">
               <mat-error *ngIf="regForm.controls['pan_no'].hasError('required')">Required field</mat-error>
-              <mat-error *ngIf="regForm.controls['pan_no'].hasError('InvalidValue')">{{panVerificationFailureReason}}</mat-error>
-              <mat-hint *ngIf="panVerificationSuccessful" class="hint-message">PAN Verification Successful</mat-hint>
             </mat-form-field>
-<!--            <button mat-button (click)="verifyPan($event)">-->
-<!--              <span *ngIf="!loadingPanVerification else LoadingSpinner">Upload PAN Card</span>-->
-<!--              <ng-template #LoadingSpinner>-->
-<!--                <mat-spinner [diameter]="25"></mat-spinner>-->
-<!--              </ng-template>-->
-<!--            </button>-->
           </div>
+        </div>
+
+        <div>
+          <h4>Name PAN Card<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter your Name PAN Card</mat-label>
+            <input matInput formControlName="name_pan_card" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['name_pan_card'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
         </div>
 
         <div>
@@ -188,16 +172,13 @@
             <mat-label>Enter your Bank Account Number</mat-label>
             <input matInput formControlName="bank_account_number" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['bank_account_number'].hasError('required')">Required field</mat-error>
-            <mat-error *ngIf="regForm.controls['bank_account_number'].hasError('InvalidValue')">Bank Verification
-              failed
-            </mat-error>
           </mat-form-field>
         </div>
 
         <div>
           <h4>Bank Account Type<span class="required">*</span></h4>
           <mat-form-field appearance="outline" class="small-form-group">
-            <mat-label>Enter your Bank Account Type</mat-label>
+            <mat-label>Savings or Current</mat-label>
             <input matInput formControlName="bank_account_type" autocomplete="nope">
             <mat-error *ngIf="regForm.controls['bank_account_type'].hasError('required')">Required field</mat-error>
           </mat-form-field>
@@ -271,6 +252,12 @@
               <mat-spinner [diameter]="25"></mat-spinner>
             </ng-template>
           </button>
+        </div>
+
+        <div *ngIf="errorMsgs?.length">
+          <ng-container *ngFor="let item of errorMsgs">
+            <p>{{item.loc[1]}} {{item.msg}}</p>
+          </ng-container>
         </div>
 
       </section>
