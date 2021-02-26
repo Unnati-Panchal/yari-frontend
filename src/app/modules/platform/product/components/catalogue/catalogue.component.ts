@@ -6,7 +6,7 @@ import {Subscription} from 'rxjs';
 import {ProductsService} from '@yaari/services/products/products.service';
 import * as fileSaver from 'file-saver';
 import * as fromProductsSelectors from '~store/products/products.selectors';
-import {filter} from 'rxjs/operators';
+import {filter, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-catalogue',
@@ -16,25 +16,28 @@ import {filter} from 'rxjs/operators';
 export class CatalogueComponent implements OnInit, OnDestroy {
   private _subscription: Subscription = new Subscription();
   public selectedFile: File;
-  uploadedFile: any[];
+  success: string;
   selectedCategory: {id: string, name: string, terminal: boolean};
   selectedCategoryMsg: string;
   categoriesChain: {name: string, isLast: boolean}[];
+  downloadLoading: boolean;
+  uploadLoading: boolean;
 
   public getCategories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(cat => !!cat));
   public bulkUploadCatalog$ = this._store.pipe(select(fromProductsSelectors.bulkUploadCatalog), filter(b => !!b));
-  public getIsError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(err => !!err));
+  public getIsError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(err => !!err), tap( err => {
+    this.uploadLoading = false;
+    this.downloadLoading = false;
+  }));
 
   constructor(private _store: Store<IAppState>, private _product: ProductsService) {
   }
 
   ngOnInit(): void {
     this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
-    this._subscription.add(this.bulkUploadCatalog$.subscribe(() => this.uploadedFile = [`Successfully uploaded`]));
-    this._subscription.add(this.getIsError$.subscribe((error: any) => {
-      if (error?.detail?.length) {
-        this.uploadedFile = error.detail;
-      }
+    this._subscription.add(this.bulkUploadCatalog$.subscribe(() => {
+      this.success = `Successfully uploaded file`;
+      this.uploadLoading = false;
     }));
   }
 
@@ -43,10 +46,14 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   }
 
   downloadTemplate(): void {
+    this.downloadLoading = true;
     this._subscription.add(
       this._product.getBulkBasicUploadTemplate().subscribe(response => {
+        this.downloadLoading = false;
         const blob = new Blob([response], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
         fileSaver.saveAs(blob, 'product_upload_template.xlsx');
+      }, () => {
+        this.downloadLoading = false;
       })
     );
   }
@@ -56,6 +63,12 @@ export class CatalogueComponent implements OnInit, OnDestroy {
       file: this.selectedFile,
       category_id: this.selectedCategory?.id
     };
+    this.uploadLoading = true;
+    if (!fileUpload?.file) {
+      this.success = `Please upload file`;
+      this.uploadLoading = false;
+      return;
+    }
     this._store.dispatch(fromProductsActions.bulkUploadCatalog({fileUpload}));
   }
 
@@ -73,12 +86,12 @@ export class CatalogueComponent implements OnInit, OnDestroy {
     }
     if (this.selectedFile) {
       if (!this.selectedFile?.name.includes('xlsx')) {
-        this.uploadedFile = [`Please upload xlsx files only`];
+        this.success = `Please upload xlsx files only`;
       } else {
-        this.uploadedFile = [`Successfully added file ${this.selectedFile.name}. Click Upload`];
+        this.success = `Successfully added file ${this.selectedFile.name}. Click Upload`;
       }
     } else {
-      this.uploadedFile = [`Try again`];
+      this.success = `Please try again`;
     }
   }
 

@@ -1,10 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 
 import {IAppState} from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
+import * as fromAuthSelectors from '~store/auth/auth.selectors';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-password-recovery',
@@ -14,6 +16,12 @@ import * as fromAuthActions from '~store/auth/auth.actions';
 export class PasswordRecoveryComponent implements OnInit, OnDestroy {
   public accountRecoveryForm: FormGroup;
   public hide: boolean;
+  public loading: boolean;
+  public errors: string;
+  public isError$ = this._store.pipe(
+    select(fromAuthSelectors.getIsError),
+    filter(error => !!error)
+  );
 
   private _subscription: Subscription = new Subscription();
 
@@ -32,6 +40,12 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
 
   public supplierLogin(): void {
     const email = this.accountRecoveryForm.value.email;
+    this.loading = true;
+    this.accountRecoveryForm.updateValueAndValidity();
+    if (!email) {
+      this.loading = false;
+      return;
+    }
     this._store.dispatch(fromAuthActions.passwordRecovery({ email }));
   }
 
@@ -40,5 +54,12 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, Validators.email]],
       user_role: 'supplier' // 'supplier' / 'admin'
     });
+    this._subscription.add(
+      this.isError$.subscribe( (error) => {
+        this.errors = error.error.detail;
+        this.loading = false;
+        this.accountRecoveryForm.get('email').setErrors({notExist: true});
+      })
+    );
   }
 }

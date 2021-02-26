@@ -82,7 +82,7 @@
       }
 
       button {
-        @include yaari-display-flex(center, space-between);
+        @include yaari-display-flex(center, center);
         height: $yaari-xlarge;
         border-radius: 24px;
         background-color: $yaari-red;
@@ -90,6 +90,7 @@
         color: $yaari-light;
         margin: $yaari-base 0;
         padding: 0 $yaari-large;
+        min-width: yaari-to-rem(180px);
 
         &.outlined-btn {
           background-color: $yaari-light;
@@ -101,6 +102,11 @@
       div {
         width: 100%;
         @include yaari-display-flex(center, center);
+
+        &.upload-container {
+          @include yaari-display-flex(center, flex-start, column);
+          min-height: yaari-to-rem(350px);
+        }
       }
     }
   }

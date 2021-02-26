@@ -20,9 +20,13 @@
         <p>{{selectedCategoryMsg}}</p>
       </section>
       <section class="download-btn">
-        <button mat-button (click)="downloadTemplate()">
-          <span>Download</span>
-        </button>
+        <button *ngIf="!downloadLoading else LoadingSpinner"
+                mat-button (click)="downloadTemplate()">Download</button>
+        <ng-template #LoadingSpinner>
+          <button mat-button>
+            <mat-spinner [diameter]="25"></mat-spinner>
+          </button>
+        </ng-template>
       </section>
     </div>
 
@@ -36,13 +40,13 @@
       </p>
     </div>
 
-    <div class="upload-section" appDnd (fileDropped)="onFileDropped($event)">
-      <input type="file" style="display: none" #fileDropRef id="fileDropRef" (change)="fileBrowseHandler($event.target.files)" />
-      <img [src]="'assets/images/drag_files.svg'" alt="drag image here"/>
-      <h3>Drag files here or choose browse to select files</h3>
-    </div>
-    <div *ngFor="let item of uploadedFile">
-      <h3>{{item.loc[1]}} {{item.msg}}</h3>
+    <div class="upload-container">
+      <div class="upload-section" appDnd (fileDropped)="onFileDropped($event)">
+        <input type="file" style="display: none" #fileDropRef id="fileDropRef" (change)="fileBrowseHandler($event.target.files)" />
+        <img [src]="'assets/images/drag_files.svg'" alt="drag image here"/>
+        <h3>Drag files here or choose browse to select files</h3>
+      </div>
+      <app-error-success [errors]="getIsError$ | async" [success]="success"></app-error-success>
     </div>
 
     <div class="buttons-box">
@@ -52,9 +56,13 @@
         </button>
       </div>
       <div>
-        <button mat-button (click)="upload()">
-          <span>Upload</span>
-        </button>
+        <button *ngIf="!uploadLoading else LoadingSpinner"
+                mat-button (click)="upload()">Upload</button>
+        <ng-template #LoadingSpinner>
+          <button mat-button>
+            <mat-spinner [diameter]="25"></mat-spinner>
+          </button>
+        </ng-template>
       </div>
     </div>
   </section>

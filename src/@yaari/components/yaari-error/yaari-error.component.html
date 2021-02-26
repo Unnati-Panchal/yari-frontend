@@ -1,0 +1,16 @@
+<ng-container *ngIf="success && !errors">
+  <div>
+    <h3 class="success-msgs">{{success}}</h3>
+  </div>
+</ng-container>
+<ng-container *ngIf="errorArray?.length">
+  <div *ngFor="let item of errorArray">
+    <h3 class="error-msgs">{{item?.loc?.toString()}} {{item.msg}}</h3>
+  </div>
+</ng-container>
+<ng-container *ngIf="singleError">
+  <div>
+    <h3 class="error-msgs">{{singleError}}</h3>
+  </div>
+</ng-container>
+

@@ -1,0 +1,17 @@
+@import 'variables';
+@import 'mixins';
+
+
+:host {
+  div {
+    @include yaari-display-flex(flex-start, flex-start, column);
+
+    h3 {
+      font-size: $yaari-default-small;
+
+      &.error-msgs {
+        color: $yaari-red;
+      }
+    }
+  }
+}

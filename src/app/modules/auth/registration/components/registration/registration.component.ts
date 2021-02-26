@@ -37,8 +37,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public loading;
   public loadingEmailVerification: boolean;
   public emailVerificationSuccessful: string;
-  errorMsgs: any[];
-  singleErrorMsg: string;
 
   private _subscription: Subscription = new Subscription();
 
@@ -64,15 +62,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public registerSupplier(): void {
     this.loading = true;
     this.regForm.updateValueAndValidity();
-    if (!this.regForm.valid) {
-      this.loading = false;
-      return;
-    }
-    if (!this.emailVerificationSuccessful) {
-      this.loading = false;
-      this.regForm.get('email_id').setErrors({InvalidValue: true});
-      return;
-    }
     const regRequest = this.regForm.value;
     regRequest.email_id = this.emailVerificationSuccessful;
     this._store.dispatch(fromAuthActions.registration({regRequest}));
@@ -148,22 +137,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   public supplierRegistration(): void {
-    this._subscription.add(this.isAuthError$.subscribe((error: any) => {
-      if (typeof error.detail === 'string') {
-        this.singleErrorMsg = error.detail;
-      } else {
-        this.errorMsgs = error.detail;
-      }
-      this.loading = false;
-    }));
-    this._subscription.add(this.isProductError$.subscribe((error: any) => {
-      if (typeof error?.detail === 'string') {
-        this.singleErrorMsg = error.detail;
-      } else {
-        this.errorMsgs = error.detail;
-      }
-      this.loading = false;
-    }));
+    this._subscription.add(this.isAuthError$.subscribe(() => this.loading = false));
+    this._subscription.add(this.isProductError$.subscribe(() => this.loading = false));
     this._subscription.add(this.registrationResponse$.subscribe(() => {
       this.loading = false;
       const msg = `You've successfully registered. Please login with your email and password`;

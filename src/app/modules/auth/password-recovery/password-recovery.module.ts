@@ -8,16 +8,18 @@ import {PasswordRecoveryComponent} from '~auth/password-recovery/components/pass
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [PasswordRecoveryComponent],
-  imports: [
-    CommonModule,
-    PasswordRecoveryRoutingModule,
-    SharedModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule
-  ]
+    imports: [
+        CommonModule,
+        PasswordRecoveryRoutingModule,
+        SharedModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatButtonModule,
+        MatProgressSpinnerModule
+    ]
 })
 export class PasswordRecoveryModule { }
