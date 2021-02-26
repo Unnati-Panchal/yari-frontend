@@ -63,6 +63,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.regForm.updateValueAndValidity();
     const regRequest = this.regForm.value;
+    if (!this.regForm.valid) {
+      this.loading = false;
+      return;
+    }
     regRequest.email_id = this.emailVerificationSuccessful;
     this._store.dispatch(fromAuthActions.registration({regRequest}));
   }
