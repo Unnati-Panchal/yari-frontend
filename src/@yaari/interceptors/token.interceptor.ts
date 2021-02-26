@@ -21,7 +21,7 @@ export class TokenInterceptor implements HttpInterceptor {
       catchError(err => {
         if (err.status === 401 || err.status === 403) {
           this._auth.logout();
-          const msg = err.status === 401 ? `Unauthorized request with status 401` : `Forbidden request with status 403`;
+          const msg = err.status === 401 ? `Status 401. You are not authorized, please log in` : `Status 403. You are not authorized, please log in`;
           this._snackBar.open(msg, '', {duration: 3000});
           return of(err);
         }

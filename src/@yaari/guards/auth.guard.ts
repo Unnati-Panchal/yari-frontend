@@ -12,10 +12,8 @@ export class AuthGuard implements CanActivate {
 
   public canActivate(): boolean {
     this._router.events.pipe(filter(val => val instanceof NavigationEnd))
-      .subscribe(() => {
-        if (!this._authService.accessToken) {
-          const msg = `You are not authorized, please log in.`;
-          this._snackBar.open(msg, '', {duration: 3000});
+      .subscribe((val: NavigationEnd) => {
+        if (val.url !== '/auth/registration'  && val.url !== '/auth/password-recovery' && !this._authService.accessToken) {
           this._authService.redirectToLogin();
           return false;
         }
