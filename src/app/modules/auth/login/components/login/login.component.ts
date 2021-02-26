@@ -29,6 +29,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   public loginForm: FormGroup;
   public hide: boolean;
   public responseErrorMsg: string;
+  public loading: boolean;
   private _subscription: Subscription = new Subscription();
 
   constructor(private _store: Store<IAppState>,
@@ -48,7 +49,12 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public supplierLogin(): void {
+    this.loginForm.updateValueAndValidity();
+    if (!this.loginForm.valid) {
+      return;
+    }
     const loginRequest = this.loginForm.value;
+    this.loading = true;
     this._store.dispatch(fromAuthActions.login({ loginRequest }));
   }
 
@@ -65,9 +71,11 @@ export class LoginComponent implements OnInit, OnDestroy {
       this.loginForm.get('password').setErrors({invalidCredentials: true});
       this.loginForm.get('username').setErrors({invalidCredentials: true});
       this.responseErrorMsg = error.error.detail;
+      this.loading = false;
     }));
     this._subscription.add(this.token$.subscribe((token) => {
       this._auth.accessToken = token.access_token;
+      this.loading = false;
       this._store.dispatch(fromAuthActions.supplierDetails());
       this._router.navigate(['app/dashboard']);
     })
