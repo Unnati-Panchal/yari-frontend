@@ -17,6 +17,7 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {ContactUsPageComponent} from './components/contact-us-page/contact-us-page.component';
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
+import {SharedModule} from '@yaari/shared.module';
 
 @NgModule({
   declarations: [
@@ -40,6 +41,7 @@ import {MatInputModule} from '@angular/material/input';
     MatProgressSpinnerModule,
     MatIconModule,
     MatInputModule,
+    SharedModule,
   ]
 })
 export class ProfileModule {

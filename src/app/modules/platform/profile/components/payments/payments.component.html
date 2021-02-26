@@ -24,6 +24,10 @@
         <span>View</span>
       </button>
     </div>
+    <p *ngIf="selectDate">{{selectDate}}</p>
+    <div>
+      <app-error-success [errors]="isError$ | async"></app-error-success>
+    </div>
 
     <div *ngIf="submitted && !loading && dataSource?.length">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">

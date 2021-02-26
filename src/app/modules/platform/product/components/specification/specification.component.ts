@@ -5,7 +5,7 @@ import * as fromProductsActions from '~store/products/products.actions';
 import {select, Store} from '@ngrx/store';
 import {IAppState} from '~store/app.state';
 import * as fromProductsSelectors from '~store/products/products.selectors';
-import {filter} from 'rxjs/operators';
+import {filter, tap} from 'rxjs/operators';
 import {IBulkUploadBasic, ICatalogProducts, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import * as moment from 'moment';
@@ -29,6 +29,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   selectedDate: IQuery;
   catalogueList: IBulkUploadBasic[];
   isSelectedCatalogue: number;
+  selectDate: string;
 
   private _subscription: Subscription = new Subscription();
   public getCatalogProducts$ = this._store.pipe(
@@ -37,11 +38,13 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   );
   public isMsg$ = this._store.pipe(
     select(fromProductsSelectors.getIsMsg),
-    filter(msg => !!msg)
+    filter(msg => !!msg),
+    tap(() => this.submitBtnLoading = false)
   );
   public isError$ = this._store.pipe(
     select(fromProductsSelectors.getIsError),
-    filter(error => !!error)
+    filter(error => !!error),
+    tap(() => this.submitBtnLoading = false)
   );
   public getCatalogues$ = this._store.pipe(select(fromProductsSelectors.getCatalogs), filter(catalogs => !!catalogs));
 
@@ -81,24 +84,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
     );
 
     this._subscription.add(
-      this.isMsg$.subscribe((msg) => {
-        this._snackBar.open(msg, '', {duration: 3000});
-        this.submitBtnLoading = false;
-      })
-    );
-
-    this._subscription.add(
-      this.isError$.subscribe((error) => {
-        const msg = error.error.details[0].msg;
-        this._snackBar.open(msg, '', {duration: 3000});
-        this.submitBtnLoading = false;
-      })
-    );
-
-    this._subscription.add(
-      this.getCatalogues$.subscribe((list) => {
-        this.catalogueList = list;
-      })
+      this.getCatalogues$.subscribe((list) => this.catalogueList = list)
     );
   }
 
@@ -126,9 +112,9 @@ export class SpecificationComponent implements OnInit, OnDestroy {
 
   public viewCatalogueList(): void {
     const query = this.selectedDate;
+    this.selectDate = null;
     if (!query || !query?.startDate || !query?.endDate) {
-      this.range.get('end').setErrors({InvalidRange: true});
-      this.range.updateValueAndValidity();
+      this.selectDate = 'Please Select Date Range!';
       return;
     }
     this._store.dispatch(fromProductsActions.getCatalogs({query}));

@@ -24,8 +24,10 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();
   public getCatalogues$ = this._store.pipe(select(fromProductsSelectors.getCatalogs), filter(catalogs => !!catalogs));
+  public isError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(err => !!err));
   loading: boolean;
   submitted: boolean;
+  selectDate: string;
 
   constructor(private _store: Store<IAppState>) { }
 
@@ -48,9 +50,9 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
 
   public viewBtn(): void {
     const query = this.selectedDate;
+    this.selectDate = null;
     if (!query || !query?.startDate || !query?.endDate) {
-      this.range.get('end').setErrors({InvalidRange: true});
-      this.range.updateValueAndValidity();
+      this.selectDate = 'Please Select Date Range!';
       return;
     }
     this.loading = true;

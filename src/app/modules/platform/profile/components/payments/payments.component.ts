@@ -28,7 +28,9 @@ export class PaymentsComponent implements OnInit, OnDestroy {
   submitted: boolean;
 
   query: IQuery;
+  selectDate: string;
   public getSupplierSettlement$ = this._store.pipe(select(fromProfileSelectors.getSupplierSettlement$), filter(value => !!value));
+  public isError$ = this._store.pipe(select(fromProfileSelectors.getIsError$), filter(err => !!err));
 
   private _subscription: Subscription = new Subscription();
 
@@ -58,7 +60,9 @@ export class PaymentsComponent implements OnInit, OnDestroy {
   }
 
   public viewBtn(): void {
+    this.selectDate = null;
     if (!this.query) {
+      this.selectDate = 'Please Select Date Range!';
       return;
     }
     const query = {

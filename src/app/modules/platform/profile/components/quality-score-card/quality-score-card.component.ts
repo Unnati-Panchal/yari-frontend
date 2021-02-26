@@ -25,8 +25,10 @@ export class QualityScoreCardComponent implements OnInit, OnDestroy {
   dataSource: IQualityScoreCard[];
   private _subscription: Subscription = new Subscription();
   public qualityScoreCard$ = this._store.pipe(select(fromProfileSelectors.qualityScoreCard$), filter(q => !!q));
+  public isError$ = this._store.pipe(select(fromProfileSelectors.getIsError$), filter(q => !!q));
   loading: boolean;
   submitted: boolean;
+  selectDate: string;
 
   constructor(private _store: Store<IAppState>) { }
 
@@ -49,9 +51,9 @@ export class QualityScoreCardComponent implements OnInit, OnDestroy {
 
   public viewBtn(): void {
     const query = this.selectedDate;
+    this.selectDate = null;
     if (!query || !query?.startDate || !query?.endDate) {
-      this.range.get('end').setErrors({InvalidRange: true});
-      this.range.updateValueAndValidity();
+      this.selectDate = 'Please Select Date Range!';
       return;
     }
     this.loading = true;

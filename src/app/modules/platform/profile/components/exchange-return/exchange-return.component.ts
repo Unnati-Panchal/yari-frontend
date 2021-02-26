@@ -29,6 +29,7 @@ export class ExchangeReturnComponent implements OnInit, OnDestroy {
   submitted: boolean;
   selectedDate: IQuery;
   eSalesStatus = ESalesStatus;
+  selectDate: string;
 
   private _subscription: Subscription = new Subscription();
 
@@ -48,9 +49,9 @@ export class ExchangeReturnComponent implements OnInit, OnDestroy {
       endDate: this.selectedDate.endDate,
       status
     };
+    this.selectDate = null;
     if (!query || !query?.startDate || !query?.endDate) {
-      this.range.get('end').setErrors({InvalidRange: true});
-      this.range.updateValueAndValidity();
+      this.selectDate = 'Please Select Date Range!';
       return;
     }
     this.loading = true;
@@ -76,7 +77,7 @@ export class ExchangeReturnComponent implements OnInit, OnDestroy {
       })
     );
     this._subscription.add(
-      this.isError$.subscribe((error) => {
+      this.isError$.subscribe(() => {
         this.loading = false;
         this.dataSource = [];
       })

@@ -20,10 +20,14 @@
           <mat-error *ngIf="range.controls.end.hasError('InvalidRange')">Please select valid date range</mat-error>
         </mat-form-field>
 
-
         <button mat-button (click)="viewCatalogueList()">
           <span>View</span>
         </button>
+      </div>
+      <p *ngIf="selectDate">{{selectDate}}</p>
+
+      <div>
+        <app-error-success [errors]="isError$ | async"></app-error-success>
       </div>
 
       <div *ngFor="let catalog of catalogueList" class="catalogue-list">
