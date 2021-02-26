@@ -13,6 +13,7 @@ import * as fromProductsSelectors from '~store/products/products.selectors';
 import {CustomValidator} from '@yaari/utils/custom-validators';
 import {ICategory} from '@yaari/models/product/product.interface';
 import {Router} from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-registration',
@@ -43,7 +44,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   constructor(private _store: Store<IAppState>,
               private _formBuilder: FormBuilder,
-              private _router: Router
+              private _router: Router,
+              private _snackBar: MatSnackBar
   ) {
   }
 
@@ -164,7 +166,9 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     }));
     this._subscription.add(this.registrationResponse$.subscribe(() => {
       this.loading = false;
-      this._router.navigate(['app/dashboard']);
+      const msg = `You've successfully registered. Please login with your email and password`;
+      this._snackBar.open(msg, '', {duration: 3000});
+      this._router.navigate(['auth/login']);
     }));
   }
 
