@@ -155,7 +155,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.loading = false;
     }));
     this._subscription.add(this.isProductError$.subscribe((error: any) => {
-      if (typeof error.detail === 'string') {
+      if (typeof error?.detail === 'string') {
         this.singleErrorMsg = error.detail;
       } else {
         this.errorMsgs = error.detail;
