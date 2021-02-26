@@ -178,8 +178,11 @@
         <div>
           <h4>Bank Account Type<span class="required">*</span></h4>
           <mat-form-field appearance="outline" class="small-form-group">
-            <mat-label>Savings or Current</mat-label>
-            <input matInput formControlName="bank_account_type" autocomplete="nope">
+            <mat-label>Enter your bank account type</mat-label>
+            <mat-select formControlName="bank_account_type">
+              <mat-option [value]="'Savings'">{{'Savings'}}</mat-option>
+              <mat-option [value]="'Current'">{{'Current'}}</mat-option>
+            </mat-select>
             <mat-error *ngIf="regForm.controls['bank_account_type'].hasError('required')">Required field</mat-error>
           </mat-form-field>
         </div>
