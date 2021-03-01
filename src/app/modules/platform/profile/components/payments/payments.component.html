@@ -29,7 +29,7 @@
       <app-error-success [errors]="isError$ | async"></app-error-success>
     </div>
 
-    <div>
+    <div *ngIf="submitted && !loading && dataSource?.length">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
         <ng-container matColumnDef="sr_no">
