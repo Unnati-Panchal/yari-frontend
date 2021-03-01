@@ -79,10 +79,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   }
 
   public supplierRegistration(): void {
-    this._subscription.add(this.isAuthError$.subscribe(error => {
-      console.log(error);
-      this.loading = false;
-    }));
+    this._subscription.add(this.isAuthError$.subscribe(() => this.loading = false));
     this._subscription.add(this.supplierDetails$.subscribe(details => {
       this.profileImage = details?.profile_image;
       if (!this.profileImage) {

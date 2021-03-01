@@ -23,7 +23,7 @@ export class ExchangeReturnComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'serial_num', 'order_id', 'product_sku_id', 'shipped_date', 'exchange_or_return_date', 'product_type', 'penalty', 'penalty_amount'];
   dataSource: IExchangeReturned[];
-  public exchangedReturned$ = this._store.pipe(select(fromProfileSelectors.exchangedReturned$), filter(ex => !!ex));
+  public exchangedReturned$ = this._store.pipe(select(fromProfileSelectors.exchangedReturned$));
   public isError$ = this._store.pipe(select(fromProfileSelectors.getIsError$), filter(err => !!err));
   loading: boolean;
   submitted: boolean;

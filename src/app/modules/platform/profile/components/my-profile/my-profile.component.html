@@ -110,6 +110,11 @@
           </mat-form-field>
         </div>
 
+
+        <div>
+          <app-error-success [errors]="isAuthError$ | async"></app-error-success>
+        </div>
+
         <div class="form-group submit-btn-container">
           <button mat-button class="btn login-btn" (click)="registerSupplier()">
             <span *ngIf="!loading else LoadingSpinner">Submit</span>
