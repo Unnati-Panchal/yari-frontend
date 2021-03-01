@@ -20,8 +20,7 @@ export class PaymentsComponent implements OnInit, OnDestroy {
     end: new FormControl()
   });
   displayedColumns: string[] = [
-    'order_id', 'order_status', 'order_total_price', 'order_total_tax', 'order_shipping_charges',
-    'order_total_discount', 'order_total_reseller_margin', 'payment_status', 'created_time', 'discard_reason'
+    'sr_no', 'order_id', 'sku_id', 'product_name', 'created_time', 'shipped_time', 'order_status', 'payment_mode', 'payment_status'
   ];
   dataSource: IPayment[];
   loading: boolean;
