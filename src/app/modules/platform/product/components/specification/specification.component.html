@@ -38,7 +38,7 @@
     </ng-container>
 
     <div>
-      <app-error-success [errors]="isError$ | async" [success]="isMsg$ | async"></app-error-success>
+      <app-error-success [errors]="errorMessages" [success]="successMessage"></app-error-success>
     </div>
 
     <ng-template #currentCatalogue>

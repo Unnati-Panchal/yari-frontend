@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
-import {catchError, map, switchMap} from 'rxjs/operators';
+import {catchError, map, switchMap, tap} from 'rxjs/operators';
 import {of} from 'rxjs';
 
 import * as fromRouter from '~store/route/route.selectors';
@@ -95,7 +95,7 @@ export class ProductsEffects {
       map(action => action.spec),
       switchMap((spec: ISpecifications) =>
         this._productsService.editSpecifications(spec).pipe(
-          map(({msg}) => fromProductsActions.geditSpecificationsSuccess({msg})),
+          map(({msg}) => fromProductsActions.editSpecificationsSuccess({msg})),
           catchError((error) => of(fromProductsActions.editSpecificationsError(error)))
         )
       )

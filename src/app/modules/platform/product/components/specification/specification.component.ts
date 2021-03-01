@@ -10,6 +10,7 @@ import {IBulkUploadBasic, ICatalogProducts, IQuery, ISpecifications} from '@yaar
 import {MatSnackBar} from '@angular/material/snack-bar';
 import * as moment from 'moment';
 import {Utilities} from '@yaari/utils/utlis';
+import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-specification',
@@ -28,6 +29,8 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   submitBtnLoading: boolean;
   selectedDate: IQuery;
   catalogueList: IBulkUploadBasic[];
+  successMessage: string;
+  errorMessages: HttpErrorResponse;
   isSelectedCatalogue: string;
   selectDate: string;
 
@@ -43,12 +46,12 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   public isMsg$ = this._store.pipe(
     select(fromProductsSelectors.getIsMsg),
     filter(msg => !!msg),
-    tap(() => this.submitBtnLoading = false)
+    tap(() => this.clearMessages())
   );
   public isError$ = this._store.pipe(
     select(fromProductsSelectors.getIsError),
     filter(error => !!error),
-    tap(() => this.submitBtnLoading = false)
+    tap(() => this.clearMessages())
   );
   public getCatalogues$ = this._store.pipe(select(fromProductsSelectors.getCatalogs), filter(catalogs => !!catalogs));
 
@@ -72,6 +75,15 @@ export class SpecificationComponent implements OnInit, OnDestroy {
     );
   }
 
+  clearMessages(): void {
+    this.submitBtnLoading = false;
+    setTimeout(() => {
+      this._store.dispatch(fromProductsActions.clearMessages());
+      this.errorMessages = null;
+      this.successMessage = null;
+    }, 3000);
+  }
+
   getCataloguesRes(): void {
     this._subscription.add(
       combineLatest([this.getCatalogProducts$, this.getSpecTemplate$]).subscribe(([catalogueProducts, specTemplate]) => {
@@ -87,9 +99,9 @@ export class SpecificationComponent implements OnInit, OnDestroy {
       })
     );
 
-    this._subscription.add(
-      this.getCatalogues$.subscribe((list) => this.catalogueList = list)
-    );
+    this._subscription.add(this.getCatalogues$.subscribe((list) => this.catalogueList = list));
+    this._subscription.add(this.isError$.subscribe((errors) => this.errorMessages = errors));
+    this._subscription.add(this.isMsg$.subscribe((msg) => this.successMessage = msg));
   }
 
   backToCatalogueList(): void {

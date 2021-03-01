@@ -38,6 +38,8 @@ export const productsInitialState: IProductsState = {
 
 const productsReducer = createReducer(
   productsInitialState,
+  on(fromProductsActions.clearMessages, (state) => ({...state, msg: '', error: null})),
+
   on(fromProductsActions.getCategories, (state, {categoryId}) => ({...state, loading: true, categoryId})),
   on(fromProductsActions.getCategoriesSuccess, (state, {categories}) => ({...state, loading: false, categories})),
   on(fromProductsActions.getCategoriesError, (state, {error}) => ({ ...state, loading: false, error })),
@@ -69,7 +71,7 @@ const productsReducer = createReducer(
 
 
   on(fromProductsActions.editSpecifications, (state, {spec}) => ({...state, loading: true, spec})),
-  on(fromProductsActions.geditSpecificationsSuccess, (state, {msg}) => ({...state, loading: false, msg})),
+  on(fromProductsActions.editSpecificationsSuccess, (state, {msg}) => ({...state, loading: false, msg})),
   on(fromProductsActions.editSpecificationsError, (state, {error}) => ({ ...state, loading: false, error })),
 
 

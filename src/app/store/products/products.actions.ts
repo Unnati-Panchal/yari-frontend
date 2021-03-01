@@ -3,6 +3,8 @@ import {HttpErrorResponse} from '@angular/common/http';
 
 import {IBulkUploadBasic, ICatalogProducts, ICategory, IFileUpload, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
 
+export const clearMessages = createAction('[PRODUCTS] clear messages');
+
 export const getCategories = createAction('[PRODUCTS] get categories', props<{ categoryId: string }>());
 
 export const getCategoriesSuccess = createAction('[PRODUCTS] get categories success', props<{ categories: ICategory[] }>());
@@ -53,7 +55,7 @@ export const getBulkSpecificationsUploadTemplateError = createAction('[PRODUCTS]
 export const editSpecifications = createAction('[PRODUCTS] editSpecifications',
   props<{ spec: ISpecifications }>());
 
-export const geditSpecificationsSuccess = createAction('[PRODUCTS] editSpecifications success', props<{ msg: string }>());
+export const editSpecificationsSuccess = createAction('[PRODUCTS] editSpecifications success', props<{ msg: string }>());
 
 export const editSpecificationsError = createAction('[PRODUCTS] editSpecifications error',
   props<{ error: HttpErrorResponse }>());
