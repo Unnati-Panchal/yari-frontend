@@ -64,6 +64,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       phone_no: ['', [Validators.required, CustomValidator.digitsOnly]],
       email_id: ['', [Validators.required, Validators.email]],
       gst_no: [''],
+      pan_no: [''],
       type: [''],
       bank_account_name: ['', [Validators.required]],
       bank_account_number: ['', [Validators.required]],
@@ -112,13 +113,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   }
 
   public enableEditing(): void {
-    this.regForm.get('contact_person').enable();
     this.regForm.get('phone_no').enable();
     this.regForm.get('email_id').enable();
-    this.regForm.get('bank_name').enable();
-    this.regForm.get('bank_account_number').enable();
-    this.regForm.get('bank_account_name').enable();
-    this.regForm.get('bank_ifsc').enable();
     this.isEditEnabled = true;
   }
 

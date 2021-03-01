@@ -25,10 +25,9 @@
 
       <section class="form-fields">
         <div>
-          <h4>Name<span class="required">*</span></h4>
+          <h4>Name</h4>
           <mat-form-field appearance="outline">
             <input matInput formControlName="contact_person" autocomplete="nope">
-            <mat-error *ngIf="regForm.controls['contact_person'].hasError('required')">Required field</mat-error>
           </mat-form-field>
         </div>
 
@@ -62,6 +61,20 @@
         </div>
 
         <div>
+          <h4>PAN Name</h4>
+          <mat-form-field appearance="outline">
+            <input matInput formControlName="name_pan_card" autocomplete="nope">
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>PAN Number</h4>
+          <mat-form-field appearance="outline">
+            <input matInput formControlName="pan_no" autocomplete="nope">
+          </mat-form-field>
+        </div>
+
+        <div>
           <h4>Type</h4>
           <mat-form-field appearance="outline">
             <input matInput formControlName="type" autocomplete="nope">
@@ -70,41 +83,30 @@
 
 
         <div>
-          <h4>Account Holder's Name<span class="required">*</span></h4>
+          <h4>Account Holder's Name</h4>
           <mat-form-field appearance="outline">
             <input matInput formControlName="bank_account_name" autocomplete="nope">
-            <mat-error *ngIf="regForm.controls['bank_account_name'].hasError('required')">Required field</mat-error>
           </mat-form-field>
         </div>
 
         <div>
-          <h4>Account Number<span class="required">*</span></h4>
+          <h4>Account Number</h4>
           <mat-form-field appearance="outline">
             <input matInput formControlName="bank_account_number" autocomplete="nope">
-            <mat-error *ngIf="regForm.controls['bank_account_number'].hasError('required')">Required field</mat-error>
           </mat-form-field>
         </div>
 
         <div>
-          <h4>Bank Name<span class="required">*</span></h4>
+          <h4>Bank Name</h4>
           <mat-form-field appearance="outline">
             <input matInput formControlName="bank_name" autocomplete="nope">
-            <mat-error *ngIf="regForm.controls['bank_name'].hasError('required')">Required field</mat-error>
           </mat-form-field>
         </div>
 
         <div>
-          <h4>IFSC Code<span class="required">*</span></h4>
+          <h4>IFSC Code</h4>
           <mat-form-field appearance="outline">
             <input matInput formControlName="bank_ifsc" autocomplete="nope">
-            <mat-error *ngIf="regForm.controls['bank_ifsc'].hasError('required')">Required field</mat-error>
-          </mat-form-field>
-        </div>
-
-        <div>
-          <h4>PAN Name</h4>
-          <mat-form-field appearance="outline">
-            <input matInput formControlName="name_pan_card" autocomplete="nope">
           </mat-form-field>
         </div>
 
