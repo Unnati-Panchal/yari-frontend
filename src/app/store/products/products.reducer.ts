@@ -38,102 +38,44 @@ export const productsInitialState: IProductsState = {
 
 const productsReducer = createReducer(
   productsInitialState,
-  on(fromProductsActions.getCategories, (state, action) => ({
-    ...state,
-    loading: true,
-    categoryId: action.categoryId
-  })),
-  on(fromProductsActions.getCategoriesSuccess, (state, action) => ({
-    ...state,
-    loading: false,
-    categories: action.categories
-  })),
-  on(fromProductsActions.getCategoriesError, (state, action) => ({ ...state, loading: false, error: action.error })),
+  on(fromProductsActions.getCategories, (state, {categoryId}) => ({...state, loading: true, categoryId})),
+  on(fromProductsActions.getCategoriesSuccess, (state, {categories}) => ({...state, loading: false, categories})),
+  on(fromProductsActions.getCategoriesError, (state, {error}) => ({ ...state, loading: false, error })),
 
 
   on(fromProductsActions.getBulkBasicUploadTemplate, (state) => ({...state, loading: true})),
-  on(fromProductsActions.getBulkBasicUploadTemplateSuccess, (state, action) => ({
-    ...state,
-    loading: false,
-    file: action.file
-  })),
-  on(fromProductsActions.getBulkBasicUploadTemplateError, (state, action) => ({ ...state, loading: false, error: action.error })),
+  on(fromProductsActions.getBulkBasicUploadTemplateSuccess, (state, {file}) => ({...state, loading: false, file})),
+  on(fromProductsActions.getBulkBasicUploadTemplateError, (state, {error}) => ({ ...state, loading: false, error })),
 
 
-  on(fromProductsActions.bulkUploadCatalog, (state, action) => ({
-    ...state,
-    loading: true,
-    fileUpload: action.fileUpload
-  })),
-  on(fromProductsActions.bulkUploadCatalogSuccess, (state, action) => ({
-    ...state,
-    loading: false,
-    bulkUploadBasic: action.bulkUploadBasic
-  })),
-  on(fromProductsActions.bulkUploadCatalogError, (state, action) => ({ ...state, loading: false, error: action.error })),
+  on(fromProductsActions.bulkUploadCatalog, (state, {fileUpload}) => ({...state, loading: true, fileUpload})),
+  on(fromProductsActions.bulkUploadCatalogSuccess, (state, {bulkUploadBasic}) => ({...state, loading: false, bulkUploadBasic})),
+  on(fromProductsActions.bulkUploadCatalogError, (state, {error}) => ({ ...state, loading: false, error })),
 
 
-  on(fromProductsActions.getCatalogs, (state, action) => ({
-    ...state,
-    loading: true,
-    query: action.query
-  })),
-  on(fromProductsActions.getCatalogsSuccess, (state, action) => ({
-    ...state,
-    loading: false,
-    catalogs: action.catalogs
-  })),
-  on(fromProductsActions.getCatalogsError, (state, action) => ({ ...state, loading: false, error: action.error })),
+  on(fromProductsActions.getCatalogs, (state, {query}) => ({...state, loading: true, query})),
+  on(fromProductsActions.getCatalogsSuccess, (state, {catalogs}) => ({...state, loading: false, catalogs})),
+  on(fromProductsActions.getCatalogsError, (state, {error}) => ({ ...state, loading: false, error })),
 
 
-  on(fromProductsActions.deleteCatalog, (state, action) => ({
-    ...state,
-    loading: true,
-    catalogId: action.catalogId
-  })),
-  on(fromProductsActions.deleteCatalogSuccess, (state) => ({
-    ...state,
-    loading: false
-  })),
-  on(fromProductsActions.deleteCatalogError, (state, action) => ({ ...state, loading: false, error: action.error })),
+  on(fromProductsActions.deleteCatalog, (state, {catalogId}) => ({...state, loading: true, catalogId})),
+  on(fromProductsActions.deleteCatalogSuccess, (state) => ({...state, loading: false})),
+  on(fromProductsActions.deleteCatalogError, (state, {error}) => ({ ...state, loading: false, error })),
 
 
-  on(fromProductsActions.getBulkSpecificationsUploadTemplate, (state, action) => ({
-    ...state,
-    loading: true,
-    catalogId: action.catalogId
-  })),
-  on(fromProductsActions.getBulkSpecificationsUploadTemplateSuccess, (state, action) => ({
-    ...state,
-    loading: false,
-    specTemplate: action.specTemplate
-  })),
-  on(fromProductsActions.getBulkSpecificationsUploadTemplateError, (state, action) => ({ ...state, loading: false, error: action.error })),
+  on(fromProductsActions.getBulkSpecificationsUploadTemplate, (state, {catalogId}) => ({...state, loading: true, catalogId})),
+  on(fromProductsActions.getBulkSpecificationsUploadTemplateSuccess, (state, {specTemplate}) => ({...state, loading: false, specTemplate})),
+  on(fromProductsActions.getBulkSpecificationsUploadTemplateError, (state, {error}) => ({ ...state, loading: false, error })),
 
 
-  on(fromProductsActions.editSpecifications, (state, action) => ({
-    ...state,
-    loading: true,
-    spec: action.spec
-  })),
-  on(fromProductsActions.geditSpecificationsSuccess, (state) => ({
-    ...state,
-    loading: false
-  })),
-  on(fromProductsActions.editSpecificationsError, (state, action) => ({ ...state, loading: false, error: action.error })),
+  on(fromProductsActions.editSpecifications, (state, {spec}) => ({...state, loading: true, spec})),
+  on(fromProductsActions.geditSpecificationsSuccess, (state, {msg}) => ({...state, loading: false, msg})),
+  on(fromProductsActions.editSpecificationsError, (state, {error}) => ({ ...state, loading: false, error })),
 
 
-  on(fromProductsActions.getCatalogProducts, (state, action) => ({
-    ...state,
-    loading: true,
-    catalogId: action.catalogId
-  })),
-  on(fromProductsActions.getCatalogProductsSuccess, (state, action) => ({
-    ...state,
-    loading: false,
-    catalogProducts: action.catalogProducts
-  })),
-  on(fromProductsActions.getCatalogProductsError, (state, action) => ({ ...state, loading: false, error: action.error })),
+  on(fromProductsActions.getCatalogProducts, (state, {catalogId}) => ({...state, loading: true, catalogId})),
+  on(fromProductsActions.getCatalogProductsSuccess, (state, {catalogProducts}) => ({...state, loading: false, catalogProducts})),
+  on(fromProductsActions.getCatalogProductsError, (state, {error}) => ({ ...state, loading: false, error })),
 
 
 );

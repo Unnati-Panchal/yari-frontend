@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {Subscription} from 'rxjs';
+import {combineLatest, Subscription} from 'rxjs';
 import * as fromProductsActions from '~store/products/products.actions';
 import {select, Store} from '@ngrx/store';
 import {IAppState} from '~store/app.state';
@@ -28,13 +28,17 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   submitBtnLoading: boolean;
   selectedDate: IQuery;
   catalogueList: IBulkUploadBasic[];
-  isSelectedCatalogue: number;
+  isSelectedCatalogue: string;
   selectDate: string;
 
   private _subscription: Subscription = new Subscription();
   public getCatalogProducts$ = this._store.pipe(
     select(fromProductsSelectors.getCatalogProducts$),
     filter(catalogs => !!catalogs?.length)
+  );
+  public getSpecTemplate$ = this._store.pipe(
+    select(fromProductsSelectors.getSpecTemplate$),
+    filter(specTemplate => !!specTemplate?.length)
   );
   public isMsg$ = this._store.pipe(
     select(fromProductsSelectors.getIsMsg),
@@ -70,10 +74,10 @@ export class SpecificationComponent implements OnInit, OnDestroy {
 
   getCataloguesRes(): void {
     this._subscription.add(
-      this.getCatalogProducts$.subscribe((response) => {
-        this.specKeys = Object.keys(response[0]?.specifications);
+      combineLatest([this.getCatalogProducts$, this.getSpecTemplate$]).subscribe(([catalogueProducts, specTemplate]) => {
+        this.specKeys = specTemplate; // Object.keys(catalogueProducts[0]?.specifications);
         this.displayedColumns = ['sr_no', 'sku_id', 'product_name', ...this.specKeys, 'next_day_dispatch'];
-        this.dataSource = response.map( (item) => {
+        this.dataSource = catalogueProducts.map( (item) => {
           return {
             ...item,
             specDetails: Object.values(item.specifications)
@@ -89,7 +93,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   }
 
   backToCatalogueList(): void {
-    this.isSelectedCatalogue = 0;
+    this.isSelectedCatalogue = '';
   }
 
   submit(): void {
@@ -104,7 +108,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
       };
     });
     const spec: ISpecifications = {
-      catalog_id: '1',
+      catalog_id: this.isSelectedCatalogue,
       details: specifications
     };
     this._store.dispatch(fromProductsActions.editSpecifications({spec}));
@@ -120,10 +124,10 @@ export class SpecificationComponent implements OnInit, OnDestroy {
     this._store.dispatch(fromProductsActions.getCatalogs({query}));
   }
 
-  addSpecifications(catalogueId: number): void {
-    this.isSelectedCatalogue = catalogueId;
+  addSpecifications(catalogId: string): void {
+    this.isSelectedCatalogue = catalogId;
     this.loading = true;
-    const catalogId = catalogueId.toString();
+    this._store.dispatch(fromProductsActions.getBulkSpecificationsUploadTemplate({catalogId}));
     this._store.dispatch(fromProductsActions.getCatalogProducts({catalogId}));
 
   }

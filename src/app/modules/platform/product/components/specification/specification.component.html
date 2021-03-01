@@ -26,20 +26,21 @@
       </div>
       <p *ngIf="selectDate">{{selectDate}}</p>
 
-      <div>
-        <app-error-success [errors]="isError$ | async"></app-error-success>
-      </div>
-
       <div *ngFor="let catalog of catalogueList" class="catalogue-list">
         <div>
           <span>Catalogue {{catalog.id}}</span>
           <div>
-            <button mat-button (click)="addSpecifications(catalog.id)">Add Specifications</button>
+            <button mat-button (click)="addSpecifications(catalog.id.toString())">Add Specifications</button>
             <button mat-button (click)="deleteCatalogue(catalog.id)" class="outlined-btn">Delete</button>
           </div>
         </div>
       </div>
     </ng-container>
+
+    <div>
+      <app-error-success [errors]="isError$ | async" [success]="isMsg$ | async"></app-error-success>
+    </div>
+
     <ng-template #currentCatalogue>
       <ng-container *ngIf="!loading; else Loading">
         <div class="catalogue-name">
@@ -95,12 +96,12 @@
         </div>
 
         <article>
-          <button mat-button (click)="submit()">
-            <span *ngIf="!submitBtnLoading else BtnLoading">Submit</span>
-            <ng-template #BtnLoading>
+          <button *ngIf="!submitBtnLoading else BtnLoading" mat-button (click)="submit()">Submit</button>
+          <ng-template #BtnLoading>
+            <button mat-button>
               <mat-spinner [diameter]="25"></mat-spinner>
-            </ng-template>
-          </button>
+            </button>
+          </ng-template>
         </article>
       </ng-container>
       <ng-template #Loading>
