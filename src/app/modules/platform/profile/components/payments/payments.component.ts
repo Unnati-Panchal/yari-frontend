@@ -66,8 +66,8 @@ export class PaymentsComponent implements OnInit, OnDestroy {
       return;
     }
     const query = {
-      startDate: moment(this.query.startDate).valueOf(),
-      endDate: moment(this.query.endDate).valueOf(),
+      startDate: moment(this.query.startDate).toISOString(),
+      endDate: moment(this.query.endDate).toISOString(),
     };
     this.loading = true;
     this.submitted = true;

@@ -63,7 +63,7 @@ export class ProfileService {
 
   public getSupplierSettlement(query: IQuery): Observable<IPayment[]> {
     return this._http.get<IPayment[]>
-    (`${environment.API_BASE_URL}/api/v1/supplier/settlement/payment-supplier?start_time_milli=${query.startDate}&end_time_milli=${query.endDate}`);
+    (`${environment.API_BASE_URL}/api/v1/supplier/settlement/payment-supplier?start_date_time=${query.startDate}&end_date_time=${query.endDate}`);
   }
 
   public getRatingAndReviews(): Observable<IRatingAndReviews[]> {
