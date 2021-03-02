@@ -44,6 +44,10 @@
             border-right: 1px solid $yaari-lighted-text;
           }
 
+          td:first-child {
+            border-left: 1px solid $yaari-lighted-text;
+          }
+
           th {
             text-align: center;
           }
