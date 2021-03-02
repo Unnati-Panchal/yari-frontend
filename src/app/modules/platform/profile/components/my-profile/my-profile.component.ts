@@ -110,6 +110,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   }
 
   public enableEditing(): void {
+    this.regForm.get('contact_person').enable();
     this.regForm.get('phone_no').enable();
     this.regForm.get('email_id').enable();
     this.isEditEnabled = true;
