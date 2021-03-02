@@ -70,7 +70,8 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       bank_account_number: ['', [Validators.required]],
       bank_name: ['', [Validators.required]],
       bank_ifsc: ['', [Validators.required]],
-      name_pan_card: ['', [Validators.required]]
+      name_pan_card: ['', [Validators.required]],
+      selectedCategory: ['']
     });
 
     if (!this.isEditEnabled) {
@@ -85,17 +86,18 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       if (!this.profileImage) {
         this.profileImage = '/assets/images/registration.png';
       }
-      this.regForm.get('contact_person').patchValue(details.contact_person);
-      this.regForm.get('phone_no').patchValue(details.phone_no);
-      this.regForm.get('email_id').patchValue(details.email_id);
-      this.regForm.get('gst_no').patchValue(details.gst_no);
-      this.regForm.get('pan_no').patchValue(details.pan_no);
-      this.regForm.get('type').patchValue(details.type);
-      this.regForm.get('bank_account_name').patchValue(details.bank_account_name);
-      this.regForm.get('bank_account_number').patchValue(details.bank_account_number);
-      this.regForm.get('bank_name').patchValue(details.bank_name);
-      this.regForm.get('bank_ifsc').patchValue(details.bank_ifsc);
-      this.regForm.get('name_pan_card').patchValue(details.name_pan_card);
+      this.regForm.get('contact_person').patchValue(details?.contact_person);
+      this.regForm.get('phone_no').patchValue(details?.phone_no);
+      this.regForm.get('email_id').patchValue(details?.email_id);
+      this.regForm.get('gst_no').patchValue(details?.gst_no);
+      this.regForm.get('pan_no').patchValue(details?.pan_no);
+      this.regForm.get('type').patchValue(details?.type);
+      this.regForm.get('bank_account_name').patchValue(details?.bank_account_name);
+      this.regForm.get('bank_account_number').patchValue(details?.bank_account_number);
+      this.regForm.get('bank_name').patchValue(details?.bank_name);
+      this.regForm.get('bank_ifsc').patchValue(details?.bank_ifsc);
+      this.regForm.get('name_pan_card').patchValue(details?.name_pan_card);
+      this.regForm.get('selectedCategory').patchValue(details?.primary_category_name);
       this.loading = false;
     }));
 

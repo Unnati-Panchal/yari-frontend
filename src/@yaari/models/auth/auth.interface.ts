@@ -22,6 +22,9 @@ export interface IRegistration {
   // edit profile
   is_active?: boolean;
   name_pan_card?: string;
+
+  primary_category_name?: string;
+
   state?: string;
   onboarder_id?: number;
   id?: number;

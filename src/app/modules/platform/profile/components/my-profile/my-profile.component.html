@@ -82,6 +82,13 @@
           </mat-form-field>
         </div>
 
+        <div>
+          <h4>Category</h4>
+          <mat-form-field appearance="outline">
+            <input matInput formControlName="selectedCategory" autocomplete="nope">
+          </mat-form-field>
+        </div>
+
 
         <div>
           <h4>Account Holder's Name</h4>
@@ -110,7 +117,6 @@
             <input matInput formControlName="bank_ifsc" autocomplete="nope">
           </mat-form-field>
         </div>
-
 
         <div>
           <app-error-success [errors]="isAuthError$ | async"></app-error-success>
