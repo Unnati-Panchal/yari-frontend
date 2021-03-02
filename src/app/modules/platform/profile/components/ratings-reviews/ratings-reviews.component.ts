@@ -19,7 +19,7 @@ export class RatingsReviewsComponent implements OnInit, OnDestroy {
     end: new FormControl()
   });
   displayedColumns: string[] = [
-    'sr_no', 'sku_id', 'product_name', 'catalogue_id', 'country_of_origin', 'reviews', 'warranty', 'rating'];
+    'sr_no',  'sku_id', 'product_name', 'sale', 'rating', 'reviews', 'viewed', 'shared'];
   dataSource: IRatingAndReviews[];
   public getRatingAndReviews$ = this._store.pipe(select(fromProfileSelectors.getRatingAndReviews$), filter(value => !!value));
   loading: boolean;
