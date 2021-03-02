@@ -89,6 +89,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       this.regForm.get('phone_no').patchValue(details.phone_no);
       this.regForm.get('email_id').patchValue(details.email_id);
       this.regForm.get('gst_no').patchValue(details.gst_no);
+      this.regForm.get('pan_no').patchValue(details.pan_no);
       this.regForm.get('type').patchValue(details.type);
       this.regForm.get('bank_account_name').patchValue(details.bank_account_name);
       this.regForm.get('bank_account_number').patchValue(details.bank_account_number);
