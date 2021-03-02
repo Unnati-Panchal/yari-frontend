@@ -92,7 +92,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
         this.dataSource = catalogueProducts.map( (item) => {
           return {
             ...item,
-            specDetails: Object.values(item.specifications)
+            specDetails: item?.specifications ? Object.values(item.specifications) : []
           };
         });
         this.loading = false;
