@@ -1,6 +1,6 @@
 <header>
   <div class="logo">
-    <img src="/assets/images/yaari-logo.png" alt="yaari-logo"/>
+    <img src="/assets/images/yaari-logo.png" alt="yaari-logo" [routerLink]="['/app/dashboard']"/>
     <p *ngIf="supplierDetails$ | async as supplierDetails">
       <span class="underline-span">Hi</span>
       <span>{{supplierDetails?.contact_person}}</span>
