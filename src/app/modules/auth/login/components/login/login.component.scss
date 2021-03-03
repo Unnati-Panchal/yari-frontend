@@ -39,11 +39,7 @@
 
 
       .login-form {
-        padding: $yaari-base * 3 $yaari-large * 4;
-
-        @include media-breakpoint(lt-lg) {
-          padding: $yaari-base $yaari-large;
-        }
+        padding: $yaari-base $yaari-large * 3;
 
         section {
           h3 {
@@ -62,11 +58,7 @@
 
         .form-fields {
           width: 100%;
-          margin-top: $yaari-large * 2;
-
-          @include media-breakpoint(lt-lg) {
-            margin-top: $yaari-base;
-          }
+          margin-top: $yaari-base;
 
           h4 {
             font-size: $yaari-h4;
@@ -90,10 +82,6 @@
             background-color: $yaari-red;
             font-size: $yaari-h6;
             color: $yaari-light;
-
-            @include media-breakpoint(lt-lg) {
-              margin: $yaari-small 0;
-            }
           }
         }
 
