@@ -22,6 +22,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   categoriesChain: {name: string, isLast: boolean}[];
   downloadLoading: boolean;
   uploadLoading: boolean;
+  isDisabledDownloadBtn = true;
 
   public getCategories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(cat => !!cat));
   public bulkUploadCatalog$ = this._store.pipe(select(fromProductsSelectors.bulkUploadCatalog), filter(b => !!b));
@@ -46,6 +47,10 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   }
 
   downloadTemplate(): void {
+    if (this.isDisabledDownloadBtn) {
+      this.selectedCategoryMsg = 'Please select a subcategory';
+      return;
+    }
     this.downloadLoading = true;
     this._subscription.add(
       this._product.getBulkBasicUploadTemplate().subscribe(response => {
@@ -106,8 +111,10 @@ export class CatalogueComponent implements OnInit, OnDestroy {
       const categoryId = category.id;
       this._store.dispatch(fromProductsActions.getCategories({categoryId}));
       this.selectedCategoryMsg = 'Please select a subcategory';
+      this.isDisabledDownloadBtn = true;
     } else {
       this.selectedCategoryMsg = '';
+      this.isDisabledDownloadBtn = false;
     }
   }
 
