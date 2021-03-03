@@ -119,6 +119,11 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     this.isEditEnabled = true;
   }
 
+  public disableEditing(): void {
+    this.regForm.disable();
+    this.isEditEnabled = false;
+  }
+
   public uploadProfileImage(fileUpload: File): void {
     this.loading = true;
     this._store.dispatch(fromAuthActions.uploadSupplierPicture({fileUpload}));
