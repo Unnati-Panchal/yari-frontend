@@ -27,12 +27,14 @@
       <p *ngIf="selectDate">{{selectDate}}</p>
 
       <div *ngFor="let catalog of catalogueList" class="catalogue-list">
-        <div>
-          <span>Catalogue {{catalog.id}}</span>
-          <div>
+        <div class="catalog">
+          <article>
+            <span>Catalogue {{catalog.id}}</span>
+          </article>
+          <article>
             <button mat-button (click)="addSpecifications(catalog.id.toString())">Add Specifications</button>
             <button mat-button (click)="deleteCatalogue(catalog.id)" class="outlined-btn">Delete</button>
-          </div>
+          </article>
         </div>
       </div>
     </ng-container>

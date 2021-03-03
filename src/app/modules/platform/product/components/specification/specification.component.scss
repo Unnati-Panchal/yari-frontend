@@ -34,26 +34,28 @@
 
         &.table-box {
           padding-bottom: $yaari-large;
+          padding-top: $yaari-base;
         }
 
         table {
           width: 100%;
 
-          td {
+          td, th {
             text-align: center;
-            border-right: 1px solid $yaari-lighted-text;
-          }
-
-          td:first-child {
-            border-left: 1px solid $yaari-lighted-text;
+            border: 1px solid $yaari-lighted-text;
+            min-width: yaari-to-rem(140px);
           }
 
           th {
-            text-align: center;
+            background-color: #efefef;
           }
 
           th.mat-header-cell:last-of-type, td.mat-cell:last-of-type, td.mat-footer-cell:last-of-type {
             padding-right: 0;
+          }
+
+          th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, td.mat-footer-cell:first-of-type {
+            padding-left: 0;
           }
         }
 
@@ -64,12 +66,20 @@
 
       .catalogue-list {
         @include yaari-display-flex(center, center, column);
+        padding-top: $yaari-base;
+        width: 100%;
 
         div {
 
+          &.catalog {
+            border-bottom: solid 1px #707070;
+            width: 70%;
+            @include yaari-display-flex(center, space-between);
+            padding-bottom: $yaari-small;
+          }
+
 
           span {
-            width: 15%;
             font-size: $yaari-default;
             font-weight: bold;
           }
