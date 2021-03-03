@@ -39,7 +39,7 @@
 
 
       .register-form {
-        padding: $yaari-base * 3 $yaari-large * 3;
+        padding: $yaari-base * 2;
 
         @include media-breakpoint(lt-lg) {
           padding: $yaari-base $yaari-large;
