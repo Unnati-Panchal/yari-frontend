@@ -16,6 +16,7 @@ export class PlatformComponent implements OnInit {
     select(fromAuthSelectors.supplierDetails$),
     filter(details => !!details)
   );
+  public isMenuOpened: boolean;
 
   constructor(private _auth: AuthService, private _store: Store<IAppState>) { }
 
