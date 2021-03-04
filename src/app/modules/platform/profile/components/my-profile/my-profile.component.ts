@@ -8,9 +8,11 @@ import {select, Store} from '@ngrx/store';
 import {IAppState} from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
+import * as fromProductsActions from '~store/products/products.actions';
 
 import {CustomValidator} from '@yaari/utils/custom-validators';
 import {IEditSupplierProfile} from '@yaari/models/auth/auth.interface';
+import * as fromProductsSelectors from '~store/products/products.selectors';
 
 @Component({
   selector: 'app-my-profile',
@@ -22,10 +24,19 @@ export class MyProfileComponent implements OnInit, OnDestroy {
   public supplierDetails$ = this._store.pipe(select(fromAuthSelectors.supplierDetails$), filter(d => !!d));
   public getRegResponse$ = this._store.pipe(select(fromAuthSelectors.getRegResponse), filter(d => !!d));
   public url$ = this._store.pipe(select(fromAuthSelectors.url$), filter(d => !!d));
+  public categories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(categories => !!categories?.length));
+  public generateOtp$ = this._store.pipe(select(fromAuthSelectors.generateOtp), filter(value => !!value));
   public regForm: FormGroup;
   public loading;
   public isEditEnabled: boolean;
   public profileImage: string;
+  public loadingEmailVerification: boolean;
+  public emailVerificationSuccessful: string;
+  public types = [
+    {label: 'Retailer', key: 'retailer'},
+    {label: 'Manufacturer', key: 'manufacturer'},
+    {label: 'Wholesaler', key: 'wholesaler'}
+  ];
 
   private _subscription: Subscription = new Subscription();
 
@@ -39,7 +50,9 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.initRegistrationForm();
     this.supplierRegistration();
+    this.emailVerification();
     this._store.dispatch(fromAuthActions.supplierDetails());
+    this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
   }
 
   public ngOnDestroy(): void {
@@ -65,13 +78,14 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       email_id: ['', [Validators.required, Validators.email]],
       gst_no: [''],
       pan_no: [''],
-      type: [''],
-      bank_account_name: ['', [Validators.required]],
-      bank_account_number: ['', [Validators.required]],
-      bank_name: ['', [Validators.required]],
-      bank_ifsc: ['', [Validators.required]],
-      name_pan_card: ['', [Validators.required]],
-      selectedCategory: ['']
+      otp: [''],
+      type: ['', [Validators.required]],
+      bank_account_name: [''],
+      bank_account_number: [''],
+      bank_name: [''],
+      bank_ifsc: [''],
+      name_pan_card: [''],
+      primary_category_name: ['', [Validators.required]]
     });
 
     if (!this.isEditEnabled) {
@@ -97,7 +111,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       this.regForm.get('bank_name').patchValue(details?.bank_name);
       this.regForm.get('bank_ifsc').patchValue(details?.bank_ifsc);
       this.regForm.get('name_pan_card').patchValue(details?.name_pan_card);
-      this.regForm.get('selectedCategory').patchValue(details?.primary_category_name);
+      this.regForm.get('primary_category_name').patchValue(details?.primary_category_name);
       this.loading = false;
     }));
 
@@ -116,6 +130,9 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     this.regForm.get('contact_person').enable();
     this.regForm.get('phone_no').enable();
     this.regForm.get('email_id').enable();
+    this.regForm.get('primary_category_name').enable();
+    this.regForm.get('type').enable();
+    this.regForm.get('otp').enable();
     this.isEditEnabled = true;
   }
 
@@ -129,8 +146,37 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     this._store.dispatch(fromAuthActions.uploadSupplierPicture({fileUpload}));
   }
 
-  fileBrowseHandler(files): void {
+  public fileBrowseHandler(files): void {
     this.uploadProfileImage(files[0]);
   }
 
+  public verifyEmail(event): void {
+    event.preventDefault();
+    this.loadingEmailVerification = true;
+    const email = this.regForm.value.email_id;
+    if (!email) {
+      this.regForm.get('email_id').setErrors({required: true});
+      this.loadingEmailVerification = false;
+      return;
+    }
+    this._store.dispatch(fromAuthActions.generateOtp({email}));
+  }
+
+  public emailVerification(): void {
+    this._subscription.add(this.generateOtp$.subscribe((registered) => {
+        this.loadingEmailVerification = false;
+        if (registered.message === 'Success') {
+          this.emailVerificationSuccessful = registered.email_id;
+        } else {
+          this.emailVerificationSuccessful = '';
+          this.regForm.get('email_id').setErrors({InvalidValue: true});
+        }
+      },
+      () => {
+        this.loadingEmailVerification = false;
+        this.regForm.get('email_id').setErrors({InvalidValue: true});
+        this.emailVerificationSuccessful = '';
+      })
+    );
+  }
 }

@@ -59,7 +59,7 @@
 
 
       .register-form {
-        padding: $yaari-base * 3 $yaari-large * 3;
+        padding: $yaari-base * 2;
 
         @include media-breakpoint(lt-lg) {
           padding: $yaari-base $yaari-large;
@@ -114,6 +114,23 @@
 
           .small-form-group {
             width: 60%;
+          }
+
+          .mini-form-group-container {
+            @include yaari-display-flex(flex-start, space-between);
+
+            mat-form-field {
+              width: 40%;
+            }
+
+            button {
+              @include yaari-display-flex(center, center);
+              border-radius: 24px;
+              background-color: $yaari-red;
+              font-size: $yaari-h6;
+              color: $yaari-light;
+              width: yaari-to-rem(260px);
+            }
           }
         }
 

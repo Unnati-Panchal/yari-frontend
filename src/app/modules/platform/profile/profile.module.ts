@@ -18,6 +18,8 @@ import {ContactUsPageComponent} from './components/contact-us-page/contact-us-pa
 import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 import {SharedModule} from '@yaari/shared.module';
+import {MatSelectModule} from '@angular/material/select';
+import {MatRadioModule} from '@angular/material/radio';
 
 @NgModule({
   declarations: [
@@ -42,6 +44,8 @@ import {SharedModule} from '@yaari/shared.module';
     MatIconModule,
     MatInputModule,
     SharedModule,
+    MatSelectModule,
+    MatRadioModule,
   ]
 })
 export class ProfileModule {
