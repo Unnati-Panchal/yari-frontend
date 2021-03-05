@@ -8,7 +8,7 @@
           </ng-container>
           <div>
             <p>{{(supplierDetails$ | async)?.contact_person || ''}}</p>
-            <button [routerLink]="['/app/profile/edit']" mat-button>View Profile</button>
+            <button [routerLink]="['/app/profile/edit']" mat-button (click)="drawer.toggle()">View Profile</button>
           </div>
         </section>
         <section>
@@ -18,17 +18,17 @@
         </section>
       </div>
       <div class="button-container">
-        <button [routerLink]="['/app/dashboard']" mat-button>
+        <button [routerLink]="['/app/dashboard']" mat-button (click)="drawer.toggle()">
           <span>Home</span>
         </button>
       </div>
       <div class="button-container">
-        <button [routerLink]="['/app/product/catalogue']" mat-button>
+        <button [routerLink]="['/app/product/catalogue']" mat-button (click)="drawer.toggle()">
           <span>Upload Product Catalogue</span>
         </button>
       </div>
       <div class="button-container">
-        <button [routerLink]="['/app/product/specification']" mat-button>
+        <button [routerLink]="['/app/product/specification']" mat-button (click)="drawer.toggle()">
           <span>Update Product Specification</span>
         </button>
       </div>
@@ -40,19 +40,19 @@
         </button>
       </div>
       <div *ngIf="isMenuOpened" class="dashboard-menu">
-        <button [routerLink]="['/app/profile/payments']" mat-button>
+        <button [routerLink]="['/app/profile/payments']" mat-button (click)="drawer.toggle()">
           <span>Payments</span>
         </button>
-        <button [routerLink]="['/app/product/catalogue-status']" mat-button>
+        <button [routerLink]="['/app/product/catalogue-status']" mat-button (click)="drawer.toggle()">
           <span>Catalogue Status</span>
         </button>
-        <button [routerLink]="['/app/profile/rating-and-reviews']" mat-button>
+        <button [routerLink]="['/app/profile/rating-and-reviews']" mat-button (click)="drawer.toggle()">
           <span>Ratings & Reviews</span>
         </button>
-        <button [routerLink]="['/app/profile/quality-score-card']" mat-button>
+        <button [routerLink]="['/app/profile/quality-score-card']" mat-button (click)="drawer.toggle()">
           <span>Quality Scorecard</span>
         </button>
-        <button [routerLink]="['/app/profile/exchange-return']" mat-button>
+        <button [routerLink]="['/app/profile/exchange-return']" mat-button (click)="drawer.toggle()">
           <span>Exchange & Returns</span>
         </button>
       </div>
