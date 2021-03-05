@@ -1,14 +1,13 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import * as fromProductsActions from '~store/products/products.actions';
 import {select, Store} from '@ngrx/store';
-import {IAppState} from '~store/app.state';
+import {AppFacade, IAppState} from '~store/app.state';
 import {Subscription} from 'rxjs';
 import {ProductsService} from '@yaari/services/products/products.service';
 import * as fileSaver from 'file-saver';
 import * as fromProductsSelectors from '~store/products/products.selectors';
 import {filter, tap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {CustomValidator} from '@yaari/utils/custom-validators';
 
 @Component({
   selector: 'app-catalogue',
@@ -29,14 +28,17 @@ export class CatalogueComponent implements OnInit, OnDestroy {
 
   public getCategories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(cat => !!cat));
   public bulkUploadCatalog$ = this._store.pipe(select(fromProductsSelectors.bulkUploadCatalog), filter(b => !!b));
-  public getIsError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(err => !!err), tap( err => {
-    this.uploadLoading = false;
-    this.downloadLoading = false;
-  }));
+  public getIsError$ = this._store.pipe(
+    select(fromProductsSelectors.getIsError),
+    tap( () => {
+      this.uploadLoading = false;
+      this.downloadLoading = false;
+    }));
 
   constructor(private _store: Store<IAppState>,
               private _product: ProductsService,
-              private _formBuilder: FormBuilder
+              private _formBuilder: FormBuilder,
+              private _appFacade: AppFacade
   ) {
   }
 
@@ -45,6 +47,10 @@ export class CatalogueComponent implements OnInit, OnDestroy {
     this._subscription.add(this.bulkUploadCatalog$.subscribe(() => {
       this.success = `Successfully uploaded file`;
       this.uploadLoading = false;
+      this._appFacade.clearMessages();
+      this.uploadForm.reset();
+      this.categoriesChain = [];
+      this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
     }));
 
     this.uploadForm = this._formBuilder.group({
@@ -75,6 +81,10 @@ export class CatalogueComponent implements OnInit, OnDestroy {
 
   upload(): void {
     this.uploadForm.updateValueAndValidity();
+    if (!this.uploadForm?.value?.catalogue_name) {
+      this.success = `Please enter your catalogue name`;
+      return;
+    }
     const fileUpload = {
       file: this.selectedFile,
       category_id: this.selectedCategory?.id,
@@ -98,6 +108,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   }
 
   prepareFilesList(files: Array<any>): void {
+    this._appFacade.clearMessages();
     for (const item of files) {
       this.selectedFile = item;
     }

@@ -17,7 +17,7 @@ export class ErrorSuccessComponent implements OnChanges {
   public singleError: string;
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (changes.errors && this.errors) {
+    if (changes.errors || this.errors || this.success) {
       this.errorArray = [];
       this.singleError = null;
       if (this.errors?.error?.detail && Array.isArray(this.errors?.error?.detail)) {
