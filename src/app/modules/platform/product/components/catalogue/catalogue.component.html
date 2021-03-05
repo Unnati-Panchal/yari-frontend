@@ -49,6 +49,17 @@
       <app-error-success [errors]="getIsError$ | async" [success]="success"></app-error-success>
     </div>
 
+    <div class="form-catalogue-name">
+      <form [formGroup]="uploadForm">
+        <h4>Catalogue Name<span class="required">*</span></h4>
+        <mat-form-field appearance="outline" class="small-form-group">
+          <mat-label>Enter your catalogue name</mat-label>
+          <input matInput formControlName="catalogue_name" autocomplete="nope">
+          <mat-error *ngIf="uploadForm.controls['catalogue_name'].hasError('required')">Required field</mat-error>
+        </mat-form-field>
+      </form>
+    </div>
+
     <div class="buttons-box">
       <div>
         <button mat-button class="outlined-btn" (click)="fileDropRef.click()">

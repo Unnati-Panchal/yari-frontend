@@ -29,7 +29,10 @@ export class ProductsService {
     const formData = new FormData();
     formData.append('file', body.file, body.file.name);
     return this._http.post<IBulkUploadBasic>
-    (`${environment.API_BASE_URL}/api/v1/catalog/bulk-upload-basic?category_id=${body.category_id}`, formData);
+    (
+      `${environment.API_BASE_URL}/api/v1/catalog/bulk-upload-basic?catalog_name=${body.catalogue_name}&category_id=${body.category_id}`,
+      formData
+    );
   }
 
   public getCatalogs(query: IQuery): Observable<IBulkUploadBasic[]> {

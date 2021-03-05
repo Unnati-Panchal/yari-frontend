@@ -7,6 +7,7 @@ export interface ICategory {
 export interface IFileUpload {
   file: File;
   category_id: string;
+  catalogue_name: string;
 }
 
 

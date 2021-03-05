@@ -107,6 +107,23 @@
           @include yaari-display-flex(center, flex-start, column);
           min-height: yaari-to-rem(350px);
         }
+
+        &.form-catalogue-name {
+
+          form {
+            @include yaari-display-flex(center);
+            width: 100%;
+            padding: 0 $yaari-xlarge;
+
+            h4 {
+              padding: 0 $yaari-small;
+            }
+
+            mat-form-field {
+              width: 70%;
+            }
+          }
+        }
       }
     }
   }

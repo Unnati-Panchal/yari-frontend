@@ -7,6 +7,8 @@ import {ProductsService} from '@yaari/services/products/products.service';
 import * as fileSaver from 'file-saver';
 import * as fromProductsSelectors from '~store/products/products.selectors';
 import {filter, tap} from 'rxjs/operators';
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {CustomValidator} from '@yaari/utils/custom-validators';
 
 @Component({
   selector: 'app-catalogue',
@@ -23,6 +25,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   downloadLoading: boolean;
   uploadLoading: boolean;
   isDisabledDownloadBtn = true;
+  public uploadForm: FormGroup;
 
   public getCategories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(cat => !!cat));
   public bulkUploadCatalog$ = this._store.pipe(select(fromProductsSelectors.bulkUploadCatalog), filter(b => !!b));
@@ -31,7 +34,10 @@ export class CatalogueComponent implements OnInit, OnDestroy {
     this.downloadLoading = false;
   }));
 
-  constructor(private _store: Store<IAppState>, private _product: ProductsService) {
+  constructor(private _store: Store<IAppState>,
+              private _product: ProductsService,
+              private _formBuilder: FormBuilder
+  ) {
   }
 
   ngOnInit(): void {
@@ -40,6 +46,10 @@ export class CatalogueComponent implements OnInit, OnDestroy {
       this.success = `Successfully uploaded file`;
       this.uploadLoading = false;
     }));
+
+    this.uploadForm = this._formBuilder.group({
+      catalogue_name: ['', [Validators.required]]
+    });
   }
 
   public ngOnDestroy(): void {
@@ -64,9 +74,11 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   }
 
   upload(): void {
+    this.uploadForm.updateValueAndValidity();
     const fileUpload = {
       file: this.selectedFile,
-      category_id: this.selectedCategory?.id
+      category_id: this.selectedCategory?.id,
+      catalogue_name: this.uploadForm?.value?.catalogue_name
     };
     this.uploadLoading = true;
     if (!fileUpload?.file) {
