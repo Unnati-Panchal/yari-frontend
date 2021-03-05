@@ -39,7 +39,7 @@
               </mat-error>
               <mat-error *ngIf="regForm.controls['email_id'].hasError('InvalidValue')">Email Verification failed
               </mat-error>
-              <mat-hint *ngIf="emailVerificationSuccessful" class="hint-message">Email Verification Successful</mat-hint>
+              <mat-hint *ngIf="emailVerificationSuccessful" class="hint-message">OTP sent successfully</mat-hint>
             </mat-form-field>
             <button mat-button (click)="verifyEmail($event)">
               <span *ngIf="!loadingEmailVerification else LoadingSpinner">Verify Email</span>
