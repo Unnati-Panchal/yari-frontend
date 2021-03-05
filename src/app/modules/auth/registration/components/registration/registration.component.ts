@@ -60,8 +60,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   public registerSupplier(): void {
+    console.log(this.regForm.value);
     this.loading = true;
     this.regForm.updateValueAndValidity();
+    if (!this.regForm.value.termsAndConditions) {
+      this.regForm.get('termsAndConditions').setErrors({requiredTrue: true});
+    } else {
+      this.regForm.get('termsAndConditions').setErrors({requiredTrue: false});
+    }
     const regRequest = this.regForm.value;
     if (!this.regForm.valid) {
       this.loading = false;
@@ -95,7 +101,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       bank_ifsc: ['', [Validators.required]],
       bank_account_type: ['', [Validators.required]],
       name_pan_card: ['', [Validators.required]],
-      onboarder_id: ['', [Validators.required]]
+      onboarder_id: ['', [Validators.required]],
+      termsAndConditions: [false, [Validators.requiredTrue]]
     });
 
     this._subscription.add(

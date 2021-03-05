@@ -10,6 +10,11 @@
     img {
       margin: $yaari-large / 2 $yaari-large * 2;
       width: $yaari-large;
+      cursor: pointer;
+    }
+
+    img:focus {
+      outline: none;
     }
   }
 }

@@ -252,6 +252,15 @@
         </div>
 
         <div>
+          <mat-checkbox formControlName="termsAndConditions">
+              <span>Please review and accept our
+                <a [routerLink]="['/supplier-guidelines']" target="_blank">Terms and Conditions</a>
+              </span>
+          </mat-checkbox>
+          <mat-error *ngIf="regForm.controls['termsAndConditions'].hasError('requiredTrue')">Required field</mat-error>
+        </div>
+
+        <div>
           <app-error-success [errors]="isAuthError$ | async"></app-error-success>
           <app-error-success [errors]="isProductError$ | async"></app-error-success>
         </div>

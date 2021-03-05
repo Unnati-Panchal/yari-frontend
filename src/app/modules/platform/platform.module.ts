@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
 
 import {PlatformRoutingModule} from '~platform/platform-routing.module';
 
@@ -11,13 +11,14 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [PlatformComponent],
-    imports: [
-        CommonModule,
-        PlatformRoutingModule,
-        MatButtonModule,
-        MatIconModule,
-        MatMenuModule,
-        MatSidenavModule
-    ]
+  imports: [
+    CommonModule,
+    PlatformRoutingModule,
+    MatButtonModule,
+    MatIconModule,
+    MatMenuModule,
+    MatSidenavModule
+  ]
 })
-export class PlatformModule { }
+export class PlatformModule {
+}

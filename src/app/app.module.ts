@@ -23,6 +23,8 @@ import {AuthGuard} from '@yaari/guards/auth.guard';
 import {TokenInterceptor} from '@yaari/interceptors/token.interceptor';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ProfileEffects} from '~store/profile/profile.effects';
+import {NgxDocViewerModule} from 'ngx-doc-viewer';
+import {TermsAndConditionsComponent} from '~app/modules/terms-and-conditions/terms-and-conditions.component';
 
 const reducers: ActionReducerMap<IAppState> = {
   ['router']: routerReducer,
@@ -44,7 +46,8 @@ export function getReducers(): ActionReducerMap<IAppState> {
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TermsAndConditionsComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +55,7 @@ export function getReducers(): ActionReducerMap<IAppState> {
     HttpClientModule,
     AppRoutingModule,
     MatSnackBarModule,
+    NgxDocViewerModule,
     StoreModule.forRoot(
       {...getReducers()},
       {
@@ -70,7 +74,7 @@ export function getReducers(): ActionReducerMap<IAppState> {
   ],
   providers: [
     AuthGuard,
-    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
+    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]
 })

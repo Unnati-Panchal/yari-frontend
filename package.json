@@ -29,6 +29,7 @@
     "@ngrx/store-devtools": "^10.1.2",
     "file-saver": "^2.0.5",
     "moment": "^2.29.1",
+    "ngx-doc-viewer": "^1.4.1",
     "rxjs": "~6.6.0",
     "ts-jest": "^26.4.4",
     "tslib": "^2.0.0",
