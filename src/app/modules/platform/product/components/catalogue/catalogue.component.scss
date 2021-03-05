@@ -7,6 +7,11 @@
     height: calc(100vh - 100px);
     @include yaari-display-flex();
 
+    &.catalogue-main {
+      min-height: yaari-to-rem(750px);
+      overflow: auto;
+    }
+
     section {
       width: 50%;
     }
@@ -54,7 +59,7 @@
           }
 
           &.download-btn {
-            margin-bottom: $yaari-large;
+            margin-bottom: $yaari-base;
           }
         }
       }
@@ -83,7 +88,6 @@
 
       button {
         @include yaari-display-flex(center, center);
-        height: $yaari-xlarge;
         border-radius: 24px;
         background-color: $yaari-red;
         font-size: $yaari-h6;
