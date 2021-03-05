@@ -60,13 +60,15 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   }
 
   public registerSupplier(): void {
-    console.log(this.regForm.value);
     this.loading = true;
     this.regForm.updateValueAndValidity();
     if (!this.regForm.value.termsAndConditions) {
       this.regForm.get('termsAndConditions').setErrors({requiredTrue: true});
     } else {
       this.regForm.get('termsAndConditions').setErrors({requiredTrue: false});
+    }
+    if (this.regForm.value.selfOnboarded === true) {
+      this.regForm.get('onboarder_id').patchValue(1);
     }
     const regRequest = this.regForm.value;
     if (!this.regForm.valid) {
@@ -92,6 +94,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       price_range_max: ['', [Validators.required, CustomValidator.digitsOnly]],
       average_monthly_stock: ['', [Validators.required, CustomValidator.digitsOnly]],
       primary_category_id: ['', [Validators.required]],
+      selfOnboarded: ['', [Validators.required]],
       has_gst: ['', [Validators.required]],
       gst_no: [''],
       pan_no: ['', [Validators.required]],
@@ -101,7 +104,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       bank_ifsc: ['', [Validators.required]],
       bank_account_type: ['', [Validators.required]],
       name_pan_card: ['', [Validators.required]],
-      onboarder_id: ['', [Validators.required]],
+      onboarder_id: [''],
       termsAndConditions: [false, [Validators.requiredTrue]]
     });
 
@@ -111,6 +114,17 @@ export class RegistrationComponent implements OnInit, OnDestroy {
           this.regForm.get('gst_no').setValidators([Validators.required]);
         } else {
           this.regForm.get('gst_no').clearValidators();
+        }
+        this.regForm.updateValueAndValidity();
+      })
+    );
+
+    this._subscription.add(
+      this.regForm.get('selfOnboarded').valueChanges.subscribe( val => {
+        if (val === false) {
+          this.regForm.get('onboarder_id').setValidators([Validators.required]);
+        } else if (val === true) {
+          this.regForm.get('onboarder_id').clearValidators();
         }
         this.regForm.updateValueAndValidity();
       })
