@@ -3,7 +3,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 
-import {IAppState} from '~store/app.state';
+import {AppFacade, IAppState} from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
 import {filter} from 'rxjs/operators';
@@ -26,11 +26,13 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
   private _subscription: Subscription = new Subscription();
 
   constructor(private _store: Store<IAppState>,
-              private _formBuilder: FormBuilder
+              private _formBuilder: FormBuilder,
+              private _appFacade: AppFacade
   ) {
   }
 
   public ngOnInit(): void {
+    this._appFacade.clearMessages();
     this.initForm();
   }
 

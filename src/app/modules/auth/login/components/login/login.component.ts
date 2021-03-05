@@ -2,11 +2,11 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
 import {Subscription} from 'rxjs';
-import {filter} from 'rxjs/operators';
+import {filter, tap} from 'rxjs/operators';
 
 import {select, Store} from '@ngrx/store';
 
-import {IAppState} from '~store/app.state';
+import {AppFacade, IAppState} from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
 import {Router} from '@angular/router';
@@ -24,22 +24,23 @@ export class LoginComponent implements OnInit, OnDestroy {
   );
   public isError$ = this._store.pipe(
     select(fromAuthSelectors.getIsError),
-    filter(error => !!error)
+    tap(() => this.loading = false)
   );
   public loginForm: FormGroup;
   public hide: boolean;
-  public responseErrorMsg: string;
   public loading: boolean;
   private _subscription: Subscription = new Subscription();
 
   constructor(private _store: Store<IAppState>,
               private _formBuilder: FormBuilder,
               private _router: Router,
-              private _auth: AuthService
+              private _auth: AuthService,
+              private _appFacade: AppFacade
   ) {
   }
 
   public ngOnInit(): void {
+    this._appFacade.clearMessages();
     this.initLoginForm();
     this.authorizedSupplier();
   }
@@ -67,12 +68,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public authorizedSupplier(): void {
-    this._subscription.add(this.isError$.subscribe(error => {
-      this.loginForm.get('password').setErrors({invalidCredentials: true});
-      this.loginForm.get('username').setErrors({invalidCredentials: true});
-      this.responseErrorMsg = error.error.detail;
-      this.loading = false;
-    }));
     this._subscription.add(this.token$.subscribe((token) => {
       this._auth.accessToken = token.access_token;
       this.loading = false;

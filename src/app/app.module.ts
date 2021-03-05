@@ -10,7 +10,7 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {EffectsModule} from '@ngrx/effects';
 import {routerReducer, RouterState, StoreRouterConnectingModule} from '@ngrx/router-store';
 
-import {IAppState} from '~store/app.state';
+import {AppFacade, IAppState} from '~store/app.state';
 import {AuthEffects} from '~store/auth/auth.effects';
 import {ProductsEffects} from '~store/products/products.effects';
 import * as fromAuth from '~store/auth/auth.reducer';
@@ -74,6 +74,7 @@ export function getReducers(): ActionReducerMap<IAppState> {
   ],
   providers: [
     AuthGuard,
+    AppFacade,
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
   ],
   bootstrap: [AppComponent]

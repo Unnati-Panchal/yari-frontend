@@ -70,6 +70,7 @@ export const authInitialState: IAuthState = {
 
 const authReducer = createReducer(
   authInitialState,
+  on(fromAuthActions.clearMessages, (state) => ({...state, msg: '', error: null})),
   on(fromAuthActions.clearState, state => ({...state, loading: false, isError: null})),
 
 

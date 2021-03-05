@@ -18,6 +18,8 @@ import {
 
 export const getBuckets = createAction('[PROFILE] get buckets');
 
+export const clearMessages = createAction('[PROFILE] clear messages');
+
 export const getBucketsSuccess = createAction('[PROFILE] get buckets success', props<{ buckets: IBucket[] }>());
 
 export const getBucketsError = createAction('[PROFILE] get buckets error', props<{ error: HttpErrorResponse }>());

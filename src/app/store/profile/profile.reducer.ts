@@ -60,6 +60,7 @@ export const profileInitialState: IProfileState = {
 
 const profileReducer = createReducer(
   profileInitialState,
+  on(fromProfileActions.clearMessages, (state) => ({...state, msg: '', error: null})),
   on(fromProfileActions.getBuckets, (state) => ({...state, loading: true})),
   on(fromProfileActions.getBucketsSuccess, (state, action) => ({
     ...state,

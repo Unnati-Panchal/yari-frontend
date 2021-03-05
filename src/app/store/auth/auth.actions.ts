@@ -3,16 +3,19 @@ import {HttpErrorResponse} from '@angular/common/http';
 
 import {
   IEditSupplierProfile,
-  ILogin, IOnboarders,
+  ILogin,
+  IOnboarders,
   IRegistration,
   ISubmitKYCForVerificationResponse,
-  IToken, IVerifyGstPan,
+  IToken,
+  IVerifyGstPan,
   IVerifyOtp,
   KYCDetailsResponse
 } from '@yaari/models/auth/auth.interface';
-import {IBulkUploadBasic, IFileUpload} from '@yaari/models/product/product.interface';
 
 export const clearState = createAction('[AUTH] clear state');
+
+export const clearMessages = createAction('[AUTH] clear messages');
 
 
 export const registration = createAction('[AUTH] registration', props<{ regRequest: IRegistration }>());

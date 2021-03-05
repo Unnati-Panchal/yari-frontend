@@ -7,7 +7,11 @@ import {AuthService} from '@yaari/services/auth/auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private _authService: AuthService, private _snackBar: MatSnackBar, private _router: Router) {
+  constructor(
+    private _authService: AuthService,
+    private _snackBar: MatSnackBar,
+    private _router: Router
+  ) {
   }
 
   public canActivate(): boolean {

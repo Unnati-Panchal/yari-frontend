@@ -4,7 +4,7 @@ import {Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 
-import {IAppState} from '~store/app.state';
+import {AppFacade, IAppState} from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromProductsActions from '~store/products/products.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
@@ -22,7 +22,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class RegistrationComponent implements OnInit, OnDestroy {
   public registrationResponse$ = this._store.pipe(select(fromAuthSelectors.getRegResponse), filter(value => !!value));
-  public isAuthError$ = this._store.pipe(select(fromAuthSelectors.getIsError), filter(error => !!error));
+  public isAuthError$ = this._store.pipe(select(fromAuthSelectors.getIsError));
   public isProductError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(error => !!error));
   public categories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(categories => !!categories?.length));
   public generateOtp$ = this._store.pipe(select(fromAuthSelectors.generateOtp), filter(value => !!value));
@@ -43,11 +43,13 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   constructor(private _store: Store<IAppState>,
               private _formBuilder: FormBuilder,
               private _router: Router,
-              private _snackBar: MatSnackBar
+              private _snackBar: MatSnackBar,
+              private _appFacade: AppFacade
   ) {
   }
 
   public ngOnInit(): void {
+    this._appFacade.clearMessages();
     this.initRegistrationForm();
     this.supplierRegistration();
     this.emailVerification();
@@ -65,7 +67,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     if (!this.regForm.value.termsAndConditions) {
       this.regForm.get('termsAndConditions').setErrors({requiredTrue: true});
     } else {
-      this.regForm.get('termsAndConditions').setErrors({requiredTrue: false});
+      this.regForm.get('termsAndConditions').setErrors(null);
     }
     if (this.regForm.value.selfOnboarded === true) {
       this.regForm.get('onboarder_id').patchValue(1);
