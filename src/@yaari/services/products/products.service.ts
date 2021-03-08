@@ -20,9 +20,10 @@ export class ProductsService {
     return this._http.get<ICategory[]>(`${environment.API_BASE_URL}/api/v1/categories${suffix}`);
   }
 
-  public getBulkBasicUploadTemplate(): Observable<any> {
+  public getBulkBasicUploadTemplate(categoryId: number): Observable<any> {
+    const url = `${environment.API_BASE_URL}/api/v1/catalog/bulk-upload-basic-template?category_id=${categoryId}`;
     // @ts-ignore
-    return this._http.get<any>(`${environment.API_BASE_URL}/api/v1/catalog/bulk-upload-basic-template`, { responseType: 'blob' });
+    return this._http.get<any>(url, { responseType: 'blob' });
   }
 
   public bulkUploadCatalog(body: IFileUpload): Observable<IBulkUploadBasic> {
@@ -34,6 +35,7 @@ export class ProductsService {
       formData
     );
   }
+
 
   public getCatalogs(query: IQuery): Observable<IBulkUploadBasic[]> {
     return this._http.get<IBulkUploadBasic[]>

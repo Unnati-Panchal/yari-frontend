@@ -69,7 +69,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
     }
     this.downloadLoading = true;
     this._subscription.add(
-      this._product.getBulkBasicUploadTemplate().subscribe(response => {
+      this._product.getBulkBasicUploadTemplate(Number(this.selectedCategory?.id)).subscribe(response => {
         this.downloadLoading = false;
         const blob = new Blob([response], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
         fileSaver.saveAs(blob, 'product_upload_template.xlsx');

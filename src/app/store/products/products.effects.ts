@@ -24,17 +24,17 @@ export class ProductsEffects {
     )
   );
 
-  public getBulkBasicUploadTemplate$ = createEffect(() =>
-    this._actions$.pipe(
-      ofType(fromProductsActions.getBulkBasicUploadTemplate),
-      switchMap(() =>
-        this._productsService.getBulkBasicUploadTemplate().pipe(
-          map((file: any) => fromProductsActions.getBulkBasicUploadTemplateSuccess({ file })),
-          catchError(error => of(fromProductsActions.getBulkBasicUploadTemplateError(error)))
-        )
-      )
-    )
-  );
+  // public getBulkBasicUploadTemplate$ = createEffect(() =>
+  //   this._actions$.pipe(
+  //     ofType(fromProductsActions.getBulkBasicUploadTemplate),
+  //     switchMap(() =>
+  //       this._productsService.getBulkBasicUploadTemplate().pipe(
+  //         map((file: any) => fromProductsActions.getBulkBasicUploadTemplateSuccess({ file })),
+  //         catchError(error => of(fromProductsActions.getBulkBasicUploadTemplateError(error)))
+  //       )
+  //     )
+  //   )
+  // );
 
   public bulkUploadCatalog$ = createEffect(() =>
     this._actions$.pipe(
