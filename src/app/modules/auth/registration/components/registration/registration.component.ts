@@ -52,7 +52,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this._appFacade.clearMessages();
     this.initRegistrationForm();
     this.supplierRegistration();
-    this.emailVerification();
+    // this.emailVerification();
     this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
     this._store.dispatch(fromAuthActions.getOnboarders());
   }
@@ -77,7 +77,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.loading = false;
       return;
     }
-    regRequest.email_id = this.emailVerificationSuccessful;
+    // regRequest.email_id = this.emailVerificationSuccessful;
     this._store.dispatch(fromAuthActions.registration({regRequest}));
   }
 
@@ -88,7 +88,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       contact_person: ['', [Validators.required]],
       phone_no: ['', [Validators.required, CustomValidator.digitsOnly]],
       email_id: ['', [Validators.required, Validators.email]],
-      otp: ['', [Validators.required]],
+      // otp: ['', [Validators.required]],
       city: ['', [Validators.required, CustomValidator.lettersOnly]],
       state: ['', [Validators.required]],
       type: ['', [Validators.required]],

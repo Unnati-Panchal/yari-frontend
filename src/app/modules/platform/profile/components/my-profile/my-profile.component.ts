@@ -50,7 +50,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.initRegistrationForm();
     this.supplierRegistration();
-    this.emailVerification();
+    // this.emailVerification();
     this._store.dispatch(fromAuthActions.supplierDetails());
     this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
   }
@@ -85,7 +85,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       bank_name: [''],
       bank_ifsc: [''],
       name_pan_card: [''],
-      primary_category_name: ['', [Validators.required]]
+      primary_category_id: ['', [Validators.required]]
     });
 
     if (!this.isEditEnabled) {
@@ -111,7 +111,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       this.regForm.get('bank_name').patchValue(details?.bank_name);
       this.regForm.get('bank_ifsc').patchValue(details?.bank_ifsc);
       this.regForm.get('name_pan_card').patchValue(details?.name_pan_card);
-      this.regForm.get('primary_category_name').patchValue(details?.primary_category_name);
+      this.regForm.get('primary_category_id').patchValue(details?.primary_category_id);
       this.loading = false;
     }));
 
@@ -130,9 +130,9 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     this.regForm.get('contact_person').enable();
     this.regForm.get('phone_no').enable();
     this.regForm.get('email_id').enable();
-    this.regForm.get('primary_category_name').enable();
+    this.regForm.get('primary_category_id').enable();
     this.regForm.get('type').enable();
-    this.regForm.get('otp').enable();
+    // this.regForm.get('otp').enable();
     this.isEditEnabled = true;
   }
 

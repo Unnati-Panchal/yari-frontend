@@ -37,36 +37,36 @@
 
         <div>
           <h4>Email ID<span class="required">*</span></h4>
-          <div class="mini-form-group-container">
+          <div>
             <mat-form-field appearance="outline">
               <input matInput formControlName="email_id" autocomplete="nope">
               <mat-error *ngIf="regForm.controls['email_id'].hasError('required')">Required field</mat-error>
               <mat-error *ngIf="regForm.controls['email_id'].hasError('email')">Please enter a valid email address
               </mat-error>
-              <mat-error *ngIf="regForm.controls['email_id'].hasError('InvalidValue')">Email Verification failed
-              </mat-error>
-              <mat-hint *ngIf="emailVerificationSuccessful" class="hint-message">OTP sent successfully</mat-hint>
+<!--              <mat-error *ngIf="regForm.controls['email_id'].hasError('InvalidValue')">Email Verification failed-->
+<!--              </mat-error>-->
+<!--              <mat-hint *ngIf="emailVerificationSuccessful" class="hint-message">OTP sent successfully</mat-hint>-->
             </mat-form-field>
-            <button *ngIf="isEditEnabled" mat-button (click)="verifyEmail($event)">
-              <span *ngIf="!loadingEmailVerification else LoadingSpinner">Verify Email</span>
-              <ng-template #LoadingSpinner>
-                <mat-spinner [diameter]="25"></mat-spinner>
-              </ng-template>
-            </button>
+<!--            <button *ngIf="isEditEnabled" mat-button (click)="verifyEmail($event)">-->
+<!--              <span *ngIf="!loadingEmailVerification else LoadingSpinner">Verify Email</span>-->
+<!--              <ng-template #LoadingSpinner>-->
+<!--                <mat-spinner [diameter]="25"></mat-spinner>-->
+<!--              </ng-template>-->
+<!--            </button>-->
           </div>
         </div>
 
-        <div *ngIf="isEditEnabled">
-          <h4>OTP Number<span class="required">*</span></h4>
-          <div class="small-form-group">
-            <mat-form-field appearance="outline">
-              <mat-label>Enter the OTP Number from your email</mat-label>
-              <input matInput formControlName="otp" autocomplete="nope">
-              <mat-hint>Please re-check the value. Value once entered cannot be edited</mat-hint>
-              <mat-error *ngIf="regForm.controls['otp'].hasError('required')">Required field</mat-error>
-            </mat-form-field>
-          </div>
-        </div>
+<!--        <div *ngIf="isEditEnabled">-->
+<!--          <h4>OTP Number<span class="required">*</span></h4>-->
+<!--          <div class="small-form-group">-->
+<!--            <mat-form-field appearance="outline">-->
+<!--              <mat-label>Enter the OTP Number from your email</mat-label>-->
+<!--              <input matInput formControlName="otp" autocomplete="nope">-->
+<!--              <mat-hint>Please re-check the value. Value once entered cannot be edited</mat-hint>-->
+<!--              <mat-error *ngIf="regForm.controls['otp'].hasError('required')">Required field</mat-error>-->
+<!--            </mat-form-field>-->
+<!--          </div>-->
+<!--        </div>-->
 
         <div>
           <h4>Phone number<span class="required">*</span></h4>
@@ -109,12 +109,12 @@
         <div>
           <h4>Main Category<span class="required">*</span></h4>
           <mat-form-field appearance="outline" class="small-form-group">
-            <mat-select formControlName="primary_category_name">
+            <mat-select formControlName="primary_category_id">
               <ng-container *ngIf="categories$ | async as categories">
-                <mat-option *ngFor="let category of categories" [value]="category.name">{{ category.name }}</mat-option>
+                <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
               </ng-container>
             </mat-select>
-            <mat-error *ngIf="regForm.controls['primary_category_name'].hasError('required')">Required field</mat-error>
+            <mat-error *ngIf="regForm.controls['primary_category_id'].hasError('required')">Required field</mat-error>
           </mat-form-field>
         </div>
 
