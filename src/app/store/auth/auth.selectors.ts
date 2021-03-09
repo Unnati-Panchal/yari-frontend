@@ -21,3 +21,4 @@ export const onBoarders = createSelector(selectBaseFeature, (state: fromAuthRedu
 export const supplierDetails$ = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.supplierDetails);
 
 export const url$ = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.url);
+export const getIsMsg$ = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.msg);

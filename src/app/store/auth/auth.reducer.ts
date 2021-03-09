@@ -41,6 +41,7 @@ export interface IAuthState extends fromRoot.IAppState {
   fileUpload: File;
   url: string;
   resetPasswordInfo: IResetPassword;
+  msg: string;
 }
 
 export const authInitialState: IAuthState = {
@@ -67,7 +68,8 @@ export const authInitialState: IAuthState = {
   supplierDetails: null,
   fileUpload: null,
   url: '',
-  resetPasswordInfo: null
+  resetPasswordInfo: null,
+  msg: '',
 };
 
 const authReducer = createReducer(

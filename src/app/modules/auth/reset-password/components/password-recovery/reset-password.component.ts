@@ -7,7 +7,8 @@ import {AppFacade, IAppState} from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
 import {filter, tap} from 'rxjs/operators';
-import {ActivatedRoute, Params} from '@angular/router';
+import {ActivatedRoute, Params, Router} from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-reset-password',
@@ -20,6 +21,12 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   public loading: boolean;
   public isError$ = this._store.pipe(
     select(fromAuthSelectors.getIsError),
+    filter(error => !!error),
+    tap(() => this.loading = false)
+  );
+  public isSuccessMsg$ = this._store.pipe(
+    select(fromAuthSelectors.getIsMsg$),
+    filter(msg => !!msg),
     tap(() => this.loading = false)
   );
 
@@ -29,7 +36,9 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   constructor(private _store: Store<IAppState>,
               private _formBuilder: FormBuilder,
               private _appFacade: AppFacade,
-              private _activatedRoute: ActivatedRoute
+              private _activatedRoute: ActivatedRoute,
+              private _router: Router,
+              private _snackBar: MatSnackBar
   ) {
   }
 
@@ -69,5 +78,12 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       password: ['', [Validators.required]],
       repeatPassword: ['', [Validators.required]]
     });
+
+    this._subscription.add(
+      this.isSuccessMsg$.subscribe( (msg) => {
+        this._snackBar.open(msg, '', {duration: 3000});
+        this._router.navigate(['auth/login']);
+      })
+    );
   }
 }
