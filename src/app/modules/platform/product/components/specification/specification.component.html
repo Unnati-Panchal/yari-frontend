@@ -29,7 +29,7 @@
       <div *ngFor="let catalog of catalogueList" class="catalogue-list">
         <div class="catalog">
           <article>
-            <span>Catalogue {{catalog.id}}</span>
+            <span>{{catalog.catalog_name}}</span>
           </article>
           <article>
             <button mat-button (click)="addSpecifications(catalog.id.toString())">Add Specifications</button>

@@ -18,6 +18,7 @@ export interface IBulkUploadBasic {
   approved: boolean;
   viewed: number;
   shared: number;
+  catalog_name: string;
 }
 
 export interface IQuery {
