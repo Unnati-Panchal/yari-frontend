@@ -5,7 +5,7 @@ import {
   IEditSupplierProfile,
   ILogin,
   IOnboarders,
-  IRegistration,
+  IRegistration, IResetPassword,
   ISubmitKYCForVerificationResponse,
   IToken,
   IVerifyGstPan,
@@ -116,3 +116,10 @@ export const uploadSupplierPictureSuccess =
   createAction('[PRODUCTS] supplierPicture success', props<{ url: string }>());
 
 export const uploadSupplierPictureError = createAction('[PRODUCTS] supplierPicture error', props<{ error: HttpErrorResponse }>());
+
+export const resetPassword = createAction('[AUTH] resetPassword', props<{ resetPasswordInfo: IResetPassword }>());
+
+export const resetPasswordSuccess = createAction('[AUTH] resetPassword success', props<{ msg: string }>());
+
+export const resetPasswordError = createAction('[AUTH] resetPassword error', props<{ error: HttpErrorResponse }>());
+

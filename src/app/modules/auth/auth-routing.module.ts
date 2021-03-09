@@ -22,6 +22,10 @@ const routes: Routes = [
         loadChildren: () => import('~auth/registration/registration.module').then(m => m.RegistrationModule)
       },
       {
+        path: 'reset-password',
+        loadChildren: () => import('~auth/reset-password/reset-password.module').then(m => m.ResetPasswordModule)
+      },
+      {
         path: 'contact-us',
         component: ContactUsComponent
       },

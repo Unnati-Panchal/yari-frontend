@@ -7,7 +7,7 @@ import {
   IEditSupplierProfile,
   ILogin,
   IOnboarders,
-  IRegistration,
+  IRegistration, IResetPassword,
   ISubmitKYCForVerificationResponse,
   IToken,
   IVerifyOtp,
@@ -40,6 +40,7 @@ export interface IAuthState extends fromRoot.IAppState {
   supplierDetails: IRegistration;
   fileUpload: File;
   url: string;
+  resetPasswordInfo: IResetPassword;
 }
 
 export const authInitialState: IAuthState = {
@@ -65,7 +66,8 @@ export const authInitialState: IAuthState = {
   supplierProfileChanges: null,
   supplierDetails: null,
   fileUpload: null,
-  url: ''
+  url: '',
+  resetPasswordInfo: null
 };
 
 const authReducer = createReducer(
@@ -194,7 +196,11 @@ const authReducer = createReducer(
   on(fromAuthActions.getOnboardersSuccess, (state, action) => ({
     ...state, loading: false, onBoarders: action.onBoarders
   })),
-  on(fromAuthActions.getOnboardersError, (state, action) => ({...state, loading: false, error: action.error})),
+  on(fromAuthActions.getOnboardersError, (state, {error}) => ({...state, loading: false, error})),
+
+  on(fromAuthActions.resetPassword, (state, {resetPasswordInfo}) => ({...state, loading: true, resetPasswordInfo})),
+  on(fromAuthActions.resetPasswordSuccess, (state, {msg}) => ({...state, loading: false, msg})),
+  on(fromAuthActions.resetPasswordError, (state, {error}) => ({...state, loading: false, error})),
 );
 
 

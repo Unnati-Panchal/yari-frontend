@@ -20,7 +20,12 @@ export class AuthGuard implements CanActivate {
     this._router.events.pipe(filter(val => val instanceof NavigationEnd))
       .subscribe((val: NavigationEnd) => {
         this._appFacade.clearMessages();
-        if (val.url !== '/auth/registration'  && val.url !== '/auth/password-recovery' && !this._authService.accessToken) {
+        if (
+          val.url !== '/auth/reset-password' &&
+          val.url !== '/auth/registration'  &&
+          val.url !== '/auth/password-recovery' &&
+          !this._authService.accessToken
+        ) {
           this._authService.redirectToLogin();
           return false;
         }

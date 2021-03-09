@@ -100,3 +100,9 @@ export interface IEditSupplierProfile {
   bank_name?: string;
   bank_ifsc?: string;
 }
+
+
+export interface IResetPassword {
+  access_token: string;
+  new_password: string;
+}

@@ -26,8 +26,7 @@ export class TokenInterceptor implements HttpInterceptor {
           return of(err);
         }
         if (err.status === 500) {
-          const msg = `500 Internal Server Error`;
-          this._snackBar.open(msg, '', {duration: 3000});
+          this._snackBar.open(err.error, '', {duration: 3000});
           return of(err);
         }
         return throwError(err);

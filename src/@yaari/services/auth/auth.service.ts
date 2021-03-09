@@ -7,7 +7,7 @@ import {
   IEditSupplierProfile,
   ILogin,
   IOnboarders,
-  IRegistration,
+  IRegistration, IResetPassword,
   IToken,
   IVerifyGstPan,
   IVerifyOtp,
@@ -46,7 +46,8 @@ export class AuthService {
   }
 
   public passwordRecovery(email: string): Observable<string> {
-    return this._http.post<string>(`${environment.API_BASE_URL}/api/v1/user/password-recovery/${email}?user_role=supplier`, email);
+    const url = window.location.href.split('password-recovery').join('reset-password');
+    return this._http.post<string>(`${environment.API_BASE_URL}/api/v1/user/password-recovery/${email}?user_role=supplier&redirect_url=${url}`, email);
   }
 
   public login(login: ILogin): Observable<IToken> {
@@ -107,6 +108,10 @@ export class AuthService {
     const formData = new FormData();
     formData.append('file', file, file.name);
     return this._http.put<{url: string}>(`${environment.API_BASE_URL}/api/v1/supplier/image`, formData);
+  }
+
+  public resetPassword(resetPassword: IResetPassword): Observable<{msg: string}> {
+    return this._http.post<{msg: string}>(`${environment.API_BASE_URL}/api/v1/user/reset-password?user_role=supplier`, resetPassword);
   }
 
 }

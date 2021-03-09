@@ -12,7 +12,7 @@ import {
   IEditSupplierProfile,
   ILogin,
   IOnboarders,
-  IRegistration,
+  IRegistration, IResetPassword,
   ISubmitKYCForVerificationResponse,
   IToken,
   IVerifyGstPan,
@@ -197,6 +197,19 @@ export class AuthEffects {
         this._authService.uploadSupplierPicture(fileUpload).pipe(
           map(({url}) => fromAuthActions.uploadSupplierPictureSuccess({ url })),
           catchError(error => of(fromAuthActions.uploadSupplierPictureError(error)))
+        )
+      )
+    )
+  );
+
+  public resetPassword$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAuthActions.resetPassword),
+      map(action => action.resetPasswordInfo),
+      switchMap((resetPassword: IResetPassword) =>
+        this._authService.resetPassword(resetPassword).pipe(
+          map(({msg}) => fromAuthActions.resetPasswordSuccess({ msg })),
+          catchError(error => of(fromAuthActions.resetPasswordError(error)))
         )
       )
     )
