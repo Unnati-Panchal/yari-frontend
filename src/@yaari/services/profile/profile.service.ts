@@ -73,7 +73,7 @@ export class ProfileService {
 
   public getExchangedReturned(query: IQuery): Observable<IExchangeReturned[]> {
     return this._http.get<IExchangeReturned[]>
-    (`${environment.API_BASE_URL}/api/v1/supplier/returns/return_products?date_from=${query.startDate}&date_to=${query.endDate}&status=${query.status}`);
+    (`${environment.API_BASE_URL}/api/v1/supplier/returns/return_products?status=${query.status}&start_date=${query.startDate}&end_date=${query.endDate}`);
   }
 
   public getQualityScoreCard(query: IQuery): Observable<IQualityScoreCard[]> {

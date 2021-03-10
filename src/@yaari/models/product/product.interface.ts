@@ -28,8 +28,8 @@ export interface IQuery {
 }
 
 export enum ESalesStatus {
-  Replaced = 'replaced', // exchanged
-  Returned = 'return_requested'
+  Replaced = 'exchanged',
+  Returned = 'returned'
 }
 
 export interface ISpecifications {
