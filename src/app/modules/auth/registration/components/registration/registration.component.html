@@ -255,8 +255,20 @@
           <h4>Password<span class="required">*</span></h4>
           <mat-form-field appearance="outline" class="small-form-group">
             <mat-label>Enter your password</mat-label>
-            <input matInput formControlName="password" autocomplete="nope" type="password">
+            <input matInput formControlName="password" autocomplete="nope" [type]="!hidePass ? 'password' : 'text'">
+            <mat-icon matSuffix (click)="hidePass = !hidePass">{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
             <mat-error *ngIf="regForm.controls['password'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Confirm Password<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter your password again</mat-label>
+            <input matInput formControlName="confirmPassword" autocomplete="nope" [type]="!hidePass ? 'password' : 'text'">
+            <mat-icon matSuffix (click)="hidePass = !hidePass">{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="regForm.controls['confirmPassword'].hasError('required')">Required field</mat-error>
+            <mat-error *ngIf="regForm.controls['confirmPassword'].hasError('mustMatch')">Must match your password</mat-error>
           </mat-form-field>
         </div>
 

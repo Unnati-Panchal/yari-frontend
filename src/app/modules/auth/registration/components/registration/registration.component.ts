@@ -33,6 +33,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     {label: 'Manufacturer', key: 'manufacturer'},
     {label: 'Wholesaler', key: 'wholesaler'}
   ];
+  public hidePass: boolean;
   public categories: ICategory[];
   public loading;
   public loadingEmailVerification: boolean;
@@ -69,9 +70,17 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     } else {
       this.regForm.get('termsAndConditions').setErrors(null);
     }
+
+    if (this.regForm.value.password !== this.regForm.value.confirmPassword) {
+      this.regForm.get('confirmPassword').setErrors({mustMatch: true});
+    } else {
+      this.regForm.get('confirmPassword').setErrors(null);
+    }
+
     if (this.regForm.value.selfOnboarded === true) {
       this.regForm.get('onboarder_id').patchValue(1);
     }
+
     const regRequest = this.regForm.value;
     if (!this.regForm.valid) {
       this.loading = false;
@@ -85,6 +94,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this.regForm = this._formBuilder.group({
       is_active: [true],
       password: ['', [Validators.required]],
+      confirmPassword: ['', [Validators.required]],
       contact_person: ['', [Validators.required]],
       phone_no: ['', [Validators.required, CustomValidator.digitsOnly]],
       email_id: ['', [Validators.required, Validators.email]],

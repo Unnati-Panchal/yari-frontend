@@ -13,20 +13,22 @@ import {RegistrationComponent} from '~auth/registration/components/registration/
 import {SharedModule} from '@yaari/shared.module';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [RegistrationComponent],
-  imports: [
-    CommonModule,
-    RegistrationRoutingModule,
-    SharedModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatRadioModule,
-    MatSelectModule,
-    MatButtonModule,
-    MatProgressSpinnerModule,
-    MatCheckboxModule
-  ]
+    imports: [
+        CommonModule,
+        RegistrationRoutingModule,
+        SharedModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatRadioModule,
+        MatSelectModule,
+        MatButtonModule,
+        MatProgressSpinnerModule,
+        MatCheckboxModule,
+        MatIconModule
+    ]
 })
 export class RegistrationModule { }
