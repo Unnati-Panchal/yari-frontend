@@ -111,7 +111,7 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       this.regForm.get('bank_name').patchValue(details?.bank_name);
       this.regForm.get('bank_ifsc').patchValue(details?.bank_ifsc);
       this.regForm.get('name_pan_card').patchValue(details?.name_pan_card);
-      this.regForm.get('primary_category_id').patchValue(details?.primary_category_id);
+      this.regForm.get('primary_category_id').patchValue(details?.primary_category_id.toString());
       this.loading = false;
     }));
 
