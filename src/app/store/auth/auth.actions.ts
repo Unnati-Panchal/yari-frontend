@@ -49,7 +49,7 @@ export const loginError = createAction('[AUTH] login error', props<{ error: Http
 
 export const passwordRecovery = createAction('[AUTH] password recovery', props<{ email: string }>());
 
-export const passwordRecoverySuccess = createAction('[AUTH] password recovery success', props<{ passwordRecoveryResponse: string }>());
+export const passwordRecoverySuccess = createAction('[AUTH] password recovery success', props<{ msg: string }>());
 
 export const passwordRecoveryError = createAction('[AUTH] password recovery error', props<{ error: HttpErrorResponse }>());
 

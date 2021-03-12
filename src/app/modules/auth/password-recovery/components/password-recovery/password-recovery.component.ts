@@ -6,7 +6,7 @@ import {select, Store} from '@ngrx/store';
 import {AppFacade, IAppState} from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
-import {filter} from 'rxjs/operators';
+import {filter, tap} from 'rxjs/operators';
 
 @Component({
   selector: 'app-password-recovery',
@@ -20,7 +20,13 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
   public errors: string;
   public isError$ = this._store.pipe(
     select(fromAuthSelectors.getIsError),
-    filter(error => !!error)
+    filter(error => !!error),
+    tap(() => this.loading = false)
+  );
+  public isMsg$ = this._store.pipe(
+    select(fromAuthSelectors.getIsMsg$),
+    filter(msg => !!msg),
+    tap(() => this.loading = false)
   );
 
   private _subscription: Subscription = new Subscription();
@@ -56,12 +62,5 @@ export class PasswordRecoveryComponent implements OnInit, OnDestroy {
       email: ['', [Validators.required, Validators.email]],
       user_role: 'supplier' // 'supplier' / 'admin'
     });
-    this._subscription.add(
-      this.isError$.subscribe( (error) => {
-        this.errors = error.error.detail;
-        this.loading = false;
-        this.accountRecoveryForm.get('email').setErrors({notExist: true});
-      })
-    );
   }
 }

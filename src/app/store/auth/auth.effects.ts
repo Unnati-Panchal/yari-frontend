@@ -79,7 +79,7 @@ export class AuthEffects {
       map(action => action.email),
       switchMap((email: string) =>
         this._authService.passwordRecovery(email).pipe(
-          map((passwordRecoveryResponse: string) => fromAuthActions.passwordRecoverySuccess({ passwordRecoveryResponse })),
+          map(({msg}) => fromAuthActions.passwordRecoverySuccess({ msg })),
           catchError(error => of(fromAuthActions.passwordRecoveryError({ error })))
         )
       )

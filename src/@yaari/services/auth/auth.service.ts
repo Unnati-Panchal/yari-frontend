@@ -45,9 +45,9 @@ export class AuthService {
     this._router.navigate(['auth/login']);
   }
 
-  public passwordRecovery(email: string): Observable<string> {
+  public passwordRecovery(email: string): Observable<{msg: string}> {
     const url = window.location.href.split('password-recovery').join('reset-password');
-    return this._http.post<string>(`${environment.API_BASE_URL}/api/v1/user/password-recovery/${email}?user_role=supplier&redirect_url=${url}`, email);
+    return this._http.post<{msg: string}>(`${environment.API_BASE_URL}/api/v1/user/password-recovery/${email}?user_role=supplier&redirect_url=${url}`, email);
   }
 
   public login(login: ILogin): Observable<IToken> {

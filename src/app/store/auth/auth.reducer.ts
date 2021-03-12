@@ -24,7 +24,6 @@ export interface IAuthState extends fromRoot.IAppState {
   loginRequest: ILogin;
   token: IToken;
   email: string;
-  passwordRecoveryResponse: string;
   KYCVerification: IRegistration;
   submitKYCForVerificationResponse: ISubmitKYCForVerificationResponse;
   panVerification: KYCDetailsResponse;
@@ -52,7 +51,6 @@ export const authInitialState: IAuthState = {
   token: null,
   loginRequest: null,
   email: '',
-  passwordRecoveryResponse: '',
   KYCVerification: null,
   submitKYCForVerificationResponse: null,
   panVerification: null,
@@ -114,8 +112,8 @@ const authReducer = createReducer(
   on(fromAuthActions.passwordRecovery, (state, action) => ({
     ...state, loading: true, email: action.email
   })),
-  on(fromAuthActions.passwordRecoverySuccess, (state, action) => ({
-    ...state, loading: false, passwordRecoveryResponse: action.passwordRecoveryResponse
+  on(fromAuthActions.passwordRecoverySuccess, (state, { msg }) => ({
+    ...state, loading: false, msg
   })),
   on(fromAuthActions.passwordRecoveryError, (state, action) => ({...state, loading: false, error: action.error})),
 
