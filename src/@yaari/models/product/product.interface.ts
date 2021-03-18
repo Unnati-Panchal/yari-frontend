@@ -8,6 +8,7 @@ export interface IFileUpload {
   file: File;
   category_id: string;
   catalogue_name: string;
+  images_zipfile?: File;
 }
 
 

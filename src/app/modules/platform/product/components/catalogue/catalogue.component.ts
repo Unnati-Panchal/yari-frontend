@@ -17,6 +17,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 export class CatalogueComponent implements OnInit, OnDestroy {
   private _subscription: Subscription = new Subscription();
   public selectedFile: File;
+  public selectedImagesZipFile: File;
   success: string;
   selectedCategory: {id: string, name: string, terminal: boolean};
   selectedCategoryMsg: string;
@@ -88,7 +89,8 @@ export class CatalogueComponent implements OnInit, OnDestroy {
     const fileUpload = {
       file: this.selectedFile,
       category_id: this.selectedCategory?.id,
-      catalogue_name: this.uploadForm?.value?.catalogue_name
+      catalogue_name: this.uploadForm?.value?.catalogue_name,
+      images_zipfile: this.selectedImagesZipFile
     };
     this.uploadLoading = true;
     if (!fileUpload?.file) {
@@ -110,16 +112,21 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   prepareFilesList(files: Array<any>): void {
     this._appFacade.clearMessages();
     for (const item of files) {
-      this.selectedFile = item;
+      if (item?.name.includes('.xlsx')) {
+        this.selectedFile = item;
+      } else if (item?.name.includes('.zip')) {
+        this.selectedImagesZipFile = item;
+      } else {
+        this.success = `Please upload '.xlsx' or '.zip' files only`;
+      }
     }
     if (this.selectedFile) {
-      if (!this.selectedFile?.name.includes('xlsx')) {
-        this.success = `Please upload xlsx files only`;
-      } else {
-        this.success = `Successfully added file ${this.selectedFile.name}. Click Upload`;
-      }
+      this.success = `Successfully added file ${this.selectedFile.name}. Click Upload`;
     } else {
       this.success = `Please try again`;
+    }
+    if (this.selectedImagesZipFile) {
+      this.success = `Successfully added file ${this.selectedImagesZipFile.name}. Click Upload`;
     }
   }
 

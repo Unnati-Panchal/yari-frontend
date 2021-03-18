@@ -29,6 +29,9 @@ export class ProductsService {
   public bulkUploadCatalog(body: IFileUpload): Observable<IBulkUploadBasic> {
     const formData = new FormData();
     formData.append('file', body.file, body.file.name);
+    if (body?.images_zipfile) {
+      formData.append('images_zipfile', body.images_zipfile, body.images_zipfile.name);
+    }
     return this._http.post<IBulkUploadBasic>
     (
       `${environment.API_BASE_URL}/api/v1/catalog/bulk-upload-basic?catalog_name=${body.catalogue_name}&category_id=${body.category_id}`,
