@@ -61,7 +61,7 @@ const productsReducer = createReducer(
 
 
   on(fromProductsActions.deleteCatalog, (state, {catalogId}) => ({...state, loading: true, catalogId})),
-  on(fromProductsActions.deleteCatalogSuccess, (state) => ({...state, loading: false})),
+  on(fromProductsActions.deleteCatalogSuccess, (state, {msg}) => ({...state, loading: false, msg})),
   on(fromProductsActions.deleteCatalogError, (state, {error}) => ({ ...state, loading: false, error })),
 
 

@@ -37,7 +37,7 @@ export const getCatalogsError = createAction('[PRODUCTS] getCatalogs error', pro
 
 export const deleteCatalog = createAction('[PRODUCTS] deleteCatalog', props<{ catalogId: string }>());
 
-export const deleteCatalogSuccess = createAction('[PRODUCTS] deleteCatalog success');
+export const deleteCatalogSuccess = createAction('[PRODUCTS] deleteCatalog success', props<{ msg: string }>());
 
 export const deleteCatalogError = createAction('[PRODUCTS] deleteCatalog error', props<{ error: HttpErrorResponse }>());
 

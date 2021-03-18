@@ -101,7 +101,13 @@ export class SpecificationComponent implements OnInit, OnDestroy {
 
     this._subscription.add(this.getCatalogues$.subscribe((list) => this.catalogueList = list));
     this._subscription.add(this.isError$.subscribe((errors) => this.errorMessages = errors));
-    this._subscription.add(this.isMsg$.subscribe((msg) => this.successMessage = msg));
+    this._subscription.add(this.isMsg$.subscribe((msg) => {
+      this.successMessage = msg;
+      // TODO check the valid msg
+      if (msg === 'Success deleted catalog or something') {
+        this.viewCatalogueList();
+      }
+    }));
   }
 
   backToCatalogueList(): void {
@@ -127,11 +133,13 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   }
 
   public viewCatalogueList(): void {
-    const query = this.selectedDate;
+    let query;
     this.selectDate = null;
-    if (!query || !query?.startDate || !query?.endDate) {
+    if (!this.selectedDate?.startDate || !this.selectedDate?.endDate) {
       this.selectDate = 'Please Select Date Range!';
       return;
+    } else {
+      query = this.selectedDate;
     }
     this._store.dispatch(fromProductsActions.getCatalogs({query}));
   }
@@ -147,7 +155,6 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   deleteCatalogue(catalogueId: number): void {
     const catalogId = catalogueId.toString();
     this._store.dispatch(fromProductsActions.deleteCatalog({catalogId}));
-    setTimeout(() => this.viewCatalogueList(), 3000);
   }
 
 }
