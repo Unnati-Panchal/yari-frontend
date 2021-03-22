@@ -10,7 +10,7 @@ import * as fromProfileSelectors from '~store/profile/profile.selectors';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  public isPickupAddress$ = this._store.pipe(select(fromProfileSelectors.getPickupAddress$));
+  public isPickupAddress$ = this._store.pipe(select(fromProfileSelectors.getPickupAddress$), filter(address => !!address));
 
   constructor(
     private _authService: AuthService,
