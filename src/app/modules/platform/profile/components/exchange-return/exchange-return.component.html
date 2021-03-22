@@ -36,9 +36,9 @@
     <div *ngIf="!loading && dataSource?.length">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-        <ng-container matColumnDef="sr_no">
+        <ng-container matColumnDef="serial_num">
           <th mat-header-cell *matHeaderCellDef> Sr. No. </th>
-          <td mat-cell *matCellDef="let idx = index">{{idx + 1}}</td>
+          <td mat-cell *matCellDef="let element"> {{element?.serial_num}} </td>
         </ng-container>
 
         <ng-container matColumnDef="order_id">
@@ -46,12 +46,12 @@
           <td mat-cell *matCellDef="let element"> {{element?.order_id}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="sku_number">
+        <ng-container matColumnDef="product_sku_id">
           <th mat-header-cell *matHeaderCellDef> SKU Number </th>
           <td mat-cell *matCellDef="let element"> {{element?.product_sku_id}} </td>
         </ng-container>
 
-        <ng-container matColumnDef="date_shipped">
+        <ng-container matColumnDef="shipped_date">
           <th mat-header-cell *matHeaderCellDef> Date Shipped </th>
           <td mat-cell *matCellDef="let element"> {{element?.shipped_date}} </td>
         </ng-container>

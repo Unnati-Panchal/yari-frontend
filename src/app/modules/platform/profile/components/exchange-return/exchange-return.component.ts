@@ -45,8 +45,8 @@ export class ExchangeReturnComponent implements OnInit, OnDestroy {
 
   public viewBtn(status: ESalesStatus): void {
     const query = {
-      startDate: this.selectedDate.startDate,
-      endDate: this.selectedDate.endDate,
+      startDate: this.selectedDate?.startDate,
+      endDate: this.selectedDate?.endDate,
       status
     };
     this.selectDate = null;
