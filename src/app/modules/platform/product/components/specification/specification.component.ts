@@ -86,8 +86,9 @@ export class SpecificationComponent implements OnInit, OnDestroy {
 
   getCataloguesRes(): void {
     this._subscription.add(
-      combineLatest([this.getCatalogProducts$, this.getSpecTemplate$]).subscribe(([catalogueProducts, specTemplate]) => {
-        this.specKeys = specTemplate; // Object.keys(catalogueProducts[0]?.specifications);
+      combineLatest([this.getCatalogProducts$, this.getSpecTemplate$])
+        .subscribe(([catalogueProducts, specTemplate]) => {
+        this.specKeys = [...new Set(specTemplate)]; // Object.keys(catalogueProducts[0]?.specifications);
         this.displayedColumns = ['sr_no', 'sku_id', 'product_name', ...this.specKeys, 'next_day_dispatch'];
         this.dataSource = catalogueProducts.map( (item) => {
           return {
@@ -143,9 +144,10 @@ export class SpecificationComponent implements OnInit, OnDestroy {
     this._store.dispatch(fromProductsActions.getCatalogs({query}));
   }
 
-  addSpecifications(catalogId: string): void {
-    this.isSelectedCatalogue = catalogId;
+  addSpecifications(catalogue: IBulkUploadBasic): void {
+    this.isSelectedCatalogue = catalogue.catalog_name;
     this.loading = true;
+    const catalogId = catalogue.id.toString();
     this._store.dispatch(fromProductsActions.getBulkSpecificationsUploadTemplate({catalogId}));
     this._store.dispatch(fromProductsActions.getCatalogProducts({catalogId}));
 
