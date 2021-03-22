@@ -10,7 +10,7 @@ import {
   IBucketItems,
   ICreateBucket,
   IImageResponse,
-  IInsertBucket
+  IInsertBucket, IPickupAddress
 } from '@yaari/models/profile/profile.interface';
 import {IExchangeReturned, IPayment, IQualityScoreCard, IRatingAndReviews} from '@yaari/models/product/product.interface';
 
@@ -35,6 +35,7 @@ export interface IProfileState extends fromRoot.IAppState {
   ratingsAndReviews: IRatingAndReviews[];
   exchangedReturned: IExchangeReturned[];
   qualityScorecard: IQualityScoreCard[];
+  pickupAddress: IPickupAddress;
 }
 
 export const profileInitialState: IProfileState = {
@@ -55,7 +56,8 @@ export const profileInitialState: IProfileState = {
   payments: [],
   ratingsAndReviews: [],
   exchangedReturned: [],
-  qualityScorecard: []
+  qualityScorecard: [],
+  pickupAddress: null
 };
 
 const profileReducer = createReducer(
@@ -237,6 +239,15 @@ const profileReducer = createReducer(
     qualityScorecard: action.qualityScorecard
   })),
   on(fromProfileActions.getQualityScoreCardError, (state, action) => ({ ...state, loading: false, error: action.error })),
+
+
+  on(fromProfileActions.getPickupAddress, (state) => ({...state, loading: true})),
+  on(fromProfileActions.getPickupAddressSuccess, (state, {pickupAddress}) => ({...state, loading: false, pickupAddress})),
+  on(fromProfileActions.getPickupAddressError, (state, {error}) => ({ ...state, loading: false, error })),
+
+  on(fromProfileActions.addPickupAddress, (state, {pickupAddress}) => ({...state, loading: true, pickupAddress})),
+  on(fromProfileActions.addPickupAddressSuccess, (state, {pickupAddress}) => ({...state, loading: false, pickupAddress})),
+  on(fromProfileActions.addPickupAddressError, (state, {error}) => ({ ...state, loading: false, error })),
 
 );
 

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  // API_BASE_URL: 'http://65.1.182.179:8000', //dev
+  // API_BASE_URL: 'http://65.1.182.179:8000', // dev
   API_BASE_URL: 'http://65.1.152.244:8000', // qa
   thirdPartyVerifyEmail: 'https://verifyemail.invoid.co',
   thirdPartyPanAndGstVerification: 'https://gc.invoid.co',

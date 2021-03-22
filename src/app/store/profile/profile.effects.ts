@@ -13,7 +13,7 @@ import {
   IBucketItems,
   ICreateBucket,
   IImageResponse,
-  IInsertBucket
+  IInsertBucket, IPickupAddress
 } from '@yaari/models/profile/profile.interface';
 import {IExchangeReturned, IPayment, IQualityScoreCard, IQuery, IRatingAndReviews} from '@yaari/models/product/product.interface';
 
@@ -195,6 +195,31 @@ export class ProfileEffects {
         this._profileService.getQualityScoreCard(query).pipe(
           map((qualityScorecard: IQualityScoreCard[]) => fromProfileActions.getQualityScoreCardSuccess({ qualityScorecard })),
           catchError(error => of(fromProfileActions.getQualityScoreCardError(error)))
+        )
+      )
+    )
+  );
+
+  public getPickupAddress$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProfileActions.getPickupAddress),
+      switchMap(() =>
+        this._profileService.getPickupAddress().pipe(
+          map((pickupAddress: IPickupAddress) => fromProfileActions.getPickupAddressSuccess({ pickupAddress })),
+          catchError(error => of(fromProfileActions.getPickupAddressError(error)))
+        )
+      )
+    )
+  );
+
+  public addPickupAddress$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProfileActions.addPickupAddress),
+      map(action => action.pickupAddress),
+      switchMap((address: IPickupAddress) =>
+        this._profileService.addPickupAddress(address).pipe(
+          map((pickupAddress: IPickupAddress) => fromProfileActions.addPickupAddressSuccess({ pickupAddress })),
+          catchError(error => of(fromProfileActions.addPickupAddressError(error)))
         )
       )
     )

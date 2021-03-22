@@ -6,7 +6,7 @@ import {
   IBucketItems,
   ICreateBucket,
   IImageResponse,
-  IInsertBucket
+  IInsertBucket, IPickupAddress
 } from '@yaari/models/profile/profile.interface';
 import {
   IExchangeReturned,
@@ -117,3 +117,17 @@ export const getQualityScoreCardSuccess = createAction(
   '[PROFILE] get quality scorecard success', props<{ qualityScorecard: IQualityScoreCard[] }>());
 
 export const getQualityScoreCardError = createAction('[PROFILE] get quality scorecard error', props<{ error: HttpErrorResponse }>());
+
+
+export const getPickupAddress = createAction('[PROFILE] getPickupAddress');
+
+export const getPickupAddressSuccess = createAction('[PROFILE] getPickupAddress success', props<{ pickupAddress: IPickupAddress }>());
+
+export const getPickupAddressError = createAction('[PROFILE] getPickupAddress error', props<{ error: HttpErrorResponse }>());
+
+
+export const addPickupAddress = createAction('[PROFILE] addPickupAddress', props<{ pickupAddress: IPickupAddress }>());
+
+export const addPickupAddressSuccess = createAction('[PROFILE] addPickupAddress success', props<{ pickupAddress: IPickupAddress }>());
+
+export const addPickupAddressError = createAction('[PROFILE] addPickupAddress error', props<{ error: HttpErrorResponse }>());

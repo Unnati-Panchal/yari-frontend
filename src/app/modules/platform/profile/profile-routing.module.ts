@@ -7,6 +7,7 @@ import {QualityScoreCardComponent} from '~platform/profile/components/quality-sc
 import {ExchangeReturnComponent} from '~platform/profile/components/exchange-return/exchange-return.component';
 import {MyProfileComponent} from '~platform/profile/components/my-profile/my-profile.component';
 import {ContactUsPageComponent} from '~platform/profile/components/contact-us-page/contact-us-page.component';
+import {PickupAddressComponent} from '~platform/profile/components/pickup-address/pickup-address.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,10 @@ const routes: Routes = [
       {
         path: 'contact-us',
         component: ContactUsPageComponent
+      },
+      {
+        path: 'pickup-address',
+        component: PickupAddressComponent
       }
     ]
   }

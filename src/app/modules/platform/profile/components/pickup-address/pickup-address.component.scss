@@ -1,0 +1,174 @@
+@import 'variables';
+@import 'mixins';
+
+:host {
+  main {
+    width: 100%;
+    height: calc(100vh - 100px);
+    @include yaari-display-flex();
+
+    section {
+      width: 50%;
+
+      &.centered {
+        @include yaari-display-flex(center, center);
+        margin: $yaari-base 0;
+        width: 100%;
+      }
+    }
+
+    .red-line {
+      height: $yaari-tiny;
+      background: $yaari-red;
+    }
+
+    .left-image {
+      background-image: url('~src/assets/images/dashboard-background.png');
+      background-size: cover;
+
+      button {
+        @include yaari-display-flex(center, space-between);
+        padding: $yaari-tiny $yaari-xlarge;
+        border-radius: 24px;
+        background-color: $yaari-red;
+        font-size: $yaari-h6;
+        color: $yaari-light;
+        margin-bottom: $yaari-large / 2;
+      }
+
+      h1 {
+        padding: $yaari-base * 2 0 $yaari-tiny yaari-to-rem(120px);
+        color: $yaari-light;
+        margin: 0;
+        font-size: $yaari-h1;
+        font-weight: bold;
+        line-height: 100%;
+      }
+
+      .red-line {
+        width: yaari-to-rem(100px);
+        margin-left: yaari-to-rem(120px);
+      }
+    }
+
+    .register-container {
+
+      .title-section {
+        display: flex;
+      }
+
+
+      .register-form {
+        padding: $yaari-base * 2;
+
+        @include media-breakpoint(lt-lg) {
+          padding: $yaari-base $yaari-large;
+        }
+
+        section {
+          width: 70%;
+
+          h3 {
+            margin: 0;
+            line-height: 100%;
+            font-size: $yaari-h3;
+            font-weight: 500;
+            color: $yaari-dark;
+          }
+
+          .red-line {
+            width: yaari-to-rem(50px);
+            margin-top: $yaari-tiny;
+          }
+        }
+
+        .form-fields {
+          width: 100%;
+          margin-top: $yaari-large;
+          overflow: auto;
+          height: calc(100vh - 360px);
+          padding-right: $yaari-base;
+
+          .radio-buttons {
+            padding-bottom: $yaari-base;
+          }
+
+          div {
+            padding: $yaari-tiny 0;
+          }
+
+          @include media-breakpoint(lt-lg) {
+            margin-top: $yaari-base;
+          }
+
+          h4 {
+            font-size: $yaari-default;
+            font-weight: 500;
+            color: $yaari-dark;
+            white-space: pre-wrap;
+          }
+
+          .radio-buttons {
+            padding-bottom: $yaari-base;
+          }
+
+          .mat-radio-button {
+            margin-right: $yaari-base;
+          }
+
+          .small-form-group {
+            width: 60%;
+          }
+
+          .mini-form-group-container {
+            @include yaari-display-flex(flex-start, space-between);
+
+            mat-form-field {
+              width: 40%;
+            }
+
+            button {
+              @include yaari-display-flex(center, center);
+              border-radius: 24px;
+              background-color: $yaari-red;
+              font-size: $yaari-h6;
+              color: $yaari-light;
+              width: yaari-to-rem(260px);
+            }
+          }
+        }
+
+        .submit-btn-container {
+          @include yaari-display-flex(center, center);
+
+          button {
+            @include yaari-display-flex(center, center);
+            width: yaari-to-rem(260px);
+            border-radius: 24px;
+            background-color: $yaari-red;
+            font-size: $yaari-h6;
+            color: $yaari-light;
+          }
+        }
+
+        .hint-message {
+          color: #008800;
+        }
+      }
+
+
+
+      div {
+        width: 100%;
+
+        .mat-form-field {
+          width: 100%;
+
+          mat-icon {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

@@ -20,6 +20,7 @@ import {MatInputModule} from '@angular/material/input';
 import {SharedModule} from '@yaari/shared.module';
 import {MatSelectModule} from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
+import {PickupAddressComponent} from '~platform/profile/components/pickup-address/pickup-address.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import {MatRadioModule} from '@angular/material/radio';
     QualityScoreCardComponent,
     ExchangeReturnComponent,
     MyProfileComponent,
-    ContactUsPageComponent
+    ContactUsPageComponent,
+    PickupAddressComponent
   ],
   imports: [
     CommonModule,

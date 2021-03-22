@@ -1,0 +1,115 @@
+<main>
+  <section *ngIf="loading" class="centered">
+    <mat-spinner color="warn" [diameter]="50"></mat-spinner>
+  </section>
+  <section *ngIf="!loading" class="left-image"></section>
+  <section *ngIf="!loading" class="register-container">
+    <form [formGroup]="regForm" class="register-form">
+
+      <div class="title-section">
+        <section>
+          <h3>Pickup Address</h3>
+          <div class="red-line"></div>
+        </section>
+      </div>
+
+      <section class="form-fields">
+
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Country</mat-label>
+            <input matInput formControlName="country" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['country'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Full Name</mat-label>
+            <input matInput formControlName="full_name" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['full_name'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Mobile No.</mat-label>
+            <input matInput formControlName="phone_no" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['phone_no'].hasError('required')">Required field</mat-error>
+            <mat-error *ngIf="regForm.controls['phone_no'].hasError('invalidNumber')">Please enter only digits</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Pin Code</mat-label>
+            <input matInput formControlName="pin_code" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['pin_code'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Flat, House No., Building, Company, Apartment</mat-label>
+            <input matInput formControlName="line_one" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['line_one'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Area, Colony, Street, Sector, Village</mat-label>
+            <input matInput formControlName="line_two" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['line_two'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>Landmark</mat-label>
+            <input matInput formControlName="landmark" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['landmark'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>State</mat-label>
+            <input matInput formControlName="state" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['state'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <mat-form-field appearance="outline">
+            <mat-label>City</mat-label>
+            <input matInput formControlName="city" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['city'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="radio-buttons">
+          <h4>Address Type<span class="required">*</span></h4>
+          <mat-radio-group class="radio-group" formControlName="type">
+            <mat-radio-button [value]="'home'">Home</mat-radio-button>
+            <mat-radio-button [value]="'office'">Office</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div>
+          <app-error-success [errors]="isError$ | async"></app-error-success>
+        </div>
+
+        <div class="form-group submit-btn-container">
+          <button mat-button class="btn login-btn" (click)="updatePickupAddress()">
+            <span *ngIf="!loading else LoadingSpinner">Add This Address</span>
+            <ng-template #LoadingSpinner>
+              <mat-spinner [diameter]="25"></mat-spinner>
+            </ng-template>
+          </button>
+        </div>
+
+      </section>
+    </form>
+  </section>
+</main>

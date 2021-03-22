@@ -61,3 +61,17 @@ export interface IImageResponse {
   url: string;
   bucket_id: number;
 }
+
+export interface IPickupAddress {
+  full_name: string;
+  phone_no: string;
+  country: string;
+  pin_code: string;
+  line_one: string;
+  line_two: string;
+  landmark: string;
+  city: string;
+  state: string;
+  type: string;
+  id?: number;
+}

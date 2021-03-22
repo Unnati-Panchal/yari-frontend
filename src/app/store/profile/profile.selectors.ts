@@ -21,3 +21,4 @@ export const getSupplierSettlement$ = createSelector(selectBaseFeature, (state: 
 export const getRatingAndReviews$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.ratingsAndReviews);
 export const exchangedReturned$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.exchangedReturned);
 export const qualityScoreCard$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.qualityScorecard);
+export const getPickupAddress$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.pickupAddress);

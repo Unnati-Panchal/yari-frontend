@@ -2,7 +2,14 @@ import {Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '~env/environment';
-import {IAddRemoveImage, IBucket, IBucketItems, ICreateBucket, IInsertBucket} from '@yaari/models/profile/profile.interface';
+import {
+  IAddRemoveImage,
+  IBucket,
+  IBucketItems,
+  ICreateBucket,
+  IInsertBucket,
+  IPickupAddress
+} from '@yaari/models/profile/profile.interface';
 import {
   IExchangeReturned,
   IPayment,
@@ -79,5 +86,13 @@ export class ProfileService {
   public getQualityScoreCard(query: IQuery): Observable<IQualityScoreCard[]> {
     return this._http.get<IQualityScoreCard[]>
     (`${environment.API_BASE_URL}/api/v1/catalog/products/quality?start_date=${query.startDate}&end_date=${query.endDate}`);
+  }
+
+  public getPickupAddress(): Observable<IPickupAddress> {
+    return this._http.get<IPickupAddress>(`${environment.API_BASE_URL}/api/v1/supplier/address-details`);
+  }
+
+  public addPickupAddress(pickupAddress: IPickupAddress): Observable<IPickupAddress> {
+    return this._http.post<IPickupAddress>(`${environment.API_BASE_URL}/api/v1/supplier/address-details`, pickupAddress);
   }
 }

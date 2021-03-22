@@ -9,8 +9,10 @@ import {select, Store} from '@ngrx/store';
 import {AppFacade, IAppState} from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
+import * as fromProfileActions from '~store/profile/profile.actions';
 import {Router} from '@angular/router';
 import {AuthService} from '@yaari/services/auth/auth.service';
+import * as fromProfileSelectors from '~store/profile/profile.selectors';
 
 @Component({
   selector: 'app-login',
@@ -26,9 +28,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     select(fromAuthSelectors.getIsError),
     tap(() => this.loading = false)
   );
+  public isPickupAddress$ = this._store.pipe(select(fromProfileSelectors.getPickupAddress$), filter(address => !!address));
   public loginForm: FormGroup;
   public hide: boolean;
   public loading: boolean;
+  public submitted: boolean;
   private _subscription: Subscription = new Subscription();
 
   constructor(private _store: Store<IAppState>,
@@ -57,6 +61,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     const loginRequest = this.loginForm.value;
     this.loading = true;
     this._store.dispatch(fromAuthActions.login({ loginRequest }));
+    this.submitted = true;
   }
 
   public initLoginForm(): void {
@@ -70,10 +75,18 @@ export class LoginComponent implements OnInit, OnDestroy {
   public authorizedSupplier(): void {
     this._subscription.add(this.token$.subscribe((token) => {
       this._auth.accessToken = token.access_token;
-      this.loading = false;
       this._store.dispatch(fromAuthActions.supplierDetails());
-      this._router.navigate(['app/dashboard']);
-    })
+      this._store.dispatch(fromProfileActions.getPickupAddress());
+    }));
+
+    this._subscription.add(this.isPickupAddress$.subscribe((address) => {
+      this.loading = false;
+      if (address && this.submitted) {
+        this._router.navigate(['app/dashboard']);
+      } else {
+        this._router.navigate(['app/profile/pickup-address']);
+      }
+      })
     );
   }
 
