@@ -10,7 +10,8 @@ import {
   IBucketItems,
   ICreateBucket,
   IImageResponse,
-  IInsertBucket, IPickupAddress
+  IInsertBucket,
+  IPickupAddress
 } from '@yaari/models/profile/profile.interface';
 import {IExchangeReturned, IPayment, IQualityScoreCard, IRatingAndReviews} from '@yaari/models/product/product.interface';
 

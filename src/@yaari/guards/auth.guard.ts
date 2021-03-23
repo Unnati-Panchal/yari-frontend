@@ -7,6 +7,7 @@ import {AuthService} from '@yaari/services/auth/auth.service';
 import {AppFacade, IAppState} from '~store/app.state';
 import {select, Store} from '@ngrx/store';
 import * as fromProfileSelectors from '~store/profile/profile.selectors';
+import * as fromProfileActions from '~store/profile/profile.actions';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -22,6 +23,8 @@ export class AuthGuard implements CanActivate {
   }
 
   public canActivate(): boolean {
+    this._store.dispatch(fromProfileActions.getPickupAddress());
+
     this._router.events.pipe(filter(val => val instanceof NavigationEnd))
       .subscribe((val: NavigationEnd) => {
         this._appFacade.clearMessages();

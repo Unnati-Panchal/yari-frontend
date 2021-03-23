@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     select(fromAuthSelectors.getIsError),
     tap(() => this.loading = false)
   );
-  public isPickupAddress$ = this._store.pipe(select(fromProfileSelectors.getPickupAddress$), filter(address => !!address));
+  public isPickupAddress$ = this._store.pipe(select(fromProfileSelectors.getPickupAddress$));
   public loginForm: FormGroup;
   public hide: boolean;
   public loading: boolean;
@@ -81,10 +81,13 @@ export class LoginComponent implements OnInit, OnDestroy {
 
     this._subscription.add(this.isPickupAddress$.subscribe((address) => {
       this.loading = false;
-      if (address && this.submitted) {
-        this._router.navigate(['app/dashboard']);
-      } else {
-        this._router.navigate(['app/profile/pickup-address']);
+      if (this.submitted) {
+        if (address) {
+          this._router.navigate(['app/dashboard']);
+        } else {
+          this._router.navigate(['app/profile/pickup-address']);
+        }
+        this.submitted = false;
       }
       })
     );
