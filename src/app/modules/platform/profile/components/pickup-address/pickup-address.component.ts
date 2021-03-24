@@ -18,7 +18,7 @@ import {IPickupAddress} from '@yaari/models/profile/profile.interface';
   styleUrls: ['./pickup-address.component.scss']
 })
 export class PickupAddressComponent implements OnInit, OnDestroy {
-  public isPickupAddress$ = this._store.pipe(select(fromProfileSelectors.getPickupAddress$), filter(address => !!address));
+  public isPickupAddress$ = this._store.pipe(select(fromProfileSelectors.getPickupAddress$));
   public isError$ = this._store.pipe(select(fromProfileSelectors.getIsError$), filter(error => !!error));
   public regForm: FormGroup;
   public loading;

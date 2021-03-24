@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 
-import {Subscription} from 'rxjs';
+import {combineLatest, Subscription} from 'rxjs';
 import {filter, tap} from 'rxjs/operators';
 
 import {select, Store} from '@ngrx/store';
@@ -73,23 +73,23 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   public authorizedSupplier(): void {
-    this._subscription.add(this.token$.subscribe((token) => {
-      this._auth.accessToken = token.access_token;
-      this._store.dispatch(fromAuthActions.supplierDetails());
-      this._store.dispatch(fromProfileActions.getPickupAddress());
-    }));
+    this._subscription.add(
+      combineLatest([this.token$, this.isPickupAddress$])
+        .subscribe(([token, address]) => {
+          this._auth.accessToken = token.access_token;
+          this._store.dispatch(fromAuthActions.supplierDetails());
+          this._store.dispatch(fromProfileActions.getPickupAddress());
 
-    this._subscription.add(this.isPickupAddress$.subscribe((address) => {
-      this.loading = false;
-      if (this.submitted) {
-        if (address) {
-          this._router.navigate(['app/dashboard']);
-        } else {
-          this._router.navigate(['app/profile/pickup-address']);
-        }
-        this.submitted = false;
-      }
-      })
+          this.loading = false;
+          if (this.submitted) {
+            if (address) {
+              this._router.navigate(['app/dashboard']);
+            } else {
+              this._router.navigate(['app/profile/pickup-address']);
+            }
+            this.submitted = false;
+          }
+        })
     );
   }
 
