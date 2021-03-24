@@ -91,5 +91,12 @@ export class PickupAddressComponent implements OnInit, OnDestroy {
         this.submitted = false;
       }
     }));
+
+    // this.isPickupAddress$.subscribe((address) => {
+    //   if (!address) {
+    //     this._router.navigate(['app/profile/pickup-address']);
+    //     return true;
+    //   }
+    // });
   }
 }

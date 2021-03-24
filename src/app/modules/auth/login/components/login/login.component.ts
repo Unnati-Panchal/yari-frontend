@@ -82,7 +82,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
           this.loading = false;
           if (this.submitted) {
-            if (address) {
+            if (address?.full_name) {
               this._router.navigate(['app/dashboard']);
             } else {
               this._router.navigate(['app/profile/pickup-address']);

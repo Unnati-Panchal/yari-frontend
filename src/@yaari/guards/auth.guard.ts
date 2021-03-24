@@ -5,13 +5,11 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {filter} from 'rxjs/operators';
 import {AuthService} from '@yaari/services/auth/auth.service';
 import {AppFacade, IAppState} from '~store/app.state';
-import {select, Store} from '@ngrx/store';
-import * as fromProfileSelectors from '~store/profile/profile.selectors';
+import {Store} from '@ngrx/store';
 import * as fromProfileActions from '~store/profile/profile.actions';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  public isPickupAddress$ = this._store.pipe(select(fromProfileSelectors.getPickupAddress$), filter(address => !!address));
 
   constructor(
     private _authService: AuthService,
@@ -37,18 +35,6 @@ export class AuthGuard implements CanActivate {
           this._authService.redirectToLogin();
           return false;
         }
-
-        this.isPickupAddress$.subscribe((address) => {
-          if (
-            val.url !== '/auth/reset-password' &&
-            val.url !== '/auth/registration'  &&
-            val.url !== '/auth/password-recovery' &&
-            !address
-          ) {
-            this._router.navigate(['app/profile/pickup-address']);
-            return true;
-          }
-        });
     });
     return true;
   }

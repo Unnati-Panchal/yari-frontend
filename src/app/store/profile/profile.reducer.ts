@@ -58,7 +58,7 @@ export const profileInitialState: IProfileState = {
   ratingsAndReviews: [],
   exchangedReturned: [],
   qualityScorecard: [],
-  pickupAddress: null
+  pickupAddress: {full_name: ''}
 };
 
 const profileReducer = createReducer(
