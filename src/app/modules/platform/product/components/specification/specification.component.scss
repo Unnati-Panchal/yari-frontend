@@ -12,6 +12,10 @@
       overflow: auto;
       padding: $yaari-base * 2 yaari-to-rem(65px);
 
+      @include media-breakpoint(lt-md) {
+        padding: $yaari-small;
+      }
+
       .loading-spinner {
         @include yaari-display-flex(center, center);
       }
@@ -76,6 +80,10 @@
             width: 70%;
             @include yaari-display-flex(center, space-between);
             padding-bottom: $yaari-small;
+
+            @include media-breakpoint(lt-md) {
+              width: 100%;
+            }
           }
 
 
@@ -107,6 +115,10 @@
         font-size: $yaari-h3;
         font-weight: bold;
         line-height: 100%;
+
+        @include media-breakpoint(lt-md) {
+          font-size: $yaari-h5;
+        }
       }
 
       h5 {
@@ -116,6 +128,10 @@
         font-size: $yaari-h5;
         font-weight: normal;
         line-height: 100%;
+
+        @include media-breakpoint(lt-md) {
+          font-size: $yaari-h6;
+        }
       }
 
       .red-line {
@@ -126,7 +142,7 @@
 
       button {
         @include yaari-display-flex(center, center);
-        min-width: yaari-to-rem(200px);
+        min-width: yaari-to-rem(100px);
         border-radius: 24px;
         background-color: $yaari-red;
         font-size: $yaari-h6;

@@ -9,6 +9,10 @@
 
     section {
       width: 50%;
+
+      @include media-breakpoint(lt-md) {
+        width: 100%;
+      }
     }
 
     .red-line {
@@ -19,6 +23,11 @@
     .left-image {
       background-image: url('~src/assets/images/yaari-login.png');
       background-size: cover;
+
+      @include media-breakpoint(lt-md) {
+        display: none;
+      }
+
 
       h1 {
         padding: $yaari-base * 2 0 $yaari-tiny yaari-to-rem(120px);
