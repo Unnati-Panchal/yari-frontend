@@ -8,6 +8,7 @@ import * as fileSaver from 'file-saver';
 import * as fromProductsSelectors from '~store/products/products.selectors';
 import {filter, tap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ICategory} from '@yaari/models/product/product.interface';
 
 @Component({
   selector: 'app-catalogue',
@@ -19,15 +20,19 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   public selectedFile: File;
   public selectedImagesZipFile: File;
   success: string;
-  selectedCategory: {id: string, name: string, terminal: boolean};
   selectedCategoryMsg: string;
-  categoriesChain: {name: string, isLast: boolean}[];
   downloadLoading: boolean;
   uploadLoading: boolean;
   isDisabledDownloadBtn = true;
+  public selectedCategory: {id: string, name: string, terminal: boolean};
   public uploadForm: FormGroup;
+  public categories: ICategory[];
+  public subCategories1: ICategory[];
+  public subCategories2: ICategory[];
+  public subCategories3: ICategory[];
+  public subCategories4: ICategory[];
 
-  public getCategories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(cat => !!cat));
+  public categories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(cat => !!cat));
   public bulkUploadCatalog$ = this._store.pipe(select(fromProductsSelectors.bulkUploadCatalog), filter(b => !!b));
   public getIsError$ = this._store.pipe(
     select(fromProductsSelectors.getIsError),
@@ -35,6 +40,8 @@ export class CatalogueComponent implements OnInit, OnDestroy {
       this.uploadLoading = false;
       this.downloadLoading = false;
     }));
+
+  public categoryForm: FormGroup;
 
   constructor(private _store: Store<IAppState>,
               private _product: ProductsService,
@@ -50,13 +57,86 @@ export class CatalogueComponent implements OnInit, OnDestroy {
       this.uploadLoading = false;
       this._appFacade.clearMessages();
       this.uploadForm.reset();
-      this.categoriesChain = [];
       this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
     }));
 
     this.uploadForm = this._formBuilder.group({
       catalogue_name: ['', [Validators.required]]
     });
+
+    this.categorySelection();
+  }
+
+  public categorySelection(): void {
+    this._subscription.add(
+      this.categories$.subscribe( (categories) => {
+        if (!this.categories?.length) {
+          this.categories = categories;
+        } else if (!this.subCategories1?.length) {
+          this.subCategories1 = categories;
+        } else if (!this.subCategories2?.length) {
+          this.subCategories2 = categories;
+        } else if (!this.subCategories3?.length) {
+          this.subCategories3 = categories;
+        } else if (!this.subCategories4?.length) {
+          this.subCategories4 = categories;
+        }
+      })
+    );
+
+    this.categoryForm = this._formBuilder.group({
+      category: ['', [Validators.required]],
+      subCategory1: [''],
+      subCategory2: [''],
+      subCategory3: [''],
+      subCategory4: ['']
+    });
+
+    this._subscription.add(
+      this.categoryForm.get('category').valueChanges.subscribe( category => {
+        this.categoryForm.get('subCategory1').setValue('', {emitEvent: false});
+        this.categoryForm.get('subCategory2').setValue('', {emitEvent: false});
+        this.categoryForm.get('subCategory3').setValue('', {emitEvent: false});
+        this.categoryForm.get('subCategory4').setValue('', {emitEvent: false});
+        this.subCategories1 = [];
+        this.subCategories2 = [];
+        this.subCategories3 = [];
+        this.subCategories4 = [];
+        this.isSelectedCategory(category);
+      })
+    );
+    this._subscription.add(
+      this.categoryForm.get('subCategory1').valueChanges.subscribe( category => {
+        this.categoryForm.get('subCategory2').setValue('', {emitEvent: false});
+        this.categoryForm.get('subCategory3').setValue('', {emitEvent: false});
+        this.categoryForm.get('subCategory4').setValue('', {emitEvent: false});
+        this.subCategories2 = [];
+        this.subCategories3 = [];
+        this.subCategories4 = [];
+        this.isSelectedCategory(category);
+      })
+    );
+    this._subscription.add(
+      this.categoryForm.get('subCategory2').valueChanges.subscribe( category => {
+        this.categoryForm.get('subCategory3').setValue('', {emitEvent: false});
+        this.categoryForm.get('subCategory4').setValue('', {emitEvent: false});
+        this.subCategories3 = [];
+        this.subCategories4 = [];
+        this.isSelectedCategory(category);
+      })
+    );
+    this._subscription.add(
+      this.categoryForm.get('subCategory3').valueChanges.subscribe( category => {
+        this.categoryForm.get('subCategory4').setValue('', {emitEvent: false});
+        this.subCategories4 = [];
+        this.isSelectedCategory(category);
+      })
+    );
+    this._subscription.add(
+      this.categoryForm.get('subCategory4').valueChanges.subscribe( category => {
+        this.isSelectedCategory(category);
+      })
+    );
   }
 
   public ngOnDestroy(): void {
@@ -65,7 +145,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
 
   downloadTemplate(): void {
     if (this.isDisabledDownloadBtn) {
-      this.selectedCategoryMsg = 'Please select a subcategory';
+      this.selectedCategoryMsg = 'Please select a sub-category';
       return;
     }
     this.downloadLoading = true;
@@ -131,18 +211,13 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   }
 
   public isSelectedCategory(category: {id: string, name: string, terminal: boolean}): void {
-    if (!this.categoriesChain?.length) {
-      this.categoriesChain = [{name: category.name, isLast: category.terminal}];
-    } else {
-      this.categoriesChain.push({name: category.name, isLast: category.terminal});
-    }
-
     if (!category?.terminal) {
       const categoryId = category.id;
       this._store.dispatch(fromProductsActions.getCategories({categoryId}));
-      this.selectedCategoryMsg = 'Please select a subcategory';
+      this.selectedCategoryMsg = 'Please select a sub-category';
       this.isDisabledDownloadBtn = true;
     } else {
+      this.selectedCategory = category;
       this.selectedCategoryMsg = '';
       this.isDisabledDownloadBtn = false;
     }
