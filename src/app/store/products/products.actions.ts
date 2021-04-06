@@ -1,7 +1,15 @@
 import {createAction, props} from '@ngrx/store';
 import {HttpErrorResponse} from '@angular/common/http';
 
-import {IBulkUploadBasic, ICatalogProducts, ICategory, IFileUpload, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
+import {
+  IBulkUploadBasic,
+  IBulkUploadStatus,
+  ICatalogProducts,
+  ICategory,
+  IFileUpload,
+  IQuery,
+  ISpecifications
+} from '@yaari/models/product/product.interface';
 
 export const clearMessages = createAction('[PRODUCTS] clear messages');
 
@@ -69,3 +77,20 @@ export const getCatalogProductsSuccess = createAction('[PRODUCTS] CatalogProduct
 
 export const getCatalogProductsError = createAction('[PRODUCTS] CatalogProducts error',
   props<{ error: HttpErrorResponse }>());
+
+
+export const getBulkUploadStatuses = createAction('[PRODUCTS] getBulkUploadStatuses');
+
+export const getBulkUploadStatusesSuccess = createAction('[PRODUCTS] getBulkUploadStatuses success',
+  props<{ bulkUploadStatuses: IBulkUploadStatus[] }>());
+
+export const getBulkUploadStatusesError = createAction('[PRODUCTS] getBulkUploadStatuses error', props<{ error: HttpErrorResponse }>());
+
+
+export const getBulkUploadStatusById = createAction('[PRODUCTS] getBulkUploadStatusById', props<{ taskId: string }>());
+
+export const getBulkUploadStatusByIdSuccess = createAction('[PRODUCTS] getBulkUploadStatusById success',
+  props<{ singleBulkUploadStatus: IBulkUploadStatus }>());
+
+export const getBulkUploadStatusByIdError = createAction('[PRODUCTS] getBulkUploadStatusById error', props<{ error: HttpErrorResponse }>());
+

@@ -20,6 +20,7 @@ export interface IBulkUploadBasic {
   viewed: number;
   shared: number;
   catalog_name: string;
+  task_id?: string;
 }
 
 export interface IQuery {
@@ -130,4 +131,11 @@ export interface ICatalogProducts {
   next_day_dispatch: boolean;
   specifications: any;
   specDetails?: string[];
+}
+
+export interface IBulkUploadStatus {
+  task_id: string;
+  status: string;
+  catalog_name: string;
+  file_name: string;
 }

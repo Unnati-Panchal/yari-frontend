@@ -111,14 +111,7 @@
         </button>
       </div>
       <div>
-        <button *ngIf="!uploadLoading else LoadingSpinner"
-                mat-button (click)="upload()">Upload
-        </button>
-        <ng-template #LoadingSpinner>
-          <button mat-button>
-            <mat-spinner [diameter]="25"></mat-spinner>
-          </button>
-        </ng-template>
+        <button mat-button (click)="upload()">Upload</button>
       </div>
     </div>
   </section>

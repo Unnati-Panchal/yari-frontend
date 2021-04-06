@@ -1,0 +1,45 @@
+<main>
+  <section>
+    <h3>Catalogue</h3>
+    <div class="red-line"></div>
+
+    <div>
+      <app-error-success [errors]="isError$ | async"></app-error-success>
+    </div>
+
+    <div *ngIf="!loading && dataSource?.length" class="table-box">
+      <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="sr_no">
+          <th mat-header-cell *matHeaderCellDef> Sr. No. </th>
+          <td mat-cell *matCellDef="let idx = index">{{idx + 1}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="catalogue_name">
+          <th mat-header-cell *matHeaderCellDef> Catalogue Name </th>
+          <td mat-cell *matCellDef="let element"> {{element?.catalog_name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="sku_id">
+          <th mat-header-cell *matHeaderCellDef> SKU ID </th>
+          <td mat-cell *matCellDef="let element"> {{element?.category_name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="errors">
+          <th mat-header-cell *matHeaderCellDef> Errors </th>
+          <td mat-cell *matCellDef="let element">
+            <span *ngFor="let error of element?.errors">
+              {{error}}
+            </span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <div *ngIf="loading" class="centered">
+      <mat-spinner color="warn" [diameter]="50"></mat-spinner>
+    </div>
+  </section>
+</main>

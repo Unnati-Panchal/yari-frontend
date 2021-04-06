@@ -4,7 +4,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import * as fromRoot from '~store/app.state';
 import * as fromProductsActions from '~store/products/products.actions';
 
-import {IBulkUploadBasic, ICatalogProducts, ICategory} from '@yaari/models/product/product.interface';
+import {IBulkUploadBasic, IBulkUploadStatus, ICatalogProducts, ICategory} from '@yaari/models/product/product.interface';
 
 export const productFeatureKey = 'products';
 
@@ -20,6 +20,8 @@ export interface IProductsState extends fromRoot.IAppState {
   specTemplate: string[];
   msg: string;
   catalogProducts: ICatalogProducts[];
+  bulkUploadStatuses: IBulkUploadStatus[];
+  singleBulkUploadStatus: IBulkUploadStatus;
 }
 
 export const productsInitialState: IProductsState = {
@@ -33,7 +35,9 @@ export const productsInitialState: IProductsState = {
   specTemplate: [],
   msg: '',
   categoryId: '',
-  catalogProducts: []
+  catalogProducts: [],
+  bulkUploadStatuses: [],
+  singleBulkUploadStatus: null
 };
 
 const productsReducer = createReducer(
@@ -79,6 +83,14 @@ const productsReducer = createReducer(
   on(fromProductsActions.getCatalogProductsSuccess, (state, {catalogProducts}) => ({...state, loading: false, catalogProducts})),
   on(fromProductsActions.getCatalogProductsError, (state, {error}) => ({ ...state, loading: false, error })),
 
+  on(fromProductsActions.getBulkUploadStatuses, (state) => ({...state, loading: true})),
+  on(fromProductsActions.getBulkUploadStatusesSuccess, (state, {bulkUploadStatuses}) => ({...state, loading: false, bulkUploadStatuses})),
+  on(fromProductsActions.getBulkUploadStatusesError, (state, {error}) => ({ ...state, loading: false, error })),
+
+  on(fromProductsActions.getBulkUploadStatusById, (state, {taskId}) => ({...state, loading: true, taskId})),
+  on(fromProductsActions.getBulkUploadStatusByIdSuccess, (state, {singleBulkUploadStatus}) =>
+    ({...state, loading: false, singleBulkUploadStatus})),
+  on(fromProductsActions.getBulkUploadStatusByIdError, (state, {error}) => ({ ...state, loading: false, error })),
 
 );
 

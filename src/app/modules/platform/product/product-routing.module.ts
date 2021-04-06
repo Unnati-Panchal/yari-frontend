@@ -4,6 +4,7 @@ import {ProductComponent} from '~platform/product/components/product/product.com
 import {CatalogueComponent} from '~platform/product/components/catalogue/catalogue.component';
 import {CatalogueStatusComponent} from '~platform/product/components/catalogue-status/catalogue-status.component';
 import {SpecificationComponent} from '~platform/product/components/specification/specification.component';
+import {CatalogueStatusByIdComponent} from '~platform/product/components/catalogue-status/catalogue-status-by-id/catalogue-status-by-id.component';
 
 const routes: Routes = [
   {
@@ -16,7 +17,11 @@ const routes: Routes = [
       },
       {
         path: 'catalogue-status',
-        component: CatalogueStatusComponent
+        component: CatalogueStatusComponent,
+      },
+      {
+        path: 'catalogue-details/:taskId',
+        component: CatalogueStatusByIdComponent
       },
       {
         path: 'specification',

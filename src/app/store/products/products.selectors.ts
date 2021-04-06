@@ -13,3 +13,7 @@ export const bulkUploadCatalog = createSelector(selectBaseFeature, (state: fromP
 export const getCatalogs = createSelector(selectBaseFeature, (state: fromProductsReducer.IProductsState) => state.catalogs);
 export const getSpecTemplate$ = createSelector(selectBaseFeature, (state: fromProductsReducer.IProductsState) => state.specTemplate);
 export const getCatalogProducts$ = createSelector(selectBaseFeature, (state: fromProductsReducer.IProductsState) => state.catalogProducts);
+export const getBulkUploadStatuses$ = createSelector(selectBaseFeature, (state: fromProductsReducer.IProductsState) =>
+  state.bulkUploadStatuses);
+export const getSingleBulkUploadStatus$ = createSelector(selectBaseFeature, (state: fromProductsReducer.IProductsState) =>
+  state.singleBulkUploadStatus);

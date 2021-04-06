@@ -22,7 +22,6 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   success: string;
   selectedCategoryMsg: string;
   downloadLoading: boolean;
-  uploadLoading: boolean;
   isDisabledDownloadBtn = true;
   public selectedCategory: {id: string, name: string, terminal: boolean};
   public uploadForm: FormGroup;
@@ -36,10 +35,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   public bulkUploadCatalog$ = this._store.pipe(select(fromProductsSelectors.bulkUploadCatalog), filter(b => !!b));
   public getIsError$ = this._store.pipe(
     select(fromProductsSelectors.getIsError),
-    tap( () => {
-      this.uploadLoading = false;
-      this.downloadLoading = false;
-    }));
+    tap( () => this.downloadLoading = false));
 
   public categoryForm: FormGroup;
 
@@ -53,8 +49,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
     this._subscription.add(this.bulkUploadCatalog$.subscribe(() => {
-      this.success = `Successfully uploaded file`;
-      this.uploadLoading = false;
+      this.success = `Catalogue uploaded successfully. To view the status, please check "Catalogue status" menu in Dashboard.`;
       this._appFacade.clearMessages();
       this.uploadForm.reset();
       this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
@@ -172,10 +167,8 @@ export class CatalogueComponent implements OnInit, OnDestroy {
       catalogue_name: this.uploadForm?.value?.catalogue_name,
       images_zipfile: this.selectedImagesZipFile
     };
-    this.uploadLoading = true;
     if (!fileUpload?.file) {
       this.success = `Please upload file`;
-      this.uploadLoading = false;
       return;
     }
     this._store.dispatch(fromProductsActions.bulkUploadCatalog({fileUpload}));

@@ -3,11 +3,16 @@
 
 
 :host {
+  @include yaari-display-flex(center, center, column);
+  width: 80%;
+
   div {
-    @include yaari-display-flex(flex-start, flex-start, column);
+    @include yaari-display-flex(center, center, column);
+    width: 75%;
 
     h3 {
       font-size: $yaari-default-small;
+      text-align: center;
 
       &.error-msgs {
         color: $yaari-red;

@@ -2,12 +2,13 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import * as moment from 'moment';
-import {IBulkUploadBasic, IQuery} from '@yaari/models/product/product.interface';
+import {IBulkUploadBasic, IBulkUploadStatus, IQuery} from '@yaari/models/product/product.interface';
 import * as fromProductsActions from '~store/products/products.actions';
 import {select, Store} from '@ngrx/store';
 import {IAppState} from '~store/app.state';
 import * as fromProductsSelectors from '~store/products/products.selectors';
 import {filter} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-catalogue-status',
@@ -23,13 +24,16 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   dataSource: IBulkUploadBasic[];
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();
+  private allStatuses: IBulkUploadStatus[];
   public getCatalogues$ = this._store.pipe(select(fromProductsSelectors.getCatalogs), filter(catalogs => !!catalogs));
+  public getBulkUploadStatuses$ = this._store.pipe(select(fromProductsSelectors.getBulkUploadStatuses$),
+    filter(statuses => !!statuses?.length));
   public isError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(err => !!err));
   loading: boolean;
   submitted: boolean;
   selectDate: string;
 
-  constructor(private _store: Store<IAppState>) { }
+  constructor(private _store: Store<IAppState>, private router: Router) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
@@ -46,6 +50,8 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
       })
     );
     this.getCataloguesRes();
+
+    this._store.dispatch(fromProductsActions.getBulkUploadStatuses());
   }
 
   public viewBtn(): void {
@@ -65,8 +71,23 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
       this.getCatalogues$.subscribe((response) => {
         this.loading = false;
         this.dataSource = response;
+
+        // TODO remove
+        console.log(response);
       })
     );
+
+    this._subscription.add(
+      this.getBulkUploadStatuses$.subscribe((response) => this.allStatuses = response)
+    );
+  }
+
+  displayRejectedCatalogue(catalogue: IBulkUploadBasic): void {
+    console.log(this.allStatuses);
+    // TODO find the catalogue by what. Please add an id
+    // TODO what if there is no info yet, when I get the catalogue statuses
+    const taskId = '5352068a-a4dd-45bf-927c-322b3f2c60af';
+    this.router.navigate([`app/product/catalogue-details/${taskId}`]); /*catalogue.task_id*/
   }
 
 }
