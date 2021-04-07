@@ -58,10 +58,13 @@
         <ng-container matColumnDef="status">
           <th mat-header-cell *matHeaderCellDef> Status </th>
           <td mat-cell *matCellDef="let element">
-            <span *ngIf="element?.approved; else Rejected">Approved</span>
-            <ng-template #Rejected>
-              <span (click)="displayRejectedCatalogue(element)" class="rejected">Rejected</span>
-            </ng-template>
+            <span *ngIf="element?.approved === true">Approved</span>
+            <span *ngIf="element?.approved === false">Rejected</span>
+            <span *ngIf="element?.approved === null">In-progress</span>
+
+<!--            <ng-template #Rejected>-->
+<!--              <span (click)="displayRejectedCatalogue(element)" class="rejected">Rejected</span>-->
+<!--            </ng-template>-->
           </td>
         </ng-container>
 

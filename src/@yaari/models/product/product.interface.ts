@@ -13,14 +13,15 @@ export interface IFileUpload {
 
 
 export interface IBulkUploadBasic {
-  id: number;
-  sub_category_name: string;
-  created_time: string;
-  approved: boolean;
-  viewed: number;
-  shared: number;
-  catalog_name: string;
+  id?: number;
+  sub_category_name?: string;
+  created_time?: string;
+  approved?: boolean;
+  viewed?: number;
+  shared?: number;
+  catalog_name?: string;
   task_id?: string;
+  time_estimate?: string;
 }
 
 export interface IQuery {
@@ -134,8 +135,8 @@ export interface ICatalogProducts {
 }
 
 export interface IBulkUploadStatus {
-  task_id: string;
-  status: string;
+  task_id?: string;
+  status?: string;
   catalog_name: string;
-  file_name: string;
+  file_name?: string;
 }

@@ -9,6 +9,8 @@ import * as fromProductsSelectors from '~store/products/products.selectors';
 import {filter, tap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {ICategory} from '@yaari/models/product/product.interface';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-catalogue',
@@ -19,8 +21,6 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   private _subscription: Subscription = new Subscription();
   public selectedFile: File;
   public selectedImagesZipFile: File;
-  success: string;
-  selectedCategoryMsg: string;
   downloadLoading: boolean;
   isDisabledDownloadBtn = true;
   public selectedCategory: {id: string, name: string, terminal: boolean};
@@ -42,16 +42,24 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   constructor(private _store: Store<IAppState>,
               private _product: ProductsService,
               private _formBuilder: FormBuilder,
-              private _appFacade: AppFacade
+              private _appFacade: AppFacade,
+              private _snackBar: MatSnackBar
   ) {
   }
 
   ngOnInit(): void {
     this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
-    this._subscription.add(this.bulkUploadCatalog$.subscribe(() => {
-      this.success = `Catalogue uploaded successfully. To view the status, please check "Catalogue status" menu in Dashboard.`;
+    this._subscription.add(this.bulkUploadCatalog$.subscribe((uploaded) => {
+      const msg = `Catalogue uploaded successfully. It’ll be done on or before: ${moment(uploaded.time_estimate).format('YYYY-MM-DD HH:mm')}h. To view the status, please check "Catalogue status" menu in Dashboard.`;
+      this._snackBar.open(msg, 'X', {duration: 10000});
+
       this._appFacade.clearMessages();
       this.uploadForm.reset();
+      this.categories = [];
+      this.subCategories1 = [];
+      this.subCategories2 = [];
+      this.subCategories3 = [];
+      this.subCategories4 = [];
       this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
     }));
 
@@ -140,7 +148,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
 
   downloadTemplate(): void {
     if (this.isDisabledDownloadBtn) {
-      this.selectedCategoryMsg = 'Please select a sub-category';
+      this.openSnackBar(`Please select a sub-category`);
       return;
     }
     this.downloadLoading = true;
@@ -158,7 +166,11 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   upload(): void {
     this.uploadForm.updateValueAndValidity();
     if (!this.uploadForm?.value?.catalogue_name) {
-      this.success = `Please enter your catalogue name`;
+      this.openSnackBar(`Please enter your catalogue name`);
+      return;
+    }
+    if (!this.subCategories1?.length) {
+      this.openSnackBar(`Please select a sub-category`);
       return;
     }
     const fileUpload = {
@@ -168,7 +180,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
       images_zipfile: this.selectedImagesZipFile
     };
     if (!fileUpload?.file) {
-      this.success = `Please upload file`;
+      this.openSnackBar(`Please upload file`);
       return;
     }
     this._store.dispatch(fromProductsActions.bulkUploadCatalog({fileUpload}));
@@ -190,16 +202,18 @@ export class CatalogueComponent implements OnInit, OnDestroy {
       } else if (item?.name.includes('.zip')) {
         this.selectedImagesZipFile = item;
       } else {
-        this.success = `Please upload '.xlsx' or '.zip' files only`;
+        this.openSnackBar(`Please upload '.xlsx' or '.zip' files only`);
       }
     }
     if (this.selectedFile) {
-      this.success = `Successfully added file ${this.selectedFile.name}. Click Upload`;
+      const msg = `Successfully added file ${this.selectedFile.name}. Click Upload`;
+      this.openSnackBar(msg);
     } else {
-      this.success = `Please try again`;
+      this.openSnackBar(`Please try again`);
     }
     if (this.selectedImagesZipFile) {
-      this.success = `Successfully added file ${this.selectedImagesZipFile.name}. Click Upload`;
+      const msg = `Successfully added file ${this.selectedImagesZipFile.name}. Click Upload`;
+      this.openSnackBar(msg);
     }
   }
 
@@ -207,13 +221,16 @@ export class CatalogueComponent implements OnInit, OnDestroy {
     if (!category?.terminal) {
       const categoryId = category.id;
       this._store.dispatch(fromProductsActions.getCategories({categoryId}));
-      this.selectedCategoryMsg = 'Please select a sub-category';
+      this.openSnackBar(`Please select a sub-category`);
       this.isDisabledDownloadBtn = true;
     } else {
       this.selectedCategory = category;
-      this.selectedCategoryMsg = '';
       this.isDisabledDownloadBtn = false;
     }
+  }
+
+  openSnackBar(msg): void {
+    this._snackBar.open(msg, 'X', {duration: 5000});
   }
 
 }

@@ -70,15 +70,17 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
     this._subscription.add(
       this.getCatalogues$.subscribe((response) => {
         this.loading = false;
-        this.dataSource = response;
-
-        // TODO remove
-        console.log(response);
+        this.dataSource = response.concat(this.allStatuses);
       })
     );
 
     this._subscription.add(
-      this.getBulkUploadStatuses$.subscribe((response) => this.allStatuses = response)
+      this.getBulkUploadStatuses$.subscribe((response) => this.allStatuses = response.map( item => {
+        return {
+          ...item,
+          approved: null
+        };
+      }))
     );
   }
 

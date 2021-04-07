@@ -80,7 +80,6 @@
           </button>
         </ng-template>
       </section>
-      <p>{{selectedCategoryMsg}}</p>
     </div>
 
     <div class="upload-container">
@@ -90,7 +89,7 @@
         <img [src]="'assets/images/drag_files.svg'" alt="drag image here"/>
         <h3>Drag files here or choose browse to select files</h3>
       </div>
-      <app-error-success [errors]="getIsError$ | async" [success]="success"></app-error-success>
+      <app-error-success [errors]="getIsError$ | async"></app-error-success>
     </div>
 
     <div class="form-catalogue-name">
