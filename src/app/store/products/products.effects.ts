@@ -150,6 +150,21 @@ export class ProductsEffects {
     )
   );
 
+  public getCatalogueById$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProductsActions.getCatalogById),
+      map(action => action.id),
+      switchMap((id: number) =>
+        this._productsService.getCatalogById(id).pipe(
+          map((selectedCatalogue: IBulkUploadBasic) =>
+            fromProductsActions.getCatalogByIdSuccess({ selectedCatalogue })
+          ),
+          catchError(error => of(fromProductsActions.getCatalogByIdError(error)))
+        )
+      )
+    )
+  );
+
   constructor(
     private _actions$: Actions,
     private _productsService: ProductsService,

@@ -17,3 +17,5 @@ export const getBulkUploadStatuses$ = createSelector(selectBaseFeature, (state: 
   state.bulkUploadStatuses);
 export const getSingleBulkUploadStatus$ = createSelector(selectBaseFeature, (state: fromProductsReducer.IProductsState) =>
   state.singleBulkUploadStatus);
+export const getSelectedCatalogue$ = createSelector(selectBaseFeature,
+  (state: fromProductsReducer.IProductsState) => state.selectedCatalogue);

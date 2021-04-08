@@ -32,11 +32,14 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   loading: boolean;
   submitted: boolean;
   selectDate: string;
+  intervalSubscription;
+  timerQuery;
 
   constructor(private _store: Store<IAppState>, private router: Router) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
+    clearInterval(this.intervalSubscription);
   }
 
   ngOnInit(): void {
@@ -63,14 +66,31 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
     }
     this.loading = true;
     this.submitted = true;
+    this.timerQuery = query;
     this._store.dispatch(fromProductsActions.getCatalogs({query}));
+
+    if (this.intervalSubscription) {
+      clearInterval(this.intervalSubscription);
+    }
+    this.startTimer();
+  }
+
+  startTimer(): void {
+    this.intervalSubscription = setInterval( () => {
+      this._store.dispatch(fromProductsActions.getBulkUploadStatuses());
+      this._store.dispatch(fromProductsActions.getCatalogs({query: this.timerQuery}));
+    }, 5000);
   }
 
   getCataloguesRes(): void {
     this._subscription.add(
       this.getCatalogues$.subscribe((response) => {
         this.loading = false;
-        this.dataSource = response.concat(this.allStatuses);
+        let res = [...response];
+        res = res.sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
+        let statuses = [...this.allStatuses];
+        statuses = statuses.sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
+        this.dataSource = res.concat(statuses);
       })
     );
 
@@ -85,11 +105,7 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   }
 
   displayRejectedCatalogue(catalogue: IBulkUploadBasic): void {
-    console.log(this.allStatuses);
-    // TODO find the catalogue by what. Please add an id
-    // TODO what if there is no info yet, when I get the catalogue statuses
-    const taskId = '5352068a-a4dd-45bf-927c-322b3f2c60af';
-    this.router.navigate([`app/product/catalogue-details/${taskId}`]); /*catalogue.task_id*/
+    this.router.navigate([`app/product/catalogue-details/${catalogue.id}`]);
   }
 
 }

@@ -94,3 +94,9 @@ export const getBulkUploadStatusByIdSuccess = createAction('[PRODUCTS] getBulkUp
 
 export const getBulkUploadStatusByIdError = createAction('[PRODUCTS] getBulkUploadStatusById error', props<{ error: HttpErrorResponse }>());
 
+
+export const getCatalogById = createAction('[PRODUCTS] getCatalogById', props<{ id: number }>());
+
+export const getCatalogByIdSuccess = createAction('[PRODUCTS] getCatalogById success', props<{ selectedCatalogue: IBulkUploadBasic }>());
+
+export const getCatalogByIdError = createAction('[PRODUCTS] getCatalogById error', props<{ error: HttpErrorResponse }>());

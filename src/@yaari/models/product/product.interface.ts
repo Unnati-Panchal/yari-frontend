@@ -20,7 +20,6 @@ export interface IBulkUploadBasic {
   viewed?: number;
   shared?: number;
   catalog_name?: string;
-  task_id?: string;
   time_estimate?: string;
 }
 

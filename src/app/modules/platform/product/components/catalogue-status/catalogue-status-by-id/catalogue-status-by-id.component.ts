@@ -17,7 +17,7 @@ export class CatalogueStatusByIdComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['sr_no', 'catalogue_name', 'sku_id', 'errors'];
   dataSource: IBulkUploadBasic[];
   private _subscription: Subscription = new Subscription();
-  public getSingleBulkUploadStatus$ = this._store.pipe(select(fromProductsSelectors.getSingleBulkUploadStatus$),
+  public getSelectedCatalogue$ = this._store.pipe(select(fromProductsSelectors.getSelectedCatalogue$),
     filter(status => !!status));
   public isError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(err => !!err));
   loading: boolean;
@@ -31,10 +31,7 @@ export class CatalogueStatusByIdComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loading = true;
     this._subscription.add(
-      this.route.params.subscribe( params => {
-        const taskId = params.taskId;
-        this._store.dispatch(fromProductsActions.getBulkUploadStatusById({taskId}));
-      })
+      this.route.params.subscribe( params => this._store.dispatch(fromProductsActions.getCatalogById({id: params.id})))
     );
 
     this.getCataloguesRes();
@@ -42,12 +39,9 @@ export class CatalogueStatusByIdComponent implements OnInit, OnDestroy {
 
   getCataloguesRes(): void {
     this._subscription.add(
-      this.getSingleBulkUploadStatus$.subscribe((response) => {
+      this.getSelectedCatalogue$.subscribe((response) => {
         this.loading = false;
-        // TODO where is the endpoint for the catalogue with errors and all details
-        // TODO add back button
-        console.log(response);
-        // this.dataSource = response;
+        this.dataSource = [response];
       })
     );
   }
