@@ -55,6 +55,17 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
     this.getCataloguesRes();
 
     this._store.dispatch(fromProductsActions.getBulkUploadStatuses());
+
+    const sessionStoredData = JSON.parse(sessionStorage.getItem('catalogStatuses'));
+    const availableTime = JSON.parse(sessionStorage.getItem('timerQuery'));
+    if (sessionStoredData?.length) {
+      this.dataSource = sessionStoredData;
+      if (availableTime) {
+        this.range.get('start').setValue(availableTime.startDate);
+        this.range.get('end').setValue(availableTime.endDate);
+      }
+      this.loading = false;
+    }
   }
 
   public viewBtn(): void {
@@ -67,6 +78,8 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
     this.loading = true;
     this.submitted = true;
     this.timerQuery = query;
+    sessionStorage.removeItem('timerQuery');
+    sessionStorage.setItem('timerQuery', JSON.stringify(this.timerQuery));
     this._store.dispatch(fromProductsActions.getCatalogs({query}));
 
     if (this.intervalSubscription) {
@@ -92,7 +105,10 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
         let statuses = [...this.allStatuses];
         statuses = statuses.filter( item => !item.status.toLowerCase().includes('successfully') && !item.status.toLowerCase().includes('invalid'));
         statuses = statuses.sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
-        this.dataSource = res.concat(statuses);
+        const displayed = res.concat(statuses);
+        sessionStorage.removeItem('catalogStatuses');
+        sessionStorage.setItem('catalogStatuses', JSON.stringify(displayed));
+        this.dataSource = displayed;
       })
     );
 

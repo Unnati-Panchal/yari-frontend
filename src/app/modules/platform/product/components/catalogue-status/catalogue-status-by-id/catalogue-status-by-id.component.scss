@@ -23,6 +23,10 @@
         &.table-box {
           padding-top: $yaari-large;
           padding-bottom: $yaari-large;
+
+          .errors-field {
+            max-width: yaari-to-rem(100px);
+          }
         }
 
         table {
