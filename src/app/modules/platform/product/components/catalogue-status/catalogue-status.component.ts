@@ -103,7 +103,10 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
         res = res.filter( item => item.approved === true || item.approved === false);
         res = res.sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
         let statuses = [...this.allStatuses];
-        statuses = statuses.filter( item => !item.status.toLowerCase().includes('successfully') && !item.status.toLowerCase().includes('invalid'));
+        statuses = statuses.filter( item => !item.status.toLowerCase().includes('successfully') &&
+          !item.status.toLowerCase().includes('invalid') &&
+          !item.status.toLowerCase().includes('creating')
+        );
         statuses = statuses.sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
         const displayed = res.concat(statuses);
         sessionStorage.removeItem('catalogStatuses');
