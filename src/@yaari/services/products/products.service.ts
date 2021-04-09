@@ -3,7 +3,15 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 
 import {environment} from '~env/environment';
-import {IBulkUploadBasic, ICatalogProducts, ICategory, IFileUpload, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
+import {
+  IBulkUploadBasic,
+  IBulkUploadStatus,
+  ICatalogProducts,
+  ICategory,
+  IFileUpload,
+  IQuery,
+  ISpecifications
+} from '@yaari/models/product/product.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -63,5 +71,18 @@ export class ProductsService {
   public catalogProducts(catalogId: string): Observable<ICatalogProducts[]> {
     return this._http.get<ICatalogProducts[]>
     (`${environment.API_BASE_URL}/api/v1/catalog/products?catalog_id=${catalogId}`);
+  }
+
+  public getBulkUploadStatuses(): Observable<IBulkUploadStatus[]> {
+    return this._http.get<IBulkUploadStatus[]>(`${environment.API_BASE_URL}/api/v1/catalog/bulk-upload-basic-statuses`);
+  }
+
+  public getBulkUploadStatusById(taskId: string): Observable<IBulkUploadStatus> {
+    return this._http.get<IBulkUploadStatus>
+    (`${environment.API_BASE_URL}/api/v1/catalog/bulk-upload-basic-status?task_id=${taskId}`);
+  }
+
+  public getCatalogByName(name: string): Observable<IBulkUploadBasic> {
+    return this._http.get<IBulkUploadBasic>(`${environment.API_BASE_URL}/api/v1/catalog?catalog_name=${name}`);
   }
 }

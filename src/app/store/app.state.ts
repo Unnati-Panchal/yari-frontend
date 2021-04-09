@@ -17,6 +17,6 @@ export class AppFacade {
     this._store.dispatch(fromProfileActions.clearMessages());
   }
 
-  constructor(private _store: Store<IAppState>,) {
+  constructor(private _store: Store<IAppState>) {
   }
 }

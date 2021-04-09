@@ -7,21 +7,73 @@
   </section>
   <section class="buttons-container">
 
-    <div class="download-container">
-      <section>
-        <mat-form-field appearance="outline">
-          <mat-label>Choose Category</mat-label>
-          <mat-select [(ngModel)]="selectedCategory" (ngModelChange)="isSelectedCategory($event)">
-            <ng-container *ngIf="getCategories$ | async as categories">
-              <mat-option *ngFor="let category of categories" [value]="category">{{category.name}}</mat-option>
-            </ng-container>
-          </mat-select>
-        </mat-form-field>
-        <p>{{selectedCategoryMsg}}</p>
-      </section>
+    <form [formGroup]="categoryForm">
+
+      <div class="download-container">
+
+        <section class="category-container">
+          <mat-form-field appearance="outline">
+            <mat-label>Category</mat-label>
+            <mat-select formControlName="category">
+              <mat-option *ngFor="let item of categories" [value]="item">{{item.name}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="categoryForm.controls['category'].hasError('required')">Required</mat-error>
+          </mat-form-field>
+        </section>
+
+        <section class="category-container">
+          <mat-form-field appearance="outline">
+            <mat-label>Sub-Category</mat-label>
+            <mat-select formControlName="subCategory1">
+              <mat-option *ngFor="let item of subCategories1" [value]="item">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+
+      </div>
+
+      <div class="download-container">
+
+        <section *ngIf="subCategories2?.length" class="category-container">
+          <mat-form-field appearance="outline">
+            <mat-label>Sub-Category</mat-label>
+            <mat-select formControlName="subCategory2">
+              <mat-option *ngFor="let item of subCategories2" [value]="item">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+
+        <section *ngIf="subCategories3?.length" class="category-container">
+          <mat-form-field appearance="outline">
+            <mat-label>Sub-Category</mat-label>
+            <mat-select formControlName="subCategory3">
+              <mat-option *ngFor="let item of subCategories3" [value]="item">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+
+      </div>
+
+      <div class="download-container">
+
+        <section *ngIf="subCategories4?.length" class="category-container">
+          <mat-form-field appearance="outline">
+            <mat-label>Sub-Category</mat-label>
+            <mat-select formControlName="subCategory4">
+              <mat-option *ngFor="let item of subCategories4" [value]="item">{{item.name}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </section>
+
+      </div>
+
+    </form>
+
+    <div class="download-btn-container">
       <section class="download-btn">
         <button *ngIf="!downloadLoading else LoadingSpinner"
-                mat-button (click)="downloadTemplate()">Download</button>
+                mat-button (click)="downloadTemplate()">Download
+        </button>
         <ng-template #LoadingSpinner>
           <button mat-button>
             <mat-spinner [diameter]="25"></mat-spinner>
@@ -30,23 +82,14 @@
       </section>
     </div>
 
-    <div class="selected-category">
-      <p *ngIf="categoriesChain?.length">
-        Selected category:
-        <span *ngFor="let category of categoriesChain">
-          {{category.name}}
-          <span *ngIf="!category.isLast"> > </span>
-        </span>
-      </p>
-    </div>
-
     <div class="upload-container">
       <div class="upload-section" appDnd (fileDropped)="onFileDropped($event)">
-        <input type="file" style="display: none" #fileDropRef id="fileDropRef" (change)="fileBrowseHandler($event.target.files)" />
+        <input type="file" style="display: none" #fileDropRef id="fileDropRef"
+               (change)="fileBrowseHandler($event.target.files)"/>
         <img [src]="'assets/images/drag_files.svg'" alt="drag image here"/>
         <h3>Drag files here or choose browse to select files</h3>
       </div>
-      <app-error-success [errors]="getIsError$ | async" [success]="success"></app-error-success>
+      <app-error-success [errors]="getIsError$ | async"></app-error-success>
     </div>
 
     <div class="form-catalogue-name">
@@ -67,13 +110,7 @@
         </button>
       </div>
       <div>
-        <button *ngIf="!uploadLoading else LoadingSpinner"
-                mat-button (click)="upload()">Upload</button>
-        <ng-template #LoadingSpinner>
-          <button mat-button>
-            <mat-spinner [diameter]="25"></mat-spinner>
-          </button>
-        </ng-template>
+        <button mat-button (click)="upload()">Upload</button>
       </div>
     </div>
   </section>

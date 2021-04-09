@@ -17,9 +17,10 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatInputModule} from '@angular/material/input';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIconModule} from '@angular/material/icon';
+import {CatalogueStatusByIdComponent} from './components/catalogue-status/catalogue-status-by-id/catalogue-status-by-id.component';
 
 @NgModule({
-  declarations: [ProductComponent, CatalogueComponent, CatalogueStatusComponent, SpecificationComponent],
+  declarations: [ProductComponent, CatalogueComponent, CatalogueStatusComponent, SpecificationComponent, CatalogueStatusByIdComponent],
     imports: [
         CommonModule,
         ProductRoutingModule,

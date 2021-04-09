@@ -14,11 +14,19 @@
 
     section {
       width: 50%;
+
+      @include media-breakpoint(lt-md) {
+        width: 100%;
+      }
     }
 
     .left-image {
       background-image: url('~src/assets/images/product_catalogue.png');
       background-size: cover;
+
+      @include media-breakpoint(lt-md) {
+        display: none;
+      }
 
       h1 {
         padding: $yaari-base * 2 0 $yaari-tiny yaari-to-rem(120px);
@@ -48,6 +56,8 @@
           @include yaari-display-flex(center, center, column);
 
           mat-form-field {
+            margin: 0 $yaari-base;
+
             .mat-form-field-wrapper ::ng-deep {
               margin: 0;
               padding: 0;
@@ -57,16 +67,17 @@
           p {
             font-size: $yaari-default-small;
           }
-
-          &.download-btn {
-            margin-bottom: $yaari-base;
-          }
         }
       }
 
-      .selected-category {
-        @include yaari-display-flex(flex-start, flex-start);
-        width: 80%;
+      .download-btn-container {
+        width: 100%;
+        @include yaari-display-flex(center, center, column);
+
+        .download-btn {
+          @include yaari-display-flex(center, center);
+          margin-bottom: $yaari-base;
+        }
       }
 
       .upload-section {
@@ -92,7 +103,6 @@
         background-color: $yaari-red;
         font-size: $yaari-h6;
         color: $yaari-light;
-        margin: $yaari-base 0;
         padding: 0 $yaari-large;
         min-width: yaari-to-rem(180px);
 

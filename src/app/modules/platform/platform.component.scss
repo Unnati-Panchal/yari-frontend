@@ -12,6 +12,10 @@
     height: fit-content;
     width: yaari-to-rem(500px);
 
+    @include media-breakpoint(lt-md) {
+      width: 100%;
+    }
+
     .mat-drawer-inner-container {
       overflow: hidden;
       background: $yaari-red;
@@ -113,6 +117,10 @@
       height: $header-height;
       padding: 0 $yaari-large * 2;
 
+      @include media-breakpoint(lt-md) {
+        padding: 0 $yaari-tiny;
+      }
+
       div {
 
         &.logo {
@@ -126,6 +134,11 @@
 
           p {
             margin: 0 $yaari-xlarge;
+
+            @include media-breakpoint(lt-md) {
+              display: none;
+            }
+
 
             span {
               font-size: $yaari-h4;

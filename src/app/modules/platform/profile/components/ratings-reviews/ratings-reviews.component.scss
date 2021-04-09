@@ -12,6 +12,11 @@
       width: 100%;
       padding: $yaari-base * 2 yaari-to-rem(120px);
 
+      @include media-breakpoint(lt-md) {
+        padding: $yaari-small;
+      }
+
+
       div {
         width: 100%;
         @include yaari-display-flex(center, flex-start);
@@ -36,6 +41,10 @@
         font-size: $yaari-h3;
         font-weight: bold;
         line-height: 100%;
+
+        @include media-breakpoint(lt-md) {
+          font-size: $yaari-h5;
+        }
       }
 
       h5 {
@@ -45,6 +54,10 @@
         font-size: $yaari-h5;
         font-weight: normal;
         line-height: 100%;
+
+        @include media-breakpoint(lt-md) {
+          font-size: $yaari-h6;
+        }
       }
 
       .red-line {

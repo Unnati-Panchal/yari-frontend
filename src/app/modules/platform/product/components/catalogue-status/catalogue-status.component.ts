@@ -2,12 +2,13 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import * as moment from 'moment';
-import {IBulkUploadBasic, IQuery} from '@yaari/models/product/product.interface';
+import {IBulkUploadBasic, IBulkUploadStatus, IQuery} from '@yaari/models/product/product.interface';
 import * as fromProductsActions from '~store/products/products.actions';
 import {select, Store} from '@ngrx/store';
 import {IAppState} from '~store/app.state';
 import * as fromProductsSelectors from '~store/products/products.selectors';
 import {filter} from 'rxjs/operators';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-catalogue-status',
@@ -23,16 +24,22 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   dataSource: IBulkUploadBasic[];
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();
+  private allStatuses: IBulkUploadStatus[];
   public getCatalogues$ = this._store.pipe(select(fromProductsSelectors.getCatalogs), filter(catalogs => !!catalogs));
+  public getBulkUploadStatuses$ = this._store.pipe(select(fromProductsSelectors.getBulkUploadStatuses$),
+    filter(statuses => !!statuses?.length));
   public isError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(err => !!err));
   loading: boolean;
   submitted: boolean;
   selectDate: string;
+  intervalSubscription;
+  timerQuery;
 
-  constructor(private _store: Store<IAppState>) { }
+  constructor(private _store: Store<IAppState>, private router: Router) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
+    clearInterval(this.intervalSubscription);
   }
 
   ngOnInit(): void {
@@ -46,6 +53,19 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
       })
     );
     this.getCataloguesRes();
+
+    this._store.dispatch(fromProductsActions.getBulkUploadStatuses());
+
+    const sessionStoredData = JSON.parse(sessionStorage.getItem('catalogStatuses'));
+    const availableTime = JSON.parse(sessionStorage.getItem('timerQuery'));
+    if (sessionStoredData?.length) {
+      this.dataSource = sessionStoredData;
+      if (availableTime) {
+        this.range.get('start').setValue(availableTime.startDate);
+        this.range.get('end').setValue(availableTime.endDate);
+      }
+      this.loading = false;
+    }
   }
 
   public viewBtn(): void {
@@ -57,16 +77,56 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
     }
     this.loading = true;
     this.submitted = true;
+    this.timerQuery = query;
+    sessionStorage.removeItem('timerQuery');
+    sessionStorage.setItem('timerQuery', JSON.stringify(this.timerQuery));
     this._store.dispatch(fromProductsActions.getCatalogs({query}));
+
+    if (this.intervalSubscription) {
+      clearInterval(this.intervalSubscription);
+    }
+    this.startTimer();
+  }
+
+  startTimer(): void {
+    this.intervalSubscription = setInterval( () => {
+      this._store.dispatch(fromProductsActions.getBulkUploadStatuses());
+      this._store.dispatch(fromProductsActions.getCatalogs({query: this.timerQuery}));
+    }, 5000);
   }
 
   getCataloguesRes(): void {
     this._subscription.add(
       this.getCatalogues$.subscribe((response) => {
         this.loading = false;
-        this.dataSource = response;
+        let res = [...response];
+        res = res.filter( item => item.approved === true || item.approved === false);
+        res = res.sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
+        let statuses = [...this.allStatuses];
+        statuses = statuses.filter( item => !item.status.toLowerCase().includes('successfully') &&
+          !item.status.toLowerCase().includes('invalid') &&
+          !item.status.toLowerCase().includes('creating')
+        );
+        statuses = statuses.sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
+        const displayed = res.concat(statuses);
+        sessionStorage.removeItem('catalogStatuses');
+        sessionStorage.setItem('catalogStatuses', JSON.stringify(displayed));
+        this.dataSource = displayed;
       })
     );
+
+    this._subscription.add(
+      this.getBulkUploadStatuses$.subscribe((response) => this.allStatuses = response.map( item => {
+        return {
+          ...item,
+          approved: null
+        };
+      }))
+    );
+  }
+
+  displayRejectedCatalogue(catalogue: IBulkUploadBasic): void {
+    this.router.navigate([`app/product/catalogue-details/${catalogue.catalog_name}`]);
   }
 
 }

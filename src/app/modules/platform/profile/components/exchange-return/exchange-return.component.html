@@ -21,10 +21,12 @@
 
 
       <button mat-button (click)="viewBtn(eSalesStatus.Replaced)">
-        <span>View Exchanged</span>
+        <mat-icon>search</mat-icon>
+        <span>Exchanged</span>
       </button>
       <button mat-button (click)="viewBtn(eSalesStatus.Returned)">
-        <span>View Returned</span>
+        <mat-icon>search</mat-icon>
+        <span>Returned</span>
       </button>
     </div>
     <p *ngIf="selectDate">{{selectDate}}</p>

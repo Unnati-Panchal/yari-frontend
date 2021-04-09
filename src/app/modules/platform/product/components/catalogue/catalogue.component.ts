@@ -8,6 +8,9 @@ import * as fileSaver from 'file-saver';
 import * as fromProductsSelectors from '~store/products/products.selectors';
 import {filter, tap} from 'rxjs/operators';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {ICategory} from '@yaari/models/product/product.interface';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-catalogue',
@@ -18,45 +21,125 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   private _subscription: Subscription = new Subscription();
   public selectedFile: File;
   public selectedImagesZipFile: File;
-  success: string;
-  selectedCategory: {id: string, name: string, terminal: boolean};
-  selectedCategoryMsg: string;
-  categoriesChain: {name: string, isLast: boolean}[];
   downloadLoading: boolean;
-  uploadLoading: boolean;
   isDisabledDownloadBtn = true;
+  public selectedCategory: {id: string, name: string, terminal: boolean};
   public uploadForm: FormGroup;
+  public categories: ICategory[];
+  public subCategories1: ICategory[];
+  public subCategories2: ICategory[];
+  public subCategories3: ICategory[];
+  public subCategories4: ICategory[];
 
-  public getCategories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(cat => !!cat));
+  public categories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(cat => !!cat));
   public bulkUploadCatalog$ = this._store.pipe(select(fromProductsSelectors.bulkUploadCatalog), filter(b => !!b));
   public getIsError$ = this._store.pipe(
     select(fromProductsSelectors.getIsError),
-    tap( () => {
-      this.uploadLoading = false;
-      this.downloadLoading = false;
-    }));
+    tap( () => this.downloadLoading = false));
+
+  public categoryForm: FormGroup;
 
   constructor(private _store: Store<IAppState>,
               private _product: ProductsService,
               private _formBuilder: FormBuilder,
-              private _appFacade: AppFacade
+              private _appFacade: AppFacade,
+              private _snackBar: MatSnackBar
   ) {
   }
 
   ngOnInit(): void {
     this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
-    this._subscription.add(this.bulkUploadCatalog$.subscribe(() => {
-      this.success = `Successfully uploaded file`;
-      this.uploadLoading = false;
+    this._subscription.add(this.bulkUploadCatalog$.subscribe((uploaded) => {
+      const msg = `Catalogue uploaded successfully. It’ll be done on or before: ${moment(uploaded.time_estimate).format('YYYY-MM-DD HH:mm')}h. To view the status, please check "Catalogue status" menu in Dashboard.`;
+      this._snackBar.open(msg, 'X', {duration: 10000});
+
       this._appFacade.clearMessages();
       this.uploadForm.reset();
-      this.categoriesChain = [];
+      this.categories = [];
+      this.subCategories1 = [];
+      this.subCategories2 = [];
+      this.subCategories3 = [];
+      this.subCategories4 = [];
       this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
     }));
 
     this.uploadForm = this._formBuilder.group({
       catalogue_name: ['', [Validators.required]]
     });
+
+    this.categorySelection();
+  }
+
+  public categorySelection(): void {
+    this._subscription.add(
+      this.categories$.subscribe( (categories) => {
+        if (!this.categories?.length) {
+          this.categories = categories;
+        } else if (!this.subCategories1?.length) {
+          this.subCategories1 = categories;
+        } else if (!this.subCategories2?.length) {
+          this.subCategories2 = categories;
+        } else if (!this.subCategories3?.length) {
+          this.subCategories3 = categories;
+        } else if (!this.subCategories4?.length) {
+          this.subCategories4 = categories;
+        }
+      })
+    );
+
+    this.categoryForm = this._formBuilder.group({
+      category: ['', [Validators.required]],
+      subCategory1: [''],
+      subCategory2: [''],
+      subCategory3: [''],
+      subCategory4: ['']
+    });
+
+    this._subscription.add(
+      this.categoryForm.get('category').valueChanges.subscribe( category => {
+        this.categoryForm.get('subCategory1').setValue('', {emitEvent: false});
+        this.categoryForm.get('subCategory2').setValue('', {emitEvent: false});
+        this.categoryForm.get('subCategory3').setValue('', {emitEvent: false});
+        this.categoryForm.get('subCategory4').setValue('', {emitEvent: false});
+        this.subCategories1 = [];
+        this.subCategories2 = [];
+        this.subCategories3 = [];
+        this.subCategories4 = [];
+        this.isSelectedCategory(category);
+      })
+    );
+    this._subscription.add(
+      this.categoryForm.get('subCategory1').valueChanges.subscribe( category => {
+        this.categoryForm.get('subCategory2').setValue('', {emitEvent: false});
+        this.categoryForm.get('subCategory3').setValue('', {emitEvent: false});
+        this.categoryForm.get('subCategory4').setValue('', {emitEvent: false});
+        this.subCategories2 = [];
+        this.subCategories3 = [];
+        this.subCategories4 = [];
+        this.isSelectedCategory(category);
+      })
+    );
+    this._subscription.add(
+      this.categoryForm.get('subCategory2').valueChanges.subscribe( category => {
+        this.categoryForm.get('subCategory3').setValue('', {emitEvent: false});
+        this.categoryForm.get('subCategory4').setValue('', {emitEvent: false});
+        this.subCategories3 = [];
+        this.subCategories4 = [];
+        this.isSelectedCategory(category);
+      })
+    );
+    this._subscription.add(
+      this.categoryForm.get('subCategory3').valueChanges.subscribe( category => {
+        this.categoryForm.get('subCategory4').setValue('', {emitEvent: false});
+        this.subCategories4 = [];
+        this.isSelectedCategory(category);
+      })
+    );
+    this._subscription.add(
+      this.categoryForm.get('subCategory4').valueChanges.subscribe( category => {
+        this.isSelectedCategory(category);
+      })
+    );
   }
 
   public ngOnDestroy(): void {
@@ -65,7 +148,7 @@ export class CatalogueComponent implements OnInit, OnDestroy {
 
   downloadTemplate(): void {
     if (this.isDisabledDownloadBtn) {
-      this.selectedCategoryMsg = 'Please select a subcategory';
+      this.openSnackBar(`Please select a sub-category`);
       return;
     }
     this.downloadLoading = true;
@@ -83,7 +166,11 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   upload(): void {
     this.uploadForm.updateValueAndValidity();
     if (!this.uploadForm?.value?.catalogue_name) {
-      this.success = `Please enter your catalogue name`;
+      this.openSnackBar(`Please enter your catalogue name`);
+      return;
+    }
+    if (!this.subCategories1?.length) {
+      this.openSnackBar(`Please select a sub-category`);
       return;
     }
     const fileUpload = {
@@ -92,10 +179,8 @@ export class CatalogueComponent implements OnInit, OnDestroy {
       catalogue_name: this.uploadForm?.value?.catalogue_name,
       images_zipfile: this.selectedImagesZipFile
     };
-    this.uploadLoading = true;
     if (!fileUpload?.file) {
-      this.success = `Please upload file`;
-      this.uploadLoading = false;
+      this.openSnackBar(`Please upload file`);
       return;
     }
     this._store.dispatch(fromProductsActions.bulkUploadCatalog({fileUpload}));
@@ -117,35 +202,35 @@ export class CatalogueComponent implements OnInit, OnDestroy {
       } else if (item?.name.includes('.zip')) {
         this.selectedImagesZipFile = item;
       } else {
-        this.success = `Please upload '.xlsx' or '.zip' files only`;
+        this.openSnackBar(`Please upload '.xlsx' or '.zip' files only`);
       }
     }
     if (this.selectedFile) {
-      this.success = `Successfully added file ${this.selectedFile.name}. Click Upload`;
+      const msg = `Successfully added file ${this.selectedFile.name}. Click Upload`;
+      this.openSnackBar(msg);
     } else {
-      this.success = `Please try again`;
+      this.openSnackBar(`Please try again`);
     }
     if (this.selectedImagesZipFile) {
-      this.success = `Successfully added file ${this.selectedImagesZipFile.name}. Click Upload`;
+      const msg = `Successfully added file ${this.selectedImagesZipFile.name}. Click Upload`;
+      this.openSnackBar(msg);
     }
   }
 
   public isSelectedCategory(category: {id: string, name: string, terminal: boolean}): void {
-    if (!this.categoriesChain?.length) {
-      this.categoriesChain = [{name: category.name, isLast: category.terminal}];
-    } else {
-      this.categoriesChain.push({name: category.name, isLast: category.terminal});
-    }
-
     if (!category?.terminal) {
       const categoryId = category.id;
       this._store.dispatch(fromProductsActions.getCategories({categoryId}));
-      this.selectedCategoryMsg = 'Please select a subcategory';
+      this.openSnackBar(`Please select a sub-category`);
       this.isDisabledDownloadBtn = true;
     } else {
-      this.selectedCategoryMsg = '';
+      this.selectedCategory = category;
       this.isDisabledDownloadBtn = false;
     }
+  }
+
+  openSnackBar(msg): void {
+    this._snackBar.open(msg, 'X', {duration: 5000});
   }
 
 }

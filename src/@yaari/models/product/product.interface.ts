@@ -13,13 +13,14 @@ export interface IFileUpload {
 
 
 export interface IBulkUploadBasic {
-  id: number;
-  sub_category_name: string;
-  created_time: string;
-  approved: boolean;
-  viewed: number;
-  shared: number;
-  catalog_name: string;
+  id?: number;
+  sub_category_name?: string;
+  created_time?: string;
+  approved?: boolean | null;
+  viewed?: number;
+  shared?: number;
+  catalog_name?: string;
+  time_estimate?: string;
 }
 
 export interface IQuery {
@@ -130,4 +131,11 @@ export interface ICatalogProducts {
   next_day_dispatch: boolean;
   specifications: any;
   specDetails?: string[];
+}
+
+export interface IBulkUploadStatus {
+  task_id?: string;
+  status?: string;
+  catalog_name: string;
+  file_name?: string;
 }

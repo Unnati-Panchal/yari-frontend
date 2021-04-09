@@ -10,6 +10,10 @@
     section {
       width: 50%;
 
+      @include media-breakpoint(lt-md) {
+        width: 100%;
+      }
+
       &.centered {
         @include yaari-display-flex(center, center);
         margin: $yaari-base 0;
@@ -25,6 +29,10 @@
     .left-image {
       background-image: url('~src/assets/images/dashboard-background.png');
       background-size: cover;
+
+      @include media-breakpoint(lt-md) {
+        display: none;
+      }
 
       button {
         @include yaari-display-flex(center, space-between);

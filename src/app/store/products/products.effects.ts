@@ -1,13 +1,21 @@
 import { Injectable } from '@angular/core';
 import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {Store} from '@ngrx/store';
-import {catchError, map, switchMap, tap} from 'rxjs/operators';
+import {catchError, map, switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 
 import * as fromRouter from '~store/route/route.selectors';
 import * as fromProductsActions from '~store/products/products.actions';
 import {ProductsService} from '@yaari/services/products/products.service';
-import {IBulkUploadBasic, ICatalogProducts, ICategory, IFileUpload, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
+import {
+  IBulkUploadBasic,
+  IBulkUploadStatus,
+  ICatalogProducts,
+  ICategory,
+  IFileUpload,
+  IQuery,
+  ISpecifications
+} from '@yaari/models/product/product.interface';
 
 @Injectable()
 export class ProductsEffects {
@@ -110,6 +118,48 @@ export class ProductsEffects {
         this._productsService.catalogProducts(catalogId).pipe(
           map((catalogProducts: ICatalogProducts[]) => fromProductsActions.getCatalogProductsSuccess({ catalogProducts })),
           catchError(error => of(fromProductsActions.getCatalogProductsError(error)))
+        )
+      )
+    )
+  );
+
+  public getBulkUploadStatuses$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProductsActions.getBulkUploadStatuses),
+      switchMap(() =>
+        this._productsService.getBulkUploadStatuses().pipe(
+          map((bulkUploadStatuses: IBulkUploadStatus[]) => fromProductsActions.getBulkUploadStatusesSuccess({ bulkUploadStatuses })),
+          catchError(error => of(fromProductsActions.getBulkUploadStatusesError(error)))
+        )
+      )
+    )
+  );
+
+  public getBulkUploadStatusById$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProductsActions.getBulkUploadStatusById),
+      map(action => action.taskId),
+      switchMap((taskId: string) =>
+        this._productsService.getBulkUploadStatusById(taskId).pipe(
+          map((singleBulkUploadStatus: IBulkUploadStatus) =>
+            fromProductsActions.getBulkUploadStatusByIdSuccess({ singleBulkUploadStatus })
+          ),
+          catchError(error => of(fromProductsActions.getBulkUploadStatusByIdError(error)))
+        )
+      )
+    )
+  );
+
+  public getCatalogueById$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProductsActions.getCatalogById),
+      map(action => action.id),
+      switchMap((id: string) =>
+        this._productsService.getCatalogByName(id).pipe(
+          map((selectedCatalogue: IBulkUploadBasic) =>
+            fromProductsActions.getCatalogByIdSuccess({ selectedCatalogue })
+          ),
+          catchError(error => of(fromProductsActions.getCatalogByIdError(error)))
         )
       )
     )
