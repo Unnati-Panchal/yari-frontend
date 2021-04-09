@@ -4,6 +4,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import * as fromRoot from '~store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import {
+  IAdminDetails,
   IEditSupplierProfile,
   ILogin,
   IOnboarders,
@@ -41,6 +42,7 @@ export interface IAuthState extends fromRoot.IAppState {
   url: string;
   resetPasswordInfo: IResetPassword;
   msg: string;
+  adminDetails: IAdminDetails;
 }
 
 export const authInitialState: IAuthState = {
@@ -68,6 +70,7 @@ export const authInitialState: IAuthState = {
   url: '',
   resetPasswordInfo: null,
   msg: '',
+  adminDetails: null
 };
 
 const authReducer = createReducer(
@@ -98,6 +101,12 @@ const authReducer = createReducer(
   on(fromAuthActions.supplierDetailsSuccess, (state, action) => ({
     ...state, loading: false, supplierDetails: action.supplierDetails})),
   on(fromAuthActions.supplierDetailsError, (state, action) => ({...state, loading: false, error: action.error})),
+
+
+  on(fromAuthActions.adminDetails, (state) => ({...state, loading: true})),
+  on(fromAuthActions.adminDetailsSuccess, (state, action) => ({
+    ...state, loading: false, adminDetails: action.adminDetails})),
+  on(fromAuthActions.adminDetailsError, (state, action) => ({...state, loading: false, error: action.error})),
 
 
   on(fromAuthActions.login, (state, action) => ({

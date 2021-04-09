@@ -2,6 +2,7 @@ import {createAction, props} from '@ngrx/store';
 import {HttpErrorResponse} from '@angular/common/http';
 
 import {
+  IAdminDetails,
   IEditSupplierProfile,
   ILogin,
   IOnboarders,
@@ -38,6 +39,12 @@ export const supplierDetailsSuccess = createAction('[AUTH] supplier details succ
 
 export const supplierDetailsError = createAction('[AUTH] supplier details error', props<{ error: HttpErrorResponse }>());
 
+
+export const adminDetails = createAction('[AUTH] admin details');
+
+export const adminDetailsSuccess = createAction('[AUTH] admin details success', props<{ adminDetails: IAdminDetails }>());
+
+export const adminDetailsError = createAction('[AUTH] admin details error', props<{ error: HttpErrorResponse }>());
 
 
 export const login = createAction('[AUTH] login', props<{ loginRequest: ILogin }>());

@@ -32,6 +32,10 @@ export interface IRegistration {
   kyc_verified?: boolean;
 }
 
+export interface IAdminDetails{
+  admin_role: string;
+}
+
 export interface ILogin {
   username: string;
   password: string;

@@ -19,7 +19,7 @@ import * as fromProfile from '~store/profile/profile.reducer';
 
 import {AppComponent} from '~app/app.component';
 import {AppRoutingModule} from '~app/app-routing.module';
-import {AuthGuard} from '@yaari/guards/auth.guard';
+import {AdminAuthGuard, AuthGuard} from '@yaari/guards/auth.guard';
 import {TokenInterceptor} from '@yaari/interceptors/token.interceptor';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ProfileEffects} from '~store/profile/profile.effects';
@@ -74,6 +74,7 @@ export function getReducers(): ActionReducerMap<IAppState> {
   ],
   providers: [
     AuthGuard,
+    AdminAuthGuard,
     AppFacade,
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
   ],

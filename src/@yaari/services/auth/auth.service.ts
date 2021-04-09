@@ -1,9 +1,10 @@
-import {Injectable} from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
-import {environment} from '~env/environment';
+import { environment } from '~env/environment';
 import {
+  IAdminDetails,
   IEditSupplierProfile,
   ILogin,
   IOnboarders,
@@ -13,16 +14,17 @@ import {
   IVerifyOtp,
   KYCDetailsResponse
 } from '@yaari/models/auth/auth.interface';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import * as fromAuthActions from '~store/auth/auth.actions';
-import {Store} from '@ngrx/store';
-import {IAppState} from '~store/app.state';
+import { Store } from '@ngrx/store';
+import { IAppState } from '~store/app.state';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
   private readonly _accessKeyStorageKey = 'yaari.accessKey';
+  private readonly _role = 'role';
 
   constructor(private _http: HttpClient, private _router: Router, private _store: Store<IAppState>) {
   }
@@ -45,19 +47,34 @@ export class AuthService {
     this._router.navigate(['auth/login']);
   }
 
-  public passwordRecovery(email: string): Observable<{msg: string}> {
+  public redirectToAdminLogin(): void {
+    this._router.navigate(['/admin/login']);
+  }
+
+  public logoutAdmin(): void {
+    sessionStorage.clear();
+    this.accessToken = null;
+    this._store.dispatch(fromAuthActions.clearState());
+    this.redirectToAdminLogin();
+  }
+
+  public passwordRecovery(email: string): Observable<{ msg: string }> {
     const url = window.location.href.split('password-recovery').join('reset-password');
-    return this._http.post<{msg: string}>(`${environment.API_BASE_URL}/api/v1/user/password-recovery/${email}?user_role=supplier&redirect_url=${url}`, email);
+    return this._http.post<{ msg: string }>(`${environment.API_BASE_URL}/api/v1/user/password-recovery/${email}?user_role=supplier&redirect_url=${url}`, email);
   }
 
   public login(login: ILogin): Observable<IToken> {
-    const httpOptions = {headers: new HttpHeaders({'Content-Type': 'application/x-www-form-urlencoded'})};
+    const httpOptions = { headers: new HttpHeaders({ 'Content-Type': 'application/x-www-form-urlencoded' }) };
     const body = new URLSearchParams();
     body.set('username', login.username);
     body.set('password', login.password);
     body.set('user_role', login.user_role);
     return this._http.post<IToken>
-    (`${environment.API_BASE_URL}/api/v1/user/login/access-token?user_role=supplier`, body.toString(), httpOptions);
+      (`${environment.API_BASE_URL}/api/v1/user/login/access-token?user_role=${login.user_role}`, body.toString(), httpOptions);
+  }
+
+  public adminDetails(): Observable<IAdminDetails> {
+    return this._http.get<IAdminDetails>(`${environment.API_BASE_URL}/api/v1/admin-user-role`);
   }
 
   public submitKYCForVerification(body: IRegistration): Observable<IRegistration> {
@@ -104,14 +121,14 @@ export class AuthService {
     return this._http.get<IRegistration>(`${environment.API_BASE_URL}/api/v1/supplier`);
   }
 
-  public uploadSupplierPicture(file: any): Observable<{url: string}> {
+  public uploadSupplierPicture(file: any): Observable<{ url: string }> {
     const formData = new FormData();
     formData.append('file', file, file.name);
-    return this._http.put<{url: string}>(`${environment.API_BASE_URL}/api/v1/supplier/image`, formData);
+    return this._http.put<{ url: string }>(`${environment.API_BASE_URL}/api/v1/supplier/image`, formData);
   }
 
-  public resetPassword(resetPassword: IResetPassword): Observable<{msg: string}> {
-    return this._http.post<{msg: string}>(`${environment.API_BASE_URL}/api/v1/user/reset-password?user_role=supplier`, resetPassword);
+  public resetPassword(resetPassword: IResetPassword): Observable<{ msg: string }> {
+    return this._http.post<{ msg: string }>(`${environment.API_BASE_URL}/api/v1/user/reset-password?user_role=supplier`, resetPassword);
   }
 
 }
