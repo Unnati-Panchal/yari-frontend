@@ -21,6 +21,7 @@
         @include yaari-display-flex(center, flex-start);
 
         &.table-box {
+          padding-top: $yaari-large;
           padding-bottom: $yaari-large;
         }
 
