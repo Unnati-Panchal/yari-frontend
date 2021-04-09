@@ -82,7 +82,7 @@ export class ProductsService {
     (`${environment.API_BASE_URL}/api/v1/catalog/bulk-upload-basic-status?task_id=${taskId}`);
   }
 
-  public getCatalogById(id: number): Observable<IBulkUploadBasic> {
-    return this._http.get<IBulkUploadBasic>(`${environment.API_BASE_URL}/api/v1/catalog/${id}`);
+  public getCatalogByName(name: string): Observable<IBulkUploadBasic> {
+    return this._http.get<IBulkUploadBasic>(`${environment.API_BASE_URL}/catalog?catalog_name=${name}`);
   }
 }

@@ -87,8 +87,10 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
       this.getCatalogues$.subscribe((response) => {
         this.loading = false;
         let res = [...response];
+        res = res.filter( item => item.approved === true || item.approved === false);
         res = res.sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
         let statuses = [...this.allStatuses];
+        statuses = statuses.filter( item => !item.status.toLowerCase().includes('successfully') && !item.status.toLowerCase().includes('invalid'));
         statuses = statuses.sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
         this.dataSource = res.concat(statuses);
       })
@@ -105,7 +107,7 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   }
 
   displayRejectedCatalogue(catalogue: IBulkUploadBasic): void {
-    this.router.navigate([`app/product/catalogue-details/${catalogue.id}`]);
+    this.router.navigate([`app/product/catalogue-details/${catalogue.catalog_name}`]);
   }
 
 }

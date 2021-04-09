@@ -16,7 +16,7 @@ export interface IBulkUploadBasic {
   id?: number;
   sub_category_name?: string;
   created_time?: string;
-  approved?: boolean;
+  approved?: boolean | null;
   viewed?: number;
   shared?: number;
   catalog_name?: string;

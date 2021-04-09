@@ -5,7 +5,7 @@ import * as fromProductsActions from '~store/products/products.actions';
 import {select, Store} from '@ngrx/store';
 import {IAppState} from '~store/app.state';
 import * as fromProductsSelectors from '~store/products/products.selectors';
-import {filter} from 'rxjs/operators';
+import {filter, tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
 
 @Component({
@@ -19,7 +19,11 @@ export class CatalogueStatusByIdComponent implements OnInit, OnDestroy {
   private _subscription: Subscription = new Subscription();
   public getSelectedCatalogue$ = this._store.pipe(select(fromProductsSelectors.getSelectedCatalogue$),
     filter(status => !!status));
-  public isError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(err => !!err));
+  public isError$ = this._store.pipe(
+    select(fromProductsSelectors.getIsError),
+    filter(err => !!err),
+    tap(() => this.loading = false)
+  );
   loading: boolean;
 
   constructor(private _store: Store<IAppState>, private route: ActivatedRoute) { }

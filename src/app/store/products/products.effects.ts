@@ -154,8 +154,8 @@ export class ProductsEffects {
     this._actions$.pipe(
       ofType(fromProductsActions.getCatalogById),
       map(action => action.id),
-      switchMap((id: number) =>
-        this._productsService.getCatalogById(id).pipe(
+      switchMap((id: string) =>
+        this._productsService.getCatalogByName(id).pipe(
           map((selectedCatalogue: IBulkUploadBasic) =>
             fromProductsActions.getCatalogByIdSuccess({ selectedCatalogue })
           ),
