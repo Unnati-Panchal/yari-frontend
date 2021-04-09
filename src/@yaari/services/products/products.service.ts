@@ -83,6 +83,6 @@ export class ProductsService {
   }
 
   public getCatalogByName(name: string): Observable<IBulkUploadBasic> {
-    return this._http.get<IBulkUploadBasic>(`${environment.API_BASE_URL}/catalog?catalog_name=${name}`);
+    return this._http.get<IBulkUploadBasic>(`${environment.API_BASE_URL}/api/v1/catalog?catalog_name=${name}`);
   }
 }
