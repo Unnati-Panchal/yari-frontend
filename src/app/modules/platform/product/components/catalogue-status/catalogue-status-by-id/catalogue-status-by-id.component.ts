@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs';
-import {IBulkUploadBasic} from '@yaari/models/product/product.interface';
+import {IBulkUploadBasicError} from '@yaari/models/product/product.interface';
 import * as fromProductsActions from '~store/products/products.actions';
 import {select, Store} from '@ngrx/store';
 import {IAppState} from '~store/app.state';
@@ -15,7 +15,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class CatalogueStatusByIdComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = ['sr_no', 'catalogue_name', 'sku_id', 'errors'];
-  dataSource: IBulkUploadBasic[];
+  dataSource: IBulkUploadBasicError[];
   private _subscription: Subscription = new Subscription();
   public getSelectedCatalogue$ = this._store.pipe(select(fromProductsSelectors.getSelectedCatalogue$),
     filter(status => !!status));
@@ -45,7 +45,12 @@ export class CatalogueStatusByIdComponent implements OnInit, OnDestroy {
     this._subscription.add(
       this.getSelectedCatalogue$.subscribe((response) => {
         this.loading = false;
-        this.dataSource = [response];
+        this.dataSource = response.errors.map(error => {
+          return {
+            ...error,
+            catalog_name: response.catalog_name
+          };
+        });
       })
     );
   }

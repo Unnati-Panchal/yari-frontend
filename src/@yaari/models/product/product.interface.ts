@@ -21,6 +21,15 @@ export interface IBulkUploadBasic {
   shared?: number;
   catalog_name?: string;
   time_estimate?: string;
+  errors?: IBulkUploadBasicError[];
+}
+
+export interface IBulkUploadBasicError {
+  error: string;
+  id: number;
+  row_number: number;
+  sku_id: string;
+  catalog_name?: string;
 }
 
 export interface IQuery {

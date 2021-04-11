@@ -20,28 +20,18 @@
 
         <ng-container matColumnDef="catalogue_name">
           <th mat-header-cell *matHeaderCellDef> Catalogue Name </th>
-          <td mat-cell *matCellDef="let element"> {{element?.catalog_name}} </td>
+          <td mat-cell *matCellDef="let element">{{element.catalog_name}}</td>
         </ng-container>
 
         <ng-container matColumnDef="sku_id">
           <th mat-header-cell *matHeaderCellDef> SKU ID </th>
-          <td mat-cell *matCellDef="let element">
-            <ng-container *ngIf="element?.errors?.length">
-              <div *ngFor="let error of element?.errors" class="errors-field">
-                {{error?.sku_id}}
-              </div>
-            </ng-container>
-          </td>
+          <td mat-cell *matCellDef="let element">{{element.sku_id}}</td>
         </ng-container>
 
         <ng-container matColumnDef="errors">
           <th mat-header-cell *matHeaderCellDef> Errors </th>
           <td mat-cell *matCellDef="let element">
-            <ng-container *ngIf="element?.errors?.length">
-              <div *ngFor="let error of element?.errors" class="errors-field">
-                {{error?.error}}
-              </div>
-            </ng-container>
+            <span class="errors-field">{{element.error}}</span>
           </td>
         </ng-container>
 
