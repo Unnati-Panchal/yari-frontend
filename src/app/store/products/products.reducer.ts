@@ -31,7 +31,7 @@ export const productsInitialState: IProductsState = {
   categories: [],
   file: null,
   bulkUploadBasic: null,
-  catalogs: null,
+  catalogs: [],
   catalogId: null,
   specTemplate: [],
   msg: '',

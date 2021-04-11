@@ -102,7 +102,10 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
         let res = [...response];
         res = res.filter( item => item.approved === true || item.approved === false);
         res = res.sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
-        let statuses = [...this.allStatuses];
+        let statuses = [];
+        if (this.allStatuses?.length) {
+          statuses = [...this.allStatuses];
+        }
         statuses = statuses.filter( item => !item.status.toLowerCase().includes('successfully') &&
           !item.status.toLowerCase().includes('invalid') &&
           !item.status.toLowerCase().includes('creating')
@@ -116,7 +119,7 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
     );
 
     this._subscription.add(
-      this.getBulkUploadStatuses$.subscribe((response) => this.allStatuses = response.map( item => {
+      this.getBulkUploadStatuses$.subscribe((response) => this.allStatuses = response?.map( item => {
         return {
           ...item,
           approved: null
