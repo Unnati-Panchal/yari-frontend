@@ -37,7 +37,7 @@ export const productsInitialState: IProductsState = {
   msg: '',
   categoryId: '',
   catalogProducts: [],
-  bulkUploadStatuses: [],
+  bulkUploadStatuses: undefined,
   singleBulkUploadStatus: null,
   selectedCatalogue: null
 };
