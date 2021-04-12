@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { IAdminDetails } from '@yaari/models/auth/auth.interface';
 import { AuthService } from '@yaari/services/auth/auth.service';
@@ -37,7 +37,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   public hide: boolean;
   public loading: boolean;
   private _subscription: Subscription = new Subscription();
-  // public admin_roles= [];
   loginForm = new FormGroup({
     username: new FormControl('', Validators.required),
     password: new FormControl('', Validators.required),

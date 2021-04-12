@@ -73,13 +73,9 @@ export class AdminAuthGuard implements CanActivate {
             this._router.navigate(['/admin/login']);
             return false;
           }
-          this._store.dispatch(fromAuthActions.adminDetails());
-          this.adminDetails$.subscribe(adminDetails => {
-            if (!val.url.startsWith(`/admin/${adminDetails.admin_role.split('_').join('-')}`)) {
-              this._router.navigate([`/admin/${adminDetails.admin_role.split('_').join('-')}`]);
-              return false;
-            }
-          });
+          else {
+            this._store.dispatch(fromAuthActions.adminDetails());
+          }
         }
         else if (val.url === '/admin/login' && this._authService.accessToken) {
           this._store.dispatch(fromAuthActions.adminDetails());

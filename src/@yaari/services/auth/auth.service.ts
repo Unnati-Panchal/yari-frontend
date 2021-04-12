@@ -24,7 +24,6 @@ import { IAppState } from '~store/app.state';
 })
 export class AuthService {
   private readonly _accessKeyStorageKey = 'yaari.accessKey';
-  private readonly _role = 'role';
 
   constructor(private _http: HttpClient, private _router: Router, private _store: Store<IAppState>) {
   }
@@ -52,10 +51,13 @@ export class AuthService {
   }
 
   public logoutAdmin(): void {
-    sessionStorage.clear();
-    this.accessToken = null;
-    this._store.dispatch(fromAuthActions.clearState());
     this.redirectToAdminLogin();
+    sessionStorage.clear();
+    this._store.dispatch(fromAuthActions.clearState());
+  }
+
+  public logoutService(): Observable<{ msg: string }> {
+    return this._http.post<{ msg: string }>(`${environment.API_BASE_URL}/api/v1/user/logout`, {});
   }
 
   public passwordRecovery(email: string): Observable<{ msg: string }> {
@@ -74,7 +76,7 @@ export class AuthService {
   }
 
   public adminDetails(): Observable<IAdminDetails> {
-    return this._http.get<IAdminDetails>(`${environment.API_BASE_URL}/api/v1/admin-user-role`);
+    return this._http.get<IAdminDetails>(`${environment.API_BASE_URL}/api/v1/admin/admin-user-role`);
   }
 
   public submitKYCForVerification(body: IRegistration): Observable<IRegistration> {

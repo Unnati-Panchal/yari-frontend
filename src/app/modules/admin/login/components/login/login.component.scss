@@ -2,6 +2,10 @@
   .login {
     font: Poppins;
   }
+
+  .logo-div {
+    position: absolute;
+  }
   .left-image {
     width: 50%;
     height: 100%;
@@ -15,6 +19,12 @@
     height: auto;
   }
 
+  .form-div {
+    margin-top: 150px;
+  }
+  .field-350 {
+    width: 350px;
+  }
   .signin {
     width: 150px;
     height: 40px;
@@ -24,6 +34,22 @@
     border-radius: 24px;
     background-color: #f62101;
     text-align: center;
+  }
+  .sign-div {
+    text-align: center;
+  }
+
+  .spinner {
+    margin: auto;
+  }
+  .error-success {
+    margin: 25px 0px -10px 15px;
+  }
+
+  .forgot {
+    text-align: right;
+    margin-top: 10px;
+    color: #0000ee;
   }
 
   ::ng-deep .drpdwn .mat-form-field-wrapper {
@@ -58,5 +84,9 @@
     margin: 30px 0px 10px 15px;
     color: #363636;
     font-weight: 500;
+  }
+
+  .error {
+    margin-top: 20px;
   }
 }
