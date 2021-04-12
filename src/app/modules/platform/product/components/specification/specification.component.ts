@@ -100,7 +100,9 @@ export class SpecificationComponent implements OnInit, OnDestroy {
       })
     );
 
-    this._subscription.add(this.getCatalogues$.subscribe((list) => this.catalogueList = list));
+    this._subscription.add(this.getCatalogues$.subscribe((list) =>
+      this.catalogueList = list.filter(catalog => !!catalog.approved)
+    ));
     this._subscription.add(this.isError$.subscribe((errors) => this.errorMessages = errors));
     this._subscription.add(this.isMsg$.subscribe((msg) => {
       if (msg === 'Successfully deleted') {
