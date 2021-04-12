@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {Subscription} from 'rxjs';
+import {combineLatest, Subscription} from 'rxjs';
 import * as moment from 'moment';
 import {IBulkUploadBasic, IBulkUploadStatus, IQuery} from '@yaari/models/product/product.interface';
 import * as fromProductsActions from '~store/products/products.actions';
@@ -26,8 +26,7 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   private _subscription: Subscription = new Subscription();
   private allStatuses: IBulkUploadStatus[];
   public getCatalogues$ = this._store.pipe(select(fromProductsSelectors.getCatalogs), filter(catalogs => !!catalogs));
-  public getBulkUploadStatuses$ = this._store.pipe(select(fromProductsSelectors.getBulkUploadStatuses$),
-    filter(statuses => !!statuses?.length));
+  public getBulkUploadStatuses$ = this._store.pipe(select(fromProductsSelectors.getBulkUploadStatuses$));
   public isError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(err => !!err));
   loading: boolean;
   submitted: boolean;
@@ -54,8 +53,6 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
     );
     this.getCataloguesRes();
 
-    this._store.dispatch(fromProductsActions.getBulkUploadStatuses());
-
     const sessionStoredData = JSON.parse(sessionStorage.getItem('catalogStatuses'));
     const availableTime = JSON.parse(sessionStorage.getItem('timerQuery'));
     if (sessionStoredData?.length) {
@@ -81,6 +78,7 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
     sessionStorage.removeItem('timerQuery');
     sessionStorage.setItem('timerQuery', JSON.stringify(this.timerQuery));
     this._store.dispatch(fromProductsActions.getCatalogs({query}));
+    this._store.dispatch(fromProductsActions.getBulkUploadStatuses());
 
     if (this.intervalSubscription) {
       clearInterval(this.intervalSubscription);
@@ -97,34 +95,31 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
 
   getCataloguesRes(): void {
     this._subscription.add(
-      this.getCatalogues$.subscribe((response) => {
-        this.loading = false;
-        let res = [...response];
-        res = res.filter( item => item.approved === true || item.approved === false);
-        res = res.sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
-        let statuses = [];
-        if (this.allStatuses?.length) {
-          statuses = [...this.allStatuses];
-        }
-        statuses = statuses.filter( item => !item.status.toLowerCase().includes('successfully') &&
-          !item.status.toLowerCase().includes('invalid') &&
-          !item.status.toLowerCase().includes('creating')
-        );
-        statuses = statuses.sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
-        const displayed = res.concat(statuses);
-        sessionStorage.removeItem('catalogStatuses');
-        sessionStorage.setItem('catalogStatuses', JSON.stringify(displayed));
-        this.dataSource = displayed;
-      })
-    );
+      combineLatest([this.getCatalogues$, this.getBulkUploadStatuses$])
+        .subscribe(([catalogs, statuses]) => {
+          this.allStatuses = statuses?.map( item => {
+            return {...item, approved: null};
+          });
 
-    this._subscription.add(
-      this.getBulkUploadStatuses$.subscribe((response) => this.allStatuses = response?.map( item => {
-        return {
-          ...item,
-          approved: null
-        };
-      }))
+
+          this.loading = false;
+          let res = [...catalogs];
+          res = res.filter( item => item.approved === true || item.approved === false);
+          res = res.sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
+          let currentStatuses = [];
+          if (this.allStatuses?.length) {
+            currentStatuses = [...this.allStatuses];
+          }
+          currentStatuses = currentStatuses.filter( item => !item.status.toLowerCase().includes('successfully') &&
+            !item.status.toLowerCase().includes('invalid') &&
+            !item.status.toLowerCase().includes('creating')
+          );
+          currentStatuses = currentStatuses.sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
+          const displayed = res.concat(currentStatuses);
+          sessionStorage.removeItem('catalogStatuses');
+          sessionStorage.setItem('catalogStatuses', JSON.stringify(displayed));
+          this.dataSource = displayed;
+        })
     );
   }
 
