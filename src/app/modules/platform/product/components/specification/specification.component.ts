@@ -88,19 +88,22 @@ export class SpecificationComponent implements OnInit, OnDestroy {
     this._subscription.add(
       combineLatest([this.getCatalogProducts$, this.getSpecTemplate$])
         .subscribe(([catalogueProducts, specTemplate]) => {
-        this.specKeys = [...new Set(specTemplate)]; // Object.keys(catalogueProducts[0]?.specifications);
+        this.specKeys = [...new Set(specTemplate)];
         this.displayedColumns = ['sr_no', 'sku_id', 'product_name', ...this.specKeys, 'next_day_dispatch'];
         this.dataSource = catalogueProducts.map( (item) => {
+          const specDetails = this.specKeys.map( key => item.specifications[key]);
           return {
             ...item,
-            specDetails: item?.specifications ? Object.values(item.specifications) : []
+            specDetails: item?.specifications ? specDetails : []
           };
         });
         this.loading = false;
       })
     );
 
-    this._subscription.add(this.getCatalogues$.subscribe((list) => this.catalogueList = list));
+    this._subscription.add(this.getCatalogues$.subscribe((list) =>
+      this.catalogueList = list.filter(catalog => !!catalog.approved)
+    ));
     this._subscription.add(this.isError$.subscribe((errors) => this.errorMessages = errors));
     this._subscription.add(this.isMsg$.subscribe((msg) => {
       if (msg === 'Successfully deleted') {
