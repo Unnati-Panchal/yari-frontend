@@ -47,6 +47,10 @@ export class CatalogueComponent implements OnInit, OnDestroy {
   ) {
   }
 
+  get selectedFileName(): string {
+    return this.selectedFile?.name;
+  }
+
   ngOnInit(): void {
     this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
     this._subscription.add(this.bulkUploadCatalog$.subscribe((uploaded) => {
@@ -54,12 +58,15 @@ export class CatalogueComponent implements OnInit, OnDestroy {
       this._snackBar.open(msg, 'X', {duration: 10000});
 
       this._appFacade.clearMessages();
-      this.uploadForm.reset();
+      if (this.uploadForm) {
+        this.uploadForm.reset();
+      }
       this.categories = [];
       this.subCategories1 = [];
       this.subCategories2 = [];
       this.subCategories3 = [];
       this.subCategories4 = [];
+      this.selectedFile = null;
       this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
     }));
 

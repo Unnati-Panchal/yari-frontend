@@ -90,6 +90,9 @@
         <h3>Drag files here or choose browse to select files</h3>
       </div>
       <app-error-success [errors]="getIsError$ | async"></app-error-success>
+      <span *ngIf="selectedFileName">
+        <h3>{{'Successfully added file  "' + selectedFileName + '".'}}</h3>
+      </span>
     </div>
 
     <div class="form-catalogue-name">
