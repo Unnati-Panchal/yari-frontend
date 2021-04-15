@@ -43,3 +43,12 @@ export interface IResMsg {
     success: boolean;
     msg: string;
 }
+
+export interface IAdminUserDetails {
+    first_name: string;
+    last_name: string;
+    phone_no: string;
+    email_id: string;
+    admin_role: string;
+    admin_designation: string;
+}

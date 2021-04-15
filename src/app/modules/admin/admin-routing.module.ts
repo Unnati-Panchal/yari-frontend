@@ -18,6 +18,15 @@ const routes: Routes = [
         loadChildren: () => import('~admin/forgot-password/forgot-password.module').then(m => m.ForgotPasswordModule),
       },
       {
+        path: 'reset-password',
+        loadChildren: () => import('~admin/reset-password/reset-password.module').then(m => m.ResetPasswordModule),
+      },
+      {
+        path: 'super-user',
+        loadChildren: () => import('~admin/super-user/super-user.module').then(m => m.SuperUserModule),
+        canActivate: [AdminAuthGuard]
+      },
+      {
         path: 'catalogue-management',
         loadChildren: () => import('~admin/catalogue-management/catalogue-management.module').then(m => m.CatalogueManagementModule),
         canActivate: [AdminAuthGuard]
@@ -27,7 +36,7 @@ const routes: Routes = [
         loadChildren: () => import('~admin/key-account-management/key-account-management.module').then(m => m.KeyAccountManagementModule),
         canActivate: [AdminAuthGuard]
       },
-      { path: '**', redirectTo: '/admin/login'}
+      { path: '**', redirectTo: '/admin/login' }
     ]
   }
 ];
