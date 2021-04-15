@@ -107,8 +107,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       average_monthly_stock: ['', [Validators.required, CustomValidator.digitsOnly]],
       primary_category_id: ['', [Validators.required]],
       selfOnboarded: ['', [Validators.required]],
-      has_gst: ['', [Validators.required]],
-      gst_no: [''],
+      gst_no: ['', [Validators.required]],
       pan_no: ['', [Validators.required]],
       bank_account_name: ['', [Validators.required]],
       bank_account_number: ['', [Validators.required]],
@@ -119,17 +118,6 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       onboarder_id: [''],
       termsAndConditions: [false, [Validators.requiredTrue]]
     });
-
-    this._subscription.add(
-      this.regForm.get('has_gst').valueChanges.subscribe( val => {
-        if (val) {
-          this.regForm.get('gst_no').setValidators([Validators.required]);
-        } else {
-          this.regForm.get('gst_no').clearValidators();
-        }
-        this.regForm.updateValueAndValidity();
-      })
-    );
 
     this._subscription.add(
       this.regForm.get('selfOnboarded').valueChanges.subscribe( val => {
