@@ -3,5 +3,11 @@
   <button *ngIf="adminDetails$ | async as adminDetails" mat-button class="logout" (click)="logout()">
     <span>Log Out</span>
   </button>
+  <div *ngIf="adminDetails$ | async as adminDetails">
+    <div class="name-div">
+      <span class="hi-span">Hi </span>
+      <span>{{adminDetails?.first_name | titlecase}}</span>
+    </div>
+  </div>
 </header>
 <router-outlet></router-outlet>
