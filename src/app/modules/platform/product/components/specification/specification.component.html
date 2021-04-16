@@ -97,6 +97,14 @@
           </table>
         </div>
 
+        <div class="paginator">
+          <mat-paginator *ngIf="!loading && dataSource?.data?.length"
+                         [pageSizeOptions]="paginationSizes"
+                         [pageSize]="defaultPageSize"
+                         showFirstLastButtons>
+          </mat-paginator>
+        </div>
+
         <article>
           <button *ngIf="!submitBtnLoading else BtnLoading" mat-button (click)="submit()">Submit</button>
           <ng-template #BtnLoading>
