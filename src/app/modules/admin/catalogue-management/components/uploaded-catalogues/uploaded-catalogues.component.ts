@@ -1,11 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
 import { AdminService } from '@yaari/services/admin/admin.service';
-import { AuthService } from '@yaari/services/auth/auth.service';
 import * as fileSaver from 'file-saver';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -23,10 +20,7 @@ export class UploadedCataloguesComponent implements OnInit, OnDestroy {
   constructor(
     private _store: Store<IAppState>,
     private _adminService: AdminService,
-    private _appFacade: AppFacade,
-    private _auth: AuthService,
-    private _snackBar: MatSnackBar,
-    private _router: Router
+    private _appFacade: AppFacade
   ) { }
 
 
@@ -50,24 +44,11 @@ export class UploadedCataloguesComponent implements OnInit, OnDestroy {
   );
   ngOnInit(): void {
     this._appFacade.clearMessages();
-    this.authorizedAdmin();
+    this._adminService.authorizedAdmin('catalogue_management');
   }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
-  }
-
-  public authorizedAdmin(): void {
-    this._auth.adminDetails().subscribe(adminDetails => {
-      // this.loading = false;
-      if (adminDetails.admin_role !== 'catalogue_management') {
-        this._snackBar.open('Unauthorized Access', '', { duration: 3000 });
-        this._router.navigate([`/admin/${adminDetails.admin_role.split('_').join('-')}`]);
-      }
-      else {
-        this.getUploadedCatalogues();
-      }
-    });
   }
 
   public applyFilter(filterValue: string): void {

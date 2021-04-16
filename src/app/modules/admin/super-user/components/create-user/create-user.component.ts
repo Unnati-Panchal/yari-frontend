@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IResMsg } from '@yaari/models/admin/admin.interface';
 import { AdminService } from '@yaari/services/admin/admin.service';
+import { AppFacade } from '~app/store/app.state';
 
 @Component({
   selector: 'app-create-user',
@@ -12,6 +13,7 @@ import { AdminService } from '@yaari/services/admin/admin.service';
 export class CreateUserComponent implements OnInit {
 
   constructor(
+    private _appFacade: AppFacade,
     private _adminService: AdminService,
     private _snackbar: MatSnackBar
   ) { }
@@ -31,6 +33,8 @@ export class CreateUserComponent implements OnInit {
   });
 
   ngOnInit(): void {
+    this._appFacade.clearMessages();
+    this._adminService.authorizedAdmin('super_user');
     this.getAllRolesAndDesignations();
   }
 
@@ -49,15 +53,8 @@ export class CreateUserComponent implements OnInit {
     this._adminService.createAdminUser(this.createUserForm.value).subscribe((res: IResMsg) => {
       this._snackbar.open(res.msg, '', { duration: 3000 });
       if (res.success === true) {
-        this.createUserForm.reset();
-        this.createUserForm.controls.first_name.setErrors(null);
-        this.createUserForm.controls.last_name.setErrors(null);
-        this.createUserForm.controls.email_id.setErrors(null);
-        this.createUserForm.controls.phone_no.setErrors(null);
-        this.createUserForm.controls.admin_role.setErrors(null);
-        this.createUserForm.controls.admin_designation.setErrors(null);
+        window.location.reload();
       }
     });
   }
 }
-

@@ -1,8 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
-import { AuthService } from '@yaari/services/auth/auth.service';
+import { AdminService } from '@yaari/services/admin/admin.service';
 import { Subscription } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { AppFacade, IAppState } from '~app/store/app.state';
@@ -27,9 +25,7 @@ export class CatalogueManagementComponent implements OnInit, OnDestroy {
   constructor(
     private _store: Store<IAppState>,
     private _appFacade: AppFacade,
-    private _auth: AuthService,
-    private _snackBar: MatSnackBar,
-    private _router: Router,
+    private _adminService: AdminService
   ) { }
 
   menus: any = [
@@ -41,18 +37,9 @@ export class CatalogueManagementComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._appFacade.clearMessages();
     this._store.dispatch(fromAuthActions.adminDetails());
-    this.authorizedAdmin();
+    this._adminService.authorizedAdmin('catalogue_management');
   }
 
-  public authorizedAdmin(): void {
-    this._auth.adminDetails().subscribe(adminDetails => {
-      this.loading = false;
-      if (adminDetails.admin_role !== 'catalogue_management') {
-        this._snackBar.open('Unauthorized Access', '', { duration: 3000 });
-        this._router.navigate([`/admin/${adminDetails.admin_role.split('_').join('-')}`]);
-      }
-    });
-  }
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
   }

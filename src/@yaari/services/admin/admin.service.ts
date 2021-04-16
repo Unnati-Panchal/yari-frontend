@@ -1,16 +1,24 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { ICatalogueApprove, ICatalogueProducts, IUploadedCatalogue, IResMsg, IAdminUserDetails } from '@yaari/models/admin/admin.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { IAdminUserDetails, ICatalogueApprove, ICatalogueProducts, IResMsg, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
 import { IResetPassword } from '@yaari/models/auth/auth.interface';
 import { Observable } from 'rxjs';
 import { environment } from '~env/environment';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
 
-  constructor(private _http: HttpClient) { }
+  constructor(
+    private _http: HttpClient,
+    private _snackbar: MatSnackBar,
+    private _auth: AuthService,
+    private _router: Router
+    ) { }
 
   public forgotPasswordAdmin(email: string): Observable<{ msg: string }> {
     const url = window.location.href.split('forgot-password').join('reset-password');
@@ -49,6 +57,14 @@ export class AdminService {
   public createAdminUser(adminUserDetails: IAdminUserDetails): Observable<IResMsg> {
     const body = adminUserDetails;
     return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/register/admin-user`, body);
+  }
+  public authorizedAdmin(role: string): void {
+    this._auth.adminDetails().subscribe(adminDetails => {
+      if (adminDetails.admin_role !== role) {
+        this._snackbar.open('Unauthorized Access', '', { duration: 3000 });
+        this._router.navigate([`/admin/${adminDetails.admin_role.split('_').join('-')}`]);
+      }
+    });
   }
 }
 
