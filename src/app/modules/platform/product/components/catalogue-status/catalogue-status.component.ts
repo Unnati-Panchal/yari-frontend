@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {combineLatest, Subscription} from 'rxjs';
 import * as moment from 'moment';
@@ -17,7 +17,7 @@ import {MatPaginator} from '@angular/material/paginator';
   templateUrl: './catalogue-status.component.html',
   styleUrls: ['./catalogue-status.component.scss']
 })
-export class CatalogueStatusComponent implements OnInit, OnDestroy, AfterViewInit {
+export class CatalogueStatusComponent implements OnInit, OnDestroy {
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl()
@@ -134,10 +134,6 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy, AfterViewIni
 
   setTableDataSource(data: IBulkUploadBasic[]): void {
     this.dataSource = new MatTableDataSource<any>(data);
-    this.dataSource.paginator = this.matPaginator;
-  }
-
-  ngAfterViewInit(): void {
-    this.dataSource.paginator = this.matPaginator;
+    setTimeout( () => this.dataSource.paginator = this.matPaginator);
   }
 }
