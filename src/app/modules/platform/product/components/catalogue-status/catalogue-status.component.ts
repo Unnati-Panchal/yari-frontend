@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {AfterViewInit, Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {combineLatest, Subscription} from 'rxjs';
 import * as moment from 'moment';
@@ -9,19 +9,20 @@ import {IAppState} from '~store/app.state';
 import * as fromProductsSelectors from '~store/products/products.selectors';
 import {filter} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-catalogue-status',
   templateUrl: './catalogue-status.component.html',
   styleUrls: ['./catalogue-status.component.scss']
 })
-export class CatalogueStatusComponent implements OnInit, OnDestroy {
+export class CatalogueStatusComponent implements OnInit, OnDestroy, AfterViewInit {
   range = new FormGroup({
     start: new FormControl(),
     end: new FormControl()
   });
   displayedColumns: string[] = ['sr_no', 'catalogue_id', 'type_of_product', 'date_uploaded', 'status', 'views', 'shares'];
-  dataSource: IBulkUploadBasic[];
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();
   private allStatuses: IBulkUploadStatus[];
@@ -33,6 +34,10 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   selectDate: string;
   intervalSubscription;
   timerQuery;
+  paginationSizes: number[] = [5, 15, 30, 60, 100];
+  defaultPageSize = this.paginationSizes[0];
+  public dataSource = new MatTableDataSource([]);
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
 
   constructor(private _store: Store<IAppState>, private router: Router) { }
 
@@ -56,7 +61,7 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
     const sessionStoredData = JSON.parse(sessionStorage.getItem('catalogStatuses'));
     const availableTime = JSON.parse(sessionStorage.getItem('timerQuery'));
     if (sessionStoredData?.length) {
-      this.dataSource = sessionStoredData;
+      this.setTableDataSource(sessionStoredData);
       if (availableTime) {
         this.range.get('start').setValue(availableTime.startDate);
         this.range.get('end').setValue(availableTime.endDate);
@@ -118,7 +123,7 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
           const displayed = res.concat(currentStatuses);
           sessionStorage.removeItem('catalogStatuses');
           sessionStorage.setItem('catalogStatuses', JSON.stringify(displayed));
-          this.dataSource = displayed;
+          this.setTableDataSource(displayed);
         })
     );
   }
@@ -127,4 +132,12 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
     this.router.navigate([`app/product/catalogue-details/${catalogue.catalog_name}`]);
   }
 
+  setTableDataSource(data: IBulkUploadBasic[]): void {
+    this.dataSource = new MatTableDataSource<any>(data);
+    this.dataSource.paginator = this.matPaginator;
+  }
+
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.matPaginator;
+  }
 }
