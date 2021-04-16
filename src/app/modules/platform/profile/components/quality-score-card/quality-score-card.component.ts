@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import * as moment from 'moment';
@@ -8,6 +8,8 @@ import * as fromProfileSelectors from '~store/profile/profile.selectors';
 import {filter} from 'rxjs/operators';
 import {IAppState} from '~store/app.state';
 import * as fromProfileActions from '~store/profile/profile.actions';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-quality-score-card',
@@ -22,13 +24,16 @@ export class QualityScoreCardComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'sr_no', 'sku_id', 'quality_rating', 'quality_score', 'shared', 'product_catalog_id'];
   selectedDate: IQuery;
-  dataSource: IQualityScoreCard[];
   private _subscription: Subscription = new Subscription();
   public qualityScoreCard$ = this._store.pipe(select(fromProfileSelectors.qualityScoreCard$), filter(q => !!q));
   public isError$ = this._store.pipe(select(fromProfileSelectors.getIsError$), filter(q => !!q));
   loading: boolean;
-  submitted: boolean;
   selectDate: string;
+
+  paginationSizes: number[] = [5, 15, 30, 60, 100];
+  defaultPageSize = this.paginationSizes[0];
+  public dataSource = new MatTableDataSource([]);
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
 
   constructor(private _store: Store<IAppState>) { }
 
@@ -57,7 +62,6 @@ export class QualityScoreCardComponent implements OnInit, OnDestroy {
       return;
     }
     this.loading = true;
-    this.submitted = true;
     this._store.dispatch(fromProfileActions.getQualityScoreCard({query}));
   }
 
@@ -65,9 +69,16 @@ export class QualityScoreCardComponent implements OnInit, OnDestroy {
     this._subscription.add(
       this.qualityScoreCard$.subscribe((response) => {
         this.loading = false;
-        this.dataSource = response;
+        this.setTableDataSource(response);
       })
     );
+  }
+
+  setTableDataSource(data: IQualityScoreCard[]): void {
+    this.dataSource = new MatTableDataSource<any>(data);
+    setTimeout( () => {
+      this.dataSource.paginator = this.matPaginator;
+    });
   }
 
 }
