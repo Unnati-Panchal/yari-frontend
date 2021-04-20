@@ -45,7 +45,7 @@ export class CatalogueStatusByIdComponent implements OnInit, OnDestroy {
     this._subscription.add(
       this.getSelectedCatalogue$.subscribe((response) => {
         this.loading = false;
-        this.dataSource = response.errors.map(error => {
+        this.dataSource = response.errors?.map(error => {
           return {
             ...error,
             catalog_name: response.catalog_name
