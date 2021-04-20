@@ -21,6 +21,7 @@ import {SharedModule} from '@yaari/shared.module';
 import {MatSelectModule} from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
 import {PickupAddressComponent} from '~platform/profile/components/pickup-address/pickup-address.component';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @NgModule({
   declarations: [
@@ -33,22 +34,23 @@ import {PickupAddressComponent} from '~platform/profile/components/pickup-addres
     ContactUsPageComponent,
     PickupAddressComponent
   ],
-  imports: [
-    CommonModule,
-    ProfileRoutingModule,
-    MatDatepickerModule,
-    ReactiveFormsModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatTableModule,
-    MatNativeDateModule,
-    MatProgressSpinnerModule,
-    MatIconModule,
-    MatInputModule,
-    SharedModule,
-    MatSelectModule,
-    MatRadioModule,
-  ]
+    imports: [
+        CommonModule,
+        ProfileRoutingModule,
+        MatDatepickerModule,
+        ReactiveFormsModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatTableModule,
+        MatNativeDateModule,
+        MatProgressSpinnerModule,
+        MatIconModule,
+        MatInputModule,
+        SharedModule,
+        MatSelectModule,
+        MatRadioModule,
+        MatPaginatorModule,
+    ]
 })
 export class ProfileModule {
 }

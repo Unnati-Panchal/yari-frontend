@@ -55,9 +55,9 @@ export const profileInitialState: IProfileState = {
   id: '',
   images: null,
   payments: [],
-  ratingsAndReviews: [],
-  exchangedReturned: [],
-  qualityScorecard: [],
+  ratingsAndReviews: undefined,
+  exchangedReturned: undefined,
+  qualityScorecard: undefined,
   pickupAddress: {full_name: ''}
 };
 

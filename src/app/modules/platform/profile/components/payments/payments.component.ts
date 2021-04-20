@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import * as moment from 'moment';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
@@ -8,6 +8,8 @@ import {select, Store} from '@ngrx/store';
 import {IAppState} from '~store/app.state';
 import * as fromProfileSelectors from '~store/profile/profile.selectors';
 import {filter} from 'rxjs/operators';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-payments',
@@ -22,7 +24,6 @@ export class PaymentsComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'sr_no', 'order_id', 'sku_id', 'product_name', 'created_time', 'shipped_time', 'order_status', 'payment_status'
   ];
-  dataSource: IPayment[];
   loading: boolean;
   submitted: boolean;
 
@@ -32,6 +33,11 @@ export class PaymentsComponent implements OnInit, OnDestroy {
   public isError$ = this._store.pipe(select(fromProfileSelectors.getIsError$), filter(err => !!err));
 
   private _subscription: Subscription = new Subscription();
+
+  paginationSizes: number[] = [5, 15, 30, 60, 100];
+  defaultPageSize = this.paginationSizes[0];
+  public dataSource = new MatTableDataSource([]);
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
 
   constructor(private _store: Store<IAppState>) { }
 
@@ -52,7 +58,7 @@ export class PaymentsComponent implements OnInit, OnDestroy {
 
     this._subscription.add(
       this.getSupplierSettlement$.subscribe( (payments) => {
-        this.dataSource = payments;
+        this.setTableDataSource(payments);
         this.loading = false;
       })
     );
@@ -73,4 +79,8 @@ export class PaymentsComponent implements OnInit, OnDestroy {
     this._store.dispatch(fromProfileActions.getSupplierSettlement({query}));
   }
 
+  setTableDataSource(data: IPayment[]): void {
+    this.dataSource = new MatTableDataSource<any>(data);
+    setTimeout( () => this.dataSource.paginator = this.matPaginator);
+  }
 }
