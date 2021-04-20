@@ -94,9 +94,10 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
       combineLatest([this.getCatalogues$])
         .subscribe(([catalogs]) => {
           this.loading = false;
+          const res = [...catalogs].sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
           sessionStorage.removeItem('catalogStatuses');
-          sessionStorage.setItem('catalogStatuses', JSON.stringify(catalogs));
-          this.dataSource = catalogs;
+          sessionStorage.setItem('catalogStatuses', JSON.stringify(res));
+          this.dataSource = res;
         })
     );
   }
