@@ -4,7 +4,12 @@
       <div class="my-profile">
         <section>
           <ng-container *ngIf="supplierDetails$ | async as supplierDetails">
-            <img [src]="supplierDetails.profile_image" alt="user image"/>
+            <ng-container *ngIf="supplierDetails?.profile_image; else defaultUserImage">
+              <img [src]="supplierDetails.profile_image" alt="user image"/>
+            </ng-container>
+            <ng-template #defaultUserImage>
+              <img [src]="'/assets/images/registration.png'" alt="user image"/>
+            </ng-template>
           </ng-container>
           <div>
             <p>{{(supplierDetails$ | async)?.contact_person || ''}}</p>
