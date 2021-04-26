@@ -32,6 +32,7 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   selectDate: string;
   intervalSubscription;
   timerQuery;
+  maxDate = new Date();
   paginationSizes: number[] = [5, 15, 30, 60, 100];
   defaultPageSize = this.paginationSizes[0];
   public dataSource = new MatTableDataSource([]);
