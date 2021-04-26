@@ -31,6 +31,7 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   selectDate: string;
   intervalSubscription;
   timerQuery;
+  maxDate = new Date();
 
   constructor(private _store: Store<IAppState>, private router: Router) { }
 
