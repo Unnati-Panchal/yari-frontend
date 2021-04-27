@@ -78,6 +78,11 @@
 
           div {
             padding: $yaari-tiny 0;
+
+
+            ::ng-deep .mat-checkbox-layout {
+              white-space: pre-wrap;
+            }
           }
 
           @include media-breakpoint(lt-lg) {

@@ -16,6 +16,12 @@
         padding: $yaari-small;
       }
 
+      .date-range-form {
+        @include media-breakpoint(lt-sm) {
+          @include yaari-display-flex(center, center, column);
+        }
+      }
+
       .loading-spinner {
         @include yaari-display-flex(center, center);
       }
@@ -83,6 +89,10 @@
 
             @include media-breakpoint(lt-md) {
               width: 100%;
+            }
+
+            @include media-breakpoint(lt-sm) {
+              @include yaari-display-flex(center, center, column);
             }
           }
 
