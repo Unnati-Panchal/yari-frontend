@@ -17,6 +17,8 @@ export class PlatformComponent implements OnInit {
     filter(details => !!details)
   );
   public isMenuOpened: boolean;
+  // tslint:disable-next-line:max-line-length
+  public defaultImage = 'https://s3.ap-south-1.amazonaws.com/yaari-main-qa/yaari/security_images/bae1377de5da5a9edb8dce8e2eaac3c2_image.png';
 
   constructor(private _auth: AuthService, private _store: Store<IAppState>) { }
 
