@@ -8,7 +8,7 @@
               <img [src]="supplierDetails.profile_image" alt="user image"/>
             </ng-container>
             <ng-template #defaultUserImage>
-              <img [src]="'./assets/images/registration.png'" alt="user image"/>
+              <img [src]="defaultImage" alt="user image"/>
             </ng-template>
           </ng-container>
           <div>
@@ -85,6 +85,8 @@
         </button>
       </div>
     </header>
-    <router-outlet></router-outlet>
+    <section class="outlet-section">
+      <router-outlet></router-outlet>
+    </section>
   </mat-drawer-content>
 </mat-drawer-container>

@@ -4,8 +4,8 @@
     <div class="red-line"></div>
 
     <ng-container *ngIf="!isSelectedCatalogue; else currentCatalogue">
-      <h5>Select Date Range</h5>
-      <div>
+      <h5 class="date-range-form">Select Date Range</h5>
+      <div class="date-range-form">
         <mat-form-field appearance="outline">
           <mat-label>Enter a date range</mat-label>
           <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [max]="maxDate">
@@ -53,7 +53,7 @@
         </div>
 
         <div class="table-box">
-          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8 crazy-table">
+          <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
             <ng-container matColumnDef="sr_no">
               <th mat-header-cell *matHeaderCellDef> Sr. No. </th>
@@ -95,6 +95,14 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
           </table>
+        </div>
+
+        <div class="paginator">
+          <mat-paginator *ngIf="!loading && dataSource?.data?.length"
+                         [pageSizeOptions]="paginationSizes"
+                         [pageSize]="defaultPageSize"
+                         showFirstLastButtons>
+          </mat-paginator>
         </div>
 
         <article>

@@ -9,6 +9,7 @@ import * as fromAuthActions from '~store/auth/auth.actions';
 
 import {AuthService} from '@yaari/services/auth/auth.service';
 import {
+  IAdminDetails,
   IEditSupplierProfile,
   ILogin,
   IOnboarders,
@@ -55,6 +56,18 @@ export class AuthEffects {
         this._authService.supplierDetails().pipe(
           map((supplierDetails: IRegistration) => fromAuthActions.supplierDetailsSuccess({ supplierDetails })),
           catchError(error => of(fromAuthActions.supplierDetailsError({ error })))
+        )
+      )
+    )
+  );
+
+  public adminDetails$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAuthActions.adminDetails),
+      switchMap(() =>
+        this._authService.adminDetails().pipe(
+          map((adminDetails: IAdminDetails) => fromAuthActions.adminDetailsSuccess({ adminDetails })),
+          catchError(error => of(fromAuthActions.adminDetailsError({ error })))
         )
       )
     )

@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {combineLatest, Subscription} from 'rxjs';
 import * as fromProductsActions from '~store/products/products.actions';
@@ -11,6 +11,8 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import * as moment from 'moment';
 import {Utilities} from '@yaari/utils/utlis';
 import {HttpErrorResponse} from '@angular/common/http';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-specification',
@@ -24,7 +26,6 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   });
   displayedColumns: string[];
   specKeys: string[];
-  dataSource: ICatalogProducts[];
   loading: boolean;
   submitBtnLoading: boolean;
   selectedDate: IQuery;
@@ -55,6 +56,12 @@ export class SpecificationComponent implements OnInit, OnDestroy {
     tap(() => this.clearMessages())
   );
   public getCatalogues$ = this._store.pipe(select(fromProductsSelectors.getCatalogs), filter(catalogs => !!catalogs));
+
+  paginationSizes: number[] = [5, 15, 30, 60, 100];
+  defaultPageSize = this.paginationSizes[0];
+  public dataSource = new MatTableDataSource([]);
+  tableDataSource: ICatalogProducts[];
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
 
   constructor(private _store: Store<IAppState>, private _snackBar: MatSnackBar) { }
 
@@ -91,13 +98,14 @@ export class SpecificationComponent implements OnInit, OnDestroy {
         .subscribe(([catalogueProducts, specTemplate]) => {
         this.specKeys = [...new Set(specTemplate)];
         this.displayedColumns = ['sr_no', 'sku_id', 'product_name', ...this.specKeys, 'next_day_dispatch'];
-        this.dataSource = catalogueProducts.map( (item) => {
+        this.tableDataSource = catalogueProducts.map( (item) => {
           const specDetails = this.specKeys.map( key => item.specifications[key]);
           return {
             ...item,
             specDetails: item?.specifications ? specDetails : []
           };
         });
+        this.setTableDataSource(this.tableDataSource);
         this.loading = false;
       })
     );
@@ -120,7 +128,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
 
   submit(): void {
     this.submitBtnLoading = true;
-    const specifications = this.dataSource.map( (item: any) => {
+    const specifications = this.tableDataSource.map( (item: any) => {
       return {
         id: item.id,
         sku_id: item.sku_id,
@@ -160,6 +168,13 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   deleteCatalogue(catalogueId: number): void {
     const catalogId = catalogueId.toString();
     this._store.dispatch(fromProductsActions.deleteCatalog({catalogId}));
+  }
+
+  setTableDataSource(data: ICatalogProducts[]): void {
+    this.dataSource = new MatTableDataSource<any>(data);
+    setTimeout( () => {
+      this.dataSource.paginator = this.matPaginator;
+    });
   }
 
 }

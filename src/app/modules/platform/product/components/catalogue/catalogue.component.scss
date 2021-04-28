@@ -3,13 +3,10 @@
 
 :host {
   main {
-    width: 100%;
-    height: calc(100vh - 100px);
-    @include yaari-display-flex();
-
     &.catalogue-main {
-      min-height: yaari-to-rem(750px);
-      overflow: auto;
+      width: 100%;
+      height: calc(100vh - 100px);
+      @include yaari-display-flex();
     }
 
     section {
@@ -48,9 +45,17 @@
     .buttons-container {
       @include yaari-display-flex(center, center, column);
 
+      @include media-breakpoint(lt-sm) {
+        height: calc(100vh + 100px);
+      }
+
       .download-container {
         width: 100%;
         @include yaari-display-flex(center, center);
+
+        @include media-breakpoint(lt-sm) {
+          @include yaari-display-flex(center, center, column);
+        }
 
         section {
           @include yaari-display-flex(center, center, column);
@@ -136,6 +141,20 @@
             mat-form-field {
               width: 70%;
             }
+
+            @include media-breakpoint(lt-sm) {
+              @include yaari-display-flex(center, center, column);
+            }
+          }
+        }
+      }
+
+      .buttons-box {
+        @include media-breakpoint(lt-sm) {
+          @include yaari-display-flex(center, center, column);
+
+          div {
+            padding: $yaari-small;
           }
         }
       }

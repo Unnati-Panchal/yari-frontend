@@ -1,0 +1,11 @@
+<div *ngIf="!video">
+    <div *ngFor="let url of data.urls">
+        <a [href]="url.url" target="_blank">{{url.url}}</a>
+        <br>
+    </div>
+</div>
+<div *ngIf="video">
+    <div>
+        <a [href]="data.urls" target="_blank">{{data.urls}}</a>
+    </div>
+</div>

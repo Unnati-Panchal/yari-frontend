@@ -2,9 +2,9 @@
   <section>
     <h3>Catalogue Status</h3>
     <div class="red-line"></div>
-    <h5>Select Date Range</h5>
+    <h5 class="date-range-form">Select Date Range</h5>
 
-    <div>
+    <div class="date-range-form">
 
       <mat-form-field appearance="outline">
         <mat-label>Enter a date range</mat-label>
@@ -32,7 +32,7 @@
       <app-error-success [errors]="isError$ | async"></app-error-success>
     </div>
 
-    <div *ngIf="!loading && dataSource?.length" class="table-box">
+    <div *ngIf="!loading && dataSource?.data?.length" class="table-box">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
         <ng-container matColumnDef="sr_no">
@@ -81,10 +81,17 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     </div>
+    <div>
+      <mat-paginator *ngIf="!loading && dataSource?.data?.length"
+                     [pageSizeOptions]="paginationSizes"
+                     [pageSize]="defaultPageSize"
+                     showFirstLastButtons>
+      </mat-paginator>
+    </div>
     <div *ngIf="loading" class="centered">
       <mat-spinner color="warn" [diameter]="50"></mat-spinner>
     </div>
-    <div *ngIf="submitted && !loading && !dataSource?.length" class="centered">
+    <div *ngIf="submitted && !loading && !dataSource?.data?.length" class="centered">
       <p>Oops, nothing found.</p>
     </div>
   </section>

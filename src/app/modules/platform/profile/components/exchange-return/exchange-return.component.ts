@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import * as moment from 'moment';
@@ -8,6 +8,8 @@ import * as fromProfileSelectors from '~store/profile/profile.selectors';
 import {filter} from 'rxjs/operators';
 import {IAppState} from '~store/app.state';
 import * as fromProfileActions from '~store/profile/profile.actions';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
 
 
 @Component({
@@ -22,16 +24,19 @@ export class ExchangeReturnComponent implements OnInit, OnDestroy {
   });
   displayedColumns: string[] = [
     'serial_num', 'order_id', 'product_sku_id', 'shipped_date', 'exchange_or_return_date', 'product_type', 'penalty', 'penalty_amount'];
-  dataSource: IExchangeReturned[];
   public exchangedReturned$ = this._store.pipe(select(fromProfileSelectors.exchangedReturned$));
   public isError$ = this._store.pipe(select(fromProfileSelectors.getIsError$), filter(err => !!err));
   loading: boolean;
-  submitted: boolean;
   selectedDate: IQuery;
   eSalesStatus = ESalesStatus;
   selectDate: string;
 
   private _subscription: Subscription = new Subscription();
+
+  paginationSizes: number[] = [5, 15, 30, 60, 100];
+  defaultPageSize = this.paginationSizes[0];
+  public dataSource = new MatTableDataSource([]);
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
 
   constructor(private _store: Store<IAppState>) { }
 
@@ -55,7 +60,6 @@ export class ExchangeReturnComponent implements OnInit, OnDestroy {
       return;
     }
     this.loading = true;
-    this.submitted = true;
     this._store.dispatch(fromProfileActions.getExchangedReturned({query}));
   }
 
@@ -73,14 +77,21 @@ export class ExchangeReturnComponent implements OnInit, OnDestroy {
     this._subscription.add(
       this.exchangedReturned$.subscribe((response) => {
         this.loading = false;
-        this.dataSource = response;
+        this.setTableDataSource(response);
       })
     );
     this._subscription.add(
       this.isError$.subscribe(() => {
         this.loading = false;
-        this.dataSource = [];
+        this.setTableDataSource([]);
       })
     );
+  }
+
+  setTableDataSource(data: IExchangeReturned[]): void {
+    this.dataSource = new MatTableDataSource<any>(data);
+    setTimeout( () => {
+      this.dataSource.paginator = this.matPaginator;
+    });
   }
 }

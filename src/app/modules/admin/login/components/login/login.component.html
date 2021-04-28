@@ -1,0 +1,71 @@
+<div class="login">
+    <div class="logo-div">
+        <img src="assets/images/yaari-login.png" class="left-image">
+    </div>
+    <div class="login-container">
+        <form [formGroup]="loginForm" class="field-350">
+            <section>
+                <!-- <div class="drpdwn">
+                    <mat-form-field floatLabel="never" style="width: 280px;" appearance="none"
+                    [ngClass]="{'invalid-field':loginForm.controls.admin_user_role.touched && loginForm.controls.admin_user_role.hasError('required')}">
+                        <mat-select disableOptionCentering placeholder="Select Profile"
+                            formControlName="admin_user_role">
+                            <mat-option *ngFor="let role of admin_roles" [value]="role.value">{{ role.name }}</mat-option>
+                        </mat-select>
+                        <mat-error class="error" *ngIf="loginForm.controls.admin_user_role.hasError('required')">Please Select a Profile</mat-error>
+                    </mat-form-field>
+                </div> -->
+
+                <div class="form-div">
+                    <h4 class="labels">Login ID</h4>
+                    <div class="login-password-field"
+                        [ngClass]="{'invalid-field':loginForm.controls.username.touched && loginForm.controls.username.hasError('required')}">
+                        <mat-form-field floatLabel="never" appearance="none" class="field-350">
+                            <input matInput formControlName="username" placeholder="Enter your login ID" email>
+                            <mat-error class="error" *ngIf="loginForm.controls.username.hasError('required')">Email is
+                                required</mat-error>
+                            <mat-error class="error" *ngIf="loginForm.controls.username.hasError('email')">
+                                Please enter a valid email address</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="labels">Password</h4>
+                    <div class="login-password-field"
+                        [ngClass]="{'invalid-field':loginForm.controls.password.touched && loginForm.controls.password.hasError('required')}">
+                        <mat-form-field floatLabel="never" appearance="none" class="field-350">
+                            <input matInput formControlName="password" [type]="!hide ? 'password' : 'text'"
+                                placeholder="Enter your password">
+                            <button mat-icon-button matSuffix>
+                                <mat-icon (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                            </button>
+                            <mat-error class="error" *ngIf="loginForm.controls.password.hasError('required')">Password
+                                is required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="error-success">
+                    <app-error-success [errors]="isError$ | async"></app-error-success>
+                </div>
+
+                <div class="forgot">
+                    <a [routerLink]="['../forgot-password']">Forgot Password?</a>
+                </div>
+                <div class="sign-div">
+                    <button *ngIf="!loading else LoadingSpinner" mat-button class="signin" (click)="login()">Sign
+                        In</button>
+                </div>
+
+                <ng-template #LoadingSpinner>
+                    <button mat-button class="signin">
+                        <mat-spinner [diameter]="25" class="spinner"></mat-spinner>
+                    </button>
+                </ng-template>
+            </section>
+
+
+        </form>
+    </div>
+</div>

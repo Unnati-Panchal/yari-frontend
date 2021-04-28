@@ -11,6 +11,10 @@
       margin: $yaari-large / 2 $yaari-large * 2;
       width: $yaari-large;
       cursor: pointer;
+
+      @include media-breakpoint(lt-sm) {
+        margin: $yaari-large / 2 $yaari-tiny;
+      }
     }
 
     img:focus {

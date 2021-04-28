@@ -8,16 +8,33 @@
     overflow: auto;
     @include yaari-display-flex();
 
+    h3 {
+      @include media-breakpoint(lt-sm) {
+        padding-left: $yaari-small;
+      }
+    }
+
     section {
       width: 100%;
       padding: $yaari-base * 2 yaari-to-rem(120px) 0 yaari-to-rem(120px);
 
       @include media-breakpoint(lt-md) {
-        padding: $yaari-small;
+        padding: 0 0 0 $yaari-small;
+      }
+
+      @include media-breakpoint(lt-sm) {
+        padding: 0;
+      }
+
+      .date-range-form {
+        @include media-breakpoint(lt-sm) {
+          @include yaari-display-flex(center, center, column);
+        }
       }
 
       div {
         width: 100%;
+        overflow: auto;
         @include yaari-display-flex(center, flex-start);
 
         &.table-box {
@@ -26,6 +43,10 @@
 
         table {
           width: 100%;
+        }
+
+        &.table-box {
+          padding: 0;
         }
 
         &.centered {
@@ -63,6 +84,10 @@
         width: yaari-to-rem(100px);
         height: $yaari-tiny;
         background: $yaari-red;
+
+        @include media-breakpoint(lt-sm) {
+          margin-left: $yaari-small;
+        }
       }
 
       button {
@@ -78,4 +103,8 @@
 
     }
   }
+}
+
+.paginator {
+  margin-top: $yaari-base;
 }

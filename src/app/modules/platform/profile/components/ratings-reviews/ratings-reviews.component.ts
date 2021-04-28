@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {Subscription} from 'rxjs';
 import * as fromProfileActions from '~store/profile/profile.actions';
@@ -7,6 +7,8 @@ import {IAppState} from '~store/app.state';
 import * as fromProfileSelectors from '~store/profile/profile.selectors';
 import {filter} from 'rxjs/operators';
 import {IRatingAndReviews} from '@yaari/models/product/product.interface';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-ratings-reviews',
@@ -20,12 +22,15 @@ export class RatingsReviewsComponent implements OnInit, OnDestroy {
   });
   displayedColumns: string[] = [
     'sr_no',  'sku_id', 'product_name', 'sale', 'rating', 'reviews', 'viewed', 'shared'];
-  dataSource: IRatingAndReviews[];
   public getRatingAndReviews$ = this._store.pipe(select(fromProfileSelectors.getRatingAndReviews$), filter(value => !!value));
   loading: boolean;
-  submitted: boolean;
 
   private _subscription: Subscription = new Subscription();
+
+  paginationSizes: number[] = [5, 15, 30, 60, 100];
+  defaultPageSize = this.paginationSizes[0];
+  public dataSource = new MatTableDataSource([]);
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
 
   constructor(private _store: Store<IAppState>) { }
 
@@ -34,29 +39,21 @@ export class RatingsReviewsComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // this._subscription.add(
-    //   this.range.valueChanges.subscribe( range => {
-    //     const start = moment(range.start)?.format('YYYY-MM-DD');
-    //     const end = moment(range.end)?.format('YYYY-MM-DD');
-    //     if (start && end && start !== 'Invalid date' && end !== 'Invalid date') {
-    //       console.log({startDate: start, endDate: end});
-    //     }
-    //   })
-    // );
     this.loading = true;
     this._store.dispatch(fromProfileActions.getRatingAndReviews());
 
     this._subscription.add(
       this.getRatingAndReviews$.subscribe( (ratingsAndReviews) => {
-        this.dataSource = ratingsAndReviews;
+        this.setTableDataSource(ratingsAndReviews);
         this.loading = false;
-        this.submitted = true;
       })
     );
-
   }
 
-  // public viewBtn(): void {
-  //
-  // }
+  setTableDataSource(data: IRatingAndReviews[]): void {
+    this.dataSource = new MatTableDataSource<any>(data);
+    setTimeout( () => {
+      this.dataSource.paginator = this.matPaginator;
+    });
+  }
 }

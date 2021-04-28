@@ -22,3 +22,5 @@ export const supplierDetails$ = createSelector(selectBaseFeature, (state: fromAu
 
 export const url$ = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.url);
 export const getIsMsg$ = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.msg);
+
+export const adminDetails$ = createSelector(selectBaseFeature, (state: fromAuthReducer.IAuthState) => state.adminDetails);

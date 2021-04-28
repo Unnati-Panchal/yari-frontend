@@ -46,6 +46,10 @@
     .content-container {
       margin: yaari-to-rem(50px);
 
+      @include media-breakpoint(lt-sm) {
+        margin: yaari-to-rem(20px);
+      }
+
       h4 {
         padding-top: $yaari-tiny;
         font-size: $yaari-h4;

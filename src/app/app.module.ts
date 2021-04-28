@@ -16,27 +16,31 @@ import {ProductsEffects} from '~store/products/products.effects';
 import * as fromAuth from '~store/auth/auth.reducer';
 import * as fromProducts from '~store/products/products.reducer';
 import * as fromProfile from '~store/profile/profile.reducer';
+import * as fromAdmin from '~store/admin/admin.reducer';
 
 import {AppComponent} from '~app/app.component';
 import {AppRoutingModule} from '~app/app-routing.module';
-import {AuthGuard} from '@yaari/guards/auth.guard';
+import {AdminAuthGuard, AuthGuard} from '@yaari/guards/auth.guard';
 import {TokenInterceptor} from '@yaari/interceptors/token.interceptor';
 import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ProfileEffects} from '~store/profile/profile.effects';
 import {NgxDocViewerModule} from 'ngx-doc-viewer';
 import {TermsAndConditionsComponent} from '~app/modules/terms-and-conditions/terms-and-conditions.component';
+import { AdminEffects } from './store/admin/admin.effects';
 
 const reducers: ActionReducerMap<IAppState> = {
   ['router']: routerReducer,
   [fromAuth.authFeatureKey]: fromAuth.reducer,
   [fromProducts.productFeatureKey]: fromProducts.reducer,
-  [fromProfile.profileFeatureKey]: fromProfile.reducer
+  [fromProfile.profileFeatureKey]: fromProfile.reducer,
+  [fromAdmin.adminFeatureKey]: fromAdmin.reducer
 };
 
 const effects = [
   AuthEffects,
   ProductsEffects,
-  ProfileEffects
+  ProfileEffects,
+  AdminEffects
 ];
 
 export function getReducers(): ActionReducerMap<IAppState> {
@@ -70,10 +74,11 @@ export function getReducers(): ActionReducerMap<IAppState> {
       routerState: RouterState.Minimal
     }),
     EffectsModule.forRoot(effects),
-    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production})
+    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
   ],
   providers: [
     AuthGuard,
+    AdminAuthGuard,
     AppFacade,
     {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
   ],

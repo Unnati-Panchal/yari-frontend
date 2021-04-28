@@ -18,7 +18,8 @@
       "~env/*": ["./src/environments/*"],
       "~store/*": ["./src/app/store/*"],
       "~auth/*": ["./src/app/modules/auth/*"],
-      "~platform/*": ["./src/app/modules/platform/*"]
+      "~platform/*": ["./src/app/modules/platform/*"],
+      "~admin/*":["./src/app/modules/admin/*"]
     }
   }
 }

@@ -1,0 +1,29 @@
+@use 'variables' as *;
+@use 'mixins' as *;
+
+:host {
+  header {
+    width: 100%;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+    height: $header-height;
+
+    img {
+      margin: $yaari-large / 2 $yaari-large * 2;
+      width: $yaari-large;
+      cursor: pointer;
+    }
+
+    img:focus {
+      outline: none;
+    }
+    .logout {
+      border-radius: 24px;
+      font-size: $yaari-h6;
+      background-color: $yaari-light;
+      color: $yaari-red;
+      border: 1px solid $yaari-red;
+      margin: $yaari-large / 2 $yaari-large * 2;
+      float: right;
+    }
+  }
+}
