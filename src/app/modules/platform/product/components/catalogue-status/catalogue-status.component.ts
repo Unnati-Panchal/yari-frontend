@@ -32,6 +32,7 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   selectDate: string;
   intervalSubscription;
   timerQuery;
+  maxDate = new Date();
   paginationSizes: number[] = [5, 15, 30, 60, 100];
   defaultPageSize = this.paginationSizes[0];
   public dataSource = new MatTableDataSource([]);
@@ -99,9 +100,14 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
       combineLatest([this.getCatalogues$])
         .subscribe(([catalogs]) => {
           this.loading = false;
+          let res = [];
+          if (catalogs?.length) {
+            const filteredCatalogs = [...catalogs].filter(item => !!item.catalog_name);
+            res = [...filteredCatalogs].sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
+          }
           sessionStorage.removeItem('catalogStatuses');
-          sessionStorage.setItem('catalogStatuses', JSON.stringify(catalogs));
-          this.setTableDataSource(catalogs);
+          sessionStorage.setItem('catalogStatuses', JSON.stringify(res));
+          this.setTableDataSource(res);
         })
     );
   }

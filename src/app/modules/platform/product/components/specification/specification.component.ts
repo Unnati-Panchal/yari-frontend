@@ -34,6 +34,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   errorMessages: HttpErrorResponse;
   isSelectedCatalogue: string;
   selectDate: string;
+  maxDate = new Date();
 
   private _subscription: Subscription = new Subscription();
   public getCatalogProducts$ = this._store.pipe(

@@ -15,6 +15,8 @@ export interface IFileUpload {
 export interface IBulkUploadBasic {
   id?: number;
   sub_category_name?: string;
+  category_name?: string;
+  comment?: string;
   created_time?: string;
   approved?: boolean | null;
   viewed?: number;
@@ -143,8 +145,18 @@ export interface ICatalogProducts {
 }
 
 export interface IBulkUploadStatus {
+  id?: number;
+  category_name?: string;
+  comment?: string;
+  created_time?: string;
+  approved?: boolean | null;
+  viewed?: number;
+  shared?: number;
+  catalog_name?: string;
+  time_estimate?: string;
+  errors?: IBulkUploadBasicError[];
+
   task_id?: string;
   status?: string;
-  catalog_name: string;
   file_name?: string;
 }

@@ -2,13 +2,13 @@
   <section>
     <h3>Catalogue Status</h3>
     <div class="red-line"></div>
-    <h5>Select Date Range</h5>
+    <h5 class="date-range-form">Select Date Range</h5>
 
-    <div>
+    <div class="date-range-form">
 
       <mat-form-field appearance="outline">
         <mat-label>Enter a date range</mat-label>
-        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker" [max]="maxDate">
           <input matStartDate formControlName="start" placeholder="Start date">
           <input matEndDate formControlName="end" placeholder="End date">
         </mat-date-range-input>

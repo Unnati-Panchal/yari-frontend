@@ -42,7 +42,7 @@ export class ProductsService {
     }
     return this._http.post<IBulkUploadBasic>
     (
-      `${environment.API_BASE_URL}/api/v1/catalog/bulk-upload-basic?catalog_name=${body.catalogue_name}&category_id=${body.category_id}`,
+      `${environment.API_BASE_URL}/api/v1/catalog/bulk-upload-basic?catalog_name=${encodeURIComponent(body.catalogue_name)}&category_id=${body.category_id}`,
       formData
     );
   }
