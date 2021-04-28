@@ -37,6 +37,9 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   defaultPageSize = this.paginationSizes[0];
   public dataSource = new MatTableDataSource([]);
   @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
+  selectedCatalogueName: string;
+  allCatalogs: IBulkUploadBasic[];
+  displayedCatalogs: IBulkUploadBasic[];
 
   constructor(private _store: Store<IAppState>, private router: Router) { }
 
@@ -67,6 +70,13 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
       }
       this.loading = false;
     }
+  }
+
+  public searchByCatalogueName(): void {
+    if (this.selectedCatalogueName) {
+      this.displayedCatalogs = this.allCatalogs.filter(item => item?.catalog_name?.includes(this.selectedCatalogueName));
+    }
+    this.setTableDataSource(this.displayedCatalogs);
   }
 
   public viewBtn(): void {
@@ -104,6 +114,14 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
           if (catalogs?.length) {
             const filteredCatalogs = [...catalogs].filter(item => !!item.catalog_name);
             res = [...filteredCatalogs].sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
+          }
+
+          this.allCatalogs = res;
+          this.displayedCatalogs = res;
+
+          if (this.selectedCatalogueName) {
+            res = res.filter(item => item?.catalog_name?.includes(this.selectedCatalogueName));
+            this.displayedCatalogs = res;
           }
           sessionStorage.removeItem('catalogStatuses');
           sessionStorage.setItem('catalogStatuses', JSON.stringify(res));
