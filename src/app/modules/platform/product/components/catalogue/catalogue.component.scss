@@ -6,7 +6,12 @@
     &.catalogue-main {
       width: 100%;
       height: calc(100vh - 100px);
+      min-height: yaari-to-rem(750px);
       @include yaari-display-flex();
+
+      @include media-breakpoint(lt-sm) {
+        min-height: yaari-to-rem(900px);
+      }
     }
 
     section {
@@ -47,6 +52,7 @@
 
       @include media-breakpoint(lt-sm) {
         height: calc(100vh + 100px);
+        min-height: yaari-to-rem(900px);
       }
 
       .download-container {
