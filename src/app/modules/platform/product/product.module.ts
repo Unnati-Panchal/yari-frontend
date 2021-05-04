@@ -19,6 +19,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIconModule} from '@angular/material/icon';
 import {CatalogueStatusByIdComponent} from './components/catalogue-status/catalogue-status-by-id/catalogue-status-by-id.component';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
 
 @NgModule({
   declarations: [ProductComponent, CatalogueComponent, CatalogueStatusComponent, SpecificationComponent, CatalogueStatusByIdComponent],
@@ -37,7 +38,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
         MatInputModule,
         MatCheckboxModule,
         MatIconModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatSortModule
     ]
 })
 export class ProductModule {

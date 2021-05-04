@@ -11,6 +11,8 @@ import {filter} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
+import {MatSort, Sort} from '@angular/material/sort';
+import {Utilities} from '@yaari/utils/utlis';
 
 @Component({
   selector: 'app-catalogue-status',
@@ -22,7 +24,7 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
     start: new FormControl(),
     end: new FormControl()
   });
-  displayedColumns: string[] = ['sr_no', 'catalogue_id', 'type_of_product', 'date_uploaded', 'status', 'views', 'shares'];
+  displayedColumns: string[] = ['sr_no', 'catalog_name', 'category_name', 'created_time', 'approved', 'viewed', 'shared'];
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();
   public getCatalogues$ = this._store.pipe(select(fromProductsSelectors.getCatalogs), filter(catalogs => !!catalogs));
@@ -37,9 +39,11 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   defaultPageSize = this.paginationSizes[0];
   public dataSource = new MatTableDataSource([]);
   @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) matSort: MatSort;
   selectedCatalogueName: string;
   allCatalogs: IBulkUploadBasic[];
   displayedCatalogs: IBulkUploadBasic[];
+  sort: Sort;
 
   constructor(private _store: Store<IAppState>, private router: Router) { }
 
@@ -104,7 +108,7 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   startTimer(): void {
     this.intervalSubscription = setInterval( () => {
       this._store.dispatch(fromProductsActions.getCatalogs({query: this.timerQuery}));
-    }, 5000);
+    }, 10000);
   }
 
   getCataloguesRes(): void {
@@ -115,7 +119,11 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
           let res = [];
           if (catalogs?.length) {
             const filteredCatalogs = [...catalogs].filter(item => !!item.catalog_name);
-            res = [...filteredCatalogs].sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
+            if (!this.sort) {
+              res = [...filteredCatalogs].sort( (a, b) =>  (a.catalog_name).localeCompare(b.catalog_name));
+            } else {
+              res = Utilities.sortData(this.sort, [...filteredCatalogs]);
+            }
           }
 
           this.allCatalogs = res;
@@ -138,6 +146,18 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
 
   setTableDataSource(data: IBulkUploadBasic[]): void {
     this.dataSource = new MatTableDataSource<any>(data);
-    setTimeout( () => this.dataSource.paginator = this.matPaginator);
+    setTimeout( () => {
+      this.dataSource.paginator = this.matPaginator;
+      this.dataSource.sort = this.matSort;
+    });
+  }
+
+  sortData(sort: Sort): any {
+    this.sort = sort;
+    const sortedData = Utilities.sortData(sort, this.dataSource.data);
+    this.setTableDataSource(sortedData);
   }
 }
+
+
+

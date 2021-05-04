@@ -40,6 +40,12 @@ export interface IQuery {
   status?: ESalesStatus;
 }
 
+export enum ESortDirection {
+  Asc = 'asc',
+  Desc = 'desc',
+  Empty = ''
+}
+
 export enum ESalesStatus {
   Replaced = 'exchanged',
   Returned = 'returned'
