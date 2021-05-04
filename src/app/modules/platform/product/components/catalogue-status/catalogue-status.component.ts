@@ -75,6 +75,8 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   public searchByCatalogueName(): void {
     if (this.selectedCatalogueName) {
       this.displayedCatalogs = this.allCatalogs.filter(item => item?.catalog_name?.includes(this.selectedCatalogueName));
+    } else {
+      this.displayedCatalogs = this.allCatalogs;
     }
     this.setTableDataSource(this.displayedCatalogs);
   }
