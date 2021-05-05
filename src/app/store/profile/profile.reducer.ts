@@ -246,7 +246,7 @@ const profileReducer = createReducer(
   on(fromProfileActions.getPickupAddressSuccess, (state, {pickupAddress}) => ({...state, loading: false, pickupAddress})),
   on(fromProfileActions.getPickupAddressError, (state, {error}) => ({ ...state, loading: false, error })),
 
-  on(fromProfileActions.addPickupAddress, (state, {pickupAddress}) => ({...state, loading: true, pickupAddress})),
+  on(fromProfileActions.addPickupAddress, (state, {reqPickupAddress}) => ({...state, loading: true, reqPickupAddress})),
   on(fromProfileActions.addPickupAddressSuccess, (state, {pickupAddress}) => ({...state, loading: false, pickupAddress})),
   on(fromProfileActions.addPickupAddressError, (state, {error}) => ({ ...state, loading: false, error })),
 

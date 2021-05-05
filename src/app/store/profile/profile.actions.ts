@@ -126,7 +126,7 @@ export const getPickupAddressSuccess = createAction('[PROFILE] getPickupAddress 
 export const getPickupAddressError = createAction('[PROFILE] getPickupAddress error', props<{ error: HttpErrorResponse }>());
 
 
-export const addPickupAddress = createAction('[PROFILE] addPickupAddress', props<{ pickupAddress: IPickupAddress }>());
+export const addPickupAddress = createAction('[PROFILE] addPickupAddress', props<{ reqPickupAddress: IPickupAddress }>());
 
 export const addPickupAddressSuccess = createAction('[PROFILE] addPickupAddress success', props<{ pickupAddress: IPickupAddress }>());
 

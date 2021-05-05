@@ -54,8 +54,8 @@ export class PickupAddressComponent implements OnInit, OnDestroy {
     }
 
     this.submitted = true;
-    const pickupAddress: IPickupAddress = this.regForm.value;
-    this._store.dispatch(fromProfileActions.addPickupAddress({pickupAddress}));
+    const reqPickupAddress: IPickupAddress = this.regForm.value;
+    this._store.dispatch(fromProfileActions.addPickupAddress({reqPickupAddress}));
   }
 
   public initAddressForm(): void {
@@ -90,7 +90,6 @@ export class PickupAddressComponent implements OnInit, OnDestroy {
       this.regForm.get('type').patchValue(address?.type);
       this.loading = false;
       if (address?.full_name && this.submitted) {
-        // this._store.dispatch(fromProfileActions.getPickupAddress());
         this._router.navigate(['app/dashboard']);
         this.submitted = false;
       }

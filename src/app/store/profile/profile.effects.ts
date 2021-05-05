@@ -215,9 +215,9 @@ export class ProfileEffects {
   public addPickupAddress$ = createEffect(() =>
     this._actions$.pipe(
       ofType(fromProfileActions.addPickupAddress),
-      map(action => action.pickupAddress),
-      switchMap((address: IPickupAddress) =>
-        this._profileService.addPickupAddress(address).pipe(
+      map(action => action.reqPickupAddress),
+      switchMap((reqPickupAddress: IPickupAddress) =>
+        this._profileService.addPickupAddress(reqPickupAddress).pipe(
           map((pickupAddress: IPickupAddress) => fromProfileActions.addPickupAddressSuccess({ pickupAddress })),
           catchError(error => of(fromProfileActions.addPickupAddressError(error)))
         )
