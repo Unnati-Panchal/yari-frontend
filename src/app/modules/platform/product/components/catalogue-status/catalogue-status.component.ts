@@ -78,7 +78,9 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
 
   public searchByCatalogueName(): void {
     if (this.selectedCatalogueName) {
-      this.displayedCatalogs = this.allCatalogs.filter(item => item?.catalog_name?.includes(this.selectedCatalogueName));
+      this.displayedCatalogs =this.allCatalogs.filter(
+        item => item?.catalog_name?.toLowerCase()?.includes(this.selectedCatalogueName?.toLowerCase())
+      );
     } else {
       this.displayedCatalogs = this.allCatalogs;
     }
@@ -130,7 +132,7 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
           this.displayedCatalogs = res;
 
           if (this.selectedCatalogueName) {
-            res = res.filter(item => item?.catalog_name?.includes(this.selectedCatalogueName));
+            res = res.filter(item => item?.catalog_name?.toLowerCase()?.includes(this.selectedCatalogueName?.toLowerCase()));
             this.displayedCatalogs = res;
           }
           sessionStorage.removeItem('catalogStatuses');
