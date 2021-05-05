@@ -49,8 +49,9 @@ export class ProductsService {
 
 
   public getCatalogs(query: IQuery): Observable<IBulkUploadBasic[]> {
+    const catalogName = query?.catalog_name ? `&catalog_name=${query.catalog_name}` : '';
     return this._http.get<IBulkUploadBasic[]>
-    (`${environment.API_BASE_URL}/api/v1/catalogs?start_date=${query?.startDate}&end_date=${query?.endDate}`);
+    (`${environment.API_BASE_URL}/api/v1/catalogs?start_date=${query?.startDate}&end_date=${query?.endDate}${catalogName}`);
   }
 
   public deleteCatalog(catalogId: string): Observable<any> {

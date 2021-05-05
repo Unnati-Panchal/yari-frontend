@@ -41,8 +41,6 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) matSort: MatSort;
   selectedCatalogueName: string;
-  allCatalogs: IBulkUploadBasic[];
-  displayedCatalogs: IBulkUploadBasic[];
   sort: Sort;
 
   constructor(private _store: Store<IAppState>, private router: Router) { }
@@ -76,24 +74,17 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
     }
   }
 
-  public searchByCatalogueName(): void {
-    if (this.selectedCatalogueName) {
-      this.displayedCatalogs =this.allCatalogs.filter(
-        item => item?.catalog_name?.toLowerCase()?.includes(this.selectedCatalogueName?.toLowerCase())
-      );
-    } else {
-      this.displayedCatalogs = this.allCatalogs;
-    }
-    this.setTableDataSource(this.displayedCatalogs);
-  }
-
   public viewBtn(): void {
-    const query = this.selectedDate;
+    let query = this.selectedDate;
     this.selectDate = null;
     if (!query || !query?.startDate || !query?.endDate) {
       this.selectDate = 'Please Select Date Range!';
       return;
     }
+    query = {
+      ...query,
+      catalog_name: this.selectedCatalogueName
+    };
     this.loading = true;
     this.submitted = true;
     this.timerQuery = query;
@@ -126,14 +117,6 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
             } else {
               res = Utilities.sortData(this.sort, [...filteredCatalogs]);
             }
-          }
-
-          this.allCatalogs = res;
-          this.displayedCatalogs = res;
-
-          if (this.selectedCatalogueName) {
-            res = res.filter(item => item?.catalog_name?.toLowerCase()?.includes(this.selectedCatalogueName?.toLowerCase()));
-            this.displayedCatalogs = res;
           }
           sessionStorage.removeItem('catalogStatuses');
           sessionStorage.setItem('catalogStatuses', JSON.stringify(res));

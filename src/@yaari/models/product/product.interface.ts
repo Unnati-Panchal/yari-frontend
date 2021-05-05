@@ -38,6 +38,7 @@ export interface IQuery {
   startDate: string | number;
   endDate: string | number;
   status?: ESalesStatus;
+  catalog_name?: string;
 }
 
 export enum ESortDirection {
