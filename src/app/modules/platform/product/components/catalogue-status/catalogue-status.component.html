@@ -26,18 +26,18 @@
         </button>
       </div>
 
-      <div *ngIf="!loading && dataSource?.data?.length" class="date-range-form">
+<!--      <div *ngIf="!loading && dataSource?.data?.length" class="date-range-form">-->
 
-        <mat-form-field appearance="outline">
-          <mat-label>Search by Catalogue Name</mat-label>
-          <input matInput [(ngModel)]="selectedCatalogueName">
-        </mat-form-field>
+<!--        <mat-form-field appearance="outline">-->
+<!--          <mat-label>Search by Catalogue Name</mat-label>-->
+<!--          <input matInput [(ngModel)]="selectedCatalogueName">-->
+<!--        </mat-form-field>-->
 
 
-        <button mat-button (click)="searchByCatalogueName()">
-          <mat-icon>search</mat-icon>
-        </button>
-      </div>
+<!--        <button mat-button (click)="searchByCatalogueName()">-->
+<!--          <mat-icon>search</mat-icon>-->
+<!--        </button>-->
+<!--      </div>-->
     </div>
 
     <p *ngIf="selectDate">{{selectDate}}</p>
