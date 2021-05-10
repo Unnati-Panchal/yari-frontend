@@ -24,7 +24,7 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
     start: new FormControl(),
     end: new FormControl()
   });
-  displayedColumns: string[] = ['sr_no', 'catalog_name', 'category_name', 'created_time', 'approved', 'viewed', 'shared'];
+  displayedColumns: string[] = ['sr_no', 'catalog_name', 'category_name', 'created_time', 'approved', 'viewed', 'shared', 'comment'];
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();
   public getCatalogues$ = this._store.pipe(select(fromProductsSelectors.getCatalogs), filter(catalogs => !!catalogs));
