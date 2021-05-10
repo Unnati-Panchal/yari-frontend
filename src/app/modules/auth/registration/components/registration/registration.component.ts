@@ -9,11 +9,14 @@ import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromProductsActions from '~store/products/products.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
 import * as fromProductsSelectors from '~store/products/products.selectors';
+import * as fromProfileActions from '~store/profile/profile.actions';
+import * as fromProfileSelectors from '~store/profile/profile.selectors';
 
 import {CustomValidator} from '@yaari/utils/custom-validators';
 import {ICategory} from '@yaari/models/product/product.interface';
 import {Router} from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {IFileKYC} from '@yaari/models/profile/profile.interface';
 
 @Component({
   selector: 'app-registration',
@@ -27,6 +30,11 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public categories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(categories => !!categories?.length));
   public generateOtp$ = this._store.pipe(select(fromAuthSelectors.generateOtp), filter(value => !!value));
   public onboarders$ = this._store.pipe(select(fromAuthSelectors.onBoarders), filter(onboarders => !!onboarders?.length));
+  public uploadedKYCDocs$ = this._store.pipe(
+    select(fromProfileSelectors.getUploadedKYCDocs$),
+    filter(uploadedKYCDocs => !!uploadedKYCDocs)
+  );
+  public isProfileError$ = this._store.pipe(select(fromProfileSelectors.getIsError$), filter(error => !!error));
   public regForm: FormGroup;
   public types = [
     {label: 'Retailer', key: 'retailer'},
@@ -38,6 +46,10 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public loading;
   public loadingEmailVerification: boolean;
   public emailVerificationSuccessful: string;
+  selectedGstFile: File;
+  selectedCancelledChequeFile: File;
+  selectedMSMEFile: File;
+  selectedPanCardFile: File;
 
   private _subscription: Subscription = new Subscription();
 
@@ -82,12 +94,63 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     }
 
     const regRequest = this.regForm.value;
-    if (!this.regForm.valid) {
+    // tslint:disable-next-line:max-line-length
+    if (!this.regForm.valid || !this.selectedGstFile || !this.selectedCancelledChequeFile || !this.selectedMSMEFile || !this.selectedPanCardFile) {
       this.loading = false;
+      const msg = `Invalid submitted data. All fields are required`;
+      this.openSnackBar(msg);
       return;
     }
+
+    const uploadKYCDocsReq: IFileKYC = {
+      cancelled_cheque: this.selectedCancelledChequeFile,
+      gst_certificate: this.selectedGstFile,
+      msme_certificate: this.selectedMSMEFile,
+      pan_card: this.selectedPanCardFile
+    };
     // regRequest.email_id = this.emailVerificationSuccessful;
+    this._store.dispatch(fromProfileActions.uploadKYCDocs({uploadKYCDocsReq}));
     this._store.dispatch(fromAuthActions.registration({regRequest}));
+  }
+
+  get selectedGstFileName(): string {
+    return this.selectedGstFile?.name;
+  }
+
+  gstFileBrowseHandler(files: Array<any>): void {
+    for (const item of files) {
+      this.selectedGstFile = item;
+    }
+  }
+
+  get selectedPanCardFileName(): string {
+    return this.selectedPanCardFile?.name;
+  }
+
+  panCardFileBrowseHandler(files: Array<any>): void {
+    for (const item of files) {
+      this.selectedPanCardFile = item;
+    }
+  }
+
+  get selectedMSMEFileName(): string {
+    return this.selectedMSMEFile?.name;
+  }
+
+  MSMEFileBrowseHandler(files: Array<any>): void {
+    for (const item of files) {
+      this.selectedMSMEFile = item;
+    }
+  }
+
+  get selectedCancelledChequeFileName(): string {
+    return this.selectedCancelledChequeFile?.name;
+  }
+
+  cancelledChequeFileBrowseHandler(files: Array<any>): void {
+    for (const item of files) {
+      this.selectedCancelledChequeFile = item;
+    }
   }
 
   public initRegistrationForm(): void {
@@ -163,6 +226,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
 
   public supplierRegistration(): void {
     this._subscription.add(this.isAuthError$.subscribe(() => this.loading = false));
+    this._subscription.add(this.isProfileError$.subscribe(() => this.loading = false));
     this._subscription.add(this.isProductError$.subscribe(() => this.loading = false));
     this._subscription.add(this.registrationResponse$.subscribe(() => {
       this.loading = false;
@@ -170,6 +234,14 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this._snackBar.open(msg, '', {duration: 3000});
       this._router.navigate(['auth/login']);
     }));
+    this._subscription.add(this.uploadedKYCDocs$.subscribe(() => {
+      const msg = `You've successfully uploaded all files.`;
+      this._snackBar.open(msg, '', {duration: 3000});
+    }));
+  }
+
+  openSnackBar(msg): void {
+    this._snackBar.open(msg, 'X', {duration: 5000});
   }
 
 }

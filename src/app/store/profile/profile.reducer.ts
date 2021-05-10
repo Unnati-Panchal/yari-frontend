@@ -14,6 +14,7 @@ import {
   IPickupAddress
 } from '@yaari/models/profile/profile.interface';
 import {IExchangeReturned, IPayment, IQualityScoreCard, IRatingAndReviews} from '@yaari/models/product/product.interface';
+import {IRegistration} from '@yaari/models/auth/auth.interface';
 
 export const profileFeatureKey = 'profile';
 
@@ -37,6 +38,8 @@ export interface IProfileState extends fromRoot.IAppState {
   exchangedReturned: IExchangeReturned[];
   qualityScorecard: IQualityScoreCard[];
   pickupAddress: IPickupAddress;
+  uploadedKYCDocs: IRegistration;
+  updatedKYCDocs: IRegistration;
 }
 
 export const profileInitialState: IProfileState = {
@@ -58,7 +61,9 @@ export const profileInitialState: IProfileState = {
   ratingsAndReviews: undefined,
   exchangedReturned: undefined,
   qualityScorecard: undefined,
-  pickupAddress: {full_name: ''}
+  pickupAddress: {full_name: ''},
+  updatedKYCDocs: undefined,
+  uploadedKYCDocs: undefined
 };
 
 const profileReducer = createReducer(
@@ -249,6 +254,15 @@ const profileReducer = createReducer(
   on(fromProfileActions.addPickupAddress, (state, {reqPickupAddress}) => ({...state, loading: true, reqPickupAddress})),
   on(fromProfileActions.addPickupAddressSuccess, (state, {pickupAddress}) => ({...state, loading: false, pickupAddress})),
   on(fromProfileActions.addPickupAddressError, (state, {error}) => ({ ...state, loading: false, error })),
+
+  on(fromProfileActions.uploadKYCDocs, (state, {uploadKYCDocsReq}) => ({...state, loading: true, uploadKYCDocsReq})),
+  on(fromProfileActions.uploadKYCDocsSuccess, (state, {uploadedKYCDocs}) => ({...state, loading: false, uploadedKYCDocs})),
+  on(fromProfileActions.uploadKYCDocsError, (state, {error}) => ({ ...state, loading: false, error })),
+
+
+  on(fromProfileActions.updateKYCDocs, (state, {updateKYCDocsReq}) => ({...state, loading: true, updateKYCDocsReq})),
+  on(fromProfileActions.updateKYCDocsSuccess, (state, {updatedKYCDocs}) => ({...state, loading: false, updatedKYCDocs})),
+  on(fromProfileActions.updateKYCDocsError, (state, {error}) => ({ ...state, loading: false, error })),
 
 );
 

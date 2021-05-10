@@ -22,3 +22,6 @@ export const getRatingAndReviews$ = createSelector(selectBaseFeature, (state: fr
 export const exchangedReturned$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.exchangedReturned);
 export const qualityScoreCard$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.qualityScorecard);
 export const getPickupAddress$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.pickupAddress);
+
+export const getUploadedKYCDocs$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.uploadedKYCDocs);
+export const getUpdatedKYCDocs$ = createSelector(selectBaseFeature, (state: fromProfileReducer.IProfileState) => state.updatedKYCDocs);

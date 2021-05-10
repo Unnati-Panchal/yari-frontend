@@ -264,6 +264,62 @@
           </mat-form-field>
         </div>
 
+        <div class="button-upload-box">
+          <h4>Upload GST Certificate<span class="required">*</span></h4>
+          <div class="upload-file-btn-container">
+            <button mat-button class="btn login-btn" (click)="gstFileDropRef.click()">
+              <span>Browse</span>
+            </button>
+          </div>
+          <input type="file" style="display: none" #gstFileDropRef id="fileDropRef" (change)="gstFileBrowseHandler($event.target.files)"/>
+        </div>
+        <div *ngIf="selectedGstFileName">
+          <span>{{'GST Certificate added  "' + selectedGstFileName + '".'}}</span>
+        </div>
+
+        <div class="button-upload-box">
+          <h4>Upload PAN Card<span class="required">*</span></h4>
+          <div class="upload-file-btn-container">
+            <button mat-button class="btn login-btn" (click)="panCardFileDropRef.click()">
+              <span>Browse</span>
+            </button>
+          </div>
+          <input type="file" style="display: none" #panCardFileDropRef id="panFileDropRef" (change)="panCardFileBrowseHandler($event.target.files)"/>
+        </div>
+        <div *ngIf="selectedPanCardFileName">
+          <span>{{'PAN Card added  "' + selectedPanCardFileName + '".'}}</span>
+        </div>
+
+        <div class="button-upload-box">
+          <h4>Upload MSME Certificate<span class="required">*</span></h4>
+          <div class="upload-file-btn-container">
+            <button mat-button class="btn login-btn" (click)="MSMEFileDropRef.click()">
+              <span>Browse</span>
+            </button>
+          </div>
+          <input type="file" style="display: none" #MSMEFileDropRef id="MSMEFileDropRef" (change)="MSMEFileBrowseHandler($event.target.files)"/>
+        </div>
+        <div *ngIf="selectedMSMEFileName">
+          <span>{{'MSME Certificate added  "' + selectedMSMEFileName + '".'}}</span>
+        </div>
+
+        <div class="button-upload-box">
+          <h4>Upload Cancelled Cheque<span class="required">*</span></h4>
+          <div class="upload-file-btn-container">
+            <button mat-button class="btn login-btn" (click)="cancelledChequeFileDropRef.click()">
+              <span>Browse</span>
+            </button>
+          </div>
+          <input type="file"
+                 style="display: none"
+                 #cancelledChequeFileDropRef
+                 id="cancelledChequeFileDropRef"
+                 (change)="cancelledChequeFileBrowseHandler($event.target.files)"/>
+        </div>
+        <div *ngIf="selectedCancelledChequeFileName">
+          <span>{{'Cancelled Cheque added  "' + selectedCancelledChequeFileName + '".'}}</span>
+        </div>
+
         <div>
           <mat-checkbox formControlName="termsAndConditions">
               <span>Please review and accept our
@@ -276,6 +332,7 @@
         <div>
           <app-error-success [errors]="isAuthError$ | async"></app-error-success>
           <app-error-success [errors]="isProductError$ | async"></app-error-success>
+          <app-error-success [errors]="isProfileError$ | async"></app-error-success>
         </div>
 
         <div class="form-group submit-btn-container">

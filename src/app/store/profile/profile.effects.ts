@@ -12,10 +12,19 @@ import {
   IBucket,
   IBucketItems,
   ICreateBucket,
+  IFileKYC,
   IImageResponse,
-  IInsertBucket, IPickupAddress
+  IInsertBucket,
+  IPickupAddress
 } from '@yaari/models/profile/profile.interface';
-import {IExchangeReturned, IPayment, IQualityScoreCard, IQuery, IRatingAndReviews} from '@yaari/models/product/product.interface';
+import {
+  IExchangeReturned,
+  IPayment,
+  IQualityScoreCard,
+  IQuery,
+  IRatingAndReviews
+} from '@yaari/models/product/product.interface';
+import {IRegistration} from '@yaari/models/auth/auth.interface';
 
 @Injectable()
 export class ProfileEffects {
@@ -220,6 +229,32 @@ export class ProfileEffects {
         this._profileService.addPickupAddress(reqPickupAddress).pipe(
           map((pickupAddress: IPickupAddress) => fromProfileActions.addPickupAddressSuccess({ pickupAddress })),
           catchError(error => of(fromProfileActions.addPickupAddressError(error)))
+        )
+      )
+    )
+  );
+
+  public uploadKYCDocs$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProfileActions.uploadKYCDocs),
+      map(action => action.uploadKYCDocsReq),
+      switchMap((uploaded: IFileKYC) =>
+        this._profileService.uploadKYCDocs(uploaded).pipe(
+          map((uploadedKYCDocs: IRegistration) => fromProfileActions.uploadKYCDocsSuccess({ uploadedKYCDocs })),
+          catchError(error => of(fromProfileActions.uploadKYCDocsError(error)))
+        )
+      )
+    )
+  );
+
+  public updateKYCDocs$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProfileActions.updateKYCDocs),
+      map(action => action.updateKYCDocsReq),
+      switchMap((uploaded: IFileKYC) =>
+        this._profileService.updateKYCDocs(uploaded).pipe(
+          map((updatedKYCDocs: IRegistration) => fromProfileActions.updateKYCDocsSuccess({ updatedKYCDocs })),
+          catchError(error => of(fromProfileActions.updateKYCDocsError(error)))
         )
       )
     )
