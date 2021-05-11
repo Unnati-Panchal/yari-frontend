@@ -83,4 +83,5 @@ export interface IFileKYC {
   cancelled_cheque?: File;
   msme_certificate?: File;
   file?: File;
+  upload_token?: string;
 }

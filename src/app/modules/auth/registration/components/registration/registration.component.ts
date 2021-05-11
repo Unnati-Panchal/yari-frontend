@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Subscription} from 'rxjs';
-import {filter} from 'rxjs/operators';
+import {filter, tap} from 'rxjs/operators';
 import {select, Store} from '@ngrx/store';
 
 import {AppFacade, IAppState} from '~store/app.state';
@@ -101,15 +101,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       this.openSnackBar(msg);
       return;
     }
-
-    const uploadKYCDocsReq: IFileKYC = {
-      cancelled_cheque: this.selectedCancelledChequeFile,
-      gst_certificate: this.selectedGstFile,
-      msme_certificate: this.selectedMSMEFile,
-      pan_card: this.selectedPanCardFile
-    };
     // regRequest.email_id = this.emailVerificationSuccessful;
-    this._store.dispatch(fromProfileActions.uploadKYCDocs({uploadKYCDocsReq}));
     this._store.dispatch(fromAuthActions.registration({regRequest}));
   }
 
@@ -228,15 +220,26 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     this._subscription.add(this.isAuthError$.subscribe(() => this.loading = false));
     this._subscription.add(this.isProfileError$.subscribe(() => this.loading = false));
     this._subscription.add(this.isProductError$.subscribe(() => this.loading = false));
-    this._subscription.add(this.registrationResponse$.subscribe(() => {
+    this._subscription.add(
+      this.registrationResponse$
+        .pipe(
+          tap( (registered) => {
+            const uploadKYCDocsReq: IFileKYC = {
+              cancelled_cheque: this.selectedCancelledChequeFile,
+              gst_certificate: this.selectedGstFile,
+              msme_certificate: this.selectedMSMEFile,
+              pan_card: this.selectedPanCardFile,
+              upload_token: registered.upload_token
+            };
+            this._store.dispatch(fromProfileActions.uploadKYCDocs({uploadKYCDocsReq}));
+        }))
+        .subscribe()
+    );
+    this._subscription.add(this.uploadedKYCDocs$.subscribe(() => {
       this.loading = false;
       const msg = `You've successfully registered. Please login with your email and password`;
       this._snackBar.open(msg, '', {duration: 3000});
       this._router.navigate(['auth/login']);
-    }));
-    this._subscription.add(this.uploadedKYCDocs$.subscribe(() => {
-      const msg = `You've successfully uploaded all files.`;
-      this._snackBar.open(msg, '', {duration: 3000});
     }));
   }
 

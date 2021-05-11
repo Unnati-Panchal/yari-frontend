@@ -35,6 +35,7 @@ export interface IRegistration {
   pan_card?: string;
   cancelled_cheque?: string;
   msme_certificate?: string;
+  upload_token?: string;
 }
 
 export interface IAdminDetails{
