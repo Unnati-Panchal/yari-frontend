@@ -2,6 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
+import { AdminService } from '@yaari/services/admin/admin.service';
 import { AuthService } from '@yaari/services/auth/auth.service';
 import { Subscription } from 'rxjs';
 import { filter, tap } from 'rxjs/operators';
@@ -15,7 +16,13 @@ import * as fromAuthSelectors from '~store/auth/auth.selectors';
 })
 export class ForgotPasswordComponent implements OnInit, OnDestroy {
 
-  constructor(private _store: Store<IAppState>, private _appFacade: AppFacade, private _auth: AuthService, private _router: Router) { }
+  constructor(
+    private _store: Store<IAppState>,
+    private _appFacade: AppFacade,
+    private _auth: AuthService,
+    private _router: Router,
+    private _adminService: AdminService,
+  ) { }
 
   public token$ = this._store.pipe(
     select(fromAuthSelectors.getToken),
@@ -29,9 +36,8 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   public hide: boolean;
   public loading: boolean;
   private _subscription: Subscription = new Subscription();
-  resetPasswordForm = new FormGroup({
+  forgotPasswordForm = new FormGroup({
     username: new FormControl('', Validators.required),
-    user_role: new FormControl('admin'),
   });
   ngOnInit(): void {
     this._appFacade.clearMessages();
@@ -47,5 +53,11 @@ export class ForgotPasswordComponent implements OnInit, OnDestroy {
   }
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
+  }
+
+  submit(): void {
+    this._adminService.forgotPasswordAdmin(this.forgotPasswordForm.value.username).subscribe(res => {
+      console.log(res);
+    });
   }
 }

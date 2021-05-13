@@ -6,7 +6,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { ICatalogueProducts, IResMsg } from '@yaari/models/admin/admin.interface';
 import { AdminService } from '@yaari/services/admin/admin.service';
-import { AuthService } from '@yaari/services/auth/auth.service';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import * as fromAdminActions from '~app/store/admin/admin.actions';
@@ -24,7 +23,6 @@ export class ApproveRejectComponent implements OnInit, OnDestroy {
     private _route: ActivatedRoute,
     private _store: Store,
     private _appFacade: AppFacade,
-    private _auth: AuthService,
     private _adminService: AdminService,
     private _snackBar: MatSnackBar,
     private _router: Router,
@@ -80,7 +78,7 @@ export class ApproveRejectComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this._appFacade.clearMessages();
-    this.authorizedAdmin();
+    this._adminService.authorizedAdmin('catalogue_management');
     this._route.params.subscribe(data => {
       this.catalogueId = data.id;
       this.catalogueName = data.name;
@@ -90,16 +88,6 @@ export class ApproveRejectComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
-  }
-
-  public authorizedAdmin(): void {
-    this._auth.adminDetails().subscribe(adminDetails => {
-      // this.loading = false;
-      if (adminDetails.admin_role !== 'catalogue_management') {
-        this._snackBar.open('Unauthorized Access', '', { duration: 3000 });
-        this._router.navigate([`/admin/${adminDetails.admin_role.split('_').join('-')}`]);
-      }
-    });
   }
 
   public applyFilter(filterValue: string): void {

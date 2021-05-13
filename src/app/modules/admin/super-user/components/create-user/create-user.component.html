@@ -1,0 +1,71 @@
+<div class="logo-div">
+    <img src="assets/images/yaari-login.png" class="left-image">
+</div>
+<div class="main-body">
+    <h2 class="head">Create User</h2>
+    <form [formGroup]="createUserForm" class="form-body">
+
+        <div class="name-field">
+            <mat-form-field appearance="outline">
+                <mat-label>First Name</mat-label>
+                <input formControlName="first_name" matInput placeholder="First Name" required>
+                <mat-error *ngIf="createUserForm.controls.first_name.touched && createUserForm.controls['first_name'].hasError('required')">First Name is required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Email Id</mat-label>
+                <input formControlName="email_id" matInput placeholder="Email Id" email required>
+                <mat-error *ngIf="createUserForm.controls.email_id.touched && createUserForm.controls['email_id'].hasError('required')">Email is required
+                </mat-error>
+                <mat-error class="error" *ngIf="createUserForm.controls['email_id'].hasError('email')">
+                    Please enter a valid email address</mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="name-field">
+            <mat-form-field appearance="outline">
+                <mat-label>Last Name</mat-label>
+                <input formControlName="last_name" matInput placeholder="Last Name" required>
+                <mat-error *ngIf="createUserForm.controls.last_name.touched && createUserForm.controls['last_name'].hasError('required')">Last Name is required
+                </mat-error>
+            </mat-form-field>
+            <mat-form-field appearance="outline">
+                <mat-label>Phone No.</mat-label>
+                <input formControlName="phone_no" matInput placeholder="Phone No." required>
+                <mat-error *ngIf="createUserForm.controls.phone_no.touched &&  createUserForm.controls['phone_no'].hasError('required')">Phone Number is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <div class="drpdwn">
+            <mat-form-field appearance="outline">
+                <mat-label>Profile</mat-label>
+                <mat-select formControlName="admin_role" disableOptionCentering placeholder="Select Profile" required>
+                    <mat-option *ngFor="let profile of allRolesAndDesignations.profiles" [value]="profile" [ngStyle]="{'font-family': 'Poppins'}">
+                        {{ profile.split("_").join(' ') | titlecase}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="createUserForm.controls.admin_role.touched && createUserForm.controls['admin_role'].hasError('required')">Profile is required
+                </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" *ngIf="createUserForm.value.admin_role !== 'SUPER_USER'">
+                <mat-label>Designation</mat-label>
+                <mat-select formControlName="admin_designation" disableOptionCentering placeholder="Select Designation"
+                    required>
+                    <mat-option *ngFor="let designation of allRolesAndDesignations.designations" [value]="designation" [ngStyle]="{'font-family': 'Poppins'}">
+                        {{ designation | titlecase}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="createUserForm.controls.admin_designation.touched && createUserForm.controls['admin_designation'].hasError('required')">Designation is required
+                </mat-error>
+            </mat-form-field>
+        </div>
+
+        <!-- <div style="margin-top:10px">Error</div> -->
+
+        <div class="submit-field">
+            <button mat-button (click)="registerAdminUser()" class="submit">Submit</button>
+        </div>
+    </form>
+</div>
