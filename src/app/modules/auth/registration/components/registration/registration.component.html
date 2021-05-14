@@ -74,21 +74,28 @@
         </div>
 
         <div>
-          <h4>City<span class="required">*</span></h4>
+          <h4>State<span class="required">*</span></h4>
           <mat-form-field appearance="outline" class="small-form-group">
-            <mat-label>Enter your city</mat-label>
-            <input matInput formControlName="city" autocomplete="nope">
-            <mat-error *ngIf="regForm.controls['city'].hasError('required')">Required field</mat-error>
-            <mat-error *ngIf="regForm.controls['city'].hasError('invalidLetters')">Please enter only letters</mat-error>
+            <mat-label>Enter your state</mat-label>
+            <mat-select formControlName="state">
+              <ng-container *ngIf="states$ | async as states">
+                <mat-option *ngFor="let state of states" [value]="state.id">{{ state.name }}</mat-option>
+              </ng-container>
+            </mat-select>
+            <mat-error *ngIf="regForm.controls['state'].hasError('required')">Required field</mat-error>
           </mat-form-field>
         </div>
 
         <div>
-          <h4>State<span class="required">*</span></h4>
+          <h4>City<span class="required">*</span></h4>
           <mat-form-field appearance="outline" class="small-form-group">
-            <mat-label>Enter your state</mat-label>
-            <input matInput formControlName="state" autocomplete="nope">
-            <mat-error *ngIf="regForm.controls['state'].hasError('required')">Required field</mat-error>
+            <mat-label>Enter your city</mat-label>
+            <mat-select formControlName="city">
+              <ng-container *ngIf="cities$ | async as cities">
+                <mat-option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</mat-option>
+              </ng-container>
+            </mat-select>
+            <mat-error *ngIf="regForm.controls['city'].hasError('required')">Required field</mat-error>
           </mat-form-field>
         </div>
 

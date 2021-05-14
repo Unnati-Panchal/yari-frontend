@@ -123,7 +123,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   }
 
   backToCatalogueList(): void {
-    this.isSelectedCatalogue = {};
+    this.isSelectedCatalogue = null;
   }
 
   submit(): void {

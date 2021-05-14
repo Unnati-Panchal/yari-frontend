@@ -28,6 +28,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
   public isAuthError$ = this._store.pipe(select(fromAuthSelectors.getIsError));
   public isProductError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(error => !!error));
   public categories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(categories => !!categories?.length));
+  public cities$ = this._store.pipe(select(fromProductsSelectors.getCities), filter(categories => !!categories?.length));
+  public states$ = this._store.pipe(select(fromProductsSelectors.getStates), filter(categories => !!categories?.length));
   public generateOtp$ = this._store.pipe(select(fromAuthSelectors.generateOtp), filter(value => !!value));
   public onboarders$ = this._store.pipe(select(fromAuthSelectors.onBoarders), filter(onboarders => !!onboarders?.length));
   public uploadedKYCDocs$ = this._store.pipe(
@@ -68,6 +70,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     // this.emailVerification();
     this._store.dispatch(fromProductsActions.getCategories({categoryId: ''}));
     this._store.dispatch(fromAuthActions.getOnboarders());
+    this._store.dispatch(fromProductsActions.getStates());
   }
 
   public ngOnDestroy(): void {
@@ -181,6 +184,13 @@ export class RegistrationComponent implements OnInit, OnDestroy {
         } else if (val === true) {
           this.regForm.get('onboarder_id').clearValidators();
         }
+        this.regForm.updateValueAndValidity();
+      })
+    );
+
+    this._subscription.add(
+      this.regForm.get('state').valueChanges.subscribe( stateId => {
+        this._store.dispatch(fromProductsActions.getCities({stateId}));
         this.regForm.updateValueAndValidity();
       })
     );
