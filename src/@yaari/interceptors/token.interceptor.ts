@@ -1,10 +1,10 @@
-import { Injectable } from '@angular/core';
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest } from '@angular/common/http';
-import { MatSnackBar } from '@angular/material/snack-bar';
-
+import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
+
 import { AuthService } from '@yaari/services/auth/auth.service';
+import { Injectable } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
@@ -30,6 +30,11 @@ export class TokenInterceptor implements HttpInterceptor {
         else if (err.status === 401 || err.status === 403) {
           this._auth.logout();
           const msg = err.status === 401 ? `Status 401. You are not authorized, please log in` : `Status 403. You are not authorized, please log in`;
+          this._snackBar.open(msg, '', { duration: 3000 });
+          return of(err);
+        }
+        else if (err.status === 404 || err.error.detail) {
+          const msg = err.error.detail;
           this._snackBar.open(msg, '', { duration: 3000 });
           return of(err);
         }

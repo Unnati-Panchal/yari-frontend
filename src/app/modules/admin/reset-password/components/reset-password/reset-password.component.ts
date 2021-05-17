@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute, Router } from '@angular/router';
+import { IResMsg } from '@yaari/models/admin/admin.interface';
 import { AdminService } from '@yaari/services/admin/admin.service';
 import { AppFacade } from '~store/app.state';
+ 
 
 
 @Component({
@@ -22,7 +25,7 @@ export class ResetPasswordComponent implements OnInit {
     private _appFacade: AppFacade,
     private _activatedRoute: ActivatedRoute,
     private _adminService: AdminService,
-    private _router: Router
+    private _snackBar: MatSnackBar
   ) {
   }
 
@@ -55,10 +58,11 @@ export class ResetPasswordComponent implements OnInit {
       access_token: this._token,
       new_password: this.resetPassForm.value.password
     };
-    this._adminService.resetPasswordAdmin(resetPasswordInfo).subscribe(res => {
-      console.log(res);
-      this.loading = false;
-    });
+    this._adminService.resetPasswordAdmin(resetPasswordInfo).subscribe(
+      (res: IResMsg) => {
+        this._snackBar.open(res.msg, '', { duration: 5000 });
+        this.loading = false;
+      });
   }
 
   public initForm(): void {
@@ -66,12 +70,5 @@ export class ResetPasswordComponent implements OnInit {
       password: ['', [Validators.required]],
       repeatPassword: ['', [Validators.required]]
     });
-
-    // this._subscription.add(
-    //   this.isSuccessMsg$.subscribe( (msg) => {
-    //     this._snackBar.open(msg, '', {duration: 3000});
-    //     this._router.navigate(['auth/login']);
-    //   })
-    // );
   }
 }
