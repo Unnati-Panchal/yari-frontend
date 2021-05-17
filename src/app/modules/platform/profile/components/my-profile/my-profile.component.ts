@@ -11,8 +11,11 @@ import * as fromAuthSelectors from '~store/auth/auth.selectors';
 import * as fromProductsActions from '~store/products/products.actions';
 
 import {CustomValidator} from '@yaari/utils/custom-validators';
-import {IEditSupplierProfile} from '@yaari/models/auth/auth.interface';
+import {IEditSupplierProfile, IRegistration} from '@yaari/models/auth/auth.interface';
 import * as fromProductsSelectors from '~store/products/products.selectors';
+import * as fromProfileSelectors from '~store/profile/profile.selectors';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import * as fromProfileActions from '~store/profile/profile.actions';
 
 @Component({
   selector: 'app-my-profile',
@@ -37,12 +40,21 @@ export class MyProfileComponent implements OnInit, OnDestroy {
     {label: 'Manufacturer', key: 'manufacturer'},
     {label: 'Wholesaler', key: 'wholesaler'}
   ];
+  userDetails: IRegistration;
+  public updatedKYCDocs$ = this._store.pipe(
+    select(fromProfileSelectors.getUpdatedKYCDocs$),
+    filter(uploadedKYCDocs => !!uploadedKYCDocs)
+  );
+  public isProfileError$ = this._store.pipe(select(fromProfileSelectors.getIsError$), filter(error => !!error));
+  selectedKYCFile: File;
+
 
   private _subscription: Subscription = new Subscription();
 
   constructor(private _store: Store<IAppState>,
               private _formBuilder: FormBuilder,
-              private _router: Router
+              private _router: Router,
+              private _snackBar: MatSnackBar,
   ) {
   }
 
@@ -95,7 +107,9 @@ export class MyProfileComponent implements OnInit, OnDestroy {
 
   public supplierRegistration(): void {
     this._subscription.add(this.isAuthError$.subscribe(() => this.loading = false));
+    this._subscription.add(this.isProfileError$.subscribe(() => this.loading = false));
     this._subscription.add(this.supplierDetails$.subscribe(details => {
+      this.userDetails = details;
       this.profileImage = details?.profile_image;
       if (!this.profileImage) {
         this.profileImage = '/assets/images/registration.png';
@@ -124,6 +138,22 @@ export class MyProfileComponent implements OnInit, OnDestroy {
       this._store.dispatch(fromAuthActions.supplierDetails());
       this.loading = false;
     }));
+
+    this._subscription.add(this.updatedKYCDocs$.subscribe(() => {
+      const msg = `You've successfully uploaded file: ${this.selectedKYCFile.name}`;
+      this._snackBar.open(msg, '', {duration: 3000});
+    }));
+  }
+
+  public uploadKYCFile(file: File): void {
+    this._store.dispatch(fromProfileActions.updateKYCDocs({updateKYCDocsReq: {file}}));
+  }
+
+  KYCFileBrowseHandler(files: Array<any>): void {
+    for (const item of files) {
+      this.selectedKYCFile = item;
+      this.uploadKYCFile(item);
+    }
   }
 
   public enableEditing(): void {

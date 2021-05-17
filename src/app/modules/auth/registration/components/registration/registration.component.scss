@@ -139,6 +139,31 @@
           }
         }
 
+        .button-upload-box {
+          display: flex;
+
+          h4 {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            margin: 0;
+          }
+
+          .upload-file-btn-container {
+            @include yaari-display-flex(center, flex-start);
+
+            button {
+              @include yaari-display-flex(center, center);
+              width: yaari-to-rem(160px);
+              border-radius: 24px;
+              background-color: $yaari-light;
+              font-size: $yaari-h6;
+              color: $yaari-red;
+              border: 1px solid $yaari-red;
+            }
+          }
+        }
+
         .hint-message {
           color: #008800;
         }

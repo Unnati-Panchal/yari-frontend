@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {IBulkUploadBasicError} from '@yaari/models/product/product.interface';
 import * as fromProductsActions from '~store/products/products.actions';
@@ -7,6 +7,8 @@ import {IAppState} from '~store/app.state';
 import * as fromProductsSelectors from '~store/products/products.selectors';
 import {filter, tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-catalogue-status-by-id',
@@ -14,8 +16,12 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./catalogue-status-by-id.component.scss']
 })
 export class CatalogueStatusByIdComponent implements OnInit, OnDestroy {
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
+  paginationSizes: number[] = [5, 15, 30, 60, 100];
+  defaultPageSize = this.paginationSizes[0];
+
   displayedColumns: string[] = ['sr_no', 'catalogue_name', 'sku_id', 'errors'];
-  dataSource: IBulkUploadBasicError[];
+  public dataSource = new MatTableDataSource([]);
   private _subscription: Subscription = new Subscription();
   public getSelectedCatalogue$ = this._store.pipe(select(fromProductsSelectors.getSelectedCatalogue$),
     filter(status => !!status));
@@ -41,16 +47,24 @@ export class CatalogueStatusByIdComponent implements OnInit, OnDestroy {
     this.getCataloguesRes();
   }
 
+  setTableDataSource(data: IBulkUploadBasicError[]): void {
+    this.dataSource = new MatTableDataSource<any>(data);
+    setTimeout( () => {
+      this.dataSource.paginator = this.matPaginator;
+    });
+  }
+
   getCataloguesRes(): void {
     this._subscription.add(
       this.getSelectedCatalogue$.subscribe((response) => {
         this.loading = false;
-        this.dataSource = response.errors?.map(error => {
+        const data =  response.errors?.map(error => {
           return {
             ...error,
             catalog_name: response.catalog_name
           };
         });
+        this.setTableDataSource(data);
       })
     );
   }

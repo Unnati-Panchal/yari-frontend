@@ -32,6 +32,31 @@ export class ProductsEffects {
     )
   );
 
+  public getCities$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProductsActions.getCities),
+      map(action => action.stateId),
+      switchMap((stateId: number) =>
+        this._productsService.getCities(stateId).pipe(
+          map((cities: ICategory[]) => fromProductsActions.getCitiesSuccess({ cities })),
+          catchError(error => of(fromProductsActions.getCitiesError(error)))
+        )
+      )
+    )
+  );
+
+  public getStates$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromProductsActions.getStates),
+      switchMap(() =>
+        this._productsService.getStates().pipe(
+          map((states: ICategory[]) => fromProductsActions.getStatesSuccess({ states })),
+          catchError(error => of(fromProductsActions.getStatesError(error)))
+        )
+      )
+    )
+  );
+
   // public getBulkBasicUploadTemplate$ = createEffect(() =>
   //   this._actions$.pipe(
   //     ofType(fromProductsActions.getBulkBasicUploadTemplate),

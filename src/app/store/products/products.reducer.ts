@@ -12,6 +12,8 @@ export interface IProductsState extends fromRoot.IAppState {
   loading: boolean;
   error: HttpErrorResponse;
   categories: ICategory[];
+  cities: ICategory[];
+  states: ICategory[];
   file: any;
   bulkUploadBasic: IBulkUploadBasic;
   catalogs: IBulkUploadBasic[];
@@ -29,6 +31,8 @@ export const productsInitialState: IProductsState = {
   loading: false,
   error: null,
   categories: [],
+  cities: [],
+  states: [],
   file: null,
   bulkUploadBasic: null,
   catalogs: [],
@@ -50,6 +54,13 @@ const productsReducer = createReducer(
   on(fromProductsActions.getCategoriesSuccess, (state, {categories}) => ({...state, loading: false, categories})),
   on(fromProductsActions.getCategoriesError, (state, {error}) => ({ ...state, loading: false, error })),
 
+  on(fromProductsActions.getCities, (state, {stateId}) => ({...state, loading: true, stateId})),
+  on(fromProductsActions.getCitiesSuccess, (state, {cities}) => ({...state, loading: false, cities})),
+  on(fromProductsActions.getCategoriesError, (state, {error}) => ({ ...state, loading: false, error })),
+
+  on(fromProductsActions.getStates, (state) => ({...state, loading: true})),
+  on(fromProductsActions.getStatesSuccess, (state, {states}) => ({...state, loading: false, states})),
+  on(fromProductsActions.getStatesError, (state, {error}) => ({ ...state, loading: false, error })),
 
   on(fromProductsActions.getBulkBasicUploadTemplate, (state) => ({...state, loading: true})),
   on(fromProductsActions.getBulkBasicUploadTemplateSuccess, (state, {file}) => ({...state, loading: false, file})),

@@ -8,6 +8,8 @@ export const getIsLoading = createSelector(selectBaseFeature, (state: fromProduc
 export const getIsError = createSelector(selectBaseFeature, (state: fromProductsReducer.IProductsState) => state.error);
 export const getIsMsg = createSelector(selectBaseFeature, (state: fromProductsReducer.IProductsState) => state.msg);
 export const getCategories = createSelector(selectBaseFeature, (state: fromProductsReducer.IProductsState) => state.categories);
+export const getCities = createSelector(selectBaseFeature, (state: fromProductsReducer.IProductsState) => state.cities);
+export const getStates = createSelector(selectBaseFeature, (state: fromProductsReducer.IProductsState) => state.states);
 export const getBulkBasicUploadTemplate = createSelector(selectBaseFeature, (state: fromProductsReducer.IProductsState) => state.file);
 export const bulkUploadCatalog = createSelector(selectBaseFeature, (state: fromProductsReducer.IProductsState) => state.bulkUploadBasic);
 export const getCatalogs = createSelector(selectBaseFeature, (state: fromProductsReducer.IProductsState) => state.catalogs);

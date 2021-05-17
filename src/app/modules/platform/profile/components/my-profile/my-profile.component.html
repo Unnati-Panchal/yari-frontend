@@ -97,7 +97,6 @@
           </mat-form-field>
         </div>
 
-
         <div>
           <h4>Account Holder's Name</h4>
           <mat-form-field appearance="outline">
@@ -128,7 +127,65 @@
 
         <div>
           <app-error-success [errors]="isAuthError$ | async"></app-error-success>
+          <app-error-success [errors]="isProfileError$ | async"></app-error-success>
         </div>
+
+        <div *ngIf="isEditEnabled" class="button-upload-box">
+          <h4>GST Certificate<span class="required">*</span></h4>
+          <div class="upload-file-btn-container">
+            <button mat-button class="btn login-btn" (click)="gstFileDropRef.click()">
+              <span>Update</span>
+            </button>
+          </div>
+          <input type="file" style="display: none" #gstFileDropRef id="gstFileDropRef" (change)="KYCFileBrowseHandler($event.target.files)"/>
+        </div>
+        <div *ngIf="userDetails?.gst_certificate">
+          <a [href]="userDetails.gst_certificate" target="_blank">{{'Uploaded GST Certificate'}}</a>
+        </div>
+
+        <div *ngIf="isEditEnabled" class="button-upload-box">
+          <h4>PAN Card<span class="required">*</span></h4>
+          <div class="upload-file-btn-container">
+            <button mat-button class="btn login-btn" (click)="panCardFileDropRef.click()">
+              <span>Update</span>
+            </button>
+          </div>
+          <input type="file" style="display: none" #panCardFileDropRef id="panFileDropRef" (change)="KYCFileBrowseHandler($event.target.files)"/>
+        </div>
+        <div *ngIf="userDetails?.pan_card">
+          <a [href]="userDetails.pan_card" target="_blank">{{'Uploaded PAN Card'}}</a>
+        </div>
+
+        <div *ngIf="isEditEnabled" class="button-upload-box">
+          <h4>MSME Certificate<span class="required">*</span></h4>
+          <div class="upload-file-btn-container">
+            <button mat-button class="btn login-btn" (click)="MSMEFileDropRef.click()">
+              <span>Update</span>
+            </button>
+          </div>
+          <input type="file" style="display: none" #MSMEFileDropRef id="MSMEFileDropRef" (change)="KYCFileBrowseHandler($event.target.files)"/>
+        </div>
+        <div *ngIf="userDetails?.msme_certificate">
+          <a [href]="userDetails.msme_certificate" target="_blank">{{'Uploaded MSME Certificate'}}</a>
+        </div>
+
+        <div *ngIf="isEditEnabled" class="button-upload-box">
+          <h4>Cancelled Cheque<span class="required">*</span></h4>
+          <div class="upload-file-btn-container">
+            <button mat-button class="btn login-btn" (click)="cancelledChequeFileDropRef.click()">
+              <span>Update</span>
+            </button>
+          </div>
+          <input type="file"
+                 style="display: none"
+                 #cancelledChequeFileDropRef
+                 id="cancelledChequeFileDropRef"
+                 (change)="KYCFileBrowseHandler($event.target.files)"/>
+        </div>
+        <div *ngIf="userDetails?.cancelled_cheque">
+          <a [href]="userDetails.cancelled_cheque" target="_blank">{{'Uploaded Cancelled Cheque'}}</a>
+        </div>
+
 
         <div *ngIf="isEditEnabled" class="form-group submit-btn-container">
           <button mat-button class="btn login-btn" (click)="registerSupplier()">

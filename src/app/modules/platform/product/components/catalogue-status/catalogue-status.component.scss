@@ -26,9 +26,19 @@
         padding: 0;
       }
 
-      .date-range-form {
+      .search-container {
+        @include yaari-display-flex(center, flex-start);
+
         @include media-breakpoint(lt-sm) {
           @include yaari-display-flex(center, center, column);
+        }
+
+
+        .date-range-form {
+          padding-top: $yaari-large;
+          @include media-breakpoint(lt-sm) {
+            @include yaari-display-flex(center, center, column);
+          }
         }
       }
 
@@ -50,7 +60,7 @@
         }
 
         table {
-          width: 100%;
+          width: 1280px;
         }
 
         &.centered {
@@ -103,6 +113,10 @@
         color: $yaari-light;
         margin-bottom: $yaari-large / 2;
         margin-left: $yaari-large;
+
+        @include media-breakpoint(lt-sm) {
+          margin-left: 0;
+        }
       }
 
     }

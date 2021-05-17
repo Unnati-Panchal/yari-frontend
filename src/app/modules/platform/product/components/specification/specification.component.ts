@@ -32,7 +32,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   catalogueList: IBulkUploadBasic[];
   successMessage: string;
   errorMessages: HttpErrorResponse;
-  isSelectedCatalogue: string;
+  isSelectedCatalogue: IBulkUploadBasic;
   selectDate: string;
   maxDate = new Date();
 
@@ -123,7 +123,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   }
 
   backToCatalogueList(): void {
-    this.isSelectedCatalogue = '';
+    this.isSelectedCatalogue = null;
   }
 
   submit(): void {
@@ -138,7 +138,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
       };
     });
     const spec: ISpecifications = {
-      catalog_id: this.isSelectedCatalogue,
+      catalog_id: this.isSelectedCatalogue.id.toString(),
       details: specifications
     };
     this._store.dispatch(fromProductsActions.editSpecifications({spec}));
@@ -157,7 +157,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   }
 
   addSpecifications(catalogue: IBulkUploadBasic): void {
-    this.isSelectedCatalogue = catalogue.catalog_name;
+    this.isSelectedCatalogue = catalogue;
     this.loading = true;
     const catalogId = catalogue.id.toString();
     this._store.dispatch(fromProductsActions.getBulkSpecificationsUploadTemplate({catalogId}));

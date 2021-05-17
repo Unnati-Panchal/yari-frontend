@@ -16,6 +16,10 @@
       <section class="form-fields">
 
         <div>
+          <app-error-success [errors]="isError$ | async"></app-error-success>
+        </div>
+
+        <div>
           <mat-form-field appearance="outline">
             <mat-label>Country</mat-label>
             <input matInput formControlName="country" autocomplete="nope">
@@ -94,10 +98,6 @@
             <mat-radio-button [value]="'home'">Home</mat-radio-button>
             <mat-radio-button [value]="'office'">Office</mat-radio-button>
           </mat-radio-group>
-        </div>
-
-        <div>
-          <app-error-success [errors]="isError$ | async"></app-error-success>
         </div>
 
         <div class="form-group submit-btn-container">

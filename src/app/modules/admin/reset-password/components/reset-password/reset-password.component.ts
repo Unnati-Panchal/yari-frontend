@@ -5,7 +5,6 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { IResMsg } from '@yaari/models/admin/admin.interface';
 import { AdminService } from '@yaari/services/admin/admin.service';
 import { AppFacade } from '~store/app.state';
- 
 
 
 @Component({
@@ -26,6 +25,7 @@ export class ResetPasswordComponent implements OnInit {
     private _activatedRoute: ActivatedRoute,
     private _adminService: AdminService,
     private _snackBar: MatSnackBar
+
   ) {
   }
 
@@ -63,6 +63,7 @@ export class ResetPasswordComponent implements OnInit {
         this._snackBar.open(res.msg, '', { duration: 5000 });
         this.loading = false;
       });
+
   }
 
   public initForm(): void {

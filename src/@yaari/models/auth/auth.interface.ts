@@ -30,6 +30,12 @@ export interface IRegistration {
   id?: number;
   approved?: boolean;
   kyc_verified?: boolean;
+
+  gst_certificate?: string;
+  pan_card?: string;
+  cancelled_cheque?: string;
+  msme_certificate?: string;
+  upload_token?: string;
 }
 
 export interface IAdminDetails{

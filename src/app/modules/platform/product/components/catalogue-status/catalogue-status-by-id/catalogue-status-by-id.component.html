@@ -10,7 +10,7 @@
       <app-error-success [errors]="isError$ | async"></app-error-success>
     </div>
 
-    <div *ngIf="!loading && dataSource?.length" class="table-box">
+    <div *ngIf="!loading && dataSource?.data?.length" class="table-box">
       <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
         <ng-container matColumnDef="sr_no">
@@ -38,6 +38,13 @@
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
+    </div>
+    <div>
+      <mat-paginator *ngIf="!loading && dataSource?.data?.length"
+                     [pageSizeOptions]="paginationSizes"
+                     [pageSize]="defaultPageSize"
+                     showFirstLastButtons>
+      </mat-paginator>
     </div>
     <div *ngIf="loading" class="centered">
       <mat-spinner color="warn" [diameter]="50"></mat-spinner>

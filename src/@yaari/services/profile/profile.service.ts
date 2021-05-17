@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {environment} from '~env/environment';
 import {
@@ -7,6 +7,7 @@ import {
   IBucket,
   IBucketItems,
   ICreateBucket,
+  IFileKYC,
   IInsertBucket,
   IPickupAddress
 } from '@yaari/models/profile/profile.interface';
@@ -17,6 +18,7 @@ import {
   IQuery,
   IRatingAndReviews
 } from '@yaari/models/product/product.interface';
+import {IRegistration} from '@yaari/models/auth/auth.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -94,5 +96,23 @@ export class ProfileService {
 
   public addPickupAddress(pickupAddress: IPickupAddress): Observable<IPickupAddress> {
     return this._http.post<IPickupAddress>(`${environment.API_BASE_URL}/api/v1/supplier/address-details`, pickupAddress);
+  }
+
+
+  public uploadKYCDocs(body: IFileKYC): Observable<IRegistration> {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('X-Auth-Token', body.upload_token);
+    const formData = new FormData();
+    formData.append('gst_certificate', body.gst_certificate, body.gst_certificate.name);
+    formData.append('pan_card', body.pan_card, body.pan_card.name);
+    formData.append('cancelled_cheque', body.cancelled_cheque, body.cancelled_cheque.name);
+    formData.append('msme_certificate', body.msme_certificate, body.msme_certificate.name);
+    return this._http.post<IRegistration>(`${environment.API_BASE_URL}/api/v1/supplier/kyc-files`, formData, {headers});
+  }
+
+  public updateKYCDocs(body: IFileKYC): Observable<IRegistration> {
+    const formData = new FormData();
+    formData.append('file', body.file, body.file.name);
+    return this._http.put<IRegistration>(`${environment.API_BASE_URL}/api/v1/supplier/kyc-files`, formData);
   }
 }

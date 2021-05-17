@@ -75,3 +75,13 @@ export interface IPickupAddress {
   type?: string;
   id?: number;
 }
+
+
+export interface IFileKYC {
+  gst_certificate?: File;
+  pan_card?: File;
+  cancelled_cheque?: File;
+  msme_certificate?: File;
+  file?: File;
+  upload_token?: string;
+}

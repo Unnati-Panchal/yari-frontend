@@ -19,6 +19,14 @@ export const getCategoriesSuccess = createAction('[PRODUCTS] get categories succ
 
 export const getCategoriesError = createAction('[PRODUCTS] get categories error', props<{ error: HttpErrorResponse }>());
 
+export const getCities = createAction('[PRODUCTS] get cities', props<{ stateId: number }>());
+export const getCitiesSuccess = createAction('[PRODUCTS] get cities success', props<{ cities: ICategory[] }>());
+export const getCitiesError = createAction('[PRODUCTS] get cities error', props<{ error: HttpErrorResponse }>());
+
+export const getStates = createAction('[PRODUCTS] get states');
+export const getStatesSuccess = createAction('[PRODUCTS] get states success', props<{ states: ICategory[] }>());
+export const getStatesError = createAction('[PRODUCTS] get states error', props<{ error: HttpErrorResponse }>());
+
 
 export const getBulkBasicUploadTemplate = createAction('[PRODUCTS] getBulkBasicUploadTemplate');
 

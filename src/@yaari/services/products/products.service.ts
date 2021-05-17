@@ -28,6 +28,14 @@ export class ProductsService {
     return this._http.get<ICategory[]>(`${environment.API_BASE_URL}/api/v1/categories${suffix}`);
   }
 
+  public getCities(stateId: number): Observable<ICategory[]> {
+    return this._http.get<ICategory[]>(`${environment.API_BASE_URL}/api/v1/app/cities?state_id=${stateId}`);
+  }
+
+  public getStates(): Observable<ICategory[]> {
+    return this._http.get<ICategory[]>(`${environment.API_BASE_URL}/api/v1/app/states`);
+  }
+
   public getBulkBasicUploadTemplate(categoryId: number): Observable<any> {
     const url = `${environment.API_BASE_URL}/api/v1/catalog/bulk-upload-basic-template?category_id=${categoryId}`;
     // @ts-ignore
@@ -49,8 +57,9 @@ export class ProductsService {
 
 
   public getCatalogs(query: IQuery): Observable<IBulkUploadBasic[]> {
+    const catalogName = query?.catalog_name ? `&catalog_name=${query.catalog_name}` : '';
     return this._http.get<IBulkUploadBasic[]>
-    (`${environment.API_BASE_URL}/api/v1/catalogs?start_date=${query?.startDate}&end_date=${query?.endDate}`);
+    (`${environment.API_BASE_URL}/api/v1/catalogs?start_date=${query?.startDate}&end_date=${query?.endDate}${catalogName}`);
   }
 
   public deleteCatalog(catalogId: string): Observable<any> {
