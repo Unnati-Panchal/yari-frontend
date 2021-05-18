@@ -180,7 +180,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
       phone_no: ['', [Validators.required, CustomValidator.digitsOnly]],
       email_id: ['', [Validators.required, Validators.email]],
       // otp: ['', [Validators.required]],
-      city: ['', [Validators.required, CustomValidator.lettersOnly]],
+      city: ['', [Validators.required]],
       state: ['', [Validators.required]],
       type: ['', [Validators.required]],
       price_range_min: ['', [Validators.required, CustomValidator.digitsOnly]],
