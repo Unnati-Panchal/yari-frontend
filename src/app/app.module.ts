@@ -26,7 +26,7 @@ import {MatSnackBarModule} from '@angular/material/snack-bar';
 import {ProfileEffects} from '~store/profile/profile.effects';
 import {NgxDocViewerModule} from 'ngx-doc-viewer';
 import {TermsAndConditionsComponent} from '~app/modules/terms-and-conditions/terms-and-conditions.component';
-import { AdminEffects } from './store/admin/admin.effects';
+import { AdminEffects } from '~store/admin/admin.effects';
 
 const reducers: ActionReducerMap<IAppState> = {
   ['router']: routerReducer,
