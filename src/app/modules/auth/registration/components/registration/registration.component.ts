@@ -97,10 +97,33 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     }
 
     const regRequest = this.regForm.value;
-    // tslint:disable-next-line:max-line-length
-    if (!this.regForm.valid || !this.selectedGstFile || !this.selectedCancelledChequeFile || !this.selectedMSMEFile || !this.selectedPanCardFile) {
+    if (!this.regForm.valid) {
       this.loading = false;
-      const msg = `Invalid submitted data. All fields are required`;
+      const msg = `Invalid form field. Please review your inputs`;
+      this.openSnackBar(msg);
+      return;
+    }
+    if (!this.selectedGstFile) {
+      this.loading = false;
+      const msg = `Please upload GST Certificate`;
+      this.openSnackBar(msg);
+      return;
+    }
+    if (!this.selectedCancelledChequeFile) {
+      this.loading = false;
+      const msg = `Please upload Cancelled Cheque`;
+      this.openSnackBar(msg);
+      return;
+    }
+    if (!this.selectedMSMEFile) {
+      this.loading = false;
+      const msg = `Please upload MSME Certificate`;
+      this.openSnackBar(msg);
+      return;
+    }
+    if (!this.selectedPanCardFile) {
+      this.loading = false;
+      const msg = `Please upload PAN Card`;
       this.openSnackBar(msg);
       return;
     }
