@@ -1,14 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { select, Store } from '@ngrx/store';
-import { IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
-import { AdminService } from '@yaari/services/admin/admin.service';
 import * as fileSaver from 'file-saver';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
+
 import { AppFacade, IAppState } from '~app/store/app.state';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+
+import { AdminService } from '@yaari/services/admin/admin.service';
+import { IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
+import { MatTableDataSource } from '@angular/material/table';
+import { Subscription } from 'rxjs';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-uploaded-catalogues',
@@ -23,13 +25,17 @@ export class UploadedCataloguesComponent implements OnInit, OnDestroy {
     private _appFacade: AppFacade
   ) { }
 
-
   displayedColumns = [
     'catalogue_name',
     'product_count',
     'supplier_business_name',
+    'action_by',
+    'action_date',
+    'content_updated_by',
+    'content_updated_date',
     'action',
   ];
+
   dataSource: MatTableDataSource<any[]>;
   allData = [];
   filter = '';
@@ -45,6 +51,7 @@ export class UploadedCataloguesComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._appFacade.clearMessages();
     this._adminService.authorizedAdmin('catalogue_management');
+    this.getUploadedCatalogues();
   }
 
   public ngOnDestroy(): void {
