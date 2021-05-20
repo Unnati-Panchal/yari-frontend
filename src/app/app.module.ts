@@ -2,7 +2,6 @@ import * as fromAdmin from '~store/admin/admin.reducer';
 import * as fromAuth from '~store/auth/auth.reducer';
 import * as fromProducts from '~store/products/products.reducer';
 import * as fromProfile from '~store/profile/profile.reducer';
-
 import { ActionReducerMap, StoreModule } from '@ngrx/store';
 import { AdminAuthGuard, AuthGuard } from '@yaari/guards/auth.guard';
 import { AppFacade, IAppState } from '~store/app.state';
@@ -25,6 +24,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TermsAndConditionsComponent } from '~app/modules/terms-and-conditions/terms-and-conditions.component';
 import { TokenInterceptor } from '@yaari/interceptors/token.interceptor';
 import { environment } from '~env/environment';
+
 
 const reducers: ActionReducerMap<IAppState> = {
   ['router']: routerReducer,

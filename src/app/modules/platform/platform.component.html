@@ -4,8 +4,8 @@
       <div class="my-profile">
         <section>
           <ng-container *ngIf="supplierDetails$ | async as supplierDetails">
-            <ng-container *ngIf="!supplierDetails?.profile_image; else defaultUserImage">
-              <img [src]="supplierDetails.profile_image" alt="user image"/>
+            <ng-container *ngIf="supplierDetails?.profile_image; else defaultUserImage">
+              <img [src]="supplierDetails?.profile_image" alt="user image"/>
             </ng-container>
             <ng-template #defaultUserImage>
               <img [src]="defaultImage" alt="user image"/>

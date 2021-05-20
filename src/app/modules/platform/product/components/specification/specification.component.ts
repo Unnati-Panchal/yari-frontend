@@ -47,13 +47,11 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   );
   public isMsg$ = this._store.pipe(
     select(fromProductsSelectors.getIsMsg),
-    filter(msg => !!msg),
-    tap(() => this.clearMessages())
+    filter(msg => !!msg)
   );
   public isError$ = this._store.pipe(
     select(fromProductsSelectors.getIsError),
-    filter(error => !!error),
-    tap(() => this.clearMessages())
+    filter(error => !!error)
   );
   public getCatalogues$ = this._store.pipe(select(fromProductsSelectors.getCatalogs), filter(catalogs => !!catalogs));
 
@@ -89,7 +87,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
       this._store.dispatch(fromProductsActions.clearMessages());
       this.errorMessages = null;
       this.successMessage = null;
-    }, 3000);
+    }, 5000);
   }
 
   getCataloguesRes(): void {
@@ -113,12 +111,17 @@ export class SpecificationComponent implements OnInit, OnDestroy {
     this._subscription.add(this.getCatalogues$.subscribe((list) =>
       this.catalogueList = list.filter(catalog => !!catalog.approved)
     ));
-    this._subscription.add(this.isError$.subscribe((errors) => this.errorMessages = errors));
+    this._subscription.add(this.isError$.subscribe((errors) => {
+      this.errorMessages = errors;
+      this.clearMessages();
+    }));
     this._subscription.add(this.isMsg$.subscribe((msg) => {
+      this.successMessage = msg;
       if (msg === 'Successfully deleted') {
         this.viewCatalogueList();
         this._store.dispatch(fromProductsActions.clearMessages());
       }
+      this.clearMessages();
     }));
   }
 

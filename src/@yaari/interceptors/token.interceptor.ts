@@ -19,13 +19,21 @@ export class TokenInterceptor implements HttpInterceptor {
 
     return next.handle(request).pipe(
       catchError(err => {
-        if (err.url.includes('/api/v1/admin') && (err.status === 401 || err.status === 403)) {
-          const msg = err.status === 401 ? `Status 401. You are not authorized, please log in` : `Status 403. You are not authorized`;
-          this._snackBar.open(msg, '', { duration: 3000 });
-          if (err.status === 401) {
-            this._auth.redirectToAdminLogin();
+        if (err.url.includes('/api/v1/admin')) {
+          if ((err.status === 401 || err.status === 403)) {
+            const msg = err.status === 401 ? `Status 401. You are not authorized, please log in` : `Status 403. You are not authorized`;
+            this._snackBar.open(msg, '', { duration: 3000 });
+            if (err.status === 401) {
+              this._auth.redirectToAdminLogin();
+            }
+            return of(err);
           }
-          return of(err);
+          if (err.status === 404 || err.error.detail) {
+              const msg = err.error.detail;
+              this._snackBar.open(msg, '', { duration: 3000 });
+              return of(err);
+          }
+
         }
         else if (err.status === 401 || err.status === 403) {
           this._auth.logout();
