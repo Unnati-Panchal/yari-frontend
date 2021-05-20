@@ -41,6 +41,11 @@ export class TokenInterceptor implements HttpInterceptor {
           this._snackBar.open(msg, '', { duration: 3000 });
           return of(err);
         }
+        else if (err.status === 404 || err.error.detail) {
+          const msg = err.error.detail;
+          this._snackBar.open(msg, '', { duration: 3000 });
+          return of(err);
+        }
         if (err.status === 500) {
           this._snackBar.open(err.error, '', { duration: 3000 });
           return of(err);

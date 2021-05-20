@@ -1,6 +1,6 @@
 <div class="main-body">
     <div>
-        <h2 class="head">Uploaded Catalogues</h2>
+        <h2 class="head">Approve Uploaded Catalogues</h2>
     </div>
     <div class="search">
         <mat-form-field floatLabel="never" appearance="none" class="form-field">
@@ -11,30 +11,49 @@
         </button>
     </div>
 
-    <table mat-table [dataSource]="dataSource">
-        <ng-container matColumnDef="catalogue_name">
-            <th mat-header-cell *matHeaderCellDef>Catalogue Name</th>
-            <td mat-cell *matCellDef="let element; let i = index"><a
-                    [routerLink]="['products',{id:element['catalogue_id'],name:element['catalogue_name']}]">{{element["catalogue_name"]}}</a>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="product_count">
-            <th mat-header-cell *matHeaderCellDef>Product Count</th>
-            <td mat-cell *matCellDef="let element">{{element["product_count"]}}</td>
-        </ng-container>
-        <ng-container matColumnDef="supplier_business_name">
-            <th mat-header-cell *matHeaderCellDef>Supplier Business Name</th>
-            <td mat-cell *matCellDef="let element">{{element["supplier_business_name"]}}</td>
-        </ng-container>
-        <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef class="actions">Action</th>
-            <td mat-cell *matCellDef="let element">
-                <!-- <button mat-button class="action-button">Approve</button>
-                <button mat-button class="action-button">Reject</button> -->
-                <button mat-button class="action-button" (click)="downloadCatalogueExcel(element)">Download</button>
-            </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
+
+    <div class="main-table">
+        <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="catalogue_name" sticky>
+                <th mat-header-cell *matHeaderCellDef>Catalogue Name</th>
+                <td mat-cell *matCellDef="let element; let i = index"><a
+                        [routerLink]="['products',{id:element['catalogue_id'],name:element['catalogue_name']}]">{{element["catalogue_name"]}}</a>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="product_count">
+                <th mat-header-cell *matHeaderCellDef>Product Count</th>
+                <td mat-cell *matCellDef="let element">{{element["product_count"]}}</td>
+            </ng-container>
+            <ng-container matColumnDef="supplier_business_name">
+                <th mat-header-cell *matHeaderCellDef>Supplier Business Name</th>
+                <td mat-cell *matCellDef="let element">{{element["supplier_business_name"]}}</td>
+            </ng-container>
+            <ng-container matColumnDef="action_by">
+                <th mat-header-cell *matHeaderCellDef>Action By</th>
+                <td mat-cell *matCellDef="let element">{{element["action_by"]}}</td>
+            </ng-container>
+            <ng-container matColumnDef="action_date">
+                <th mat-header-cell *matHeaderCellDef>Action Date</th>
+                <td mat-cell *matCellDef="let element">{{element["action_date"]}}</td>
+            </ng-container>
+            <ng-container matColumnDef="content_updated_by">
+                <th mat-header-cell *matHeaderCellDef>Content Updated By</th>
+                <td mat-cell *matCellDef="let element">{{element["content_updated_by"]}}</td>
+            </ng-container>
+            <ng-container matColumnDef="content_updated_date">
+                <th mat-header-cell *matHeaderCellDef>Content Updated Date</th>
+                <td mat-cell *matCellDef="let element">{{element["content_updated_date"]}}</td>
+            </ng-container>
+            <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef class="actions">Action</th>
+                <td mat-cell *matCellDef="let element">
+                    <!-- <button mat-button class="action-button">Approve</button>
+                    <button mat-button class="action-button">Reject</button> -->
+                    <button mat-button class="action-button" (click)="downloadCatalogueExcel(element)">Download</button>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
 </div>
