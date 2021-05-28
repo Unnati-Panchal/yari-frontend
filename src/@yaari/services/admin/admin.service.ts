@@ -1,5 +1,4 @@
-import { IAdminUserDetails, ICatalogueApprove, ICatalogueProducts, IResMsg, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
-
+import { IAdminUserDetails, ICatalogueApprove, ICatalogueContentManagement, ICatalogueProducts, IResMsg, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
 import { AuthService } from '../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
 import { IResetPassword } from '@yaari/models/auth/auth.interface';
@@ -66,5 +65,11 @@ export class AdminService {
       }
     });
   }
-}
+  public getCatalogContents(catalogueIds: string): Observable<ICatalogueContentManagement[]> {
+    return this._http.get<ICatalogueContentManagement[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=catalogue_content_management`);
+  }
 
+  public getViewCatalogues(): Observable<IUploadedCatalogue[]> {
+    return this._http.get<IUploadedCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=view_catalogue`);
+  }
+}

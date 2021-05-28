@@ -1,0 +1,47 @@
+[
+    {
+        "id": "1",
+        "sku_id": "ACKPBP19",
+        "product_catalog": {
+            "id": 1,
+            "category": {
+                "id": 50,
+                "name": "Category 2.1.2.3"
+            },
+            "supplier": {
+                "id": 6,
+                "contact_person": "UC Test"
+            }
+        }
+    },
+    {
+        "id": 13,
+        "sku_id": "SKUID85W6H6",
+        "product_catalog": {
+            "id": 5,
+            "category": {
+                "id": 110,
+                "name": "Category 3.3.1.1"
+            },
+            "supplier": {
+                "id": 2,
+                "contact_person": "Test Contact Name"
+            }
+        }
+    },
+    {
+        "id": 2,
+        "sku_id": "CSCB0213",
+        "product_catalog": {
+            "id": 5,
+            "category": {
+                "id": 110,
+                "name": "XYZ-65848"
+            },
+            "supplier": {
+                "id": 2,
+                "contact_person": "Test Contact Name"
+            }
+        }
+    }
+]

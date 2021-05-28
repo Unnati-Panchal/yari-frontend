@@ -1,14 +1,14 @@
-import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { Store } from '@ngrx/store';
-import { ICatalogueProducts, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
-import { AdminService } from '@yaari/services/admin/admin.service';
-import { of } from 'rxjs';
-import { catchError, map, switchMap } from 'rxjs/operators';
 import * as fromAdminActions from '~store/admin/admin.actions';
 import * as fromRouter from '~store/route/route.selectors';
 
+import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { ICatalogueContentManagement, ICatalogueProducts, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
+import { catchError, map, switchMap } from 'rxjs/operators';
 
+import { AdminService } from '@yaari/services/admin/admin.service';
+import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 
 @Injectable()
 export class AdminEffects {
@@ -24,6 +24,20 @@ export class AdminEffects {
       )
     )
   );
+
+  public getCatalogueContentManagements$ = createEffect(() =>
+  this._actions$.pipe(
+    ofType(fromAdminActions.getCatalogueContentManagements),
+    map(action => action.catalogueIds),
+    switchMap((catalogueIds: string) =>
+      this._adminService.getCatalogContents(catalogueIds).pipe(
+        // tslint:disable-next-line: max-line-length
+        map((cataloguesContentManagements: ICatalogueContentManagement[]) => fromAdminActions.getCatalogueContentManagementsSuccess({ cataloguesContentManagements })),
+        catchError(error => of(fromAdminActions.getCatalogueContentManagementsError(error)))
+      )
+    )
+  )
+);
 
   // public getCatalogueDownload$ = createEffect(() =>
   //   this._actions$.pipe(

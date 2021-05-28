@@ -57,21 +57,18 @@
   }
 
   ::ng-deep .drpdwn .mat-form-field-wrapper {
-    height: 25px;
     background-color: #efefef;
     border-radius: 12px;
     padding: 3px 13px 10px;
   }
 
   ::ng-deep .login-password-field .mat-form-field-wrapper {
-    height: 25px;
     border: solid 2px #363636;
     border-radius: 12px;
     padding: 3px 13px 10px;
   }
 
   ::ng-deep .invalid-field .mat-form-field-wrapper {
-    height: 25px;
     border: solid 2px #f62101;
     border-radius: 12px;
     padding: 3px 13px 10px;

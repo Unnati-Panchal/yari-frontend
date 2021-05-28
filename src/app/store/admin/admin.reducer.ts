@@ -1,8 +1,10 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Action, createReducer, on } from '@ngrx/store';
-import { ICatalogueProducts, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
 import * as fromAdminActions from '~store/admin/admin.actions';
 import * as fromRoot from '~store/app.state';
+
+import { Action, createReducer, on } from '@ngrx/store';
+import { ICatalogueContentManagement, ICatalogueProducts, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
+
+import { HttpErrorResponse } from '@angular/common/http';
 
 export const adminFeatureKey = 'admin';
 
@@ -13,6 +15,7 @@ export interface IAdminState extends fromRoot.IAppState {
   uploadedCatalogues: IUploadedCatalogue[];
   catalogueId: number;
   catalogueProducts: ICatalogueProducts[];
+  cataloguesContentManagements: ICatalogueContentManagement[];
   // catalogueExcel: Blob;
 
 }
@@ -23,7 +26,8 @@ export const adminInitialState: IAdminState = {
   msg: '',
   uploadedCatalogues: [],
   catalogueId: null,
-  catalogueProducts: []
+  catalogueProducts: [],
+  cataloguesContentManagements: undefined
   // catalogueExcel: null
 };
 
@@ -43,6 +47,15 @@ export const adminReducer = createReducer(
   on(fromAdminActions.getCatalogueProducts, (state, { catalogueId }) => ({ ...state, loading: true, catalogueId })),
   on(fromAdminActions.getCatalogueProductsSuccess, (state, { catalogueProducts }) => ({ ...state, loading: false, catalogueProducts })),
   on(fromAdminActions.getCatalogueProductsError, (state, { error }) => ({ ...state, loading: false, error })),
+
+  on(fromAdminActions.getCatalogueContentManagements, (state) => ({ ...state, loading: true })),
+  on(fromAdminActions.getCatalogueContentManagementsSuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    cataloguesContentManagements: action.cataloguesContentManagements
+  })),
+  
+  on(fromAdminActions.getCatalogueContentManagementsError, (state, action) => ({ ...state, loading: false, error: action.error })),
 
 );
 

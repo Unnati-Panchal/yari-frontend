@@ -4,15 +4,20 @@
 
 export const environment = {
   production: false,
+
+  //API_BASE_URL: 'http://localhost:4200',
+
   // API_BASE_URL: 'http://65.1.182.179:8000', // dev
+
   API_BASE_URL: 'http://65.1.152.244:8000', // qa
+
   // API_BASE_URL: 'https://api-dev.yaari.com', // qa
   // API_BASE_URL: 'http://localhost:4200',
   // API_BASE_URL: 'https://api-qa.yaari.com',
 
   thirdPartyVerifyEmail: 'https://verifyemail.invoid.co',
   thirdPartyPanAndGstVerification: 'https://gc.invoid.co',
-  invoidAuthKey: '894f3c58-895c-45b5-ab29-9ae00b304d53'
+  invoidAuthKey: '894f3c58-895c-45b5-ab29-9ae00b304d53',
 };
 
 /*

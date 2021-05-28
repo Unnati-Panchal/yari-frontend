@@ -1,0 +1,190 @@
+<div class="container-fluid">
+  <h2><b>Product Details</b></h2>
+  <form [formGroup]="form">
+    <input type="hidden" name="id" formControlName="id">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="product_name" class="form-label">Product Name</label>
+        <input type="text" class="form-control" name="product_name" formControlName="product_name">
+      </div>
+      <div class="col-md-6">
+        <label for="product_sku_id" class="form-label">Product SKU ID</label>
+        <input type="text" class="form-control" disabled name="product_sku_id" formControlName="product_sku_id">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label for="product_description" class="form-label">Product Description</label>
+        <textarea name="product_description" formControlName="product_description" rows="5" cols="50">
+      </textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="product_category" class="form-label">Product Category</label>
+        <select class="form-control" name="product_category" formControlName="product_category">
+          <option [ngValue]="productCategory.id" *ngFor="let productCategory of productCategories">
+            {{productCategory.name}}</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="material_care" class="form-label">Material Care</label>
+        <input type="text" class="form-control" name="material_care" formControlName="material_care">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="mrp" class="form-label">MRP</label>
+        <input type="text" class="form-control" name="mrp" formControlName="mrp">
+      </div>
+      <div class="col-md-6">
+        <label for="final_selling_price" class="form-label">Final selling price</label>
+        <input type="text" class="form-control" name="final_selling_price" formControlName="final_selling_price">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="stock_count" class="form-label">Stock Count</label>
+        <input type="text" class="form-control" name="stock_count" formControlName="stock_count">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="re_stock_date" class="form-label">Re-stock date</label>
+        <input disabled matInput [matDatepicker]="re_stock_date" type="text" (click)="re_stock_date.open()"
+          class="form-control" name="re_stock_date" formControlName="re_stock_date">
+        <mat-datepicker #re_stock_date></mat-datepicker>
+      </div>
+      <div class="col-md-6">
+        <label for="manufacturing_date" class="form-label">Manufacturing date</label>
+        <input disabled matInput [matDatepicker]="manufacturing_date" type="text" (click)="manufacturing_date.open()"
+          class="form-control" name="manufacturing_date" formControlName="manufacturing_date">
+        <mat-datepicker #manufacturing_date></mat-datepicker>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="country_of_origin" class="form-label">Country of origin</label>
+        <input type="text" class="form-control" name="country_of_origin" formControlName="country_of_origin">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label for="key_feature" class="form-label">Key feature</label>
+        <textarea name="key_feature" rows="5" cols="50" formControlName="key_feature">
+    </textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label for="offer" class="form-label">Offer</label>
+        <input disabled type="text" class="form-control" formControlName="offer" name="offer">
+      </div>
+      <div class="col-md-4">
+        <label for="offer_start_date" class="form-label">Offer Start Date</label>
+        <input disabled matInput [matDatepicker]="offer_start_date" type="text" (click)="offer_start_date.open()"
+          class="form-control" formControlName="offer_start_date" name="offer_start_date">
+        <mat-datepicker #offer_start_date></mat-datepicker>
+      </div>
+      <div class="col-md-4">
+        <label for="offer_end_date" class="form-label">Offer end date</label>
+        <input disabled matInput [matDatepicker]="offer_end_date" type="text" (click)="offer_end_date.open()"
+          class="form-control" formControlName="offer_end_date" name="offer_end_date">
+        <mat-datepicker #offer_end_date></mat-datepicker>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <label for="hsnCode" class="form-label">HSN Code</label>
+        <input type="text" class="form-control" formControlName="hsnCode" name="hsnCode">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <label for="productId" class="form-label">Product Id</label>
+        <input type="text" class="form-control" formControlName="productId" name="productId">
+      </div>
+      <div class="col-md-6">
+        <label for="groupId" class="form-label">Group Id</label>
+        <input type="text" class="form-control" formControlName="groupId" name="groupId">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <label for="guarantee" class="form-label">Guarantee</label>
+        <input type="text" class="form-control" formControlName="guarantee" name="guarantee">
+      </div>
+      <div class="col-md-6">
+        <label for="warranty" class="form-label">Warranty</label>
+        <input type="text" class="form-control" formControlName="warranty" name="warranty">
+      </div>
+    </div>
+    <div class="row">
+      <label for="images" class="form-label">Images</label>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <div class="gallery-item" (mouseover)="showXbutton=true" (mouseout)="showXbutton=false">
+          <img _ngcontent-hil-c76="" src="{{getMyData(0)}}" class="gallery-img">
+          <span class="delete-img" *ngIf="showXbutton" (click)="deleteImage(0)"></span>
+        </div>
+
+      </div>
+      <div class="col-md-6">
+        <img _ngcontent-hil-c76="" src="{{getMyData(1)}}" height="200px" width="128px">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <img _ngcontent-hil-c76="" src="{{getMyData(2)}}" height="200px" width="128px">
+      </div>
+      <div class="col-md-6">
+        <img _ngcontent-hil-c76="" src="{{getMyData(3)}}" height="200px" width="128px">
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <!-- <mat-toolbar>
+          Display files names
+          <input matInput [(ngModel)]="fileAttr" readonly name="name" />
+
+          Browse Button
+          <button mat-flat-button color="primary">
+            Browse File
+          </button>
+        </mat-toolbar> -->
+
+        <!-- Fetch selected filed on change -->
+        <input type="file" #fileInput id="uploadFile" class="file-input" (change)="uploadFileEvt($event)"
+          name="uploadFile" multiple="multiple" accept="image/*" />
+
+        <div class="btn-container">
+          <button class="btn-container__button" (click)="fileInput.click()">Browse And Upload Images</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label for="videos" class="form-label">Videos</label>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <img _ngcontent-hil-c76="" src="/assets/images/yaari-logo.png" height="200px" width="228px">
+      </div>
+      <div class="col-md-6">
+        <img _ngcontent-hil-c76="" src="/assets/images/yaari-logo.png" height="200px" width="228px">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="btn-container">
+          <button class="btn-container__button">Browse And Upload Videos</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

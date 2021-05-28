@@ -2,12 +2,12 @@ import * as fromAdmin from '~store/admin/admin.reducer';
 import * as fromAuth from '~store/auth/auth.reducer';
 import * as fromProducts from '~store/products/products.reducer';
 import * as fromProfile from '~store/profile/profile.reducer';
+
 import { ActionReducerMap, StoreModule } from '@ngrx/store';
 import { AdminAuthGuard, AuthGuard } from '@yaari/guards/auth.guard';
 import { AppFacade, IAppState } from '~store/app.state';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterState, StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
-
 import { AdminEffects } from './store/admin/admin.effects';
 import { AppComponent } from '~app/app.component';
 import { AppRoutingModule } from '~app/app-routing.module';

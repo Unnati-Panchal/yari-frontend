@@ -1,7 +1,8 @@
-import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { AdminAuthGuard } from '@yaari/guards/auth.guard';
 import { AdminComponent } from './admin.component';
+import { NgModule } from '@angular/core';
 
 const routes: Routes = [
   {
@@ -29,6 +30,24 @@ const routes: Routes = [
       {
         path: 'catalogue-management',
         loadChildren: () => import('~admin/catalogue-management/catalogue-management.module').then(m => m.CatalogueManagementModule),
+        canActivate: [AdminAuthGuard]
+      },
+      {
+        path: 'catalogue-content-management',
+        loadChildren: () => import('~admin/catalogue-content-management/catalogue-content-management.module')
+        .then(m => m.CatalogueContentManagementModule),
+        canActivate: [AdminAuthGuard]
+      },
+      {
+        path: 'view-catalogue',
+        loadChildren: () => import('~admin/view-catalogue/view-catalogue.module')
+        .then(m => m.ViewCatalogueModule),
+        canActivate: [AdminAuthGuard]
+      },
+      {
+        path: 'catalogue-quality-score-card',
+        loadChildren: () => import('~admin/catalogue-quality-score-card/catalogue-quality-score-card.module')
+        .then(m => m.CatalogueQualityScoreCardModule),
         canActivate: [AdminAuthGuard]
       },
       {

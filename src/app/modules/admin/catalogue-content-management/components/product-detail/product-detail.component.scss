@@ -1,0 +1,131 @@
+.container-fluid {
+  font-family: Poppins;
+  margin-top: 30px;
+
+  .row {
+    margin-bottom: 25px;
+  }
+
+  .col-md-4,
+  .col-md-6,
+  .col-md-12 {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-label {
+    font-size: 20px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-align: left;
+    color: #363636;
+    margin-left: 10px;
+  }
+
+  .form-control {
+    height: 50px;
+    border-radius: 15px;
+    background-color: #efefef;
+    font-family: Poppins;
+    color: #363636;
+    font-size: 20px;
+    border: 0px;
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+  }
+}
+
+textarea {
+  resize: none;
+  color: #363636;
+  font-size: 20px;
+  border-radius: 15px;
+  border: solid 1px #363636;
+  padding: 10px;
+}
+
+select {
+  padding: 15px;
+  background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right#efefef;
+  -webkit-appearance: none;
+  background-position-x: right;
+}
+
+.btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+
+  &__button {
+    width: 336px;
+    height: 74px;
+    //padding: 17px 215px 16px 216px;
+    border-radius: 24px;
+    background-color: #f62101;
+    border: 0;
+    font-size: 20px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    color: #ffffff;
+  }
+}
+
+.file-input {
+  display: none;
+}
+
+.gallery-item {
+  display: inline-block;
+  position: relative;
+  cursor: pointer;
+
+  .gallery-img {
+    height: 200px;
+    width: 128px;
+    position: relative;
+    float: left;
+    opacity: 1;
+    transition: opacity 0.3s ease-in;
+  }
+
+  .delete-img {
+    position: absolute;
+    left: 16%;
+    opacity: 0.3;
+  }
+
+  .delete-img:hover {
+    opacity: 1;
+  }
+
+  .delete-img:before,
+  .delete-img:after {
+    position: absolute;
+    left: 15px;
+    content: ' ';
+    height: 33px;
+    width: 2px;
+    background-color: #333;
+  }
+
+  .delete-img:before {
+    transform: rotate(45deg);
+  }
+
+  .delete-img:after {
+    transform: rotate(-45deg);
+  }
+}

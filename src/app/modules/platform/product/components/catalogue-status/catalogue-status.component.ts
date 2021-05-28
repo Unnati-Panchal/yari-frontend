@@ -1,14 +1,14 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {FormControl, FormGroup} from '@angular/forms';
-import {combineLatest, Subscription} from 'rxjs';
-import * as moment from 'moment';
-import {IBulkUploadBasic, IQuery} from '@yaari/models/product/product.interface';
 import * as fromProductsActions from '~store/products/products.actions';
-import {select, Store} from '@ngrx/store';
-import {IAppState} from '~store/app.state';
 import * as fromProductsSelectors from '~store/products/products.selectors';
-import {filter} from 'rxjs/operators';
+import {FormControl, FormGroup} from '@angular/forms';
+import {IBulkUploadBasic, IBulkUploadStatus, IQuery} from '@yaari/models/product/product.interface';
+import {Store, select} from '@ngrx/store';
+import {Subscription, combineLatest} from 'rxjs';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {IAppState} from '~store/app.state';
 import {Router} from '@angular/router';
+import {filter} from 'rxjs/operators';
+import moment from 'moment';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort, Sort} from '@angular/material/sort';
@@ -24,7 +24,9 @@ export class CatalogueStatusComponent implements OnInit, OnDestroy {
     start: new FormControl(),
     end: new FormControl()
   });
+
   displayedColumns: string[] = ['sr_no', 'catalog_name', 'category_name', 'created_time', 'approved', 'comment', 'task_id', 'viewed', 'shared'];
+
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();
   public getCatalogues$ = this._store.pipe(select(fromProductsSelectors.getCatalogs), filter(catalogs => !!catalogs));

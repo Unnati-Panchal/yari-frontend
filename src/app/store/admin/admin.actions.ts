@@ -1,6 +1,7 @@
-import { HttpErrorResponse } from '@angular/common/http';
+import { ICatalogueContentManagement, ICatalogueProducts, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
 import { createAction, props } from '@ngrx/store';
-import { ICatalogueProducts, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
+
+import { HttpErrorResponse } from '@angular/common/http';
 
 export const clearMessages = createAction('[ADMIN] clear messages');
 
@@ -26,4 +27,12 @@ export const getCatalogueProductsSuccess = createAction('[ADMIN] get catalogue p
     props<{ catalogueProducts: ICatalogueProducts[] }>());
 
 export const getCatalogueProductsError = createAction('[ADMIN] get catalogue products error', props<{ error: HttpErrorResponse }>());
+
+export const getCatalogueContentManagements = createAction('[ADMIN] get catalogue content managements' , props<{ catalogueIds : string}>());
+
+export const getCatalogueContentManagementsSuccess = createAction('[ADMIN] get catalogue content managements success',
+    props<{ cataloguesContentManagements: ICatalogueContentManagement[] }>());
+
+// tslint:disable-next-line: max-line-length
+export const getCatalogueContentManagementsError = createAction('[ADMIN] get catalogue content managements error', props<{ error: HttpErrorResponse }>());
 

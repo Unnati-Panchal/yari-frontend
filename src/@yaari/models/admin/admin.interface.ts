@@ -44,6 +44,63 @@ export interface IResMsg {
     msg: string;
 }
 
+export interface ICatalogueContentManagement {
+    id: number;
+    sku_id: string;
+    product_catalog: IProductCatalog;
+    checked?: boolean;
+}
+
+interface IProductCatalog {
+    id: number;
+    category: ICategory;
+    supplier: ISupplier;
+}
+
+interface ICategory {
+    id: number;
+    name: string;
+}
+
+interface ISupplier {
+    id: number;
+    contact_person: string;
+}
+
+
+export interface IProductDetail {
+    id: number;
+    product_name: string;
+    product_sku_id: string;
+    product_description: string;
+    product_category: number;
+    material_care: string;
+    mrp: string;
+    final_selling_price: string;
+    stock_count: number;
+    re_stock_date: string;
+    manufacturing_date: string;
+    country_of_origin: string;
+    key_feature: string;
+    offer: string;
+    offer_start_date: string;
+    offer_end_date: string;
+    guarantee: string;
+    warranty: string;
+    images: string[];
+    videos: string[];
+    size_chart: string;
+    color_chart: string;
+    neck_pattern: string;
+    sleeve_length: string;
+    kurti_length: string;
+    hemline: string;
+}
+
+export interface IProductCategory {
+    id: number;
+    name: string;
+}
 export interface IAdminUserDetails {
     first_name: string;
     last_name: string;
@@ -51,4 +108,5 @@ export interface IAdminUserDetails {
     email_id: string;
     admin_role: string;
     admin_designation: string;
+
 }

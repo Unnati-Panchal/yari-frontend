@@ -1,5 +1,6 @@
-import { createFeatureSelector, createSelector } from '@ngrx/store';
 import * as fromAdminReducer from '~store/admin/admin.reducer';
+
+import { createFeatureSelector, createSelector } from '@ngrx/store';
 
 export const selectBaseFeature = createFeatureSelector<fromAdminReducer.IAdminState>(fromAdminReducer.adminFeatureKey);
 
@@ -9,3 +10,6 @@ export const getIsMsg = createSelector(selectBaseFeature, (state: fromAdminReduc
 export const getUploadedCatalogues = createSelector(selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.uploadedCatalogues);
 // export const getCatalogueDownload = createSelector(selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.catalogueExcel);
 export const getCatalogueProducts = createSelector(selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.catalogueProducts);
+
+// tslint:disable-next-line: max-line-length
+export const getCataloguesContentManagements$ = createSelector(selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.cataloguesContentManagements);
