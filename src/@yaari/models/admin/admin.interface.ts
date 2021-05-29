@@ -110,3 +110,35 @@ export interface IAdminUserDetails {
     admin_designation: string;
 
 }
+
+export interface IPricingCatalogue {
+    id: number;
+    catalogue_name: string;
+    product_count: string;
+    category: string;
+    supplier_business_name: string;
+    uploaded_by: string;
+    uploaded_date: string;
+    approved_by: string;
+    approved_date: string;
+}
+
+export interface IPricingProduct {
+    id: number;
+    sku_id: string;
+    product_name: string;
+    product_id: string;
+    group_id: string;
+    mrp: number;
+    sp: number;
+    offers: string;
+    comment: string;
+}
+
+export interface IPricingEdit {
+    sku_id: string;
+    mrp: number;
+    sp: number;
+    offers: string;
+    comment: string;
+}

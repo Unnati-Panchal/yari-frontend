@@ -41,7 +41,7 @@ export class CatalogueManagementComponent implements OnInit, OnDestroy {
   clicked: number;
   ngOnInit(): void {
     this._appFacade.clearMessages();
-    this._store.dispatch(fromAuthActions.adminDetails());
+    // this._store.dispatch(fromAuthActions.adminDetails());
     this._adminService.authorizedAdmin('catalogue_management');
   }
 

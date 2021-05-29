@@ -1,0 +1,101 @@
+<div class="main-body">
+    <div>
+        <h2 class="head">{{ catalogueName }}</h2>
+    </div>
+
+    <div class="search">
+        <form>
+            <mat-form-field floatLabel="never" appearance="none" class="form-field">
+                <input matInput placeholder="Search by SKU ID" [(ngModel)]="filter" name="search">
+            </mat-form-field>
+            <button mat-button type="submit" class="search-button" (click)="applyFilter(filter)">
+                <mat-icon>search</mat-icon>
+            </button>
+            <button mat-button type="button" class="download-button" (click)="download()">
+                <mat-icon>download</mat-icon>
+            </button>
+            <button mat-button type="button" class="act-button" (click)="edit()">Submit</button>
+            <input #excelInput hidden="true" type="file" onclick="this.value=null" (change)="upload($event)"
+                accept=".xlsx" />
+            <button mat-button type="button" class="act-button" (click)="excelInput.click()">Upload</button>
+        </form>
+    </div>
+
+
+    <div class="main-table" *ngIf="!loading && dataSource?.data?.length">
+        <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="select" sticky>
+                <th mat-header-cell *matHeaderCellDef class="select">Select</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                    <mat-checkbox (change)="change($event.checked, i)"></mat-checkbox>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="sku_id">
+                <th mat-header-cell *matHeaderCellDef>Product SKU ID</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                    {{element["sku_id"]}}
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="product_name">
+                <th mat-header-cell *matHeaderCellDef>Product Name</th>
+                <td mat-cell *matCellDef="let element">{{element["product_name"]}}</td>
+            </ng-container>
+            <ng-container matColumnDef="product_id">
+                <th mat-header-cell *matHeaderCellDef style="max-height: 30px;">Product ID</th>
+                <td mat-cell *matCellDef="let element"> {{element["product_id"]}}</td>
+            </ng-container>
+            <ng-container matColumnDef="group_id">
+                <th mat-header-cell *matHeaderCellDef>Group ID</th>
+                <td mat-cell *matCellDef="let element">{{element["group_id"]}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="mrp">
+                <th mat-header-cell *matHeaderCellDef>MRP <span>&#8377;</span></th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                    <mat-form-field floatLabel="never">
+                        <input matInput [(ngModel)]="cpy[i]['mrp']" [disabled]='!checked.includes(i)'>
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="sp">
+                <th mat-header-cell *matHeaderCellDef>Selling Price <span>&#8377;</span></th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                    <mat-form-field floatLabel="never">
+                        <input matInput [(ngModel)]="cpy[i]['sp']" [disabled]='!checked.includes(i)'>
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="offers">
+                <th mat-header-cell *matHeaderCellDef>Offers</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                    <mat-form-field floatLabel="never">
+                        <mat-select (selectionChange)="changeOffer($event.value, i)" [value]="res[i]['offers']"
+                            [disabled]='!checked.includes(i)'>
+                            <mat-select-trigger *ngIf="!checked.includes(i)">{{ res[i]['offers'] }}</mat-select-trigger>
+                            <mat-select-trigger *ngIf="checked.includes(i)">{{ cpy[i]['offers'] }}</mat-select-trigger>
+                            <mat-option *ngFor="let offer of offers" [value]="offer">
+                                {{ offer }}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="comment">
+                <th mat-header-cell *matHeaderCellDef>Comment</th>
+                <td mat-cell *matCellDef="let element; let i = index">
+                    <mat-form-field floatLabel="never">
+                        <input matInput [(ngModel)]="cpy[i]['comment']" [disabled]='!checked.includes(i)'>
+                    </mat-form-field>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+    </div>
+    <div *ngIf="loading" class="centered">
+        <mat-spinner color="warn" [diameter]="50"></mat-spinner>
+    </div>
+    <div *ngIf="!loading && !dataSource?.data?.length" class="centered">
+        <p>Oops, nothing found.</p>
+    </div>
+</div>

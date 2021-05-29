@@ -1,12 +1,12 @@
-import { IAdminUserDetails, ICatalogueApprove, ICatalogueContentManagement, ICatalogueProducts, IResMsg, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
-import { AuthService } from '../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
-import { IResetPassword } from '@yaari/models/auth/auth.interface';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import { IAdminUserDetails, ICatalogueApprove, ICatalogueContentManagement, ICatalogueProducts, IPricingCatalogue, IPricingEdit, IPricingProduct, IResMsg, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
+import { IResetPassword } from '@yaari/models/auth/auth.interface';
+import { Observable } from 'rxjs';
 import { environment } from '~env/environment';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -65,6 +65,36 @@ export class AdminService {
       }
     });
   }
+
+  public getofferTypes(): Observable<any> {
+    return this._http.get<IPricingCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/pricing/offers`);
+  }
+
+  public getPricingCatalogues(skip: number, pageSize: number, filterBy: string): Observable<IPricingCatalogue[]> {
+    const suffix = `?filter_by=${filterBy}&limit=${pageSize}&skip=${skip}`;
+    return this._http.get<IPricingCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/pricing/list-catalogue${suffix}`);
+  }
+
+  public getPricingProducts(catalogueId: number): Observable<IPricingProduct[]> {
+    const suffix = `?catalog_id=${catalogueId}`;
+    return this._http.get<IPricingProduct[]>(`${environment.API_BASE_URL}/api/v1/admin/pricing/products${suffix}`);
+  }
+
+  public getPricingCatalogueDownload(catalogueId: number): Observable<any> {
+    const suffix = `?catalog_id=${catalogueId}`;
+    // @ts-ignore
+    return this._http.get<any>(`${environment.API_BASE_URL}/api/v1/admin/pricing/download-products${suffix}`, { responseType: 'blob' });
+  }
+
+  public editPricing(editPricingDetails: IPricingEdit[]): Observable<IResMsg> {
+    const body = editPricingDetails;
+    return this._http.put<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/pricing/edit`, body);
+  }
+
+  public uploadPricing(file: any): Observable<IResMsg> {
+    return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/pricing/upload`, file);
+  }
+
   public getCatalogContents(catalogueIds: string): Observable<ICatalogueContentManagement[]> {
     return this._http.get<ICatalogueContentManagement[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=catalogue_content_management`);
   }
