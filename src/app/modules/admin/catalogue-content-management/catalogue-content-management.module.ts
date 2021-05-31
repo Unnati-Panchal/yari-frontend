@@ -20,9 +20,10 @@ import { SharedModule } from '@yaari/shared.module';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { CatalogueProductListComponent } from './components/catalogue-product-list/catalogue-product-list.component';
 
 @NgModule({
-  declarations: [CatalogueContentManagementComponent, ProductDetailComponent, ProductSpecificationComponent, CatalogueContentListComponent],
+  declarations: [CatalogueContentManagementComponent, ProductDetailComponent, ProductSpecificationComponent, CatalogueContentListComponent, CatalogueProductListComponent],
   imports: [
     CommonModule,
     SharedModule,

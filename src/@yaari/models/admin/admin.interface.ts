@@ -108,7 +108,6 @@ export interface IAdminUserDetails {
     email_id: string;
     admin_role: string;
     admin_designation: string;
-
 }
 
 export interface IPricingCatalogue {
@@ -141,4 +140,5 @@ export interface IPricingEdit {
     sp: number;
     offers: string;
     comment: string;
+
 }

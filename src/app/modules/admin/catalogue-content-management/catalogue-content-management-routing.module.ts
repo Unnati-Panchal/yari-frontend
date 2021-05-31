@@ -12,9 +12,12 @@ const routes: Routes = [
     {
         path: 'edit',
         component: CatalogueContentManagementComponent
+    },
+    {
+        path:'products',
+        component: CatalogueProductListComponent
     }
-    
-];
+ ];
 
 @NgModule({
     imports: [RouterModule.forChild(routes)],

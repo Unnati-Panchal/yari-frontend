@@ -1,11 +1,9 @@
 import * as _ from 'lodash';
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
-
 import { AppFacade, IAppState } from '~app/store/app.state';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-
 import { AdminService } from '@yaari/services/admin/admin.service';
 import { ICatalogueContentManagement } from '@yaari/models/admin/admin.interface';
 import { MatPaginator } from '@angular/material/paginator';
@@ -15,28 +13,19 @@ import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-catalogue-content-list',
-  templateUrl: './catalogue-content-list.component.html',
-  styleUrls: ['./catalogue-content-list.component.scss']
+  selector: 'app-catalogue-product-list',
+  templateUrl: './catalogue-product-list.component.html',
+  styleUrls: ['./catalogue-product-list.component.scss']
 })
-export class CatalogueContentListComponent implements OnInit, OnDestroy {
+export class CatalogueProductListComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
 
   displayedColumns: string[] = [
     'selected_product_sku_id',
-    'catalogue_name',
-    'supplier_business_name',
-    'category_name',
-    'product_count',
-    'catalogue_status',
-    'catalogue_uploaded_by',
-    'catalogue_uploaded_date',
-    'action_by',
-    'action_date',
-    'content_updated_by',
-    'content_updated_date'
+    'sku_id',
+    'catalog_name'
   ];
-  getCatalogueContentManagements$ = this._store.pipe(select(fromAdminSelectors.getCataloguesContentManagements$), filter(value => !!value));
+  getCatalogueProductList$ = this._store.pipe(select(fromAdminSelectors.getCatalogueProductList$), filter(value => !!value));
   loading: boolean;
   paginationSizes: number[] = [5, 15, 30, 60, 100];
   defaultPageSize = this.paginationSizes[0];
@@ -45,7 +34,7 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
   selectedRows = new MatTableDataSource([]);
 
   private _subscription: Subscription = new Subscription();
-  selectedCatalogId: string;
+ 
 
   constructor(
     private _store: Store<IAppState>,
@@ -61,23 +50,15 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
     this._subscription.unsubscribe();
   }
 
-  ngOnInit(): void {
-
-    if (this.route.snapshot.queryParamMap.has('id')) {
-      {
-        this.selectedCatalogId = this.route.snapshot.queryParamMap.get('id');
-      }
-    }
-
-
+  ngOnInit(): void {   
     this.loading = true;
     this._appFacade.clearMessages();
     this._adminService.authorizedAdmin('catalogue_management');
-    this._store.dispatch(fromAdminActions.getCatalogueContentManagements());
-
+    const catalogIds = this.route.snapshot.queryParamMap.get('catalogIds');
+    this._store.dispatch(fromAdminActions.getCatalogueProductList({catalogueIds : catalogIds}));
     this._subscription.add(
-      this.getCatalogueContentManagements$.subscribe((catalogueContentManagements) => {
-        this.setTableDataSource(catalogueContentManagements);
+      this.getCatalogueProductList$.subscribe((catalogueProductList) => {
+        this.setTableDataSource(catalogueProductList);
         this.loading = false;
       })
     );
@@ -112,13 +93,12 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
   }
 
   nagivateToEdit() {
-
     const selectedCatalogues = this.selectedRows.data.map(e => e.catalogue_id).join(',');
     this.router.navigate(['admin/catalogue-content-management/products'], { queryParams: { catalogIds: selectedCatalogues } });
 
+
     //const selectedProducts = this.selectedRows.data.map(e => e.id).join(',');
     //this.router.navigate(['admin/catalogue-content-management/edit'], { queryParams: { productIds: selectedProducts } });
-
   }
 
 }

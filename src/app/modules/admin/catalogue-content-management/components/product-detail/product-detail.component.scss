@@ -70,7 +70,6 @@ select {
   &__button {
     width: 336px;
     height: 74px;
-    //padding: 17px 215px 16px 216px;
     border-radius: 24px;
     background-color: #f62101;
     border: 0;
@@ -90,9 +89,13 @@ select {
 .gallery-item {
   display: inline-block;
   position: relative;
-  cursor: pointer;
-
+  .items-wrapper{
+    position: relative;
+    display: inline-block;
+  }
   .gallery-img {
+    cursor: pointer;
+
     height: 200px;
     width: 128px;
     position: relative;
@@ -101,31 +104,24 @@ select {
     transition: opacity 0.3s ease-in;
   }
 
-  .delete-img {
-    position: absolute;
-    left: 16%;
-    opacity: 0.3;
+  .close {
+    position: absolute; 
+    top: 0;
+    right: 0;
+    display: none;
+    .delete-img{
+      background: url('/assets/images/close-white-thin.svg') no-repeat rgba(0, 0, 0, 0.5);
+      width: 22px;
+      height: 22px;
+      display: block;
+      border-radius: 50%;
+    }
   }
-
-  .delete-img:hover {
-    opacity: 1;
-  }
-
-  .delete-img:before,
-  .delete-img:after {
-    position: absolute;
-    left: 15px;
-    content: ' ';
-    height: 33px;
-    width: 2px;
-    background-color: #333;
-  }
-
-  .delete-img:before {
-    transform: rotate(45deg);
-  }
-
-  .delete-img:after {
-    transform: rotate(-45deg);
+  .items-wrapper{
+    &:hover{
+      .close{
+        display: block;
+      }
+    }
   }
 }

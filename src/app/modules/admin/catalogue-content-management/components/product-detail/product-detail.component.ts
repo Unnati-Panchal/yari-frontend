@@ -17,17 +17,20 @@ export class ProductDetailComponent implements OnInit {
     this.bindProduct(1);
   }
 
-  showXbutton = true;
+
   form: FormGroup;
   productCategories: IProductCategory[] = [];
+  videos = [];
   private images = [];
   private defaultImage = 'assets/images/yaari-logo.png';
 
-  @ViewChild('fileInput') fileInput: ElementRef;
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+  @ViewChild("fileInputVideo", { static: false }) fileInputVideo: ElementRef;
 
   ngOnInit(): void { }
 
-  uploadFileEvt(imgFile: any): void {
+  public uploadFileEvt(imgFile: any): void {
+
     if (imgFile.target.files && imgFile.target.files[0]) {
       const reader = new FileReader();
 
@@ -47,7 +50,20 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  public getMyData(id: number): string {
+  public uploadFile(event: any) {
+    const file = event.target.files && event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = (event) => {
+        const video = (<FileReader>event.target).result;
+        this.videos.push(video);
+      }
+    }
+  }
+
+  public getImages(id: number): string {
+
     const image = this.images[id];
     if (image) {
       return image.src;
@@ -58,9 +74,20 @@ export class ProductDetailComponent implements OnInit {
   public deleteImage(id: number): void {
     const image = this.images[id];
     if (image) {
-      this.images = this.images.slice(id, 1);
+
+      this.images.splice(id, 1);
     }
   }
+
+  public getVideos(id: number): string {
+    const video = this.videos[id];
+    if (video) {
+      return video.src;
+    }
+    return "";
+  }
+
+
 
   private createForm(): void {
     this.form = this.fb.group({

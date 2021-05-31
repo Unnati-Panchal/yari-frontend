@@ -128,38 +128,51 @@
 
     <div class="row">
       <div class="col-md-6">
-        <div class="gallery-item" (mouseover)="showXbutton=true" (mouseout)="showXbutton=false">
-          <img _ngcontent-hil-c76="" src="{{getMyData(0)}}" class="gallery-img">
-          <span class="delete-img" *ngIf="showXbutton" (click)="deleteImage(0)"></span>
-        </div>
 
+        <div class="gallery-item">
+          <div class="items-wrapper">
+            <img _ngcontent-hil-c76="" src="{{getImages(0)}}" class="gallery-img" />
+            <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(0)">
+              <i class="delete-img"></i></a>
+          </div>
+        </div>
       </div>
       <div class="col-md-6">
-        <img _ngcontent-hil-c76="" src="{{getMyData(1)}}" height="200px" width="128px">
+        <div class="gallery-item">
+          <div class="items-wrapper">
+            <img _ngcontent-hil-c76="" src="{{getImages(1)}}" class="gallery-img" />
+            <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(1)">
+              <i class="delete-img"></i></a>
+          </div>
+        </div>
+
       </div>
     </div>
     <div class="row">
       <div class="col-md-6">
-        <img _ngcontent-hil-c76="" src="{{getMyData(2)}}" height="200px" width="128px">
+
+        <div class="gallery-item">
+          <div class="items-wrapper">
+            <img _ngcontent-hil-c76="" src="{{getImages(2)}}" class="gallery-img" />
+            <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(2)">
+              <i class="delete-img"></i></a>
+          </div>
+        </div>
       </div>
       <div class="col-md-6">
-        <img _ngcontent-hil-c76="" src="{{getMyData(3)}}" height="200px" width="128px">
+        <div class="gallery-item">
+          <div class="items-wrapper">
+            <img _ngcontent-hil-c76="" src="{{getImages(3)}}" class="gallery-img" />
+            <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(3)">
+              <i class="delete-img"></i></a>
+          </div>
+        </div>
+
       </div>
     </div>
 
     <div class="row">
       <div class="col-md-12">
-        <!-- <mat-toolbar>
-          Display files names
-          <input matInput [(ngModel)]="fileAttr" readonly name="name" />
-
-          Browse Button
-          <button mat-flat-button color="primary">
-            Browse File
-          </button>
-        </mat-toolbar> -->
-
-        <!-- Fetch selected filed on change -->
         <input type="file" #fileInput id="uploadFile" class="file-input" (change)="uploadFileEvt($event)"
           name="uploadFile" multiple="multiple" accept="image/*" />
 
@@ -173,16 +186,24 @@
     </div>
     <div class="row">
       <div class="col-md-6">
-        <img _ngcontent-hil-c76="" src="/assets/images/yaari-logo.png" height="200px" width="228px">
+
+        <img _ngcontent-hil-c76="" src="/assets/images/yaari-logo.png" height="200px" width="228px"
+          *ngIf="videos.length === 0">
+        <video src="{{getVideos(0)}}" *ngIf="videos.length > 0" height="200" width="228px" controls></video>
       </div>
       <div class="col-md-6">
-        <img _ngcontent-hil-c76="" src="/assets/images/yaari-logo.png" height="200px" width="228px">
+        <img _ngcontent-hil-c76="" src="/assets/images/yaari-logo.png" height="200px" width="228px"
+          *ngIf="videos.length === 0 || videos.length > 0 || videos.length < 2">
+        <video src="{{getVideos(1)}}" *ngIf="videos.length === 2" height="200" width="228px" controls></video>
+
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
+        <input type="file" #fileInputVideo id="fileInputVideo" class="file-input" (change)="uploadFile($event)"
+          name="fileInputVideo" multiple="multiple" accept="image/*" />
         <div class="btn-container">
-          <button class="btn-container__button">Browse And Upload Videos</button>
+          <button class="btn-container__button" (click)="fileInputVideo.click()">Browse And Upload Videos</button>
         </div>
       </div>
     </div>

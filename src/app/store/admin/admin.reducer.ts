@@ -15,6 +15,9 @@ export interface IAdminState extends fromRoot.IAppState {
   uploadedCatalogues: IUploadedCatalogue[];
   catalogueId: number;
   catalogueProducts: ICatalogueProducts[];
+
+  catalogueProductLists: ICatalogueContentManagement[];
+
   cataloguesContentManagements: ICatalogueContentManagement[];
   // catalogueExcel: Blob;
 
@@ -27,6 +30,9 @@ export const adminInitialState: IAdminState = {
   uploadedCatalogues: [],
   catalogueId: null,
   catalogueProducts: [],
+
+  catalogueProductLists:[],
+
   cataloguesContentManagements: undefined
   // catalogueExcel: null
 };
@@ -56,6 +62,25 @@ export const adminReducer = createReducer(
   })),
   
   on(fromAdminActions.getCatalogueContentManagementsError, (state, action) => ({ ...state, loading: false, error: action.error })),
+
+
+
+
+
+
+  on(fromAdminActions.getCatalogueProductList, (state, { catalogueIds }) => ({ ...state, loading: true, catalogueIds })),
+  on(fromAdminActions.getCatalogueProductListSuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    catalogueProductLists: action.catalogueProductLists
+  })),
+  on(fromAdminActions.getCatalogueProductListError, (state, { error }) => ({ ...state, loading: false, error })),
+
+
+
+
+  
+
 
 );
 

@@ -28,9 +28,11 @@ export class AdminEffects {
   public getCatalogueContentManagements$ = createEffect(() =>
   this._actions$.pipe(
     ofType(fromAdminActions.getCatalogueContentManagements),
-    map(action => action.catalogueIds),
-    switchMap((catalogueIds: string) =>
-      this._adminService.getCatalogContents(catalogueIds).pipe(
+
+    map(action => action),
+    switchMap(() =>
+      this._adminService.getCatalogContents().pipe(
+
         // tslint:disable-next-line: max-line-length
         map((cataloguesContentManagements: ICatalogueContentManagement[]) => fromAdminActions.getCatalogueContentManagementsSuccess({ cataloguesContentManagements })),
         catchError(error => of(fromAdminActions.getCatalogueContentManagementsError(error)))
@@ -38,6 +40,23 @@ export class AdminEffects {
     )
   )
 );
+
+
+
+public getCatalogueProductList$ = createEffect(() =>
+this._actions$.pipe(
+  ofType(fromAdminActions.getCatalogueProductList),
+  map(action => action.catalogueIds),
+  switchMap((catalogueIds: string) =>
+    this._adminService.getCatalogProductList(catalogueIds).pipe(
+      // tslint:disable-next-line: max-line-length
+      map((catalogueProductLists: ICatalogueContentManagement[]) => fromAdminActions.getCatalogueProductListSuccess({ catalogueProductLists })),
+      catchError(error => of(fromAdminActions.getCatalogueProductListError(error)))
+    )
+  )
+)
+);
+
 
   // public getCatalogueDownload$ = createEffect(() =>
   //   this._actions$.pipe(

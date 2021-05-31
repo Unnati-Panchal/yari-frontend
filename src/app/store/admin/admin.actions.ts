@@ -28,11 +28,24 @@ export const getCatalogueProductsSuccess = createAction('[ADMIN] get catalogue p
 
 export const getCatalogueProductsError = createAction('[ADMIN] get catalogue products error', props<{ error: HttpErrorResponse }>());
 
-export const getCatalogueContentManagements = createAction('[ADMIN] get catalogue content managements' , props<{ catalogueIds : string}>());
+
+export const getCatalogueContentManagements = createAction('[ADMIN] get catalogue content managements');
+
 
 export const getCatalogueContentManagementsSuccess = createAction('[ADMIN] get catalogue content managements success',
     props<{ cataloguesContentManagements: ICatalogueContentManagement[] }>());
 
 // tslint:disable-next-line: max-line-length
 export const getCatalogueContentManagementsError = createAction('[ADMIN] get catalogue content managements error', props<{ error: HttpErrorResponse }>());
+
+
+
+export const getCatalogueProductList = createAction('[ADMIN] get catalogue product list' , props<{ catalogueIds : string}>());
+
+export const getCatalogueProductListSuccess = createAction('[ADMIN] get catalogue product list success',
+    props<{ catalogueProductLists: ICatalogueContentManagement[] }>());
+
+// tslint:disable-next-line: max-line-length
+export const getCatalogueProductListError = createAction('[ADMIN] get catalogue product list error', props<{ error: HttpErrorResponse }>());
+
 

@@ -11,5 +11,8 @@ export const getUploadedCatalogues = createSelector(selectBaseFeature, (state: f
 // export const getCatalogueDownload = createSelector(selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.catalogueExcel);
 export const getCatalogueProducts = createSelector(selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.catalogueProducts);
 
+export const getCatalogueProductList$ = createSelector(selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.catalogueProductLists);
+
+
 // tslint:disable-next-line: max-line-length
 export const getCataloguesContentManagements$ = createSelector(selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.cataloguesContentManagements);
