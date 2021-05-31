@@ -1,5 +1,5 @@
 import { RouterModule, Routes } from '@angular/router';
-
+import {CatalogueProductListComponent} from './components/catalogue-product-list/catalogue-product-list.component'
 import { CatalogueContentListComponent } from './components/catalogue-content-list/catalogue-content-list.component';
 import { CatalogueContentManagementComponent } from './components/catalogue-content-management/catalogue-content-management.component';
 import { NgModule } from '@angular/core';

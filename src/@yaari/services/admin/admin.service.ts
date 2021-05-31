@@ -102,10 +102,6 @@ export class AdminService {
     return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/pricing/upload`, file);
   }
 
-  public getCatalogContents(catalogueIds: string): Observable<ICatalogueContentManagement[]> {
-    return this._http.get<ICatalogueContentManagement[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=catalogue_content_management`);
-  }
-
   public getViewCatalogues(): Observable<IUploadedCatalogue[]> {
     return this._http.get<IUploadedCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=view_catalogue`);
   }
