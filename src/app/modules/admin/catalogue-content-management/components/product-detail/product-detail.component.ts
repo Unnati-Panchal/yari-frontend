@@ -1,6 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 
+import { DomSanitizer } from '@angular/platform-browser';
 import { IProductCategory } from '@yaari/models/admin/admin.interface';
 import data from '../../models/catalogue-edit.mock.json';
 
@@ -11,7 +12,9 @@ import data from '../../models/catalogue-edit.mock.json';
 })
 export class ProductDetailComponent implements OnInit {
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private sanitizer: DomSanitizer) {
     this.createForm();
     this.getProductCategories();
     this.bindProduct(1);
@@ -20,12 +23,12 @@ export class ProductDetailComponent implements OnInit {
 
   form: FormGroup;
   productCategories: IProductCategory[] = [];
-  videos = [];
+  video: any;
   private images = [];
   private defaultImage = 'assets/images/yaari-logo.png';
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
-  @ViewChild("fileInputVideo", { static: false }) fileInputVideo: ElementRef;
+  @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
 
   ngOnInit(): void { }
 
@@ -50,16 +53,10 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  public uploadFile(event: any) {
-    const file = event.target.files && event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = (event) => {
-        const video = (<FileReader>event.target).result;
-        this.videos.push(video);
-      }
-    }
+  public uploadFile(event: any): void {
+    const file = event.target.files[0];
+    const URL = window.URL;
+    this.video = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
   }
 
   public getImages(id: number): string {
@@ -79,15 +76,9 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  public getVideos(id: number): string {
-    const video = this.videos[id];
-    if (video) {
-      return video.src;
-    }
-    return "";
+  public deleteVideo(): void {
+    this.video = null;
   }
-
-
 
   private createForm(): void {
     this.form = this.fb.group({

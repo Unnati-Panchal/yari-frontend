@@ -1,14 +1,16 @@
 import * as _ from 'lodash';
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
+
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppFacade, IAppState } from '~app/store/app.state';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
+
 import { AdminService } from '@yaari/services/admin/admin.service';
 import { ICatalogueContentManagement } from '@yaari/models/admin/admin.interface';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -34,7 +36,7 @@ export class CatalogueProductListComponent implements OnInit, OnDestroy {
   selectedRows = new MatTableDataSource([]);
 
   private _subscription: Subscription = new Subscription();
- 
+
 
   constructor(
     private _store: Store<IAppState>,
@@ -50,12 +52,12 @@ export class CatalogueProductListComponent implements OnInit, OnDestroy {
     this._subscription.unsubscribe();
   }
 
-  ngOnInit(): void {   
+  ngOnInit(): void {
     this.loading = true;
     this._appFacade.clearMessages();
     this._adminService.authorizedAdmin('catalogue_management');
     const catalogIds = this.route.snapshot.queryParamMap.get('catalogIds');
-    this._store.dispatch(fromAdminActions.getCatalogueProductList({catalogueIds : catalogIds}));
+    this._store.dispatch(fromAdminActions.getCatalogueProductList({ catalogueIds: catalogIds }));
     this._subscription.add(
       this.getCatalogueProductList$.subscribe((catalogueProductList) => {
         this.setTableDataSource(catalogueProductList);
@@ -79,7 +81,7 @@ export class CatalogueProductListComponent implements OnInit, OnDestroy {
     this.loading = false;
   }
 
-  changed(event: any, id: number) {
+  changed(event: any, id: number): void {
     const selectedProduct = this.dataSource.data.find(f => f.id === id);
     if (!selectedProduct) {
       return;
@@ -92,13 +94,9 @@ export class CatalogueProductListComponent implements OnInit, OnDestroy {
     }
   }
 
-  nagivateToEdit() {
-    const selectedCatalogues = this.selectedRows.data.map(e => e.catalogue_id).join(',');
-    this.router.navigate(['admin/catalogue-content-management/products'], { queryParams: { catalogIds: selectedCatalogues } });
-
-
-    //const selectedProducts = this.selectedRows.data.map(e => e.id).join(',');
-    //this.router.navigate(['admin/catalogue-content-management/edit'], { queryParams: { productIds: selectedProducts } });
+  nagivateToEdit(): void {
+    const selectedProducts = this.selectedRows.data.map(e => e.id).join(',');
+    this.router.navigate(['admin/catalogue-content-management/edit'], { queryParams: { productIds: selectedProducts } });
   }
 
 }

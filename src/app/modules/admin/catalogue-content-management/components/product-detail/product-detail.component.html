@@ -94,14 +94,14 @@
       </div>
     </div>
 
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-md-6">
         <label for="hsnCode" class="form-label">HSN Code</label>
         <input type="text" class="form-control" formControlName="hsnCode" name="hsnCode">
       </div>
-    </div>
+    </div> -->
 
-    <div class="row">
+    <!-- <div class="row">
       <div class="col-md-6">
         <label for="productId" class="form-label">Product Id</label>
         <input type="text" class="form-control" formControlName="productId" name="productId">
@@ -110,7 +110,7 @@
         <label for="groupId" class="form-label">Group Id</label>
         <input type="text" class="form-control" formControlName="groupId" name="groupId">
       </div>
-    </div>
+    </div> -->
 
     <div class="row">
       <div class="col-md-6">
@@ -131,7 +131,7 @@
 
         <div class="gallery-item">
           <div class="items-wrapper">
-            <img _ngcontent-hil-c76="" src="{{getImages(0)}}" class="gallery-img" />
+            <img _ngcontent-hil-c76="" [src]="getImages(0)" class="gallery-img" />
             <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(0)">
               <i class="delete-img"></i></a>
           </div>
@@ -140,7 +140,7 @@
       <div class="col-md-6">
         <div class="gallery-item">
           <div class="items-wrapper">
-            <img _ngcontent-hil-c76="" src="{{getImages(1)}}" class="gallery-img" />
+            <img _ngcontent-hil-c76="" [src]="getImages(1)" class="gallery-img" />
             <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(1)">
               <i class="delete-img"></i></a>
           </div>
@@ -153,7 +153,7 @@
 
         <div class="gallery-item">
           <div class="items-wrapper">
-            <img _ngcontent-hil-c76="" src="{{getImages(2)}}" class="gallery-img" />
+            <img _ngcontent-hil-c76="" [src]="getImages(2)" class="gallery-img" />
             <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(2)">
               <i class="delete-img"></i></a>
           </div>
@@ -162,12 +162,11 @@
       <div class="col-md-6">
         <div class="gallery-item">
           <div class="items-wrapper">
-            <img _ngcontent-hil-c76="" src="{{getImages(3)}}" class="gallery-img" />
+            <img _ngcontent-hil-c76="" [src]="getImages(3)" class="gallery-img" />
             <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(3)">
               <i class="delete-img"></i></a>
           </div>
         </div>
-
       </div>
     </div>
 
@@ -186,22 +185,20 @@
     </div>
     <div class="row">
       <div class="col-md-6">
-
-        <img _ngcontent-hil-c76="" src="/assets/images/yaari-logo.png" height="200px" width="228px"
-          *ngIf="videos.length === 0">
-        <video src="{{getVideos(0)}}" *ngIf="videos.length > 0" height="200" width="228px" controls></video>
-      </div>
-      <div class="col-md-6">
-        <img _ngcontent-hil-c76="" src="/assets/images/yaari-logo.png" height="200px" width="228px"
-          *ngIf="videos.length === 0 || videos.length > 0 || videos.length < 2">
-        <video src="{{getVideos(1)}}" *ngIf="videos.length === 2" height="200" width="228px" controls></video>
-
+        <div class="gallery-item">
+          <div class="items-wrapper">
+            <img _ngcontent-hil-c76="" src="/assets/images/yaari-logo.png" height="200px" width="228px" *ngIf="!video">
+            <video [src]="video" *ngIf="video" height="200" width="228px" controls></video>
+            <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteVideo()">
+              <i class="delete-img"></i></a>
+          </div>
+        </div>
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
         <input type="file" #fileInputVideo id="fileInputVideo" class="file-input" (change)="uploadFile($event)"
-          name="fileInputVideo" multiple="multiple" accept="image/*" />
+          name="fileInputVideo" multiple="multiple" accept="video/*" />
         <div class="btn-container">
           <button class="btn-container__button" (click)="fileInputVideo.click()">Browse And Upload Videos</button>
         </div>

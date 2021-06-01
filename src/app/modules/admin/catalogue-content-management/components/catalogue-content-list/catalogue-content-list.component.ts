@@ -2,6 +2,7 @@ import * as _ from 'lodash';
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
 
+import { ActivatedRoute, Router } from '@angular/router';
 import { AppFacade, IAppState } from '~app/store/app.state';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
@@ -10,7 +11,6 @@ import { AdminService } from '@yaari/services/admin/admin.service';
 import { ICatalogueContentManagement } from '@yaari/models/admin/admin.interface';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 
@@ -98,8 +98,8 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
     this.loading = false;
   }
 
-  changed(event: any, id: number) {
-    const selectedProduct = this.dataSource.data.find(f => f.id === id);
+  changed(event: any, catalogueId: number): void {
+    const selectedProduct = this.dataSource.data.find(f => f.catalogue_id === catalogueId);
     if (!selectedProduct) {
       return;
     }
@@ -111,14 +111,10 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
     }
   }
 
-  nagivateToEdit() {
+  nagivateToEdit(): void {
 
     const selectedCatalogues = this.selectedRows.data.map(e => e.catalogue_id).join(',');
     this.router.navigate(['admin/catalogue-content-management/products'], { queryParams: { catalogIds: selectedCatalogues } });
-
-    //const selectedProducts = this.selectedRows.data.map(e => e.id).join(',');
-    //this.router.navigate(['admin/catalogue-content-management/edit'], { queryParams: { productIds: selectedProducts } });
-
   }
 
 }
