@@ -70,31 +70,81 @@ interface ISupplier {
 
 export interface IProductDetail {
     id: number;
+    sku_id: string;
     product_name: string;
-    product_sku_id: string;
-    product_description: string;
-    product_category: number;
+    brand: string;
+    mrp: number;
+    sp: number;
+    inventory: number;
+    description: string;
     material_care: string;
-    mrp: string;
-    final_selling_price: string;
-    stock_count: number;
-    re_stock_date: string;
-    manufacturing_date: string;
+    discount: number;
     country_of_origin: string;
-    key_feature: string;
-    offer: string;
-    offer_start_date: string;
-    offer_end_date: string;
+    guarantee: string;
+    key_features: string;
+    video_url: string;
+    warranty: string;
+    supplier_name: string;
+    discount_start_date: string;
+    discount_end_date: string;
+    manufacturing_date: string;
+    re_stock_date: string;
+    specifications: ISpecifications;
+    product_img: IProductImg[];
+    hsn_code: string;
+    product_id: string;
+    group_id: string;
+    product_catalog: IProductCatalog;
+}
+
+interface ISpecifications {
+    additionalProp1: string;
+    additionalProp2: string;
+    additionalProp3: string;
+}
+
+interface IProductImg {
+    url: string;
+}
+
+interface IProductCatalog {
+    category: ICategory;
+}
+
+interface ICategory {
+    id: number;
+    name: string;
+}
+
+
+export interface IEditProduct {
+    id: number;
+    description: string;
+    key_features: string;
     guarantee: string;
     warranty: string;
-    images: string[];
-    videos: string[];
-    size_chart: string;
-    color_chart: string;
-    neck_pattern: string;
-    sleeve_length: string;
-    kurti_length: string;
-    hemline: string;
+    mrp: number;
+    sp: number;
+    specifications: Specifications;
+    to_delete_image_urls: string[];
+    new_images: NewImage[];
+    to_delete_video_url: string;
+    new_video: NewVideo;
+}
+interface Specifications {
+    additionalProp1: string;
+    additionalProp2: string;
+    additionalProp3: string;
+}
+
+interface NewImage {
+    media_name: string;
+    media_bytes: string;
+}
+
+interface NewVideo {
+    media_name: string;
+    media_bytes: string;
 }
 
 export interface IProductCategory {
@@ -142,3 +192,4 @@ export interface IPricingEdit {
     comment: string;
 
 }
+

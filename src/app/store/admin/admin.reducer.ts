@@ -2,9 +2,10 @@ import * as fromAdminActions from '~store/admin/admin.actions';
 import * as fromRoot from '~store/app.state';
 
 import { Action, createReducer, on } from '@ngrx/store';
-import { ICatalogueContentManagement, ICatalogueProducts, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
+import { ICatalogueContentManagement, ICatalogueProducts, IProductDetail, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
 
 import { HttpErrorResponse } from '@angular/common/http';
+import { state } from '@angular/animations';
 
 export const adminFeatureKey = 'admin';
 
@@ -20,7 +21,7 @@ export interface IAdminState extends fromRoot.IAppState {
 
   cataloguesContentManagements: ICatalogueContentManagement[];
   // catalogueExcel: Blob;
-
+  productDetail: IProductDetail;
 }
 
 export const adminInitialState: IAdminState = {
@@ -31,10 +32,13 @@ export const adminInitialState: IAdminState = {
   catalogueId: null,
   catalogueProducts: [],
 
-  catalogueProductLists:[],
 
-  cataloguesContentManagements: undefined
+  catalogueProductLists: [],
+
+  cataloguesContentManagements: undefined,
+
   // catalogueExcel: null
+  productDetail: null
 };
 
 
@@ -60,26 +64,37 @@ export const adminReducer = createReducer(
     loading: false,
     cataloguesContentManagements: action.cataloguesContentManagements
   })),
-  
+
   on(fromAdminActions.getCatalogueContentManagementsError, (state, action) => ({ ...state, loading: false, error: action.error })),
 
 
-
-
-
-
   on(fromAdminActions.getCatalogueProductList, (state, { catalogueIds }) => ({ ...state, loading: true, catalogueIds })),
+
+
   on(fromAdminActions.getCatalogueProductListSuccess, (state, action) => ({
     ...state,
     loading: false,
     catalogueProductLists: action.catalogueProductLists
   })),
+
+
   on(fromAdminActions.getCatalogueProductListError, (state, { error }) => ({ ...state, loading: false, error })),
 
+  on(fromAdminActions.getProductDetailSuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    productDetail: action.productDetail
+  })),
 
+  on(fromAdminActions.getProductDetailError, (state, { error }) => ({ ...state, loading: false, error })),
 
+  on(fromAdminActions.editProductSuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    // productDetail: action.product
+  })),
 
-  
+  on(fromAdminActions.editProductError, (state, { error }) => ({ ...state, loading: false, error })),
 
 
 );

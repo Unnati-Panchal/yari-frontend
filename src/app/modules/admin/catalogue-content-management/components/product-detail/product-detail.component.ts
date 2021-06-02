@@ -1,9 +1,9 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { IProductCategory, IProductDetail } from '@yaari/models/admin/admin.interface';
 
 import { DomSanitizer } from '@angular/platform-browser';
-import { IProductCategory } from '@yaari/models/admin/admin.interface';
-import data from '../../models/catalogue-edit.mock.json';
+
 
 @Component({
   selector: 'app-product-detail',
@@ -17,7 +17,6 @@ export class ProductDetailComponent implements OnInit {
     private sanitizer: DomSanitizer) {
     this.createForm();
     this.getProductCategories();
-    this.bindProduct(1);
   }
 
 
@@ -123,32 +122,31 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  private bindProduct(id: number): void {
-    const product = data.find(f => f.id === id);
+  bindProduct(product: IProductDetail): void {
     if (!product) {
       return;
     }
     this.form.setValue({
       id: product.id,
       product_name: product.product_name,
-      product_sku_id: product.product_sku_id,
-      product_description: product.product_description,
-      product_category: product.product_category,
+      product_sku_id: product.sku_id,
+      product_description: product.description,
+      product_category: product.product_catalog.category,
       material_care: product.material_care,
       mrp: product.mrp,
-      final_selling_price: product.final_selling_price,
-      stock_count: product.stock_count,
+      // final_selling_price: product.final_selling_price,
+      // stock_count: product.stock_count,
       re_stock_date: product.re_stock_date,
       manufacturing_date: product.manufacturing_date,
       country_of_origin: product.country_of_origin,
-      key_feature: product.key_feature,
-      offer: product.offer,
-      offer_start_date: product.offer_start_date,
-      offer_end_date: product.offer_end_date,
+      key_feature: product.key_features,
+      // offer: product.offer,
+      // offer_start_date: product.offer_start_date,
+      // offer_end_date: product.offer_end_date,
       guarantee: product.guarantee,
       warranty: product.warranty,
-      images: product.images,
-      videos: product.videos,
+      images: product.product_img,
+      videos: product.video_url,
     });
   }
 }

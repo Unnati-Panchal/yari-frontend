@@ -1,4 +1,4 @@
-import { ICatalogueContentManagement, ICatalogueProducts, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
+import { ICatalogueContentManagement, ICatalogueProducts, IEditProduct, IProductDetail, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
 import { createAction, props } from '@ngrx/store';
 
 import { HttpErrorResponse } from '@angular/common/http';
@@ -40,12 +40,31 @@ export const getCatalogueContentManagementsError = createAction('[ADMIN] get cat
 
 
 
-export const getCatalogueProductList = createAction('[ADMIN] get catalogue product list' , props<{ catalogueIds : string}>());
 
-export const getCatalogueProductListSuccess = createAction('[ADMIN] get catalogue product list success',
-    props<{ catalogueProductLists: ICatalogueContentManagement[] }>());
+export const getCatalogueProductList = createAction('[ADMIN] get catalogue product list', props<{ catalogueIds: string }>());
+
+export const getCatalogueProductListSuccess = createAction('[ADMIN] get catalogue product list success', props<{ catalogueProductLists: ICatalogueContentManagement[] }>());
+
 
 // tslint:disable-next-line: max-line-length
 export const getCatalogueProductListError = createAction('[ADMIN] get catalogue product list error', props<{ error: HttpErrorResponse }>());
+
+
+
+export const getProductDetail = createAction('[ADMIN] get product detail', props<{ productId: number }>());
+
+export const getProductDetailSuccess = createAction('[ADMIN] get product detail success', props<{ productDetail: IProductDetail }>());
+
+// tslint:disable-next-line: max-line-length
+export const getProductDetailError = createAction('[ADMIN] get product detail error', props<{ error: HttpErrorResponse }>());
+
+
+export const editProduct = createAction('[ADMIN] edit product detail', props<{ product: IEditProduct }>());
+
+export const editProductSuccess = createAction('[ADMIN] edit product detail success', props<{ product: IEditProduct }>());
+
+// tslint:disable-next-line: max-line-length
+export const editProductError = createAction('[ADMIN] edit product detail error', props<{ error: HttpErrorResponse }>());
+
 
 

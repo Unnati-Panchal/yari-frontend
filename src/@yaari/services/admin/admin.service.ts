@@ -1,12 +1,25 @@
+import {
+  IAdminUserDetails,
+  ICatalogueApprove,
+  ICatalogueContentManagement,
+  ICatalogueProducts,
+  IEditProduct,
+  IPricingCatalogue,
+  IPricingEdit,
+  IPricingProduct,
+  IProductDetail,
+  IResMsg,
+  IUploadedCatalogue
+} from '@yaari/models/admin/admin.interface';
+
+import { AuthService } from '../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
+import { IResetPassword } from '@yaari/models/auth/auth.interface';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Router } from '@angular/router';
-import { IAdminUserDetails, ICatalogueApprove, ICatalogueContentManagement, ICatalogueProducts, IPricingCatalogue, IPricingEdit, IPricingProduct, IResMsg, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
-import { IResetPassword } from '@yaari/models/auth/auth.interface';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { environment } from '~env/environment';
-import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -42,6 +55,16 @@ export class AdminService {
     const suffix = `?catalog_id=${catalogueId}`;
     // @ts-ignore
     return this._http.get<any>(`${environment.API_BASE_URL}/api/v1/admin/download-catalogue${suffix}`, { responseType: 'blob' });
+  }
+
+  public getProductDetail(productId: number): Observable<IProductDetail> {
+    const suffix = `?product_id=${productId}`;
+    return this._http.get<IProductDetail>(`${environment.API_BASE_URL}/api/v1/admin/category/product-detail${suffix}`);
+  }
+
+  public editProduct(editProduct: IEditProduct): Observable<IEditProduct> {
+    const body = editProduct;
+    return this._http.put<IEditProduct>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/content-mgmt/edit`, body);
   }
 
   public approveRejectCatalogue(catalogueApprove: ICatalogueApprove): Observable<IResMsg> {

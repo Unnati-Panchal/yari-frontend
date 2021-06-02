@@ -1,6 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import * as fromAdminActions from '~app/store/admin/admin.actions';
+import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
+
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Store, select } from '@ngrx/store';
 
 import { ActivatedRoute } from '@angular/router';
+import { AdminService } from '@yaari/services/admin/admin.service';
+import { IAppState } from '~app/store/app.state';
+import { IEditProduct } from '@yaari/models/admin/admin.interface';
+import { ProductDetailComponent } from '../product-detail/product-detail.component';
+import { Subscription } from 'rxjs/internal/Subscription';
+import { filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-catalogue-content-management',
@@ -11,19 +21,33 @@ export class CatalogueContentManagementComponent implements OnInit {
 
   selectedTabIndex = 0;
   productIds = [];
-  selectedProductId = '';
+  selectedProductId: number;
 
-  constructor(private route: ActivatedRoute) { }
+  private _subscription: Subscription = new Subscription();
+
+  @ViewChild('productDetail') productDetailComponent: ProductDetailComponent;
+
+  constructor(
+    private route: ActivatedRoute,
+    private _store: Store<IAppState>,
+    private _adminService: AdminService) { }
+
+  getProductDetail$ = this._store.pipe(select(fromAdminSelectors.getProductDetail$), filter(value => !!value));
+
 
   ngOnInit(): void {
-
+    this._adminService.authorizedAdmin('catalogue_management');
     if (this.route.snapshot.queryParamMap.has('productIds')) {
       {
         const productIds = this.route.snapshot.queryParamMap.get('productIds').split(',');
-
-        this.selectedProductId = productIds[0];
-
         this.pushProductIds(productIds);
+        this.setProductId(+productIds[0]);
+
+        this._subscription.add(
+          this.getProductDetail$.subscribe((productDetail) => {
+            this.productDetailComponent.bindProduct(productDetail);
+          })
+        );
       }
     }
   }
@@ -55,7 +79,15 @@ export class CatalogueContentManagementComponent implements OnInit {
     return newProductIds;
   }
 
-  changeProductId(productId: string): void {
+  setProductId(productId: number): void {
     this.selectedProductId = productId;
+    this._store.dispatch(fromAdminActions.getProductDetail({ productId: this.selectedProductId }));
+  }
+
+  submitProduct(): void {
+    const product = {} as IEditProduct;
+    product.id = +this.productDetailComponent.form.controls['id'].value;
+    product.description = this.productDetailComponent.form.controls['product_description'].value;
+    this._store.dispatch(fromAdminActions.editProduct({ product }));
   }
 }

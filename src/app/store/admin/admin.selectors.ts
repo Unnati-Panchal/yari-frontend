@@ -13,6 +13,7 @@ export const getCatalogueProducts = createSelector(selectBaseFeature, (state: fr
 
 export const getCatalogueProductList$ = createSelector(selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.catalogueProductLists);
 
+export const getProductDetail$ = createSelector(selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.productDetail);
 
 // tslint:disable-next-line: max-line-length
 export const getCataloguesContentManagements$ = createSelector(selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.cataloguesContentManagements);

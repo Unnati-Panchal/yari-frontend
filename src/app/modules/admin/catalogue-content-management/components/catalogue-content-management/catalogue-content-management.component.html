@@ -1,9 +1,9 @@
 <div class="main-body">
   <div class="left-panel">
     <div class="left-panel--button-container">
-      <a class="item" [ngClass]="selectedProductId ==productId ?  'active' : ''"
+      <a class="item" [ngClass]="selectedProductId == productId ?  'active' : ''"
         *ngFor="let productId of productIds; let i = index" [routerLink]="['../edit']"
-        [queryParams]="{productIds: arrangeProductIdQuery(productId).join(',')}" (click)="changeProductId(productId)" >
+        [queryParams]="{productIds: arrangeProductIdQuery(productId).join(',')}" (click)="setProductId(productId)" >
         {{ productId }}
       </a>
     </div>
@@ -17,7 +17,7 @@
             Product Details
           </div>
         </ng-template>
-        <app-product-detail></app-product-detail>
+        <app-product-detail #productDetail></app-product-detail>
       </mat-tab>
       <mat-tab>
         <ng-template mat-tab-label>
@@ -29,7 +29,7 @@
       </mat-tab>
     </mat-tab-group>
     <div class="btn-container">
-      <button class="btn-container__button">Submit</button>
+      <button class="btn-container__button" (click)="submitProduct()">Submit</button>
     </div>
   </div>
 </div>
