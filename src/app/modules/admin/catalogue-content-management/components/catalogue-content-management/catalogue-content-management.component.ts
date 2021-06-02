@@ -45,12 +45,14 @@ export class CatalogueContentManagementComponent implements OnInit {
 
         this._subscription.add(
           this.getProductDetail$.subscribe((productDetail) => {
-            this.productDetailComponent.bindProduct(productDetail);
+            return this.productDetailComponent.bindProduct(productDetail);
           })
         );
       }
     }
   }
+
+ 
 
   selectedIndexChange(index: number): void {
     this.selectedTabIndex = index;
@@ -81,7 +83,7 @@ export class CatalogueContentManagementComponent implements OnInit {
 
   setProductId(productId: number): void {
     this.selectedProductId = productId;
-    this._store.dispatch(fromAdminActions.getProductDetail({ productId: this.selectedProductId }));
+    this._store.dispatch(fromAdminActions.getProductDetail({ productIds: this.productIds.toString() }));
   }
 
   submitProduct(): void {

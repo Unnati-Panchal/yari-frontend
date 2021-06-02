@@ -123,6 +123,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   bindProduct(product: IProductDetail): void {
+    product = product[0];
     if (!product) {
       return;
     }
@@ -134,15 +135,15 @@ export class ProductDetailComponent implements OnInit {
       product_category: product.product_catalog.category,
       material_care: product.material_care,
       mrp: product.mrp,
-      // final_selling_price: product.final_selling_price,
-      // stock_count: product.stock_count,
+      final_selling_price: 'product.final_selling_price',
+      stock_count: 'product.stock_count',
       re_stock_date: product.re_stock_date,
       manufacturing_date: product.manufacturing_date,
       country_of_origin: product.country_of_origin,
       key_feature: product.key_features,
-      // offer: product.offer,
-      // offer_start_date: product.offer_start_date,
-      // offer_end_date: product.offer_end_date,
+      offer: 'product.offer',
+      offer_start_date: 'product.offer_start_date',
+      offer_end_date: 'product.offer_end_date',
       guarantee: product.guarantee,
       warranty: product.warranty,
       images: product.product_img,

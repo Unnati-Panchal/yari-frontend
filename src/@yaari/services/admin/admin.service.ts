@@ -57,9 +57,9 @@ export class AdminService {
     return this._http.get<any>(`${environment.API_BASE_URL}/api/v1/admin/download-catalogue${suffix}`, { responseType: 'blob' });
   }
 
-  public getProductDetail(productId: number): Observable<IProductDetail> {
-    const suffix = `?product_id=${productId}`;
-    return this._http.get<IProductDetail>(`${environment.API_BASE_URL}/api/v1/admin/category/product-detail${suffix}`);
+  public getProductDetail(productIds: string): Observable<IProductDetail> {
+    const body = productIds;
+    return this._http.post<IProductDetail>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/content-mgmt/editable-products`, '[' + body+ ']');
   }
 
   public editProduct(editProduct: IEditProduct): Observable<IEditProduct> {
