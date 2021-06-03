@@ -49,7 +49,6 @@ export class CatalogueContentManagementComponent implements OnInit {
         this._subscription.add(
           this.getProductDetail$.subscribe((productDetail) => {
             return this.productDetailComponent.bindProduct(productDetail);
-
           })
         );
       }

@@ -51,7 +51,6 @@ export const getCatalogueProductListError = createAction('[ADMIN] get catalogue 
 
 
 
-
 export const getProductDetails = createAction('[ADMIN] get product details', props<{ productIds: string }>());
 
 
