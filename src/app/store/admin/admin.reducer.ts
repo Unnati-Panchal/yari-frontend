@@ -21,7 +21,8 @@ export interface IAdminState extends fromRoot.IAppState {
 
   cataloguesContentManagements: ICatalogueContentManagement[];
   // catalogueExcel: Blob;
-  productDetail: IProductDetail;
+  productDetails: IProductDetail[];
+  productDetail:IProductDetail;
 }
 
 export const adminInitialState: IAdminState = {
@@ -38,6 +39,7 @@ export const adminInitialState: IAdminState = {
   cataloguesContentManagements: undefined,
 
   // catalogueExcel: null
+  productDetails: [],
   productDetail: null
 };
 
@@ -80,13 +82,20 @@ export const adminReducer = createReducer(
 
   on(fromAdminActions.getCatalogueProductListError, (state, { error }) => ({ ...state, loading: false, error })),
 
-  on(fromAdminActions.getProductDetailSuccess, (state, action) => ({
+  on(fromAdminActions.getProductDetailsSuccess, (state, action) => ({
     ...state,
     loading: false,
-    productDetail: action.productDetail
+    productDetails: action.productDetails,
+    productDetail:action.productDetails[0]
   })),
 
-  on(fromAdminActions.getProductDetailError, (state, { error }) => ({ ...state, loading: false, error })),
+  on(fromAdminActions.getProductDetail, (state, action) => ({
+    ...state,
+    loading: false,
+    productDetail:state.productDetails.find(x => x.id === action.productId)
+  })),
+
+  on(fromAdminActions.getProductDetailsError, (state, { error }) => ({ ...state, loading: false, error })),
 
   on(fromAdminActions.editProductSuccess, (state, action) => ({
     ...state,

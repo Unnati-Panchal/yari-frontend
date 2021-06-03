@@ -12,7 +12,7 @@ import { ProductDetailComponent } from '../product-detail/product-detail.compone
 import { Subscription } from 'rxjs/internal/Subscription';
 import { filter } from 'rxjs/operators';
 import * as _ from 'lodash';
-import { ICatalogueContentManagement, ICatalogueProducts, IProductDetail, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
+
 
 @Component({
   selector: 'app-catalogue-content-management',
@@ -27,13 +27,14 @@ export class CatalogueContentManagementComponent implements OnInit {
 
   private _subscription: Subscription = new Subscription();
 
-  @ViewChild('productDetail') productDetailComponent: ProductDetailComponent;
+  @ViewChild('productDetail',{static : true}) productDetailComponent: ProductDetailComponent;
 
   constructor(
     private route: ActivatedRoute,
     private _store: Store<IAppState>,
     private _adminService: AdminService) { }
 
+  //getProductDetails$ = this._store.pipe(select(fromAdminSelectors.getProductDetails$), filter(value => !!value));
   getProductDetail$ = this._store.pipe(select(fromAdminSelectors.getProductDetail$), filter(value => !!value));
 
 
@@ -44,10 +45,11 @@ export class CatalogueContentManagementComponent implements OnInit {
         const productIds = this.route.snapshot.queryParamMap.get('productIds').split(',');
         this.pushProductIds(productIds);
         this.setProductId(+productIds[0]);
- 
+        this._store.dispatch(fromAdminActions.getProductDetails({ productIds: this.productIds.toString() }));
         this._subscription.add(
           this.getProductDetail$.subscribe((productDetail) => {
-            return this.productDetailComponent.bindProduct(productDetail,this.selectedProductId);
+            return this.productDetailComponent.bindProduct(productDetail);
+
           })
         );
       }
@@ -84,8 +86,10 @@ export class CatalogueContentManagementComponent implements OnInit {
   }
 
   setProductId(productId: number): void {
-    this.selectedProductId = productId;
-    this._store.dispatch(fromAdminActions.getProductDetail({ productIds: this.productIds.toString() }));
+
+    this.selectedProductId = +productId;
+    this._store.dispatch(fromAdminActions.getProductDetail({productId : this.selectedProductId}));
+
   }
 
   submitProduct(): void {

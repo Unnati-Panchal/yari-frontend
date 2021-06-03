@@ -51,12 +51,16 @@ export const getCatalogueProductListError = createAction('[ADMIN] get catalogue 
 
 
 
-export const getProductDetail = createAction('[ADMIN] get product detail', props<{ productIds: string }>());
 
-export const getProductDetailSuccess = createAction('[ADMIN] get product detail success', props<{ productDetail: IProductDetail }>());
+export const getProductDetails = createAction('[ADMIN] get product details', props<{ productIds: string }>());
+
+
+export const getProductDetailsSuccess = createAction('[ADMIN] get product details success', props<{ productDetails: IProductDetail[] }>());
 
 // tslint:disable-next-line: max-line-length
-export const getProductDetailError = createAction('[ADMIN] get product detail error', props<{ error: HttpErrorResponse }>());
+export const getProductDetailsError = createAction('[ADMIN] get product details error', props<{ error: HttpErrorResponse }>());
+
+export const getProductDetail = createAction('[ADMIN] get product detail', props<{ productId: number }>());
 
 
 export const editProduct = createAction('[ADMIN] edit product detail', props<{ product: IEditProduct }>());
