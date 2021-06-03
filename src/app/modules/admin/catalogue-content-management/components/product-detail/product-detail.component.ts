@@ -124,9 +124,7 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  bindProduct(products: IProductDetail, productId: number): void {
- 
-    let product = this.returnSelectedProduct(products,productId);
+  bindProduct(product: IProductDetail): void {
     if (!product) {
       return;
     }
@@ -154,12 +152,4 @@ export class ProductDetailComponent implements OnInit {
       videos: product.video_url,
     });
   }
-
- 
-
-  returnSelectedProduct(products,productId:number) : any{
-
-    return _.find(products,{ 'id': productId});
-    
-   }
 }
