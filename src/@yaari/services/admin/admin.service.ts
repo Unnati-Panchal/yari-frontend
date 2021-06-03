@@ -71,7 +71,7 @@ export class AdminService {
 
   public approveRejectCatalogue(catalogueApprove: ICatalogueApprove): Observable<IResMsg> {
     const body = catalogueApprove;
-    return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/approve`, body);
+    return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/approve-reject`, body);
   }
 
   public getAllRolesDesignations(): Observable<any> {
