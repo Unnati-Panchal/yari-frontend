@@ -11,6 +11,8 @@ import { IEditProduct } from '@yaari/models/admin/admin.interface';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { filter } from 'rxjs/operators';
+import * as _ from 'lodash';
+import { ICatalogueContentManagement, ICatalogueProducts, IProductDetail, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
 
 @Component({
   selector: 'app-catalogue-content-management',
@@ -42,15 +44,17 @@ export class CatalogueContentManagementComponent implements OnInit {
         const productIds = this.route.snapshot.queryParamMap.get('productIds').split(',');
         this.pushProductIds(productIds);
         this.setProductId(+productIds[0]);
-
+ 
         this._subscription.add(
           this.getProductDetail$.subscribe((productDetail) => {
-            this.productDetailComponent.bindProduct(productDetail);
+            return this.productDetailComponent.bindProduct(productDetail,this.selectedProductId);
           })
         );
       }
     }
   }
+
+
 
   selectedIndexChange(index: number): void {
     this.selectedTabIndex = index;
@@ -81,13 +85,15 @@ export class CatalogueContentManagementComponent implements OnInit {
 
   setProductId(productId: number): void {
     this.selectedProductId = productId;
-    this._store.dispatch(fromAdminActions.getProductDetail({ productId: this.selectedProductId }));
+    this._store.dispatch(fromAdminActions.getProductDetail({ productIds: this.productIds.toString() }));
   }
 
   submitProduct(): void {
     const product = {} as IEditProduct;
     product.id = +this.productDetailComponent.form.controls['id'].value;
     product.description = this.productDetailComponent.form.controls['product_description'].value;
+    product.mrp = this.productDetailComponent.form.controls['mrp'].value;
+    product.sp = this.productDetailComponent.form.controls['final_selling_price'].value;
     this._store.dispatch(fromAdminActions.editProduct({ product }));
   }
 }

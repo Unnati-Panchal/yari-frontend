@@ -51,7 +51,7 @@ export const getCatalogueProductListError = createAction('[ADMIN] get catalogue 
 
 
 
-export const getProductDetail = createAction('[ADMIN] get product detail', props<{ productId: number }>());
+export const getProductDetail = createAction('[ADMIN] get product detail', props<{ productIds: string }>());
 
 export const getProductDetailSuccess = createAction('[ADMIN] get product detail success', props<{ productDetail: IProductDetail }>());
 

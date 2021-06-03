@@ -95,6 +95,7 @@ export interface IProductDetail {
     product_id: string;
     group_id: string;
     product_catalog: IProductCatalog;
+    offers:string;
 }
 
 interface ISpecifications {

@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { IProductCategory, IProductDetail } from '@yaari/models/admin/admin.interface';
 
 import { DomSanitizer } from '@angular/platform-browser';
+import _ from 'lodash';
 
 
 @Component({
@@ -11,6 +12,7 @@ import { DomSanitizer } from '@angular/platform-browser';
   styleUrls: ['./product-detail.component.scss']
 })
 export class ProductDetailComponent implements OnInit {
+  selectedProductId: number;
 
   constructor(
     private fb: FormBuilder,
@@ -122,31 +124,42 @@ export class ProductDetailComponent implements OnInit {
     });
   }
 
-  bindProduct(product: IProductDetail): void {
+  bindProduct(products: IProductDetail, productId: number): void {
+ 
+    let product = this.returnSelectedProduct(products,productId);
     if (!product) {
       return;
     }
+    console.log(product.id);
     this.form.setValue({
       id: product.id,
       product_name: product.product_name,
       product_sku_id: product.sku_id,
       product_description: product.description,
-      product_category: product.product_catalog.category,
+      product_category: product.product_catalog.category.name,
       material_care: product.material_care,
       mrp: product.mrp,
-      // final_selling_price: product.final_selling_price,
-      // stock_count: product.stock_count,
+      final_selling_price: product.sp,
+      stock_count: 'product.stock_count',
       re_stock_date: product.re_stock_date,
       manufacturing_date: product.manufacturing_date,
       country_of_origin: product.country_of_origin,
       key_feature: product.key_features,
-      // offer: product.offer,
-      // offer_start_date: product.offer_start_date,
-      // offer_end_date: product.offer_end_date,
+      offer: product.offers,
+      offer_start_date: 'product.offer_start_date',
+      offer_end_date: 'product.offer_end_date',
       guarantee: product.guarantee,
       warranty: product.warranty,
       images: product.product_img,
       videos: product.video_url,
     });
   }
+
+ 
+
+  returnSelectedProduct(products,productId:number) : any{
+
+    return _.find(products,{ 'id': productId});
+    
+   }
 }

@@ -62,9 +62,9 @@ export class AdminEffects {
   public getProductDetail$ = createEffect(() =>
     this._actions$.pipe(
       ofType(fromAdminActions.getProductDetail),
-      map(action => action.productId),
-      switchMap((productId: number) =>
-        this._adminService.getProductDetail(productId).pipe(
+      map(action => action.productIds),
+      switchMap((productIds: string) =>
+        this._adminService.getProductDetail(productIds).pipe(
           map((productDetail: IProductDetail) => fromAdminActions.getProductDetailSuccess({ productDetail })),
           catchError(error => of(fromAdminActions.getProductDetailError(error)))
         )
