@@ -126,16 +126,11 @@ export interface IEditProduct {
     warranty: string;
     mrp: number;
     sp: number;
-    specifications: Specifications;
+    specifications: { key: string, name: string }[];
     to_delete_image_urls: string[];
     new_images: NewImage[];
     to_delete_video_url: string;
     new_video: NewVideo;
-}
-interface Specifications {
-    additionalProp1: string;
-    additionalProp2: string;
-    additionalProp3: string;
 }
 
 interface NewImage {
