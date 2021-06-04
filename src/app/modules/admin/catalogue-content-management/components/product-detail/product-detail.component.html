@@ -35,11 +35,11 @@
     <div class="row">
       <div class="col-md-6">
         <label for="mrp" class="form-label">MRP</label>
-        <input type="text" class="form-control" name="mrp" formControlName="mrp">
+        <input type="text" class="form-control input-bg-white" name="mrp" formControlName="mrp">
       </div>
       <div class="col-md-6">
-        <label for="final_selling_price" class="form-label">Final selling price</label>
-        <input type="text" class="form-control" name="final_selling_price" formControlName="final_selling_price">
+        <label for="final_selling_price" class="form-label">Final Selling Price</label>
+        <input type="text" class="form-control input-bg-white" name="final_selling_price" formControlName="final_selling_price">
       </div>
     </div>
     <div class="row">
@@ -50,13 +50,13 @@
     </div>
     <div class="row">
       <div class="col-md-6">
-        <label for="re_stock_date" class="form-label">Re-stock date</label>
+        <label for="re_stock_date" class="form-label">Re-stock Date</label>
         <input disabled matInput [matDatepicker]="re_stock_date" type="text" (click)="re_stock_date.open()"
           class="form-control" name="re_stock_date" formControlName="re_stock_date">
         <mat-datepicker #re_stock_date></mat-datepicker>
       </div>
       <div class="col-md-6">
-        <label for="manufacturing_date" class="form-label">Manufacturing date</label>
+        <label for="manufacturing_date" class="form-label">Manufacturing Date</label>
         <input disabled matInput [matDatepicker]="manufacturing_date" type="text" (click)="manufacturing_date.open()"
           class="form-control" name="manufacturing_date" formControlName="manufacturing_date">
         <mat-datepicker #manufacturing_date></mat-datepicker>
@@ -64,64 +64,71 @@
     </div>
     <div class="row">
       <div class="col-md-6">
-        <label for="country_of_origin" class="form-label">Country of origin</label>
+        <label for="country_of_origin" class="form-label">Country of Origin</label>
         <input type="text" class="form-control" name="country_of_origin" formControlName="country_of_origin">
       </div>
     </div>
     <div class="row">
       <div class="col-md-12">
-        <label for="key_feature" class="form-label">Key feature</label>
+        <label for="key_feature" class="form-label">Key Feature</label>
         <textarea name="key_feature" rows="5" cols="50" formControlName="key_feature">
     </textarea>
       </div>
     </div>
     <div class="row">
       <div class="col-md-4">
-        <label for="offer" class="form-label">Offer</label>
-        <input disabled type="text" class="form-control" formControlName="offer" name="offer">
+        <label for="discount" class="form-label">Discount</label>
+        <input type="text" class="form-control input-bg-white" formControlName="discount" name="discount">
       </div>
       <div class="col-md-4">
-        <label for="offer_start_date" class="form-label">Offer Start Date</label>
-        <input disabled matInput [matDatepicker]="offer_start_date" type="text" (click)="offer_start_date.open()"
-          class="form-control" formControlName="offer_start_date" name="offer_start_date">
+        <label for="offer_start_date" class="form-label">Discount Start Date</label>
+        <input matInput [matDatepicker]="offer_start_date" type="text" (click)="offer_start_date.open()"
+          class="form-control input-bg-white" formControlName="offer_start_date" name="offer_start_date">
         <mat-datepicker #offer_start_date></mat-datepicker>
       </div>
       <div class="col-md-4">
-        <label for="offer_end_date" class="form-label">Offer end date</label>
-        <input disabled matInput [matDatepicker]="offer_end_date" type="text" (click)="offer_end_date.open()"
-          class="form-control" formControlName="offer_end_date" name="offer_end_date">
+        <label for="offer_end_date" class="form-label">Discount End Date</label>
+        <input matInput [matDatepicker]="offer_end_date" type="text" (click)="offer_end_date.open()"
+          class="form-control input-bg-white" formControlName="offer_end_date" name="offer_end_date">
         <mat-datepicker #offer_end_date></mat-datepicker>
       </div>
     </div>
 
-    <!-- <div class="row">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="offer" class="form-label">Offer</label>
+        <input type="text" class="form-control" formControlName="offer" name="offer" disabled>
+      </div>
       <div class="col-md-6">
         <label for="hsnCode" class="form-label">HSN Code</label>
-        <input type="text" class="form-control" formControlName="hsnCode" name="hsnCode">
+        <input type="text" class="form-control" formControlName="hsnCode" name="hsnCode" disabled>
       </div>
-    </div> -->
+    </div>
 
-    <!-- <div class="row">
+    <div class="row">
       <div class="col-md-6">
-        <label for="productId" class="form-label">Product Id</label>
-        <input type="text" class="form-control" formControlName="productId" name="productId">
+        <label for="productId" class="form-label">Product ID</label>
+        <input type="text" class="form-control" formControlName="productId" name="productId" disabled>
       </div>
       <div class="col-md-6">
-        <label for="groupId" class="form-label">Group Id</label>
-        <input type="text" class="form-control" formControlName="groupId" name="groupId">
+        <label for="groupId" class="form-label">Group ID</label>
+        <input type="text" class="form-control" formControlName="groupId" name="groupId" disabled>
       </div>
-    </div> -->
+    </div>
 
     <div class="row">
       <div class="col-md-6">
         <label for="guarantee" class="form-label">Guarantee</label>
-        <input type="text" class="form-control" formControlName="guarantee" name="guarantee">
+        <input type="text" class="form-control input-bg-white" formControlName="guarantee" name="guarantee">
       </div>
       <div class="col-md-6">
         <label for="warranty" class="form-label">Warranty</label>
-        <input type="text" class="form-control" formControlName="warranty" name="warranty">
+        <input type="text" class="form-control input-bg-white" formControlName="warranty" name="warranty">
       </div>
     </div>
+
+
+
     <div class="row">
       <label for="images" class="form-label">Images</label>
     </div>

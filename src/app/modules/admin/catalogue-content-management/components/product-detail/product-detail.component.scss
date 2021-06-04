@@ -42,6 +42,10 @@
   select:focus {
     outline: none;
   }
+  .input-bg-white{
+    background-color: white !important;
+    border: 1px solid black !important;
+  }
 }
 
 textarea {

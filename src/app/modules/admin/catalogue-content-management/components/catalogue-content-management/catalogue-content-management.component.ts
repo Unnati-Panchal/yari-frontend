@@ -94,6 +94,9 @@ export class CatalogueContentManagementComponent implements OnInit {
     product.description = this.productDetailComponent.form.controls['product_description'].value;
     product.mrp = this.productDetailComponent.form.controls['mrp'].value;
     product.sp = this.productDetailComponent.form.controls['final_selling_price'].value;
+    product.key_features = this.productDetailComponent.form.controls['key_feature'].value;
+    product.warranty = this.productDetailComponent.form.controls['warranty'].value;
+    product.guarantee = this.productDetailComponent.form.controls['guarantee'].value;
     this._store.dispatch(fromAdminActions.editProduct({ product }));
   }
 }
