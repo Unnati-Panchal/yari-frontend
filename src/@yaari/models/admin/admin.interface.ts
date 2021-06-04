@@ -89,19 +89,13 @@ export interface IProductDetail {
     discount_end_date: string;
     manufacturing_date: string;
     re_stock_date: string;
-    specifications: ISpecifications;
+    specifications: { key: string, name: string }[];
     product_img: IProductImg[];
     hsn_code: string;
     product_id: string;
     group_id: string;
     product_catalog: IProductCatalog;
     offers:string;
-}
-
-interface ISpecifications {
-    additionalProp1: string;
-    additionalProp2: string;
-    additionalProp3: string;
 }
 
 interface IProductImg {
