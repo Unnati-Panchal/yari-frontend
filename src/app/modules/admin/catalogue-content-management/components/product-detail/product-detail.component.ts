@@ -5,7 +5,6 @@ import { IProductCategory, IProductDetail } from '@yaari/models/admin/admin.inte
 import { DomSanitizer } from '@angular/platform-browser';
 import _ from 'lodash';
 
-
 @Component({
   selector: 'app-product-detail',
   templateUrl: './product-detail.component.html',
@@ -25,7 +24,8 @@ export class ProductDetailComponent implements OnInit {
   form: FormGroup;
   productCategories: IProductCategory[] = [];
   video: any;
-  private images = [];
+  // private images = [];
+  private images: { src: string, file?: any, name?: string }[] = [];
   private defaultImage = 'assets/images/yaari-logo.png';
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
@@ -39,17 +39,13 @@ export class ProductDetailComponent implements OnInit {
       const reader = new FileReader();
 
       reader.onload = (e: any) => {
-        const image = new Image();
-        image.src = e.target.result;
-        image.onload = rs => {
-          const imgBase64Path = e.target.result;
-        };
-        this.images.push(image);
+        this.images.push({
+          src: e.target.result,
+          file: e.srcElement.files[0],
+          name: e.srcElement.files[0].name
+        });
       };
-
       reader.readAsDataURL(imgFile.target.files[0]);
-
-      // Reset if duplicate image uploaded again
       this.fileInput.nativeElement.value = '';
     }
   }
@@ -101,7 +97,6 @@ export class ProductDetailComponent implements OnInit {
       offer_end_date: new FormControl(''),
       guarantee: new FormControl(''),
       warranty: new FormControl(''),
-      images: new FormControl(''),
       videos: new FormControl(''),
     });
   }
@@ -128,7 +123,6 @@ export class ProductDetailComponent implements OnInit {
     if (!product) {
       return;
     }
-    console.log(product.id);
     this.form.setValue({
       id: product.id,
       product_name: product.product_name,
@@ -148,8 +142,13 @@ export class ProductDetailComponent implements OnInit {
       offer_end_date: 'product.offer_end_date',
       guarantee: product.guarantee,
       warranty: product.warranty,
-      images: product.product_img,
       videos: product.video_url,
+    });
+    this.images = [];
+    product.product_img.forEach(e => {
+      this.images.push({
+        src: e.url,
+      });
     });
   }
 }

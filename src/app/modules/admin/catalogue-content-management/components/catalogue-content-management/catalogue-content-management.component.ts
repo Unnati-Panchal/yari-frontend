@@ -1,3 +1,4 @@
+import * as _ from 'lodash';
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
 
@@ -11,8 +12,6 @@ import { IEditProduct } from '@yaari/models/admin/admin.interface';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { filter } from 'rxjs/operators';
-import * as _ from 'lodash';
-
 
 @Component({
   selector: 'app-catalogue-content-management',
@@ -27,14 +26,13 @@ export class CatalogueContentManagementComponent implements OnInit {
 
   private _subscription: Subscription = new Subscription();
 
-  @ViewChild('productDetail',{static : true}) productDetailComponent: ProductDetailComponent;
+  @ViewChild('productDetail', { static: true }) productDetailComponent: ProductDetailComponent;
 
   constructor(
     private route: ActivatedRoute,
     private _store: Store<IAppState>,
     private _adminService: AdminService) { }
 
-  //getProductDetails$ = this._store.pipe(select(fromAdminSelectors.getProductDetails$), filter(value => !!value));
   getProductDetail$ = this._store.pipe(select(fromAdminSelectors.getProductDetail$), filter(value => !!value));
 
 
@@ -86,7 +84,7 @@ export class CatalogueContentManagementComponent implements OnInit {
   setProductId(productId: number): void {
 
     this.selectedProductId = +productId;
-    this._store.dispatch(fromAdminActions.getProductDetail({productId : this.selectedProductId}));
+    this._store.dispatch(fromAdminActions.getProductDetail({ productId: this.selectedProductId }));
 
   }
 
