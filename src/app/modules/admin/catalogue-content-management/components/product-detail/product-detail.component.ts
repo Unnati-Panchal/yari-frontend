@@ -120,6 +120,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   bindProduct(product: IProductDetail): void {
+    
     if (!product) {
       return;
     }

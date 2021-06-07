@@ -1,38 +1,11 @@
 <div class="container-fluid">
-    <b><h2>Product Specifications</h2></b>
-     <form [formGroup]="form"> 
+  <b><h2>Product Specifications</h2></b>
+  <form [formGroup]="form">
     <div class="row">
-        <div class="col-md-6">
-          <label for="sizeChart" class="form-label">Size Chart</label>
-          <input type="text" class="form-control" id="sizeChart" name="sizeChart" formControlName="size_chart">
-        </div>
-        <div class="col-md-6">
-          <label for="colorChart" class="form-label">Color Chart</label>
-          <input type="text" class="form-control" id="colorChart" name="colorChart" formControlName="color_chart">
-        </div>
+      <div class="col-md-6" *ngFor="let item of specifications" style="margin-top: 16px">
+        <label for="{{ item.key }}" class="form-label">{{ item.key }}</label>
+        <input type="text" class="form-control" name="{{ item.key }}" value="{{ item.value }}" />
       </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <label for="neckPattern" class="form-label">Neck Pattern</label>
-          <input type="text" class="form-control" id="neckPattern" name="neckPattern" formControlName="neck_pattern">
-        </div>
-        <div class="col-md-6">
-          <label for="sleeveLength" class="form-label">Sleeve Length</label>
-          <input type="text" class="form-control" id="sleeveLength" name="sleeve_length" formControlName="sleeve_length">
-        </div>
-      </div>
-
-      <div class="row">
-        <div class="col-md-6">
-          <label for="kurtiLength" class="form-label">Kurti Length</label>
-          <input type="text" class="form-control" id="kurtiLength" name="kurtiLength" formControlName="kurti_length">
-        </div>
-        <div class="col-md-6">
-          <label for="Hemline" class="form-label">Hemline</label>
-          <input type="text" class="form-control" id="Hemline" name="Hemline" formControlName="hemline" >
-        </div>
-      </div>
-    </form>
+    </div>
+  </form>
 </div>
-
