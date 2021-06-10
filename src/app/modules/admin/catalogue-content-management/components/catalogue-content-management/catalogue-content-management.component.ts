@@ -10,6 +10,7 @@ import { AdminService } from '@yaari/services/admin/admin.service';
 import { IAppState } from '~app/store/app.state';
 import { IEditProduct } from '@yaari/models/admin/admin.interface';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
+import { ProductSpecificationComponent} from '../product-specification/product-specification.component';
 import { Subscription } from 'rxjs/internal/Subscription';
 import { filter } from 'rxjs/operators';
 
@@ -27,6 +28,7 @@ export class CatalogueContentManagementComponent implements OnInit {
   private _subscription: Subscription = new Subscription();
 
   @ViewChild('productDetail', { static: true }) productDetailComponent: ProductDetailComponent;
+  @ViewChild('productSpecification', { static: true }) productSpecificationComponent: ProductSpecificationComponent;
 
   constructor(
     private route: ActivatedRoute,
@@ -56,6 +58,13 @@ export class CatalogueContentManagementComponent implements OnInit {
 
   selectedIndexChange(index: number): void {
     this.selectedTabIndex = index;
+    if(this.selectedTabIndex == 1){
+      this._subscription.add(
+        this.getProductDetail$.subscribe((productDetail) => {
+          return this.productSpecificationComponent.bindProduct(productDetail);
+        })
+      );
+    }
   }
 
   pushProductIds(productIds: string[]): void {

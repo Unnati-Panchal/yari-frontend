@@ -98,6 +98,10 @@ export class ProductDetailComponent implements OnInit {
       guarantee: new FormControl(''),
       warranty: new FormControl(''),
       videos: new FormControl(''),
+      discount: new FormControl(''),
+      hsnCode: new FormControl(''),
+      productId:new FormControl(''),
+      groupId:new FormControl(''),
     });
   }
 
@@ -132,17 +136,21 @@ export class ProductDetailComponent implements OnInit {
       material_care: product.material_care,
       mrp: product.mrp,
       final_selling_price: product.sp,
-      stock_count: 'product.stock_count',
+      stock_count: product.inventory,
       re_stock_date: product.re_stock_date,
       manufacturing_date: product.manufacturing_date,
       country_of_origin: product.country_of_origin,
       key_feature: product.key_features,
       offer: product.offers,
-      offer_start_date: 'product.offer_start_date',
-      offer_end_date: 'product.offer_end_date',
+      offer_start_date: product.discount_start_date,
+      offer_end_date: product.discount_end_date,
       guarantee: product.guarantee,
       warranty: product.warranty,
       videos: product.video_url,
+      discount: product.discount,
+      hsnCode: product.hsn_code,
+      productId:product.product_id,
+      groupId:product.group_id,
     });
     this.images = [];
     product.product_img.forEach(e => {
