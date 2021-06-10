@@ -1,3 +1,4 @@
+
 import {
   IAdminUserDetails,
   ICatalogueApprove,
@@ -11,6 +12,7 @@ import {
   IResMsg,
   IUploadedCatalogue
 } from '@yaari/models/admin/admin.interface';
+
 
 import { AuthService } from '../auth/auth.service';
 import { HttpClient } from '@angular/common/http';
