@@ -97,7 +97,8 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     }
 
     const regRequest = this.regForm.value;
-    if (!this.regForm.valid) {
+    // tslint:disable-next-line:max-line-length
+    if (!this.regForm.valid || !this.selectedGstFile || !this.selectedCancelledChequeFile || !this.selectedMSMEFile || !this.selectedPanCardFile) {
       this.loading = false;
       const msg = `Invalid form field. Please review your inputs`;
       this.openSnackBar(msg);
@@ -124,6 +125,7 @@ export class RegistrationComponent implements OnInit, OnDestroy {
     if (!this.selectedPanCardFile) {
       this.loading = false;
       const msg = `Please upload PAN Card`;
+
       this.openSnackBar(msg);
       return;
     }

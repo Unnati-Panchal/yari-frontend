@@ -1,16 +1,15 @@
+import * as fromProfileActions from '~store/profile/profile.actions';
+import * as fromProfileSelectors from '~store/profile/profile.selectors';
+import {ESalesStatus, IExchangeReturned, IQuery} from '@yaari/models/product/product.interface';
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
-import {Subscription} from 'rxjs';
-import * as moment from 'moment';
-import {ESalesStatus, IExchangeReturned, IQuery} from '@yaari/models/product/product.interface';
-import {select, Store} from '@ngrx/store';
-import * as fromProfileSelectors from '~store/profile/profile.selectors';
-import {filter} from 'rxjs/operators';
+import {Store, select} from '@ngrx/store';
 import {IAppState} from '~store/app.state';
-import * as fromProfileActions from '~store/profile/profile.actions';
+import {Subscription} from 'rxjs';
+import {filter} from 'rxjs/operators';
+import moment from 'moment';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
-
 
 @Component({
   selector: 'app-exchange-return',

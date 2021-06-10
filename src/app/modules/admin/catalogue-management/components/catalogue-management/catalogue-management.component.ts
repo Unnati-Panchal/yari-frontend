@@ -1,11 +1,16 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { select, Store } from '@ngrx/store';
-import { AdminService } from '@yaari/services/admin/admin.service';
-import { Subscription } from 'rxjs';
-import { tap } from 'rxjs/operators';
-import { AppFacade, IAppState } from '~app/store/app.state';
 import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
+
+import { AppFacade, IAppState } from '~app/store/app.state';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+
+import { Store, select } from '@ngrx/store';
+import { tap } from 'rxjs/operators';
+
+import { AdminService } from '@yaari/services/admin/admin.service';
+import { Subscription } from 'rxjs';
+
+
 
 @Component({
   selector: 'app-catalogue-management',
@@ -30,13 +35,13 @@ export class CatalogueManagementComponent implements OnInit, OnDestroy {
 
   menus: any = [
     { name: 'Approve Uploaded Catalogues', link: 'catalogues' },
-    { name: 'Catalogue Content Management', link: 'admin/login' },
-    { name: 'Catalogue Quality Scorecard', link: 'auth/login' }
+    { name: 'Catalogue Content Management', link: '../catalogue-content-management' },
+    { name: 'View Catalogue' , link: '../view-catalogue'}
   ];
   clicked: number;
   ngOnInit(): void {
     this._appFacade.clearMessages();
-    this._store.dispatch(fromAuthActions.adminDetails());
+    // this._store.dispatch(fromAuthActions.adminDetails());
     this._adminService.authorizedAdmin('catalogue_management');
   }
 

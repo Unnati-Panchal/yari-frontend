@@ -1,8 +1,11 @@
-import { HttpErrorResponse } from '@angular/common/http';
-import { Action, createReducer, on } from '@ngrx/store';
-import { ICatalogueProducts, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
 import * as fromAdminActions from '~store/admin/admin.actions';
 import * as fromRoot from '~store/app.state';
+
+import { Action, createReducer, on } from '@ngrx/store';
+import { ICatalogueContentManagement, ICatalogueProducts, IProductDetail, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
+
+import { HttpErrorResponse } from '@angular/common/http';
+import { state } from '@angular/animations';
 
 export const adminFeatureKey = 'admin';
 
@@ -13,8 +16,13 @@ export interface IAdminState extends fromRoot.IAppState {
   uploadedCatalogues: IUploadedCatalogue[];
   catalogueId: number;
   catalogueProducts: ICatalogueProducts[];
-  // catalogueExcel: Blob;
 
+  catalogueProductLists: ICatalogueContentManagement[];
+
+  cataloguesContentManagements: ICatalogueContentManagement[];
+  // catalogueExcel: Blob;
+  productDetails: IProductDetail[];
+  productDetail:IProductDetail;
 }
 
 export const adminInitialState: IAdminState = {
@@ -23,8 +31,16 @@ export const adminInitialState: IAdminState = {
   msg: '',
   uploadedCatalogues: [],
   catalogueId: null,
-  catalogueProducts: []
+  catalogueProducts: [],
+
+
+  catalogueProductLists: [],
+
+  cataloguesContentManagements: undefined,
+
   // catalogueExcel: null
+  productDetails: [],
+  productDetail: null
 };
 
 
@@ -43,6 +59,52 @@ export const adminReducer = createReducer(
   on(fromAdminActions.getCatalogueProducts, (state, { catalogueId }) => ({ ...state, loading: true, catalogueId })),
   on(fromAdminActions.getCatalogueProductsSuccess, (state, { catalogueProducts }) => ({ ...state, loading: false, catalogueProducts })),
   on(fromAdminActions.getCatalogueProductsError, (state, { error }) => ({ ...state, loading: false, error })),
+
+  on(fromAdminActions.getCatalogueContentManagements, (state) => ({ ...state, loading: true })),
+  on(fromAdminActions.getCatalogueContentManagementsSuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    cataloguesContentManagements: action.cataloguesContentManagements
+  })),
+
+  on(fromAdminActions.getCatalogueContentManagementsError, (state, action) => ({ ...state, loading: false, error: action.error })),
+
+
+  on(fromAdminActions.getCatalogueProductList, (state, { catalogueIds }) => ({ ...state, loading: true, catalogueIds })),
+
+
+  on(fromAdminActions.getCatalogueProductListSuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    catalogueProductLists: action.catalogueProductLists
+  })),
+
+
+  on(fromAdminActions.getCatalogueProductListError, (state, { error }) => ({ ...state, loading: false, error })),
+
+  on(fromAdminActions.getProductDetailsSuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    productDetails: action.productDetails,
+    productDetail:action.productDetails[0]
+  })),
+
+  on(fromAdminActions.getProductDetail, (state, action) => ({
+    ...state,
+    loading: false,
+    productDetail:state.productDetails.find(x => x.id === action.productId)
+  })),
+
+  on(fromAdminActions.getProductDetailsError, (state, { error }) => ({ ...state, loading: false, error })),
+
+  on(fromAdminActions.editProductSuccess, (state, action) => ({
+    ...state,
+    loading: false,
+    // productDetail: action.product
+  })),
+
+  on(fromAdminActions.editProductError, (state, { error }) => ({ ...state, loading: false, error })),
+
 
 );
 

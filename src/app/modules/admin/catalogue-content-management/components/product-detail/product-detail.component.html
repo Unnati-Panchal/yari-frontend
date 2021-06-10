@@ -1,0 +1,215 @@
+<div class="container-fluid">
+  <h2><b>Product Details</b></h2>
+  <form [formGroup]="form">
+    <input type="hidden" name="id" formControlName="id">
+    <div class="row">
+      <div class="col-md-6">
+        <label for="product_name" class="form-label">Product Name</label>
+        <input type="text" class="form-control" name="product_name" formControlName="product_name">
+      </div>
+      <div class="col-md-6">
+        <label for="product_sku_id" class="form-label">Product SKU ID</label>
+        <input type="text" class="form-control" disabled name="product_sku_id" formControlName="product_sku_id">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label for="product_description" class="form-label">Product Description</label>
+        <textarea name="product_description" formControlName="product_description" rows="5" cols="50">
+      </textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="product_category" class="form-label">Product Category</label>
+        <select class="form-control" name="product_category" formControlName="product_category">
+          <option [ngValue]="productCategory.id" *ngFor="let productCategory of productCategories">
+            {{productCategory.name}}</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="material_care" class="form-label">Material Care</label>
+        <input type="text" class="form-control" name="material_care" formControlName="material_care" disabled>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="mrp" class="form-label">MRP</label>
+        <input type="text" class="form-control input-bg-white" name="mrp" formControlName="mrp">
+      </div>
+      <div class="col-md-6">
+        <label for="final_selling_price" class="form-label">Final Selling Price</label>
+        <input type="text" class="form-control input-bg-white" name="final_selling_price" formControlName="final_selling_price">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="stock_count" class="form-label">Stock Count</label>
+        <input type="text" class="form-control" name="stock_count" formControlName="stock_count">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="re_stock_date" class="form-label">Re-stock Date</label>
+        <input disabled matInput [matDatepicker]="re_stock_date" type="text" (click)="re_stock_date.open()"
+          class="form-control" name="re_stock_date" formControlName="re_stock_date">
+        <mat-datepicker #re_stock_date></mat-datepicker>
+      </div>
+      <div class="col-md-6">
+        <label for="manufacturing_date" class="form-label">Manufacturing Date</label>
+        <input disabled matInput [matDatepicker]="manufacturing_date" type="text" (click)="manufacturing_date.open()"
+          class="form-control" name="manufacturing_date" formControlName="manufacturing_date">
+        <mat-datepicker #manufacturing_date></mat-datepicker>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <label for="country_of_origin" class="form-label">Country of Origin</label>
+        <input type="text" class="form-control" name="country_of_origin" formControlName="country_of_origin">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <label for="key_feature" class="form-label">Key Feature</label>
+        <textarea name="key_feature" rows="5" cols="50" formControlName="key_feature">
+    </textarea>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-4">
+        <label for="discount" class="form-label">Discount</label>
+        <input type="text" class="form-control input-bg-white" formControlName="discount" name="discount">
+      </div>
+      <div class="col-md-4">
+        <label for="offer_start_date" class="form-label">Discount Start Date</label>
+        <input matInput [matDatepicker]="offer_start_date" type="text" (click)="offer_start_date.open()"
+          class="form-control input-bg-white" formControlName="offer_start_date" name="offer_start_date">
+        <mat-datepicker #offer_start_date></mat-datepicker>
+      </div>
+      <div class="col-md-4">
+        <label for="offer_end_date" class="form-label">Discount End Date</label>
+        <input matInput [matDatepicker]="offer_end_date" type="text" (click)="offer_end_date.open()"
+          class="form-control input-bg-white" formControlName="offer_end_date" name="offer_end_date">
+        <mat-datepicker #offer_end_date></mat-datepicker>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <label for="offer" class="form-label">Offer</label>
+        <input type="text" class="form-control" formControlName="offer" name="offer" disabled>
+      </div>
+      <div class="col-md-6">
+        <label for="hsnCode" class="form-label">HSN Code</label>
+        <input type="text" class="form-control" formControlName="hsnCode" name="hsnCode" disabled>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <label for="productId" class="form-label">Product ID</label>
+        <input type="text" class="form-control" formControlName="productId" name="productId" disabled>
+      </div>
+      <div class="col-md-6">
+        <label for="groupId" class="form-label">Group ID</label>
+        <input type="text" class="form-control" formControlName="groupId" name="groupId" disabled>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+        <label for="guarantee" class="form-label">Guarantee</label>
+        <input type="text" class="form-control input-bg-white" formControlName="guarantee" name="guarantee">
+      </div>
+      <div class="col-md-6">
+        <label for="warranty" class="form-label">Warranty</label>
+        <input type="text" class="form-control input-bg-white" formControlName="warranty" name="warranty">
+      </div>
+    </div>
+
+
+
+    <div class="row">
+      <label for="images" class="form-label">Images</label>
+    </div>
+
+    <div class="row">
+      <div class="col-md-6">
+
+        <div class="gallery-item">
+          <div class="items-wrapper">
+            <img _ngcontent-hil-c76="" [src]="getImages(0)" class="gallery-img" />
+            <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(0)">
+              <i class="delete-img"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="gallery-item">
+          <div class="items-wrapper">
+            <img _ngcontent-hil-c76="" [src]="getImages(1)" class="gallery-img" />
+            <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(1)">
+              <i class="delete-img"></i></a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+
+        <div class="gallery-item">
+          <div class="items-wrapper">
+            <img _ngcontent-hil-c76="" [src]="getImages(2)" class="gallery-img" />
+            <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(2)">
+              <i class="delete-img"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="gallery-item">
+          <div class="items-wrapper">
+            <img _ngcontent-hil-c76="" [src]="getImages(3)" class="gallery-img" />
+            <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(3)">
+              <i class="delete-img"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <input type="file" #fileInput id="uploadFile" class="file-input" (change)="uploadFileEvt($event)"
+          name="uploadFile" multiple="multiple" accept="image/*" />
+
+        <div class="btn-container">
+          <button class="btn-container__button" (click)="fileInput.click()">Browse And Upload Images</button>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <label for="videos" class="form-label">Videos</label>
+    </div>
+    <div class="row">
+      <div class="col-md-6">
+        <div class="gallery-item">
+          <div class="items-wrapper">
+            <img _ngcontent-hil-c76="" src="/assets/images/yaari-logo.png" height="200px" width="228px" *ngIf="!video">
+            <video [src]="video" *ngIf="video" height="200" width="228px" controls></video>
+            <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteVideo()">
+              <i class="delete-img"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <input type="file" #fileInputVideo id="fileInputVideo" class="file-input" (change)="uploadFile($event)"
+          name="fileInputVideo" multiple="multiple" accept="video/*" />
+        <div class="btn-container">
+          <button class="btn-container__button" (click)="fileInputVideo.click()">Browse And Upload Videos</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>

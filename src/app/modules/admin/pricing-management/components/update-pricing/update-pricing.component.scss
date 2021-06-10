@@ -1,0 +1,97 @@
+:host {
+    .main-body {
+        margin: 28px 80px;
+        font-family: Poppins;
+    }
+
+    .head {
+        margin-top: 30px;
+        font: 40px Poppins;
+        font-weight: bold;
+        color: #363636;
+    }
+
+    .search {
+        width: 100%;
+        margin: 25px 0 25px 0;
+    }
+
+    .form-field {
+        width: 450px;
+    }
+
+    .actions {
+        min-width: 280px;
+    }
+
+    .act-button {
+        position: relative;
+        margin: 1px 15px 0px 0px;
+        height: 39px;
+        border-radius: 12px;
+        background-color: #f62101;
+        color: #ffffff;
+        border: 1px solid #f62101;
+        width: 90px;
+    }
+    
+  ::ng-deep .mat-form-field-wrapper {
+    height: 42px;
+    border: solid 2px #efefef;
+    border-radius: 12px;
+    padding: 3px 13px 10px;
+  }
+
+  .search-button {
+    position: absolute;
+    margin-top: 1px;
+    margin-left: 20px;
+    height: 41px;
+    border-radius: 12px;
+    background-color: #f62101;
+    color: #ffffff;
+  }
+  td,
+  th {
+    padding: 15px;
+    text-align: center;
+    // min-width: 115px;
+    // max-height: fit-content;
+    border: 1px solid gray !important;
+    color: #363636;
+    font-size: 18px;
+    font-family: Poppins;
+  }
+
+  th {
+    height: 60px;
+    font-weight: 500;
+    background-color: #efefef;
+  }
+
+  td {
+    height: 40px;
+    font-weight: normal;
+  }
+
+  .main-table{
+      max-width: 1500px;
+      max-height: 350px;
+      overflow-y: scroll !important;
+      overflow-x: scroll !important;
+  }
+  ::ng-deep .mat-form-field {
+    font-family: Poppins;
+  }
+
+  .nav-button {
+    height: 41px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    border: 1px solid #f62101;
+    color: #f62101;
+    width: 70px;
+    float: right;
+    margin-right: 40px;
+  }
+}
