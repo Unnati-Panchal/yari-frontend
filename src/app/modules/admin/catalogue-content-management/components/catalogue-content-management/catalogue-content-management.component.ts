@@ -8,7 +8,7 @@ import { Store, select } from '@ngrx/store';
 import { ActivatedRoute } from '@angular/router';
 import { AdminService } from '@yaari/services/admin/admin.service';
 import { IAppState } from '~app/store/app.state';
-import { IEditProduct } from '@yaari/models/admin/admin.interface';
+import { IEditProduct , NewImage, NewVideo } from '@yaari/models/admin/admin.interface';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
 import { ProductSpecificationComponent} from '../product-specification/product-specification.component';
 import { Subscription } from 'rxjs/internal/Subscription';
@@ -101,8 +101,25 @@ export class CatalogueContentManagementComponent implements OnInit {
     const product = {} as IEditProduct;
     product.id = +this.productDetailComponent.form.controls['id'].value;
     product.description = this.productDetailComponent.form.controls['product_description'].value;
+    product.key_features = this.productDetailComponent.form.controls['key_feature'].value;
+    product.guarantee = this.productDetailComponent.form.controls['guarantee'].value;
+    product.warranty = this.productDetailComponent.form.controls['warranty'].value;
     product.mrp = this.productDetailComponent.form.controls['mrp'].value;
     product.sp = this.productDetailComponent.form.controls['final_selling_price'].value;
+    product.specifications = `{
+      "additionalProp1": "additionalProp1",
+      "additionalProp2": "additionalProp2",
+      "additionalProp3": "additionalProp3"
+    }`;
+    product.to_delete_image_urls = this.productDetailComponent.deletedImages.map(i => i.src);
+    const newImages = this.productDetailComponent.newImages
+      .filter(r => r.newlyUploaded)
+      .map(i => ({ media_bytes: i.src, media_name: i.name }));
+    product.new_images = newImages as NewImage[];
+    product.new_video = {
+      media_bytes: this.productDetailComponent.newVideo.data,
+      media_name: this.productDetailComponent.newVideo.name
+    } as NewVideo;
     product.key_features = this.productDetailComponent.form.controls['key_feature'].value;
     product.warranty = this.productDetailComponent.form.controls['warranty'].value;
     product.guarantee = this.productDetailComponent.form.controls['guarantee'].value;

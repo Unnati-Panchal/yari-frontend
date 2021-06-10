@@ -120,19 +120,19 @@ export interface IEditProduct {
     warranty: string;
     mrp: number;
     sp: number;
-    specifications: { key: string, name: string }[];
+    specifications: string;
     to_delete_image_urls: string[];
     new_images: NewImage[];
     to_delete_video_url: string;
     new_video: NewVideo;
 }
 
-interface NewImage {
+export interface NewImage {
     media_name: string;
     media_bytes: string;
 }
 
-interface NewVideo {
+export interface NewVideo {
     media_name: string;
     media_bytes: string;
 }
