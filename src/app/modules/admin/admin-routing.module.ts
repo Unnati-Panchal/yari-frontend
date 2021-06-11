@@ -60,6 +60,11 @@ const routes: Routes = [
         loadChildren: () => import('~admin/pricing-management/pricing-management.module').then(m => m.PricingManagementModule),
         canActivate: [AdminAuthGuard]
       },
+      {
+        path: 'call-centre-management',
+        loadChildren: () => import('~admin/call-centre-management/call-centre-management.module').then(m => m.CallCentreManagementModule),
+        canActivate: [AdminAuthGuard]
+      },
       { path: '**', redirectTo: '/admin/login' }
     ]
   }
