@@ -5,6 +5,8 @@ import {ManageComplaintsComponent} from '~admin/call-centre-management/component
 import {ViewDetailsComponent} from '~admin/call-centre-management/components/view-details/view-details.component';
 import {CallCentreManagementComponent} from '~admin/call-centre-management/components/call-centre-management/call-centre-management.component';
 import {ManageQueriesDetailComponent} from '~admin/call-centre-management/components/manage-queries/manage-queries-detail/manage-queries-detail.component';
+import {ManageComplaintsDetailComponent} from '~admin/call-centre-management/components/manage-complaints/manage-complaints-detail/manage-complaints-detail.component';
+import {ViewDetailsDetailComponent} from '~admin/call-centre-management/components/view-details/view-details-detail/view-details-detail.component';
 
 const routes: Routes = [
   {
@@ -32,8 +34,8 @@ const routes: Routes = [
         component: ManageComplaintsComponent,
       },
       {
-        path: 'views',
-        component: ViewDetailsComponent,
+        path: 'detail',
+        component: ManageComplaintsDetailComponent,
       }
     ]
   },
@@ -45,8 +47,8 @@ const routes: Routes = [
         component: ViewDetailsComponent,
       },
       {
-        path: 'views',
-        component: ViewDetailsComponent,
+        path: 'detail',
+        component: ViewDetailsDetailComponent,
       }
     ]
   },

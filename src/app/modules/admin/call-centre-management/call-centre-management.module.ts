@@ -16,11 +16,13 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {CallCentreManagementRoutingModule} from '~admin/call-centre-management/call-centre-management-routing.module';
 import { CallCentreManagementComponent } from './components/call-centre-management/call-centre-management.component';
 import { ManageQueriesDetailComponent } from './components/manage-queries/manage-queries-detail/manage-queries-detail.component';
+import { ManageComplaintsDetailComponent } from './components/manage-complaints/manage-complaints-detail/manage-complaints-detail.component';
+import { ViewDetailsDetailComponent } from './components/view-details/view-details-detail/view-details-detail.component';
 
 
 
 @NgModule({
-  declarations: [ManageQueriesComponent, ManageComplaintsComponent, ViewDetailsComponent, CallCentreManagementComponent, ManageQueriesDetailComponent],
+  declarations: [ManageQueriesComponent, ManageComplaintsComponent, ViewDetailsComponent, CallCentreManagementComponent, ManageQueriesDetailComponent, ManageComplaintsDetailComponent, ViewDetailsDetailComponent],
   imports: [
     CommonModule,
     SharedModule,

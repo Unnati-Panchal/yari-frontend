@@ -1,0 +1,121 @@
+<div class="main-body">
+  <div>
+    <h2 class="head">Jain's Collections</h2>
+  </div>
+
+  <div class="container-fluid">
+    <form [formGroup]="form">
+      <input formControlName="id" name="id" type="hidden">
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-label" for="re-seller-name">Re-Seller name</label>
+          <input class="form-control" formControlName="re-seller-name" name="re-seller-name" placeholder="Mona Jain"
+                 type="text">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="re-seller-business-name">Re-Seller Business name</label>
+          <input class="form-control" formControlName="re-seller-business-name" name="re-seller-business-name"
+                 placeholder="Jain's Collections" type="text">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-label" for="mobile-no">Mobile no.</label>
+          <input class="form-control" formControlName="mobile-no" name="mobile-no" placeholder="XXXXX 12415"
+                 type="text">
+
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="email-id">Email id</label>
+          <input class="form-control" formControlName="email-id" name="email-id" placeholder="mona.jain@gmail.com"
+                 type="text">
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-6">
+          <label class="form-label" for="city">City</label>
+          <input class="form-control" formControlName="city" name="city" placeholder="Mumbai"
+                 type="text">
+        </div>
+        <div class="col-md-6">
+          <label class="form-label" for="state">State</label>
+          <input class="form-control" formControlName="state" name="state" placeholder="Maharashtra"
+                 type="text">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <label class="form-label" for="bank-name">Bank Name</label>
+          <input class="form-control" formControlName="bank-name" name="bank-name" placeholder="ICICI Bank"
+                 type="text">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="account-number">Account Number</label>
+          <input class="form-control" formControlName="account-number" name="account-number" placeholder="111111111111"
+                 type="text">
+
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="IFSC-code">IFSC code</label>
+          <input class="form-control" formControlName="IFSC-code" name="IFSC-code" placeholder="ICIC0000098"
+                 type="text">
+
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <label class="form-label" for="total-product-sold">Total Product Sold</label>
+          <input class="form-control" formControlName="total-product-sold" name="total-product-sold" placeholder="100"
+                 type="text"
+          >
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="total-product-returned">Total Product Returned</label>
+          <input class="form-control" formControlName="total-product-returned" name="total-product-returned"
+                 placeholder="5"
+                 type="text"
+          >
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="total-product-exchanged">Total Product Exchanged</label>
+          <input class="form-control" formControlName="total-product-exchanged" name="total-product-exchanged"
+                 placeholder="0"
+                 type="text"
+          >
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <label class="form-label" for="total-orders-cancelled">Total Orders Cancelled</label>
+          <input class="form-control" formControlName="total-orders-cancelled" name="total-orders-cancelled"
+                 placeholder="0"
+                 type="text"
+          >
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-4">
+          <label class="form-label" for="payment-pending">Payment Pending</label>
+          <input class="form-control" formControlName="payment-pending" name="payment-pending" placeholder="Yes"
+                 type="text"
+          >
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="payment-status">Payment Status</label>
+          <input class="form-control" formControlName="payment-status" name="payment-status" placeholder="Initiated"
+                 type="text">
+        </div>
+        <div class="col-md-4">
+          <label class="form-label" for="payment-mode">Payment Mode</label>
+          <input class="form-control" formControlName="payment-mode" name="payment-mode" placeholder="COD" type="text"
+          >
+        </div>
+      </div>
+    </form>
+  </div>
+
+</div>
