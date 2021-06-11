@@ -4,7 +4,7 @@
     <div class="row">
       <div class="col-md-6" *ngFor="let item of specifications" style="margin-top: 16px">
         <label for="{{ item.key }}" class="form-label">{{ item.key }}</label>
-        <input type="text" class="form-control" name="{{ item.key }}" value="{{ item.value }}" />
+        <input formControlName="{{item.key}}" type="text" class="form-control input-bg-white" name="{{ item.key }}" />
       </div>
     </div>
   </form>

@@ -106,6 +106,9 @@ export class CatalogueContentManagementComponent implements OnInit {
     product.key_features = this.productDetailComponent.form.controls['key_feature'].value;
     product.warranty = this.productDetailComponent.form.controls['warranty'].value;
     product.guarantee = this.productDetailComponent.form.controls['guarantee'].value;
+
+    var newProduct = this.productSpecificationComponent.form.value;
+    // alert(JSON.stringify(newProduct))
     this._store.dispatch(fromAdminActions.editProduct({ product }));
   }
 }
