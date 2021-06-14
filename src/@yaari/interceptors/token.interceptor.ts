@@ -33,7 +33,11 @@ export class TokenInterceptor implements HttpInterceptor {
               this._snackBar.open(msg, '', { duration: 3000 });
               return of(err);
           }
-
+        }
+        else if (err.url.includes('login/access-token?user_role=admin')){
+          const msg = err.error.detail;
+          this._snackBar.open(msg, '', { duration: 3000 });
+          return throwError(err);
         }
         else if (err.status === 401 || err.status === 403) {
           this._auth.logout();

@@ -32,6 +32,8 @@ export class CreateUserComponent implements OnInit {
     admin_designation: new FormControl('', Validators.required)
   });
 
+  loading: boolean;
+
   ngOnInit(): void {
     this._appFacade.clearMessages();
     this._adminService.authorizedAdmin('super_user');
@@ -43,15 +45,18 @@ export class CreateUserComponent implements OnInit {
   }
 
   registerAdminUser(): void {
+    this.loading = true;
     if (this.createUserForm.value.admin_role === 'SUPER_USER') {
       this.createUserForm.controls.admin_designation.setValue('');
       this.createUserForm.controls.admin_designation.setErrors(null);
     }
     if (this.createUserForm.invalid) {
+      this.loading = false;
       return;
     }
     this._adminService.createAdminUser(this.createUserForm.value).subscribe((res: IResMsg) => {
       this._snackbar.open(res.msg, '', { duration: 3000 });
+      this.loading = false;
       if (res.success === true) {
         window.location.reload();
       }

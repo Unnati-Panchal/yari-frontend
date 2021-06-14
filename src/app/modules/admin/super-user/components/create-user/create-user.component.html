@@ -65,7 +65,13 @@
         <!-- <div style="margin-top:10px">Error</div> -->
 
         <div class="submit-field">
-            <button mat-button (click)="registerAdminUser()" class="submit">Submit</button>
+            <button *ngIf="!loading else LoadingSpinner" mat-button (click)="registerAdminUser()" class="submit">Submit</button>
         </div>
+
+        <ng-template #LoadingSpinner>
+            <button mat-button class="submit">
+                <mat-spinner [diameter]="25" class="spinner"></mat-spinner>
+            </button>
+        </ng-template>
     </form>
 </div>
