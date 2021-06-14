@@ -24,9 +24,9 @@ export class LoginComponent implements OnInit, OnDestroy {
     select(fromAuthSelectors.getToken),
     filter(token => !!token)
   );
-  public isError$ = this._store.pipe(
-    select(fromAuthSelectors.getIsError),
-    tap(() => this.loading = false)
+
+  public isLoading$ = this._store.pipe(
+    select(fromAuthSelectors.getIsLoading)
   );
 
   public adminDetails$ = this._store.pipe(
@@ -46,7 +46,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(private _store: Store<IAppState>, private _appFacade: AppFacade, private _auth: AuthService, private _router: Router) {
   }
 
-
   public ngOnInit(): void {
     this._appFacade.clearMessages();
     this.authorizedAdmin();
@@ -61,9 +60,10 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (!this.loginForm.valid) {
       return;
     }
-    const loginRequest = this.loginForm.value;
     this.loading = true;
+    const loginRequest = this.loginForm.value;
     this._store.dispatch(fromAuthActions.login({ loginRequest }));
+
   }
 
   public authorizedAdmin(): void {

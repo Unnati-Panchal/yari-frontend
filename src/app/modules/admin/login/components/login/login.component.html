@@ -46,23 +46,19 @@
                     </div>
                 </div>
 
-                <div class="error-success">
-                    <app-error-success [errors]="isError$ | async"></app-error-success>
-                </div>
 
                 <div class="forgot">
                     <a [routerLink]="['../forgot-password']">Forgot Password?</a>
                 </div>
                 <div class="sign-div">
-                    <button *ngIf="!loading else LoadingSpinner" mat-button class="signin" (click)="login()">Sign
+                    <button *ngIf="!(isLoading$ |async)" mat-button class="signin" (click)="login()">Sign
                         In</button>
+                        <button *ngIf="isLoading$ |async" mat-button class="signin">
+                            <mat-spinner [diameter]="25" class="spinner"></mat-spinner>
+                        </button>
                 </div>
 
-                <ng-template #LoadingSpinner>
-                    <button mat-button class="signin">
-                        <mat-spinner [diameter]="25" class="spinner"></mat-spinner>
-                    </button>
-                </ng-template>
+                
             </section>
 
 

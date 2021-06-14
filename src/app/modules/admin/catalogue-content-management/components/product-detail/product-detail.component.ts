@@ -12,6 +12,16 @@ import _ from 'lodash';
 })
 export class ProductDetailComponent implements OnInit {
   selectedProductId: number;
+  form: FormGroup;
+  productCategories: IProductCategory[] = [];
+  newVideo: { src?: any, data?: string, file?: any, name?: string } = {};
+
+  newImages: { src: string, file?: any, name?: string, newlyUploaded: boolean }[] = [];
+  deletedImages: { src: string, file?: any, name?: string }[] = [];
+  private defaultImage = 'assets/images/yaari-logo.png';
+
+  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
+  @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
 
   constructor(
     private fb: FormBuilder,
@@ -20,32 +30,26 @@ export class ProductDetailComponent implements OnInit {
     this.getProductCategories();
   }
 
-
-  form: FormGroup;
-  productCategories: IProductCategory[] = [];
-  video: any;
-  // private images = [];
-  private images: { src: string, file?: any, name?: string }[] = [];
-  private defaultImage = 'assets/images/yaari-logo.png';
-
-  @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
-  @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
-
   ngOnInit(): void { }
 
   public uploadFileEvt(imgFile: any): void {
 
     if (imgFile.target.files && imgFile.target.files[0]) {
+      const file: File = imgFile.target.files[0];
       const reader = new FileReader();
 
-      reader.onload = (e: any) => {
-        this.images.push({
-          src: e.target.result,
-          file: e.srcElement.files[0],
-          name: e.srcElement.files[0].name
+      reader.onload = () => {
+        if (this.newImages.length === 4) {
+          this.deleteImage(0);
+        }
+        this.newImages.push({
+          src: reader.result as string,
+          name: file.name,
+          newlyUploaded: true,
+          file
         });
       };
-      reader.readAsDataURL(imgFile.target.files[0]);
+      reader.readAsDataURL(file);
       this.fileInput.nativeElement.value = '';
     }
   }
@@ -53,12 +57,20 @@ export class ProductDetailComponent implements OnInit {
   public uploadFile(event: any): void {
     const file = event.target.files[0];
     const URL = window.URL;
-    this.video = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
+    this.newVideo.src = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.newVideo.file = file;
+      this.newVideo.data = reader.result as string;
+      this.newVideo.name = file.name;
+      console.log(this.newVideo);
+    };
+    reader.readAsDataURL(file);
   }
 
   public getImages(id: number): string {
 
-    const image = this.images[id];
+    const image = this.newImages[id];
     if (image) {
       return image.src;
     }
@@ -66,15 +78,16 @@ export class ProductDetailComponent implements OnInit {
   }
 
   public deleteImage(id: number): void {
-    const image = this.images[id];
+    const image = this.newImages[id];
     if (image) {
 
-      this.images.splice(id, 1);
+      this.deletedImages.push(image);
+      this.newImages.splice(id, 1);
     }
   }
 
   public deleteVideo(): void {
-    this.video = null;
+    this.newVideo = null;
   }
 
   private createForm(): void {
@@ -152,10 +165,11 @@ export class ProductDetailComponent implements OnInit {
       productId:product.product_id,
       groupId:product.group_id,
     });
-    this.images = [];
+    this.newImages = [];
     product.product_img.forEach(e => {
-      this.images.push({
+      this.newImages.push({
         src: e.url,
+        newlyUploaded: false
       });
     });
   }
