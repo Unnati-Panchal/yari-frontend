@@ -167,3 +167,35 @@ export interface IBulkUploadStatus {
   status?: string;
   file_name?: string;
 }
+
+export interface IProductImg {
+  url: string;
+}
+
+export interface IProductWithSpecProductWithSpec {
+  id: number;
+  sku_id: string;
+  product_name: string;
+  brand: string;
+  mrp: number;
+  sp: number;
+  inventory: number;
+  description: string;
+  material_care: string;
+  discount: number;
+  country_of_origin: string;
+  guarantee: string;
+  key_features: string;
+  video_url: string;
+  warranty: string;
+  supplier_name: string;
+  discount_start_date: string;
+  discount_end_date: string;
+  manufacturing_date: string;
+  re_stock_date: string;
+  hsn_code: string;
+  product_id: string;
+  group_id: string;
+  specifications: any;
+  product_img: IProductImg[];
+}

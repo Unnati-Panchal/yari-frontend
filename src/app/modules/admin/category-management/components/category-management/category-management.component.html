@@ -1,0 +1,6 @@
+<div class="card">
+  <div (click)="clicked=i" *ngFor="let menu of menus; let i = index" [ngStyle]="{'background-color':clicked == i? '#848484': '#f62101'}" [routerLink]="[menu.link]"
+       class="item">
+    {{ menu.name }}
+  </div>
+</div>

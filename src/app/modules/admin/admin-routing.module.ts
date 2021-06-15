@@ -60,6 +60,11 @@ const routes: Routes = [
         loadChildren: () => import('~admin/pricing-management/pricing-management.module').then(m => m.PricingManagementModule),
         canActivate: [AdminAuthGuard]
       },
+      {
+        path: 'category-management',
+        loadChildren: () => import('~admin/category-management/category-management.module').then(m => m.CategoryManagementModule),
+        canActivate: [AdminAuthGuard]
+      },
       { path: '**', redirectTo: '/admin/login' }
     ]
   }

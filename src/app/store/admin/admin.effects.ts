@@ -1,14 +1,21 @@
 import * as fromAdminActions from '~store/admin/admin.actions';
 import * as fromRouter from '~store/route/route.selectors';
 
-import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ICatalogueContentManagement, ICatalogueProducts, IEditProduct, IProductDetail, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
-import { catchError, map, switchMap } from 'rxjs/operators';
+import {Actions, createEffect, ofType} from '@ngrx/effects';
+import {
+  ICatalogueContentManagement,
+  ICatalogueProducts,
+  IEditProduct,
+  IProductDetail,
+  IUploadedCatalogue
+} from '@yaari/models/admin/admin.interface';
+import {catchError, map, switchMap} from 'rxjs/operators';
 
-import { AdminService } from '@yaari/services/admin/admin.service';
-import { Injectable } from '@angular/core';
-import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
+import {AdminService} from '@yaari/services/admin/admin.service';
+import {Injectable} from '@angular/core';
+import {Store} from '@ngrx/store';
+import {of} from 'rxjs';
+import {IProductWithSpecProductWithSpec} from '@yaari/models/product/product.interface';
 
 @Injectable()
 export class AdminEffects {
@@ -18,7 +25,7 @@ export class AdminEffects {
       map(action => action),
       switchMap(() =>
         this._adminService.getUploadedCatalogues().pipe(
-          map((uploadedCatalogues: IUploadedCatalogue[]) => fromAdminActions.getUploadedCataloguesSuccess({ uploadedCatalogues })),
+          map((uploadedCatalogues: IUploadedCatalogue[]) => fromAdminActions.getUploadedCataloguesSuccess({uploadedCatalogues})),
           catchError(error => of(fromAdminActions.getUploadedCataloguesError(error)))
         )
       )
@@ -93,8 +100,35 @@ export class AdminEffects {
       map(action => action.catalogueId),
       switchMap((catalogueId: number) =>
         this._adminService.getCatalogueProducts(catalogueId).pipe(
-          map((catalogueProducts: ICatalogueProducts[]) => fromAdminActions.getCatalogueProductsSuccess({ catalogueProducts })),
+          map((catalogueProducts: ICatalogueProducts[]) => fromAdminActions.getCatalogueProductsSuccess({catalogueProducts})),
           catchError(error => of(fromAdminActions.getCatalogueProductsError(error)))
+        )
+      )
+    )
+  );
+
+
+  public getCategoryProducts$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAdminActions.getCategoryProducts),
+      map(action => action.catalogueId),
+      switchMap((catalogueId: number) =>
+        this._adminService.getCategoryProducts(100, 0, catalogueId).pipe(
+          map((categoryProducts: IProductDetail[]) => fromAdminActions.getCategoryProductsSuccess({categoryProducts})),
+          catchError(error => of(fromAdminActions.getCategoryProductsError(error)))
+        )
+      )
+    )
+  );
+
+  public getCategoryProductDetail$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAdminActions.getCategoryProductDetail),
+      map(action => action.productId),
+      switchMap((productId: number) =>
+        this._adminService.getCategoryProductDetail(productId).pipe(
+          map((categoryProductDetail: IProductWithSpecProductWithSpec) => fromAdminActions.getCategoryProductDetailSuccess({categoryProductDetail})),
+          catchError(error => of(fromAdminActions.getCategoryProductDetailError(error)))
         )
       )
     )
@@ -103,6 +137,7 @@ export class AdminEffects {
   constructor(
     private _actions$: Actions,
     private _adminService: AdminService,
-    private _store: Store<fromRouter.IRouterState>) { }
+    private _store: Store<fromRouter.IRouterState>) {
+  }
 
 }

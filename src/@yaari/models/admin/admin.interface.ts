@@ -175,11 +175,19 @@ export interface IPricingProduct {
 }
 
 export interface IPricingEdit {
-    sku_id: string;
-    mrp: number;
-    sp: number;
-    offers: string;
-    comment: string;
+  sku_id: string;
+  mrp: number;
+  sp: number;
+  offers: string;
+  comment: string;
 
+}
+
+export interface ICategoryDetail {
+  id: number;
+  catalogue_name: string;
+  catalogue_uploaded_by: string;
+  catalogue_uploaded_date: string;
+  catalogue_status: string;
 }
 

@@ -1,0 +1,59 @@
+<div class="main-body">
+  <div>
+    <h2 class="head">View Catalogue</h2>
+  </div>
+
+  <div class="search col-md-12">
+    <div class="col-md-6 search--flex">
+      <mat-form-field appearance="none" class="form-field" floatLabel="never">
+        <input [(ngModel)]="filter" matInput placeholder="Search By Catalogue Name">
+      </mat-form-field>
+      <button (click)="applyFilter(filter)" class="search-button" mat-button type="button">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="!loading && dataSource?.data?.length" class="centered table-box">
+    <div class="col-md-12">
+      <table [dataSource]="dataSource" mat-table>
+
+        <ng-container matColumnDef="id" sticky>
+          <th *matHeaderCellDef mat-header-cell>Catalogue Id</th>
+          <td *matCellDef="let element; let i = index" mat-cell><a
+            [routerLink]="['./product-category',{id:element['id'],name:element['catalogue_name']}]">{{element["catalogue_name"]}}</a>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="catalogue_uploaded_date">
+          <th *matHeaderCellDef mat-header-cell>Catalogue Upload Date</th>
+          <td *matCellDef="let element" mat-cell>{{element["catalogue_uploaded_date"]}}</td>
+        </ng-container>
+        <ng-container matColumnDef="catalogue_uploaded_by">
+          <th *matHeaderCellDef mat-header-cell>Catalogue Uploaded By <br> (Supplier's Business Name)</th>
+          <td *matCellDef="let element" mat-cell>{{element["catalogue_uploaded_by"]}}</td>
+        </ng-container>
+        <ng-container matColumnDef="catalogue_status">
+          <th *matHeaderCellDef mat-header-cell>Catalogue Status</th>
+          <td *matCellDef="let element" mat-cell>{{element["catalogue_status"]}}</td>
+        </ng-container>
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+      </table>
+    </div>
+
+    <div class="paginator">
+      <mat-paginator *ngIf="!loading && dataSource?.data?.length"
+                     [pageSizeOptions]="paginationSizes"
+                     [pageSize]="defaultPageSize"
+                     showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+  <div *ngIf="loading" class="centered">
+    <mat-spinner [diameter]="50" color="warn"></mat-spinner>
+  </div>
+  <div *ngIf="!loading && !dataSource?.data?.length" class="centered">
+    <p>Oops, nothing found.</p>
+  </div>
+</div>
+
+

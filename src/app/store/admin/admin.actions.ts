@@ -1,7 +1,14 @@
-import { ICatalogueContentManagement, ICatalogueProducts, IEditProduct, IProductDetail, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
-import { createAction, props } from '@ngrx/store';
+import {
+  ICatalogueContentManagement,
+  ICatalogueProducts,
+  IEditProduct,
+  IProductDetail,
+  IUploadedCatalogue
+} from '@yaari/models/admin/admin.interface';
+import {createAction, props} from '@ngrx/store';
 
-import { HttpErrorResponse } from '@angular/common/http';
+import {HttpErrorResponse} from '@angular/common/http';
+import {IProductWithSpecProductWithSpec} from '@yaari/models/product/product.interface';
 
 export const clearMessages = createAction('[ADMIN] clear messages');
 
@@ -9,7 +16,7 @@ export const clearMessages = createAction('[ADMIN] clear messages');
 export const getUploadedCatalogues = createAction('[ADMIN] get uploaded catalogues');
 
 export const getUploadedCataloguesSuccess = createAction('[ADMIN] get uploaded catalogues success',
-    props<{ uploadedCatalogues: IUploadedCatalogue[] }>());
+  props<{ uploadedCatalogues: IUploadedCatalogue[] }>());
 
 export const getUploadedCataloguesError = createAction('[ADMIN] get uploaded catalogues error', props<{ error: HttpErrorResponse }>());
 
@@ -24,7 +31,7 @@ export const getUploadedCataloguesError = createAction('[ADMIN] get uploaded cat
 export const getCatalogueProducts = createAction('[ADMIN] get catalogue products', props<{ catalogueId: number }>());
 
 export const getCatalogueProductsSuccess = createAction('[ADMIN] get catalogue products success',
-    props<{ catalogueProducts: ICatalogueProducts[] }>());
+  props<{ catalogueProducts: ICatalogueProducts[] }>());
 
 export const getCatalogueProductsError = createAction('[ADMIN] get catalogue products error', props<{ error: HttpErrorResponse }>());
 
@@ -33,23 +40,20 @@ export const getCatalogueContentManagements = createAction('[ADMIN] get catalogu
 
 
 export const getCatalogueContentManagementsSuccess = createAction('[ADMIN] get catalogue content managements success',
-    props<{ cataloguesContentManagements: ICatalogueContentManagement[] }>());
+  props<{ cataloguesContentManagements: ICatalogueContentManagement[] }>());
 
 // tslint:disable-next-line: max-line-length
 export const getCatalogueContentManagementsError = createAction('[ADMIN] get catalogue content managements error', props<{ error: HttpErrorResponse }>());
 
 
-
-
 export const getCatalogueProductList = createAction('[ADMIN] get catalogue product list', props<{ catalogueIds: string }>());
 
+// tslint:disable-next-line:max-line-length
 export const getCatalogueProductListSuccess = createAction('[ADMIN] get catalogue product list success', props<{ catalogueProductLists: ICatalogueContentManagement[] }>());
 
 
 // tslint:disable-next-line: max-line-length
 export const getCatalogueProductListError = createAction('[ADMIN] get catalogue product list error', props<{ error: HttpErrorResponse }>());
-
-
 
 
 export const getProductDetails = createAction('[ADMIN] get product details', props<{ productIds: string }>());
@@ -69,6 +73,17 @@ export const editProductSuccess = createAction('[ADMIN] edit product detail succ
 
 // tslint:disable-next-line: max-line-length
 export const editProductError = createAction('[ADMIN] edit product detail error', props<{ error: HttpErrorResponse }>());
+
+// category-management
+export const getCategoryProductDetail = createAction('[ADMIN] get category product detail', props<{ productId: number }>());
+export const getCategoryProductDetailSuccess = createAction('[ADMIN] get category product detail success', props<{ categoryProductDetail: IProductWithSpecProductWithSpec }>());
+export const getCategoryProductDetailError = createAction('[ADMIN] get category product detail error',  props<{ error: HttpErrorResponse }>());
+
+
+export const getCategoryProducts = createAction('[ADMIN] get category products', props<{ catalogueId: number }>());
+export const getCategoryProductsSuccess = createAction('[ADMIN] get category products success', props<{ categoryProducts: IProductDetail[] }>());
+export const getCategoryProductsError = createAction('[ADMIN] get category products error', props<{ error: HttpErrorResponse }>());
+// category-management
 
 
 

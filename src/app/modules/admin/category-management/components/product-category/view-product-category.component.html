@@ -1,0 +1,51 @@
+<div class="main-body">
+  <div>
+    <h2 class="head">Catalogue ID: {{categoryName}}</h2>
+  </div>
+
+  <div class="search col-md-12">
+    <div class="col-md-6 search--flex">
+      <mat-form-field appearance="none" class="form-field" floatLabel="never">
+        <input [(ngModel)]="filter" matInput placeholder="Search By Product SKU ID">
+      </mat-form-field>
+      <button (click)="applyFilter(filter)" class="search-button" mat-button type="button">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div *ngIf="!loading && dataSource?.data?.length" class="centered table-box">
+    <div class="col-md-5">
+      <table [dataSource]="dataSource" mat-table>
+
+        <ng-container matColumnDef="sku_id" sticky>
+          <th *matHeaderCellDef mat-header-cell>Product SKU ID</th>
+          <td *matCellDef="let element; let i = index" mat-cell><a
+            [routerLink]="['./product',{productId:element['id']}]">{{element["sku_id"]}}</a>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="catalog_name">
+          <th *matHeaderCellDef mat-header-cell>Product Category</th>
+          <td *matCellDef="let element" mat-cell>{{element.product_catalog.category.name}}</td>
+        </ng-container>
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+      </table>
+    </div>
+
+    <div class="paginator">
+      <mat-paginator *ngIf="!loading && dataSource?.data?.length"
+                     [pageSizeOptions]="paginationSizes"
+                     [pageSize]="defaultPageSize"
+                     showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+  <div *ngIf="loading" class="centered">
+    <mat-spinner [diameter]="50" color="warn"></mat-spinner>
+  </div>
+  <div *ngIf="!loading && !dataSource?.data?.length" class="centered">
+    <p>Oops, nothing found.</p>
+  </div>
+</div>
+
+

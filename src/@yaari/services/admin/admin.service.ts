@@ -1,9 +1,9 @@
-
 import {
   IAdminUserDetails,
   ICatalogueApprove,
   ICatalogueContentManagement,
   ICatalogueProducts,
+  ICategoryDetail,
   IEditProduct,
   IPricingCatalogue,
   IPricingEdit,
@@ -14,14 +14,15 @@ import {
 } from '@yaari/models/admin/admin.interface';
 
 
-import { AuthService } from '../auth/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { IResetPassword } from '@yaari/models/auth/auth.interface';
-import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
-import { environment } from '~env/environment';
+import {AuthService} from '../auth/auth.service';
+import {HttpClient} from '@angular/common/http';
+import {IResetPassword} from '@yaari/models/auth/auth.interface';
+import {Injectable} from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {Observable} from 'rxjs';
+import {Router} from '@angular/router';
+import {environment} from '~env/environment';
+import {IProductWithSpecProductWithSpec} from '@yaari/models/product/product.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -131,5 +132,20 @@ export class AdminService {
 
   public getViewCatalogues(): Observable<IUploadedCatalogue[]> {
     return this._http.get<IUploadedCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=view_catalogue`);
+  }
+
+  public getCategoryCatalogues(pageSize: number, skip: number): Observable<ICategoryDetail[]> {
+    const suffix = `?limit=${pageSize}&skip=${skip}`;
+    return this._http.get<ICategoryDetail[]>(`${environment.API_BASE_URL}/api/v1/admin/category/catalogues${suffix}`);
+  }
+
+  public getCategoryProducts(pageSize: number, skip: number, catalogueId: number): Observable<IProductDetail[]> {
+    const suffix = `?limit=${pageSize}&skip=${skip}&catalogue_id=${catalogueId}`;
+    return this._http.get<IProductDetail[]>(`${environment.API_BASE_URL}/api/v1/admin/category/products${suffix}`);
+  }
+
+  public getCategoryProductDetail(productId: number): Observable<IProductWithSpecProductWithSpec> {
+    const suffix = `?product_id=${productId}`;
+    return this._http.get<IProductWithSpecProductWithSpec>(`${environment.API_BASE_URL}/api/v1/admin/category/product-detail${suffix}`);
   }
 }

@@ -1,0 +1,157 @@
+<div *ngIf="{product:getCategoryProductDetail$ | async} as data" class="main-body">
+
+  <div>
+    <h2 class="head">Product SKU ID : {{data?.product?.sku_id}} </h2>
+  </div>
+
+  <div class="search col-md-12">
+    <mat-tab-group (selectedIndexChange)="selectedIndexChange($event)" animationDuration="0ms">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div [ngClass]="{'active' : selectedTabIndex === 0}" class="product-detail">
+            Product Details
+          </div>
+        </ng-template>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-md-6">
+              <label class="form-label">Product Name</label>
+              <input class="form-control" disabled name="product_name" type="text"
+                     value="{{data.product.product_name}}">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <label class="form-label">Product Description</label>
+              <textarea class="form-text-area" cols="50" disabled name="product_description"
+                        rows="5">{{data.product.description}}</textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <label class="form-label">Material Care</label>
+              <input class="form-control" disabled name="material_care" type="text"
+                     value="{{data.product.material_care}}">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label">Country of Origin</label>
+              <input class="form-control" disabled name="country_of_origin" type="text"
+                     value="{{data.product.country_of_origin}}">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">MRP</label>
+              <input class="form-control" disabled name="mrp" type="text" value="{{data.product.mrp}}">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Final Selling Price </label>
+              <input class="form-control" disabled name="final_selling_price" type="text" value="...">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label">Stock Count</label>
+              <input class="form-control" disabled name="stock-count" type="text" value="...">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Re-stock Date</label>
+              <input class="form-control" disabled name="re-stock-date" type="text"
+                     value="{{data.product.re_stock_date}}">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Manufacturing Date</label>
+              <input class="form-control" disabled name="manufacturing-date" type="text"
+                     value="{{data.product.manufacturing_date}}">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-12">
+              <label class="form-label">Key Features</label>
+              <textarea class="form-text-area col-md-9" cols="50" disabled name="key-features" rows="4"> {{data.product.key_features}}</textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label">Offer</label>
+              <input class="form-control" disabled name="offer" type="text" value="...">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Offer Start Date</label>
+              <input class="form-control" disabled name="offer-start-date" type="text" value="...">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Offer End Date</label>
+              <input class="form-control" disabled name="offer-end-date" type="text" value="...">
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-4">
+              <label class="form-label">Guarantee</label>
+              <input class="form-control" disabled name="guarantee" type="text" value="{{data.product.guarantee}}">
+            </div>
+            <div class="col-md-4">
+              <label class="form-label">Warranty</label>
+              <input class="form-control" disabled name="warranty" type="text" value="{{data.product.warranty}}">
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="form-label">Images</label>
+          </div>
+          <div class="row">
+            <div *ngFor="let item of data.product.product_img" class="col-md-4">
+              <div class="gallery-item">
+                <div class="items-wrapper">
+                  <img [src]="item.url" _ngcontent-hil-c76="" class="gallery-img"/>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <label class="form-label">Videos</label>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="gallery-item">
+                <div class="items-wrapper">
+                  <img *ngIf="!data.product.video_url" _ngcontent-hil-c76="" height="200px"
+                       src="/assets/images/yaari-logo.png"
+                       width="228px">
+                  <video *ngIf="data.product.video_url" [src]="data.product.video_url" controls height="200"
+                         width="228px"></video>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div [ngClass]="{'active' : selectedTabIndex === 1}" class="product-specifications">
+            Product Specifications
+          </div>
+        </ng-template>
+        <div class="container-fluid">
+          <div class="row">
+            <div *ngFor="let item of specifications" class="col-md-6 margin-top-20">
+              <label class="form-label">{{ item.key }}</label>
+              <input class="form-control" disabled name="{{ item.key }}" type="text" value="{{ item.value }}"/>
+            </div>
+          </div>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </div>
+</div>
