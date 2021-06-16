@@ -49,14 +49,14 @@
             </div>
             <div class="col-md-4">
               <label class="form-label">Final Selling Price </label>
-              <input class="form-control" disabled name="final_selling_price" type="text" value="...">
+              <input class="form-control" disabled name="final_selling_price" type="text" value="{{data.product.sp}}">
             </div>
           </div>
 
           <div class="row">
             <div class="col-md-4">
               <label class="form-label">Stock Count</label>
-              <input class="form-control" disabled name="stock-count" type="text" value="...">
+              <input class="form-control" disabled name="stock-count" type="text" value="{{data.product.inventory}}">
             </div>
             <div class="col-md-4">
               <label class="form-label">Re-stock Date</label>
@@ -80,15 +80,15 @@
           <div class="row">
             <div class="col-md-4">
               <label class="form-label">Offer</label>
-              <input class="form-control" disabled name="offer" type="text" value="...">
+              <input class="form-control" disabled name="offer" type="text" value="{{data.product.discount}}">
             </div>
             <div class="col-md-4">
               <label class="form-label">Offer Start Date</label>
-              <input class="form-control" disabled name="offer-start-date" type="text" value="...">
+              <input class="form-control" disabled name="offer-start-date" type="text" value="{{data.product.discount_start_date}}">
             </div>
             <div class="col-md-4">
               <label class="form-label">Offer End Date</label>
-              <input class="form-control" disabled name="offer-end-date" type="text" value="...">
+              <input class="form-control" disabled name="offer-end-date" type="text" value="{{data.product.discount_end_date}}">
             </div>
           </div>
 
