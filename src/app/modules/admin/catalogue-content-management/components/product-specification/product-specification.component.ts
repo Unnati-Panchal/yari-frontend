@@ -18,23 +18,22 @@ export class ProductSpecificationComponent implements OnInit {
   private createForm() {
     this.form = this.fb.group({
       id: new FormControl(''),
-      sleeve_length: new FormControl(''),
-      size_chart: new FormControl(''),
-      color_chart: new FormControl(''),
-      neck_pattern: new FormControl(''),
-      kurti_length: new FormControl(''),
-      hemline: new FormControl(''),
     });
   }
 
-  public bindProduct(product: IProductDetail) {
+  bindProduct(product: IProductDetail) {
+  this.specifications = new Array();
     if (!product) {
       return;
     }
-
     for (const [key, value] of Object.entries(product.specifications)) {
+      if (key !== 'id')
+      {
       this.specifications.push({ key: key, value: value });
+       this.form.addControl(key,new FormControl(value))
+      }
     }
+
   }
 
   ngOnInit(): void {}
