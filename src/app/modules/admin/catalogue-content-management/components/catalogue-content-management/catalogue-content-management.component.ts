@@ -1,6 +1,7 @@
 import * as _ from 'lodash';
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Store, select } from '@ngrx/store';
@@ -33,6 +34,7 @@ export class CatalogueContentManagementComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private _store: Store<IAppState>,
+    private _snackBar: MatSnackBar,
     private _adminService: AdminService) { }
 
   getProductDetail$ = this._store.pipe(select(fromAdminSelectors.getProductDetail$), filter(value => !!value));
@@ -121,5 +123,6 @@ export class CatalogueContentManagementComponent implements OnInit {
     product.warranty = this.productDetailComponent.form.controls['warranty'].value;
     product.guarantee = this.productDetailComponent.form.controls['guarantee'].value;
     this._store.dispatch(fromAdminActions.editProduct({ product }));
+    this._snackBar.open('Product update completed', '', { duration: 5000 });
   }
 }
