@@ -106,11 +106,8 @@ export class CatalogueContentManagementComponent implements OnInit {
     product.warranty = this.productDetailComponent.form.controls['warranty'].value;
     product.mrp = this.productDetailComponent.form.controls['mrp'].value;
     product.sp = this.productDetailComponent.form.controls['final_selling_price'].value;
-    product.specifications = `{
-      "additionalProp1": "additionalProp1",
-      "additionalProp2": "additionalProp2",
-      "additionalProp3": "additionalProp3"
-    }`;
+    this.productSpecificationComponent.form.removeControl('id');
+    product.specifications = this.productSpecificationComponent.form.value;
     product.to_delete_image_urls = this.productDetailComponent.deletedImages.map(i => i.src);
     const newImages = this.productDetailComponent.newImages
       .filter(r => r.newlyUploaded)
