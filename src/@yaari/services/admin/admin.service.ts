@@ -68,7 +68,7 @@ export class AdminService {
 
   public editProduct(editProduct: IEditProduct): Observable<IEditProduct> {
     const body = editProduct;
-    return this._http.put<IEditProduct>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/content-mgmt/edit`, body);
+    return this._http.post<IEditProduct>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/content-mgmt/edit`, body);
   }
 
   public approveRejectCatalogue(catalogueApprove: ICatalogueApprove): Observable<IResMsg> {
@@ -82,7 +82,8 @@ export class AdminService {
 
   public createAdminUser(adminUserDetails: IAdminUserDetails): Observable<IResMsg> {
     const body = adminUserDetails;
-    return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/register/admin-user`, body);
+    const url = window.location.href.replace('super-user/create-user', 'login');
+    return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/register/admin-user?redirect_url=${url}`, body);
   }
   public authorizedAdmin(role: string): void {
     this._auth.adminDetails().subscribe(adminDetails => {
@@ -122,7 +123,7 @@ export class AdminService {
 
   public editPricing(editPricingDetails: IPricingEdit[]): Observable<IResMsg> {
     const body = editPricingDetails;
-    return this._http.put<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/pricing/edit`, body);
+    return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/pricing/edit`, body);
   }
 
   public uploadPricing(file: any): Observable<IResMsg> {

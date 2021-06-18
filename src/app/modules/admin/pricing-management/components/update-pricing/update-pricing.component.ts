@@ -14,9 +14,9 @@ import { AppFacade } from '~app/store/app.state';
 export class UpdatePricingComponent implements OnInit, OnDestroy {
   displayedColumns = [
     'catalogue_name',
+    'supplier_business_name',
     'product_count',
     'category',
-    'supplier_business_name',
     'uploaded_by',
     'uploaded_date',
     'approved_by',

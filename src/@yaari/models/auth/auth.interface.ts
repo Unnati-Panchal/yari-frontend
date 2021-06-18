@@ -40,6 +40,8 @@ export interface IRegistration {
 
 export interface IAdminDetails{
   admin_role: string;
+  admin_designation: string;
+  first_name: string;
 }
 
 export interface ILogin {

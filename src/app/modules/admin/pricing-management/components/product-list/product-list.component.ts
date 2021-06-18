@@ -25,10 +25,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     'select',
     'sku_id',
     'product_name',
-    'product_id',
     'group_id',
-    'mrp',
+    'product_id',
     'sp',
+    'mrp',
     'offers',
     'comment'
   ];
@@ -120,7 +120,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
     const editDetailsList = [];
     this.checked.forEach(productIndex => {
       const productEditDetails: IPricingEdit = {
+        id: this.cpy[productIndex].id,
         sku_id: this.cpy[productIndex].sku_id,
+        product_id: this.cpy[productIndex].product_id,
         mrp: this.cpy[productIndex].mrp,
         sp: this.cpy[productIndex].sp,
         offers: this.cpy[productIndex].offers,
