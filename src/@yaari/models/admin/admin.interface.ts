@@ -175,7 +175,9 @@ export interface IPricingProduct {
 }
 
 export interface IPricingEdit {
+    id: number;
     sku_id: string;
+    product_id: string;
     mrp: number;
     sp: number;
     offers: string;

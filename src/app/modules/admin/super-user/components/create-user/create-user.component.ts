@@ -55,10 +55,11 @@ export class CreateUserComponent implements OnInit {
       return;
     }
     this._adminService.createAdminUser(this.createUserForm.value).subscribe((res: IResMsg) => {
-      this._snackbar.open(res.msg, '', { duration: 3000 });
+      this._snackbar.open(res.msg, 'Dismiss', { duration: 5000 });
       this.loading = false;
       if (res.success === true) {
-        window.location.reload();
+        this.createUserForm.reset();
+        Object.keys(this.createUserForm.controls).forEach(control => this.createUserForm.controls[control].setErrors(null));
       }
     });
   }

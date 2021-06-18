@@ -1,6 +1,6 @@
 <header>
 
-  <img src="/assets/images/yaari-logo.png" alt="yaari-logo" [routerLink]="['/admin/']" />
+  <img src="/assets/images/yaari-logo.png" alt="yaari-logo" [routerLink]="['/']" />
 
   <button *ngIf="adminDetails$ | async as adminDetails" mat-button class="logout" (click)="logout()">
     <span>Log Out</span>

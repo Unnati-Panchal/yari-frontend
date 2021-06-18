@@ -9,6 +9,8 @@ import { tap } from 'rxjs/operators';
 
 import { AdminService } from '@yaari/services/admin/admin.service';
 import { Subscription } from 'rxjs';
+import { AuthService } from '@yaari/services/auth/auth.service';
+import { IAdminDetails } from '@yaari/models/auth/auth.interface';
 
 
 
@@ -30,7 +32,8 @@ export class CatalogueManagementComponent implements OnInit, OnDestroy {
   constructor(
     private _store: Store<IAppState>,
     private _appFacade: AppFacade,
-    private _adminService: AdminService
+    private _adminService: AdminService,
+    private _auth: AuthService
   ) { }
 
   menus: any = [
@@ -43,6 +46,14 @@ export class CatalogueManagementComponent implements OnInit, OnDestroy {
     this._appFacade.clearMessages();
     // this._store.dispatch(fromAuthActions.adminDetails());
     this._adminService.authorizedAdmin('catalogue_management');
+    this._auth.adminDetails().subscribe((adminDetails: IAdminDetails) => {
+      if(adminDetails.admin_designation == "associate"){
+        this.menus = [
+          { name: 'Approve Uploaded Catalogues', link: 'catalogues' },
+          { name: 'View Catalogue' , link: '../view-catalogue'}
+        ];
+      }
+    });
   }
 
   public ngOnDestroy(): void {

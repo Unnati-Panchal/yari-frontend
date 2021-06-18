@@ -11,9 +11,6 @@ import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
 
 
-
-
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -25,9 +22,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     filter(token => !!token)
   );
 
-  public isLoading$ = this._store.pipe(
-    select(fromAuthSelectors.getIsLoading)
-  );
+  public isLoading$: any;
 
   public adminDetails$ = this._store.pipe(
     select(fromAuthSelectors.adminDetails$),
@@ -60,6 +55,7 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (!this.loginForm.valid) {
       return;
     }
+    this.isLoading$ = this._store.pipe(select(fromAuthSelectors.getIsLoading));
     this.loading = true;
     const loginRequest = this.loginForm.value;
     this._store.dispatch(fromAuthActions.login({ loginRequest }));
