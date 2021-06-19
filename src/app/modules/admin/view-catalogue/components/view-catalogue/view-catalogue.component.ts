@@ -3,9 +3,9 @@ import { MatTableDataSource } from '@angular/material/table';
 import { select, Store } from '@ngrx/store';
 import { AdminService } from '@yaari/services/admin/admin.service';
 import { Subscription } from 'rxjs';
-import { AppFacade, IAppState } from '~app/store/app.state';
-import * as fromAdminActions from '~app/store/admin/admin.actions';
-import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
+import { AppFacade, IAppState } from '~store/app.state';
+import * as fromAdminActions from '~store/admin/admin.actions';
+import * as fromAdminSelectors from '~store/admin/admin.selectors';
 import { IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
 import { filter } from 'rxjs/operators';
 import * as fileSaver from 'file-saver';
@@ -25,7 +25,6 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
   paginationSizes: number[] = [5, 15, 30, 60, 100];
   defaultPageSize = this.paginationSizes[0];
   @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
-  public getUploadedCatalogues$ = this._store.pipe(select(fromAdminSelectors.getUploadedCatalogues), filter(value => !!value));
 
   constructor(
     private _store: Store<IAppState>,
@@ -53,7 +52,6 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
     this._appFacade.clearMessages();
     this._adminService.authorizedAdmin('catalogue_management');
 
-    // this._store.dispatch(fromAdminActions.getUploadedCatalogues());
     this._subscription.add(
       this._adminService.getViewCatalogues().subscribe(viewCatalogues => {
         this.setTableDataSource(viewCatalogues);

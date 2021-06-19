@@ -1,12 +1,27 @@
-import { RouterModule, Routes } from '@angular/router';
-import { ViewCatalogueComponent } from './components/view-catalogue.component';
-import { NgModule } from '@angular/core';
+import {RouterModule, Routes} from '@angular/router';
+import {NgModule} from '@angular/core';
+import {ViewCatalogueComponent, ViewCatalogueDetailComponent} from '~admin/view-catalogue/components';
+
 
 const routes: Routes = [
-    {
+  {
+    path: '',
+    children: [
+      {
         path: '',
         component: ViewCatalogueComponent
-    }
+      },
+      {
+        path: 'view',
+        children: [
+          {
+            path: '',
+            component: ViewCatalogueDetailComponent
+          },
+        ]
+      }
+    ]
+  }
 ];
 
 @NgModule({
