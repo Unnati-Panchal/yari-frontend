@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-md-6">
         <label for="product_name" class="form-label">Product Name</label>
-        <input type="text" class="form-control" name="product_name" formControlName="product_name">
+        <input type="text" class="form-control" disabled name="product_name" formControlName="product_name">
       </div>
       <div class="col-md-6">
         <label for="product_sku_id" class="form-label">Product SKU ID</label>
@@ -22,10 +22,8 @@
     <div class="row">
       <div class="col-md-6">
         <label for="product_category" class="form-label">Product Category</label>
-        <select class="form-control" name="product_category" formControlName="product_category">
-          <option [ngValue]="productCategory.id" *ngFor="let productCategory of productCategories">
-            {{productCategory.name}}</option>
-        </select>
+        <input type="text" class="form-control" disabled name="product_category" formControlName="product_category">
+
       </div>
       <div class="col-md-6">
         <label for="material_care" class="form-label">Material Care</label>
@@ -45,7 +43,7 @@
     <div class="row">
       <div class="col-md-6">
         <label for="stock_count" class="form-label">Stock Count</label>
-        <input type="text" class="form-control" name="stock_count" formControlName="stock_count">
+        <input type="text" class="form-control" name="stock_count" disabled formControlName="stock_count">
       </div>
     </div>
     <div class="row">
@@ -65,7 +63,7 @@
     <div class="row">
       <div class="col-md-6">
         <label for="country_of_origin" class="form-label">Country of Origin</label>
-        <input type="text" class="form-control" name="country_of_origin" formControlName="country_of_origin">
+        <input type="text" class="form-control" name="country_of_origin" disabled formControlName="country_of_origin">
       </div>
     </div>
     <div class="row">
