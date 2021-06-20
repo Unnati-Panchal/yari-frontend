@@ -12,24 +12,26 @@ import { CatalogueManagementRoutingModule } from './catalogue-management-routing
 import { CatalogueManagementComponent } from './components/catalogue-management/catalogue-management.component';
 import { ApproveRejectComponent, GalleryDialogComponent } from './components/uploaded-catalogues/approve-reject.component';
 import { UploadedCataloguesComponent } from './components/uploaded-catalogues/uploaded-catalogues.component';
+import {MatSortModule} from '@angular/material/sort';
 
 
 
 @NgModule({
   declarations: [CatalogueManagementComponent, UploadedCataloguesComponent, ApproveRejectComponent, GalleryDialogComponent],
   entryComponents: [GalleryDialogComponent],
-  imports: [
-    CommonModule,
-    SharedModule,
-    CatalogueManagementRoutingModule,
-    MatButtonModule,
-    MatTableModule,
-    MatSnackBarModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTabsModule,
-    MatDialogModule
-  ]
+    imports: [
+        CommonModule,
+        SharedModule,
+        CatalogueManagementRoutingModule,
+        MatButtonModule,
+        MatTableModule,
+        MatSnackBarModule,
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTabsModule,
+        MatDialogModule,
+        MatSortModule
+    ]
 })
 export class CatalogueManagementModule { }

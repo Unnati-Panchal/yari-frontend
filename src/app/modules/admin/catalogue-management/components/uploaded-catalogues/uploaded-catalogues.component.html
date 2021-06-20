@@ -13,35 +13,35 @@
 
 
     <div class="main-table">
-        <table mat-table [dataSource]="dataSource">
+        <table mat-table [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="catalogue_name" sticky>
-                <th mat-header-cell *matHeaderCellDef>Catalogue Name</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Catalogue Name</th>
                 <td mat-cell class="truncate-cell" *matCellDef="let element; let i = index"><a [title]="element['catalogue_name']"
                         [routerLink]="['products',{id:element['catalogue_id'],name:element['catalogue_name']}]">{{element["catalogue_name"]}}</a>
                 </td>
             </ng-container>
             <ng-container matColumnDef="product_count">
-                <th mat-header-cell *matHeaderCellDef>Product Count</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Count</th>
                 <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["product_count"]}}</td>
             </ng-container>
             <ng-container matColumnDef="supplier_business_name">
-                <th mat-header-cell *matHeaderCellDef>Supplier Business Name</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Business Name</th>
                 <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["supplier_business_name"]}}</td>
             </ng-container>
             <ng-container matColumnDef="action_by">
-                <th mat-header-cell *matHeaderCellDef>Action By</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Action By</th>
                 <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["action_by"]}}</td>
             </ng-container>
             <ng-container matColumnDef="action_date">
-                <th mat-header-cell *matHeaderCellDef>Action Date</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Action Date</th>
                 <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["action_date"]}}</td>
             </ng-container>
             <ng-container matColumnDef="content_updated_by">
-                <th mat-header-cell *matHeaderCellDef>Content Updated By</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Content Updated By</th>
                 <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["content_updated_by"]}}</td>
             </ng-container>
             <ng-container matColumnDef="content_updated_date">
-                <th mat-header-cell *matHeaderCellDef>Content Updated Date</th>
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Content Updated Date</th>
                 <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["content_updated_date"]}}</td>
             </ng-container>
             <ng-container matColumnDef="action">
