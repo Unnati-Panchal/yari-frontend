@@ -21,7 +21,7 @@
   </div>
   <div *ngIf="!loading && dataSource?.data?.length" class="centered table-box">
   <div class="col-md-12">
-    <table mat-table [dataSource]="dataSource">
+    <table [dataSource]="dataSource" mat-table matSort>
       <ng-container matColumnDef="selected_product_sku_id" sticky>
         <th mat-header-cell *matHeaderCellDef>Select catalogue</th>
         <td mat-cell *matCellDef="let element; let i = index">
@@ -30,54 +30,54 @@
         </td>
       </ng-container>
       <ng-container matColumnDef="catalogue_name">
-        <th mat-header-cell *matHeaderCellDef>Catalogue Name</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalogue Name</th>
         <td mat-cell *matCellDef="let element">{{element.catalogue_name}}</td>
       </ng-container>
       <ng-container matColumnDef="supplier_business_name">
-        <th mat-header-cell *matHeaderCellDef>Supplier Business Name</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Supplier Business Name</th>
         <td mat-cell *matCellDef="let element">{{element.supplier_business_name}}</td>
       </ng-container>
       <ng-container matColumnDef="category_name">
-        <th mat-header-cell *matHeaderCellDef>Product Category</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Product Category</th>
         <td mat-cell *matCellDef="let element">{{element.category_name}}</td>
       </ng-container>
       <ng-container matColumnDef="product_count">
-        <th mat-header-cell *matHeaderCellDef>Product Count</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Product Count</th>
         <td mat-cell *matCellDef="let element">{{element.product_count}}</td>
       </ng-container>
       <ng-container matColumnDef="catalogue_status">
-        <th mat-header-cell *matHeaderCellDef>Catalogue status</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalogue status</th>
         <td mat-cell *matCellDef="let element">{{element.catalogue_status}}</td>
       </ng-container>
 
       <ng-container matColumnDef="catalogue_uploaded_by">
-        <th mat-header-cell *matHeaderCellDef>Catalogue uploaded by</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalogue uploaded by</th>
         <td mat-cell *matCellDef="let element">{{element.catalogue_uploaded_by}}</td>
       </ng-container>
 
-      <ng-container matColumnDef="catalogue_uploaded_date">
-        <th mat-header-cell *matHeaderCellDef>Catalogue uploaded date</th>
+      <ng-container matColumnDef="catalogue_uploaded_date" class="mat-column-max-width-100">
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalogue uploaded date</th>
         <td mat-cell *matCellDef="let element">{{element.catalogue_uploaded_date}}</td>
       </ng-container>
 
       <ng-container matColumnDef="action_by">
-        <th mat-header-cell *matHeaderCellDef>Catalog Action By</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalog Action By</th>
         <td mat-cell *matCellDef="let element">{{element.action_by}}</td>
       </ng-container>
 
 
       <ng-container matColumnDef="action_date">
-        <th mat-header-cell *matHeaderCellDef>Catalog Action Date</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalog Action Date</th>
         <td mat-cell *matCellDef="let element">{{element.action_date}}</td>
       </ng-container>
 
       <ng-container matColumnDef="content_updated_by">
-        <th mat-header-cell *matHeaderCellDef>Catalogue Content Updated Date</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalogue Content Updated Date</th>
         <td mat-cell *matCellDef="let element">{{element.content_updated_by}}</td>
       </ng-container>
 
       <ng-container matColumnDef="content_updated_date">
-        <th mat-header-cell *matHeaderCellDef>Catalogue Content Updated Date</th>
+        <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalogue Content Updated Date</th>
         <td mat-cell *matCellDef="let element">{{element.content_updated_date}}</td>
       </ng-container>
 

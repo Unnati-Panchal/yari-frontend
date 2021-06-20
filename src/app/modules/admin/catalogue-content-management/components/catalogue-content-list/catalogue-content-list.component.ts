@@ -2,17 +2,18 @@ import * as _ from 'lodash';
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
 
-import { ActivatedRoute, Router } from '@angular/router';
-import { AppFacade, IAppState } from '~app/store/app.state';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AppFacade, IAppState} from '~app/store/app.state';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {select, Store} from '@ngrx/store';
 
-import { AdminService } from '@yaari/services/admin/admin.service';
-import { ICatalogueContentManagement } from '@yaari/models/admin/admin.interface';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import {AdminService} from '@yaari/services/admin/admin.service';
+import {ICatalogueContentManagement} from '@yaari/models/admin/admin.interface';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
+import {Subscription} from 'rxjs';
+import {filter} from 'rxjs/operators';
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-catalogue-content-list',
@@ -20,7 +21,9 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./catalogue-content-list.component.scss']
 })
 export class CatalogueContentListComponent implements OnInit, OnDestroy {
-  @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
+
+  @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns: string[] = [
     'selected_product_sku_id',
@@ -62,19 +65,15 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-
     if (this.route.snapshot.queryParamMap.has('id')) {
       {
         this.selectedCatalogId = this.route.snapshot.queryParamMap.get('id');
       }
     }
-
-
     this.loading = true;
     this._appFacade.clearMessages();
     this._adminService.authorizedAdmin('catalogue_management');
     this._store.dispatch(fromAdminActions.getCatalogueContentManagements());
-
     this._subscription.add(
       this.getCatalogueContentManagements$.subscribe((catalogueContentManagements) => {
         this.setTableDataSource(catalogueContentManagements);
@@ -87,6 +86,7 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
     this.dataSource = new MatTableDataSource<any>(data);
     setTimeout(() => {
       this.dataSource.paginator = this.matPaginator;
+      this.dataSource.sort = this.sort;
     });
   }
 
@@ -112,7 +112,6 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
   }
 
   nagivateToEdit(): void {
-
     const selectedCatalogues = this.selectedRows.data.map(e => e.catalogue_id).join(',');
     this.router.navigate(['admin/catalogue-content-management/products'], { queryParams: { catalogIds: selectedCatalogues } });
   }

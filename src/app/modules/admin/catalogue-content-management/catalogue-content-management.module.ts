@@ -22,27 +22,29 @@ import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CatalogueProductListComponent } from './components/catalogue-product-list/catalogue-product-list.component';
 import {MatButtonModule} from '@angular/material/button';
+import {MatSortModule} from '@angular/material/sort';
 
 @NgModule({
   declarations: [CatalogueContentManagementComponent, ProductDetailComponent, ProductSpecificationComponent, CatalogueContentListComponent, CatalogueProductListComponent],
-    imports: [
-        CommonModule,
-        SharedModule,
-        CatalogueContentManagementRoutingModule,
-        MatTabsModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatIconModule,
-        MatTableModule,
-        MatCheckboxModule,
-        MatMomentDateModule,
-        MatPaginatorModule,
-        MatProgressSpinnerModule,
-        MatToolbarModule,
-        MatButtonModule
-    ],
+  imports: [
+    CommonModule,
+    SharedModule,
+    CatalogueContentManagementRoutingModule,
+    MatTabsModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatIconModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatMomentDateModule,
+    MatPaginatorModule,
+    MatProgressSpinnerModule,
+    MatToolbarModule,
+    MatButtonModule,
+    MatSortModule
+  ],
   providers: [{ provide: MAT_DATE_FORMATS, useValue: MatDateFormat }]
 })
 export class CatalogueContentManagementModule { }
