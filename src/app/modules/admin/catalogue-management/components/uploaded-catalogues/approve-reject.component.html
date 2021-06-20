@@ -9,7 +9,7 @@
     </div>
     <div class="search">
         <mat-form-field floatLabel="never" appearance="none" class="form-field">
-            <input matInput placeholder="Search By SKU Id" [(ngModel)]="filter">
+            <input matInput (keyup.enter)="applyFilter(filter)"  placeholder="Search By SKU Id" [(ngModel)]="filter">
         </mat-form-field>
         <button mat-button type="button" class="search-button" (click)="applyFilter(filter)">
             <mat-icon>search</mat-icon>

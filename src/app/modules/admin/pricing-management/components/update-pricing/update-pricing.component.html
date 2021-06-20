@@ -5,7 +5,8 @@
     <div class="search">
         <form>
             <mat-form-field floatLabel="never" appearance="none" class="form-field">
-                <input matInput placeholder="Search by Catalogue Name" [(ngModel)]="filter" name="search">
+                <input (keyup.enter)="search(filter)" [(ngModel)]="filter" matInput
+                       name="search" placeholder="Search by Catalogue Name">
             </mat-form-field>
             <button mat-button type="submit" class="search-button" (click)="search(filter)">
                 <mat-icon>search</mat-icon>

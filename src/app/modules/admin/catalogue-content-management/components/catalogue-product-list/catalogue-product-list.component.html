@@ -2,17 +2,17 @@
     <div>
       <h2 class="head">Catalogue Content Management</h2>
     </div>
-  
+
     <div class="search col-md-12">
       <div class="col-md-6 search--flex">
         <mat-form-field floatLabel="never" appearance="none" class="form-field">
-          <input matInput placeholder="Search By Catalogue ID Name or SKU ID" [(ngModel)]="filter">
+          <input matInput (keyup.enter)="applyFilter(filter)"  placeholder="Search By Catalogue ID Name or SKU ID" [(ngModel)]="filter">
         </mat-form-field>
         <button mat-button type="button" class="search-button" (click)="applyFilter(filter)">
           <mat-icon>search</mat-icon>
         </button>
       </div>
-  
+
       <div class="col-md-6">
         <button mat-button type="button" [disabled]="selectedRows.data.length === 0" class="edit-button" (click)="nagivateToEdit()">
           <mat-icon class="edit-button__icon">edit</mat-icon> Edit Selected Product
@@ -40,12 +40,12 @@
           <td mat-cell *matCellDef="let element">{{element.product_catalog.catalog_name}}</td>
         </ng-container>
 
-       
+
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr> 
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     </div>
-  
+
     <div class="paginator">
       <mat-paginator *ngIf="!loading && dataSource?.data?.length"
                      [pageSizeOptions]="paginationSizes"
@@ -61,6 +61,5 @@
       <p>Oops, nothing found.</p>
     </div>
   </div>
-  
-  
-  
+
+
