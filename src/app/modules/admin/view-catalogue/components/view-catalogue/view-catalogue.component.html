@@ -6,7 +6,8 @@
     <div class="search col-md-12">
       <div class="col-md-6 search--flex">
         <mat-form-field floatLabel="never" appearance="none" class="form-field">
-          <input matInput placeholder="Search By Catalogue Name" [(ngModel)]="filter">
+          <input (keyup.enter)="applyFilter(filter)" [(ngModel)]="filter" matInput
+                 placeholder="Search By Catalogue Name">
         </mat-form-field>
         <button mat-button type="button" class="search-button" (click)="applyFilter(filter)">
           <mat-icon>search</mat-icon>

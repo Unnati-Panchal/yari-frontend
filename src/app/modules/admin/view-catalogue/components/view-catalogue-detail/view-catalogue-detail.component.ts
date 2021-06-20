@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {Subscription} from 'rxjs';
 import {select, Store} from '@ngrx/store';
@@ -12,6 +12,7 @@ import * as fromAdminSelectors from '~store/admin/admin.selectors';
 import * as fromAdminActions from '~store/admin/admin.actions';
 import {GalleryDialogComponent} from '~admin/catalogue-management/components/uploaded-catalogues/approve-reject.component';
 import {filter} from 'rxjs/operators';
+import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-view-catalogue-detail',
@@ -30,8 +31,11 @@ export class ViewCatalogueDetailComponent implements OnInit {
   allData = [];
   filter = '';
   productSpecificationData = [];
-
+  paginationSizes: number[] = [5, 15, 30, 60, 100];
+  defaultPageSize = this.paginationSizes[0];
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
   // columns to be displayed
+  public loading: boolean;
 
   productDetails = {
     'Product SKU Id': 'sku_id',
@@ -141,6 +145,9 @@ export class ViewCatalogueDetailComponent implements OnInit {
     });
     this.displayedColumns = Object.keys(this.productDetails);
     this.dataSource = new MatTableDataSource(this.theData);
+    setTimeout(() => {
+      this.dataSource.paginator = this.matPaginator;
+    });
     this.onTabChange(0);
   }
 }
