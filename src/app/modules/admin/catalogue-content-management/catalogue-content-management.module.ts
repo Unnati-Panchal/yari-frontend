@@ -21,6 +21,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CatalogueProductListComponent } from './components/catalogue-product-list/catalogue-product-list.component';
+import {MatButtonModule} from '@angular/material/button';
+import {MatSortModule} from '@angular/material/sort';
 
 @NgModule({
   declarations: [CatalogueContentManagementComponent, ProductDetailComponent, ProductSpecificationComponent, CatalogueContentListComponent, CatalogueProductListComponent],
@@ -39,7 +41,9 @@ import { CatalogueProductListComponent } from './components/catalogue-product-li
     MatMomentDateModule,
     MatPaginatorModule,
     MatProgressSpinnerModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatButtonModule,
+    MatSortModule
   ],
   providers: [{ provide: MAT_DATE_FORMATS, useValue: MatDateFormat }]
 })

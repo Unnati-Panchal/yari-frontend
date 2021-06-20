@@ -1,5 +1,5 @@
-@import 'variables';
-@import 'mixins';
+@import 'src/@yaari/styles/lib/variables';
+@import 'src/@yaari/styles/lib/mixins';
 
 :host {
   .main-body {
@@ -31,11 +31,6 @@
     min-width: 280px;
   }
 
-  .table-box table {
-    display: block;
-    overflow-x: scroll;
-  }
-
   .act-button {
     position: relative;
     margin: 1px 15px 0px 0px;
@@ -53,15 +48,15 @@
     padding: 3px 13px 10px;
   }
 
+
   .search-button {
     margin-left: 20px;
-    height: 46px;
+    height: 41px;
+
     border-radius: 12px;
     background-color: #f62101;
     color: #ffffff;
   }
-
-
 
   .edit-button {
     display: flex;
@@ -88,7 +83,7 @@
   th {
     padding: 15px;
     text-align: center;
-    min-width: 75px;
+    min-width: 100px;
     max-height: fit-content;
     border: 1px solid gray !important;
     color: #363636;
@@ -163,7 +158,23 @@
     height: 3px;
   }
 }
-
 .paginator {
   margin-top: $yaari-base;
+}
+
+.download-button
+{
+  width: 64px;
+  height: 46px;
+  margin: 18px 5px 18px;
+  padding: 10px 17.1px 10.8px 18px;
+  border-radius: 24px;
+  background-color: #f62101;
+}
+
+.download-icon
+{
+  width: 25.9px;
+  height: 21.2px;
+  background-color: #ffffff;
 }

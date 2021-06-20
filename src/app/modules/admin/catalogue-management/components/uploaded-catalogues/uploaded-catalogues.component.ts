@@ -3,7 +3,7 @@ import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
 
 import { AppFacade, IAppState } from '~app/store/app.state';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
 import { AdminService } from '@yaari/services/admin/admin.service';
@@ -11,6 +11,7 @@ import { IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-uploaded-catalogues',
@@ -18,6 +19,8 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./uploaded-catalogues.component.scss']
 })
 export class UploadedCataloguesComponent implements OnInit, OnDestroy {
+
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private _store: Store<IAppState>,
@@ -69,6 +72,9 @@ export class UploadedCataloguesComponent implements OnInit, OnDestroy {
     this._subscription.add(this.uploadedCatalogues$.subscribe(res => {
       this.allData = res;
       this.dataSource = new MatTableDataSource(this.allData);
+      setTimeout(() => {
+        this.dataSource.sort = this.sort;
+      });
     }));
   }
 

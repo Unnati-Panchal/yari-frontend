@@ -6,7 +6,7 @@
     <div class="search">
         <form>
             <mat-form-field floatLabel="never" appearance="none" class="form-field">
-                <input matInput placeholder="Search by SKU ID" [(ngModel)]="filter" name="search">
+                <input matInput placeholder="Search by SKU ID" (keyup.enter)="applyFilter(filter)"  [(ngModel)]="filter" name="search">
             </mat-form-field>
             <button mat-button type="submit" class="search-button" (click)="applyFilter(filter)">
                 <mat-icon>search</mat-icon>
@@ -15,7 +15,7 @@
                 <mat-icon>download</mat-icon>
             </button>
             <button mat-button type="button" class="act-button" (click)="edit()">Submit</button>
-            <input #excelInput hidden="true" type="file" onclick="this.value=null" (change)="upload($event)"
+            <input #excelInput [hidden]="true" type="file" onclick="this.value=null" (change)="upload($event)"
                 accept=".xlsx" />
             <button mat-button type="button" class="act-button" (click)="excelInput.click()">Upload</button>
         </form>

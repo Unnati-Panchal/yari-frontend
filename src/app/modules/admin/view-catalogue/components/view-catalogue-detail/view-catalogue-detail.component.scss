@@ -1,6 +1,3 @@
-@import 'variables';
-@import 'mixins';
-
 :host {
   .main-body {
     margin: 28px 80px;
@@ -9,28 +6,20 @@
 
   .head {
     margin-top: 40px;
-    font-size: 40px;
+    font: 40px Poppins;
     font-weight: bold;
     color: #363636;
   }
 
   .search {
-    display: flex;
+    width: 100%;
     margin: 30px 0 20px 0;
   }
 
-  .search--flex {
-    display: flex;
-  }
-
-  .form-field {
-    width: 450px;
-  }
 
   .actions {
     min-width: 280px;
   }
-
   .act-button {
     position: relative;
     margin: 1px 15px 0px 0px;
@@ -41,55 +30,96 @@
     border: 1px solid #f62101;
     width: 90px;
   }
-
   ::ng-deep .search .mat-form-field-wrapper {
     border: solid 2px #efefef;
     border-radius: 12px;
     padding: 3px 13px 10px;
   }
 
-  .search-button {
-    border: 0px;
-    height: 41px;
-    border-radius: 12px;
-    background-color: #f62101;
-    color: #ffffff;
-    width: 75px;
-    margin-top: 2px;
-    margin-left: 20px;
-    padding-top: 8px;
+
+  .actions {
+    min-width: 280px;
   }
 
-  .edit-button {
-    display: flex;
-    border: 0px;
-    height: 41px;
+  .form-field {
+    width: 450px;
+  }
+
+  .act-button {
+    position: relative;
+    margin: 1px 15px 0px 0px;
+    height: 39px;
     border-radius: 12px;
     background-color: #f62101;
     color: #ffffff;
-    width: 220px;
-    padding: 7px 10px;
-    margin-top: 2px;
-    margin-left: auto;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: space-evenly;
-    align-items: center;
+    border: 1px solid #f62101;
+    width: 90px;
 
-    &__icon {
-      margin-right: 5px;
+    &__green {
+      margin-right: 15px;
+      height: 39px;
+      color: #ffffff;
+      border: 1px solid #02c730;
+      background-color: #02c730;
+      border-radius: 12px;
     }
   }
+
+  ::ng-deep .search .mat-form-field-wrapper {
+    height: 41px;
+    border: solid 2px #efefef;
+    border-radius: 12px;
+    padding: 3px 13px 10px;
+  }
+
+  .search-button {
+    margin-left: 20px;
+    height: 41px;
+
+    border-radius: 12px;
+    background-color: #f62101;
+    color: #ffffff;
+  }
+
+
+  .action-button {
+    margin: 5px;
+    height: 35px;
+    border-radius: 12px;
+    background-color: #f62101;
+    color: #ffffff;
+  }
+
+  .back-button {
+    position: relative;
+    height: 41px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    border: 1px solid #f62101;
+    color: #f62101;
+    width: 90px;
+    float: right;
+  }
+
+  .view-button {
+    height: 41px;
+    border-radius: 15px;
+    background-color: #f62101;
+    color: #ffffff;
+    width: 90px;
+  }
+
 
   td,
   th {
     padding: 15px;
     text-align: center;
-    min-width: 115px;
+    min-width: 100px;
     max-height: fit-content;
     border: 1px solid gray !important;
     color: #363636;
     font-size: 18px;
+    font-family: Poppins;
   }
 
   th {
@@ -105,12 +135,6 @@
 
   table {
     max-width: 100%;
-    width: 100%;
-  }
-
-  &.centered {
-    @include yaari-display-flex(center, center);
-    margin: $yaari-base 0;
   }
 
   .the-container {
@@ -123,7 +147,7 @@
   .the-container th {
     padding: 15px;
     text-align: center;
-    min-width: 140px;
+    min-width: 100px;
     max-height: fit-content;
     border: 1px solid gray !important;
     color: #363636;
@@ -137,8 +161,12 @@
 
   th.mat-header-cell,
   td {
-    min-width: 250px;
+    min-width: 100px;
     text-align: center;
+  }
+
+  ::ng-deep .mat-form-field {
+    font-family: Poppins;
   }
 
   ::ng-deep .mat-tab-group {
@@ -149,6 +177,7 @@
     font-size: 20px;
     color: #363636;
     padding: 0 30px;
+    font-family: Poppins;
   }
 
   ::ng-deep .mat-tab-header {
@@ -159,24 +188,11 @@
     background-color: #f62101;
     height: 3px;
   }
-}
-.paginator {
-  margin-top: $yaari-base;
-}
 
-.download-button
-{
-  width: 64px;
-  height: 46px;
-  margin: 18px 5px 18px;
-  padding: 10px 17.1px 10.8px 18px;
-  border-radius: 24px;
-  background-color: #f62101;
-}
+  .main-table {
+    max-height: 60vh;
+    overflow-y: scroll;
+    overflow-x: scroll;
+  }
 
-.download-icon
-{
-  width: 25.9px;
-  height: 21.2px;
-  background-color: #ffffff;
 }

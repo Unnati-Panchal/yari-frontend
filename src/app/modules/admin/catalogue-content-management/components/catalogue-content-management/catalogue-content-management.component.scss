@@ -35,17 +35,16 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 50px;
+    margin-top: 30px;
     margin-bottom: 20px;
 
     &__button {
-      width: 536px;
+      width: 336px;
       height: 74px;
-      padding: 17px 215px 16px 216px;
       border-radius: 24px;
       background-color: #f62101;
       border: 0;
-      font-size: 29px;
+      font-size: 20px;
       font-weight: 500;
       font-stretch: normal;
       font-style: normal;
@@ -61,7 +60,7 @@
     height: 550px;
     padding: 0 15px;
 
-    &--button-container { 
+    &--button-container {
       height: 480px;
       margin-top: 50px;
       margin-left: 25px;
