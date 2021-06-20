@@ -10,6 +10,7 @@ import { IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
 import { filter } from 'rxjs/operators';
 import * as fileSaver from 'file-saver';
 import { MatPaginator } from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-view-catalogue',
@@ -25,6 +26,8 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
   paginationSizes: number[] = [5, 15, 30, 60, 100];
   defaultPageSize = this.paginationSizes[0];
   @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
+
+  @ViewChild(MatSort) sort: MatSort;
 
   constructor(
     private _store: Store<IAppState>,
@@ -64,6 +67,7 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
     this.dataSource = new MatTableDataSource<any>(data);
     setTimeout(() => {
       this.dataSource.paginator = this.matPaginator;
+      this.dataSource.sort = this.sort;
     });
   }
 
