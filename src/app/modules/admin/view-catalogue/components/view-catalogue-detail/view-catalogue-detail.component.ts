@@ -37,11 +37,16 @@ export class ViewCatalogueDetailComponent implements OnInit {
   // columns to be displayed
   public loading: boolean;
 
+  // columns to be displayed
   productDetails = {
     'Product SKU Id': 'sku_id',
     'Product Name': 'product_name',
     MRP: 'mrp',
     'Final Selling Price': 'sp',
+    'Group Id': 'group_id',
+    'Product Id': 'product_id',
+    'Offers': 'offers',
+    'HSN Code': 'hsn_code',
     'Stock-Count': 'inventory',
     'Re-Stock Date': 're_stock_date',
     'Product Category Name': 'category',
@@ -50,13 +55,12 @@ export class ViewCatalogueDetailComponent implements OnInit {
     'Image URL': 'product_img',
     'Video URL': 'video_url',
     'Key Feature': 'key_features',
-    Offer: 'discount',
-    'Offer Start Date': 'discount_start_date',
-    'Offer End Date': 'discount_end_date',
+    'Discount': 'discount',
+    'Discount Start Date': 'discount_start_date',
+    'Discount End Date': 'discount_end_date',
     Guarantee: 'guarantee',
     Warranty: 'warranty',
   };
-
   productSpecifications = {
     'Product SKU Id': 'sku_id',
     'Product Description': 'description',
