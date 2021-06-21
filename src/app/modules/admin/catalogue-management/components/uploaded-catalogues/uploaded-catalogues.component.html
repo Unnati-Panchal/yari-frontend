@@ -1,70 +1,68 @@
 <div class="main-body">
-    <div>
-        <h2 class="head">Approve Uploaded Catalogues</h2>
-    </div>
-    <div class="search">
-        <mat-form-field floatLabel="never" appearance="none" class="form-field">
-            <input matInput (keyup.enter)="applyFilter(filter)"  placeholder="Search By Business Name or Catalogue Name" [(ngModel)]="filter">
-        </mat-form-field>
-        <button mat-button type="button" class="search-button" (click)="applyFilter(filter)">
-            <mat-icon>search</mat-icon>
-        </button>
-    </div>
+  <div>
+    <h2 class="head">Approve Uploaded Catalogues</h2>
+  </div>
 
-
-    <div class="main-table">
-        <table mat-table [dataSource]="dataSource" matSort>
-            <ng-container matColumnDef="catalogue_name" sticky>
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Catalogue Name</th>
-                <td mat-cell class="truncate-cell" *matCellDef="let element; let i = index"><a [title]="element['catalogue_name']"
-                        [routerLink]="['products',{id:element['catalogue_id'],name:element['catalogue_name']}]">{{element["catalogue_name"]}}</a>
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="product_count">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Count</th>
-                <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["product_count"]}}</td>
-            </ng-container>
-            <ng-container matColumnDef="supplier_business_name">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Business Name</th>
-                <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["supplier_business_name"]}}</td>
-            </ng-container>
-            <ng-container matColumnDef="action_by">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Action By</th>
-                <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["action_by"]}}</td>
-            </ng-container>
-            <ng-container matColumnDef="action_date">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Action Date</th>
-                <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["action_date"]}}</td>
-            </ng-container>
-            <ng-container matColumnDef="content_updated_by">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Content Updated By</th>
-                <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["content_updated_by"]}}</td>
-            </ng-container>
-            <ng-container matColumnDef="content_updated_date">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header>Content Updated Date</th>
-                <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["content_updated_date"]}}</td>
-            </ng-container>
-            <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef class="actions">Action</th>
-                <td mat-cell *matCellDef="let element">
-                    <!-- <button mat-button class="action-button">Approve</button>
-                    <button mat-button class="action-button">Reject</button> -->
-                    <button mat-button class="action-button" (click)="downloadCatalogueExcel(element)">Download</button>
-                </td>
-            </ng-container>
-            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-          <tr *matNoDataRow class="mat-row">
-            <td class="mat-cell" colspan="8" >No data matching the filter</td>
-          </tr>
-        </table>
-      <div class="paginator">
-        <mat-paginator *ngIf="!loading && dataSource?.data?.length"
-                       [pageSizeOptions]="paginationSizes"
-                       [pageSize]="defaultPageSize"
-                       showFirstLastButtons>
-        </mat-paginator>
-      </div>
+  <div class="search col-md-12">
+    <mat-form-field floatLabel="never" appearance="none" class="form-field">
+      <input matInput (keyup.enter)="applyFilter(filter)" placeholder="Search By Business Name or Catalogue Name"
+        [(ngModel)]="filter">
+    </mat-form-field>
+    <button mat-button type="button" class="search-button" (click)="applyFilter(filter)">
+      <mat-icon>search</mat-icon>
+    </button>
+  </div>
+  <div class="col-md-12" *ngIf="!isLoading && dataSource.data">
+    <table mat-table [dataSource]="dataSource" matSort>
+      <ng-container matColumnDef="catalogue_name" sticky>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Catalogue Name</th>
+        <td mat-cell class="truncate-cell" *matCellDef="let element; let i = index"><a
+            [title]="element['catalogue_name']"
+            [routerLink]="['products',{id:element['catalogue_id'],name:element['catalogue_name']}]">{{element["catalogue_name"]}}</a>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="product_count">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Count</th>
+        <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["product_count"]}}</td>
+      </ng-container>
+      <ng-container matColumnDef="supplier_business_name">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Supplier Business Name</th>
+        <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["supplier_business_name"]}}</td>
+      </ng-container>
+      <ng-container matColumnDef="action_by">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Action By</th>
+        <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["action_by"]}}</td>
+      </ng-container>
+      <ng-container matColumnDef="action_date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Action Date</th>
+        <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["action_date"]}}</td>
+      </ng-container>
+      <ng-container matColumnDef="content_updated_by">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Content Updated By</th>
+        <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["content_updated_by"]}}</td>
+      </ng-container>
+      <ng-container matColumnDef="content_updated_date">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Content Updated Date</th>
+        <td mat-cell class="truncate-cell" *matCellDef="let element">{{element["content_updated_date"]}}</td>
+      </ng-container>
+      <ng-container matColumnDef="action">
+        <th mat-header-cell *matHeaderCellDef class="actions">Action</th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-button class="action-button" (click)="downloadCatalogueExcel(element)">Download</button>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr *matNoDataRow class="mat-row">
+        <td class="mat-cell" colspan="8">No data matching the filter</td>
+      </tr>
+    </table>
+    <div class="paginator">
+      <mat-paginator [pageSizeOptions]="paginationSizes" [pageSize]="defaultPageSize" showFirstLastButtons>
+      </mat-paginator>
     </div>
-
+  </div>
+  <div *ngIf="isLoading" class="centered">
+    <mat-spinner color="warn" [diameter]="50"></mat-spinner>
+  </div>
 </div>

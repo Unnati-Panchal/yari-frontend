@@ -2,36 +2,26 @@ import * as fileSaver from 'file-saver';
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
 
+import { AfterViewInit, Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { AppFacade, IAppState } from '~app/store/app.state';
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import { Store, select } from '@ngrx/store';
 
 import { AdminService } from '@yaari/services/admin/admin.service';
 import { IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import {MatSort} from '@angular/material/sort';
-import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-uploaded-catalogues',
   templateUrl: './uploaded-catalogues.component.html',
   styleUrls: ['./uploaded-catalogues.component.scss']
 })
-export class UploadedCataloguesComponent implements OnInit, OnDestroy {
-
-  @ViewChild(MatSort) sort: MatSort;
-
-  paginationSizes: number[] = [5, 15, 30, 60, 100];
-  defaultPageSize = this.paginationSizes[0];
+export class UploadedCataloguesComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
-  public loading: boolean;
-  constructor(
-    private _store: Store<IAppState>,
-    private _adminService: AdminService,
-    private _appFacade: AppFacade
-  ) { }
+  @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns = [
     'catalogue_name',
@@ -43,30 +33,45 @@ export class UploadedCataloguesComponent implements OnInit, OnDestroy {
     'content_updated_date',
     'action',
   ];
-
-  dataSource: MatTableDataSource<any[]>;
-  allData = [];
+  paginationSizes: number[] = [5, 15, 30, 60, 100];
+  defaultPageSize = this.paginationSizes[0];
+  dataSource: MatTableDataSource<IUploadedCatalogue> = new MatTableDataSource<IUploadedCatalogue>();
+  allData: IUploadedCatalogue[] = [];
   filter = '';
+  isLoading = true;
+
+  constructor(
+    private _store: Store<IAppState>,
+    private _adminService: AdminService,
+    private _appFacade: AppFacade
+  ) { }
+
   private _subscription: Subscription = new Subscription();
 
-  public getIsError$ = this._store.pipe(
+  getIsError$ = this._store.pipe(
     select(fromAdminSelectors.getIsError));
 
-  public uploadedCatalogues$ = this._store.pipe(
+  uploadedCatalogues$ = this._store.pipe(
     select(fromAdminSelectors.getUploadedCatalogues),
     filter(details => !!details)
   );
+
   ngOnInit(): void {
     this._appFacade.clearMessages();
     this._adminService.authorizedAdmin('catalogue_management');
     this.getUploadedCatalogues();
   }
 
-  public ngOnDestroy(): void {
+  ngAfterViewInit(): void {
+    this.dataSource.paginator = this.matPaginator;
+    this.dataSource.sort = this.sort;
+  }
+
+  ngOnDestroy(): void {
     this._subscription.unsubscribe();
   }
 
-  public applyFilter(filterValue: string): void {
+  applyFilter(filterValue: string): void {
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
@@ -76,11 +81,8 @@ export class UploadedCataloguesComponent implements OnInit, OnDestroy {
     this._store.dispatch(fromAdminActions.getUploadedCatalogues());
     this._subscription.add(this.uploadedCatalogues$.subscribe(res => {
       this.allData = res;
-      this.dataSource = new MatTableDataSource(this.allData);
-      setTimeout(() => {
-        this.dataSource.paginator = this.matPaginator;
-        this.dataSource.sort = this.sort;
-      });
+      this.dataSource.data = this.allData;
+      this.isLoading = false;
     }));
   }
 
