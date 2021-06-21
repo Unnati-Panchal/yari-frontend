@@ -1,16 +1,17 @@
-import { Component, Inject, OnDestroy, OnInit } from '@angular/core';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { ICatalogueProducts, IResMsg } from '@yaari/models/admin/admin.interface';
-import { AdminService } from '@yaari/services/admin/admin.service';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import {Component, Inject, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material/dialog';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatTableDataSource} from '@angular/material/table';
+import {ActivatedRoute, Router} from '@angular/router';
+import {select, Store} from '@ngrx/store';
+import {ICatalogueProducts, IResMsg} from '@yaari/models/admin/admin.interface';
+import {AdminService} from '@yaari/services/admin/admin.service';
+import {Subscription} from 'rxjs';
+import {filter} from 'rxjs/operators';
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
-import { AppFacade } from '~app/store/app.state';
+import {AppFacade} from '~app/store/app.state';
+import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-approve-reject',
@@ -39,6 +40,11 @@ export class ApproveRejectComponent implements OnInit, OnDestroy {
   allData = [];
   filter = '';
   a = [];
+  loading: boolean;
+
+  paginationSizes: number[] = [5, 15, 30, 60, 100];
+  defaultPageSize = this.paginationSizes[0];
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
 
   // columns to be displayed
   productDetails = {
@@ -163,6 +169,9 @@ export class ApproveRejectComponent implements OnInit, OnDestroy {
     });
     this.displayedColumns = Object.keys(this.productDetails);
     this.dataSource = new MatTableDataSource(this.theData);
+    setTimeout(() => {
+      this.dataSource.paginator = this.matPaginator;
+    });
     this.onTabChange(0);
   }
 }

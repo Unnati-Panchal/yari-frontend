@@ -13,6 +13,7 @@ import { CatalogueManagementComponent } from './components/catalogue-management/
 import { ApproveRejectComponent, GalleryDialogComponent } from './components/uploaded-catalogues/approve-reject.component';
 import { UploadedCataloguesComponent } from './components/uploaded-catalogues/uploaded-catalogues.component';
 import {MatSortModule} from '@angular/material/sort';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 
 
@@ -31,7 +32,8 @@ import {MatSortModule} from '@angular/material/sort';
         MatButtonModule,
         MatTabsModule,
         MatDialogModule,
-        MatSortModule
+        MatSortModule,
+        MatPaginatorModule
     ]
 })
 export class CatalogueManagementModule { }

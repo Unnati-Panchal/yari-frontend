@@ -57,5 +57,12 @@
               </tr>
             </table>
         </div>
+      <div class="paginator">
+        <mat-paginator *ngIf="!loading && dataSource?.data?.length"
+                       [pageSizeOptions]="paginationSizes"
+                       [pageSize]="defaultPageSize"
+                       showFirstLastButtons>
+        </mat-paginator>
+      </div>
     </div>
 </div>
