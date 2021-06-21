@@ -19,24 +19,26 @@
 
 
 
-    .actions {
-        min-width: 280px;
-    }
-    .act-button {
-        position: relative;
-        margin: 1px 15px 0px 0px;
-        height: 39px;
-        border-radius: 12px;
-        background-color: #ffffff;
-        color: #f62101;
-        border: 1px solid #f62101;
-        width: 90px;
-    }
-    ::ng-deep .search .mat-form-field-wrapper {
-        border: solid 2px #efefef;
-        border-radius: 12px;
-        padding: 3px 13px 10px;
-    }
+  .actions {
+    min-width: 280px;
+  }
+
+  .act-button {
+    position: relative;
+    margin: 1px 15px 0px 0px;
+    height: 39px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    color: #f62101;
+    border: 1px solid #f62101;
+    width: 90px;
+  }
+
+  ::ng-deep .search .mat-form-field-wrapper {
+    border: solid 2px #efefef;
+    border-radius: 12px;
+    padding: 3px 13px 10px;
+  }
 
 
   .actions {
@@ -77,12 +79,10 @@
   .search-button {
     margin-left: 20px;
     height: 41px;
-
     border-radius: 12px;
     background-color: #f62101;
     color: #ffffff;
   }
-
 
   .action-button {
     margin: 5px;
@@ -136,7 +136,7 @@
   }
 
   table {
-    max-width: 100%;
+    width: 100%;
   }
 
   .the-container {
@@ -192,16 +192,13 @@
   }
 
   .main-table {
-    max-height: 60vh;
-    overflow-y: scroll;
     overflow-x: scroll;
   }
 
   .truncate-cell {
-    max-width: 175px; /* feel free to include any other value */
+    max-width: 175px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
-
 }
