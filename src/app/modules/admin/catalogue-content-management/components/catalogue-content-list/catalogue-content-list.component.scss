@@ -82,6 +82,12 @@
     &__icon {
       margin-right: 5px;
     }
+    &.mat-button-disabled {
+      // Those lines change the color & background color of the button when disabled
+      // $palette: if($property == 'color', $foreground, $background);
+      // #{$property}: mat-color($palette, disabled-button);
+      opacity: 0.5;
+    }
   }
 
   td,
