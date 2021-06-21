@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {Subscription} from 'rxjs';
 import {select, Store} from '@ngrx/store';
@@ -12,6 +12,7 @@ import * as fromAdminSelectors from '~store/admin/admin.selectors';
 import * as fromAdminActions from '~store/admin/admin.actions';
 import {GalleryDialogComponent} from '~admin/catalogue-management/components/uploaded-catalogues/approve-reject.component';
 import {filter} from 'rxjs/operators';
+import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-view-catalogue-detail',
@@ -30,14 +31,22 @@ export class ViewCatalogueDetailComponent implements OnInit {
   allData = [];
   filter = '';
   productSpecificationData = [];
+  paginationSizes: number[] = [5, 15, 30, 60, 100];
+  defaultPageSize = this.paginationSizes[0];
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
+  // columns to be displayed
+  public loading: boolean;
 
   // columns to be displayed
-
   productDetails = {
     'Product SKU Id': 'sku_id',
     'Product Name': 'product_name',
     MRP: 'mrp',
     'Final Selling Price': 'sp',
+    'Group Id': 'group_id',
+    'Product Id': 'product_id',
+    'Offers': 'offers',
+    'HSN Code': 'hsn_code',
     'Stock-Count': 'inventory',
     'Re-Stock Date': 're_stock_date',
     'Product Category Name': 'category',
@@ -46,13 +55,12 @@ export class ViewCatalogueDetailComponent implements OnInit {
     'Image URL': 'product_img',
     'Video URL': 'video_url',
     'Key Feature': 'key_features',
-    Offer: 'discount',
-    'Offer Start Date': 'discount_start_date',
-    'Offer End Date': 'discount_end_date',
+    'Discount': 'discount',
+    'Discount Start Date': 'discount_start_date',
+    'Discount End Date': 'discount_end_date',
     Guarantee: 'guarantee',
     Warranty: 'warranty',
   };
-
   productSpecifications = {
     'Product SKU Id': 'sku_id',
     'Product Description': 'description',
@@ -141,6 +149,9 @@ export class ViewCatalogueDetailComponent implements OnInit {
     });
     this.displayedColumns = Object.keys(this.productDetails);
     this.dataSource = new MatTableDataSource(this.theData);
+    setTimeout(() => {
+      this.dataSource.paginator = this.matPaginator;
+    });
     this.onTabChange(0);
   }
 }

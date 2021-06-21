@@ -9,7 +9,7 @@
     </div>
     <div class="search">
         <mat-form-field floatLabel="never" appearance="none" class="form-field">
-            <input matInput placeholder="Search By SKU Id" [(ngModel)]="filter">
+            <input matInput (keyup.enter)="applyFilter(filter)"  placeholder="Search By SKU Id" [(ngModel)]="filter">
         </mat-form-field>
         <button mat-button type="button" class="search-button" (click)="applyFilter(filter)">
             <mat-icon>search</mat-icon>
@@ -32,6 +32,9 @@
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr *matNoDataRow class="mat-row">
+                <td class="mat-cell" colspan="21" >No data matching the filter</td>
+              </tr>
             </table>
         </div>
         <div class="the-container" *ngIf="index == 1">
@@ -49,6 +52,9 @@
                 </ng-container>
                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+              <tr *matNoDataRow class="mat-row">
+                <td class="mat-cell" colspan="3" >No data matching the filter</td>
+              </tr>
             </table>
         </div>
     </div>

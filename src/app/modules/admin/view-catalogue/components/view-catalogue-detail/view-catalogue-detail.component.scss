@@ -114,7 +114,7 @@
   th {
     padding: 15px;
     text-align: center;
-    min-width: 115px;
+    min-width: 100px;
     max-height: fit-content;
     border: 1px solid gray !important;
     color: #363636;
@@ -147,7 +147,7 @@
   .the-container th {
     padding: 15px;
     text-align: center;
-    min-width: 140px;
+    min-width: 100px;
     max-height: fit-content;
     border: 1px solid gray !important;
     color: #363636;
@@ -161,7 +161,7 @@
 
   th.mat-header-cell,
   td {
-    min-width: 250px;
+    min-width: 100px;
     text-align: center;
   }
 
