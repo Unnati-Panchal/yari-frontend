@@ -58,5 +58,13 @@
             <td class="mat-cell" colspan="8" >No data matching the filter</td>
           </tr>
         </table>
+      <div class="paginator">
+        <mat-paginator *ngIf="!loading && dataSource?.data?.length"
+                       [pageSizeOptions]="paginationSizes"
+                       [pageSize]="defaultPageSize"
+                       showFirstLastButtons>
+        </mat-paginator>
+      </div>
     </div>
+
 </div>

@@ -12,6 +12,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
 import {MatSort} from '@angular/material/sort';
+import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-uploaded-catalogues',
@@ -22,6 +23,10 @@ export class UploadedCataloguesComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSort) sort: MatSort;
 
+  paginationSizes: number[] = [5, 15, 30, 60, 100];
+  defaultPageSize = this.paginationSizes[0];
+  @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
+  public loading: boolean;
   constructor(
     private _store: Store<IAppState>,
     private _adminService: AdminService,
@@ -73,6 +78,7 @@ export class UploadedCataloguesComponent implements OnInit, OnDestroy {
       this.allData = res;
       this.dataSource = new MatTableDataSource(this.allData);
       setTimeout(() => {
+        this.dataSource.paginator = this.matPaginator;
         this.dataSource.sort = this.sort;
       });
     }));

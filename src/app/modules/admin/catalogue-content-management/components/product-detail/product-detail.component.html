@@ -192,8 +192,9 @@
       <div class="col-md-6">
         <div class="gallery-item">
           <div class="items-wrapper">
-            <img src="/assets/images/yaari-logo.png" height="200px" width="228px" *ngIf="!newVideo.src">
-            <video [src]="video" *ngIf="newVideo.src" height="200" width="228px" controls></video>
+
+            <img _ngcontent-hil-c76="" src="/assets/images/yaari-logo.png" height="200px" width="228px" *ngIf="!newVideo.src">
+            <video [src]="newVideo.src" *ngIf="newVideo.src" height="200" width="228px" controls></video>
             <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteVideo()">
               <i class="delete-img"></i></a>
           </div>
