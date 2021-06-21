@@ -83,6 +83,9 @@
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      <tr *matNoDataRow class="mat-row">
+        <td class="mat-cell" colspan="12" >No data matching the filter</td>
+      </tr>
     </table>
   </div>
 
