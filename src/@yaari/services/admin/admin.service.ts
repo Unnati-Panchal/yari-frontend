@@ -99,7 +99,7 @@ export class AdminService {
   }
 
   public getCatalogProductList(catalogueIds: string): Observable<ICatalogueContentManagement[]> {
-    return this._http.get<ICatalogueContentManagement[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/content-mgmt/products?catalog_ids=${catalogueIds}%2C346&limit=100&skip=0`);
+    return this._http.get<ICatalogueContentManagement[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/content-mgmt/products?catalog_ids=${catalogueIds}&limit=100&skip=0`);
   }
   public getofferTypes(): Observable<any> {
     return this._http.get<IPricingCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/pricing/offers`);
