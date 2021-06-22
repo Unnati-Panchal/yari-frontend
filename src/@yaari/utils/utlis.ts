@@ -1,5 +1,6 @@
 import {ESortDirection, ICatalogProducts} from '@yaari/models/product/product.interface';
 import {Sort} from '@angular/material/sort';
+import {IFilter} from '@yaari/models/admin/admin.interface';
 
 export class Utilities {
 
@@ -43,4 +44,27 @@ export class Utilities {
 
 export function compare(a: number | string, b: number | string, isAsc: boolean): any {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
+
+export function getQuery(filter: IFilter): string {
+  let query: string;
+  if (filter?.filterBy || filter?.limit || filter?.skip) {
+    query = '?';
+  }
+  if (filter?.filterBy) {
+    query += `filter_by=${filter.filterBy}`;
+  }
+  if (filter?.limit) {
+    if (filter?.filterBy) {
+      query += `&`;
+    }
+    query += `limit=${filter.limit}`;
+  }
+  if (filter?.skip) {
+    if (filter?.filterBy || filter?.limit) {
+      query += `&`;
+    }
+    query += `skip=${filter.skip}`;
+  }
+  return query;
 }
