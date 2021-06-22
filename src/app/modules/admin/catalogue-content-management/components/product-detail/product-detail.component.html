@@ -1,5 +1,5 @@
 <div class="container-fluid">
-  <h2><b>Product Details</b></h2>
+  <h2 class="title"><strong>Product Details</strong></h2>
   <form [formGroup]="form">
     <input type="hidden" name="id" formControlName="id">
     <div class="row">
@@ -132,47 +132,50 @@
     </div>
 
     <div class="row">
-      <div class="col-md-6">
-
+      <div class="col-md-4">
         <div class="gallery-item">
           <div class="items-wrapper">
-            <img _ngcontent-hil-c76="" [src]="getImages(0)" class="gallery-img" />
+            <img [src]="getImages(0)" _ngcontent-hil-c76="" alt="" class="gallery-img"/>
             <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(0)">
               <i class="delete-img"></i></a>
           </div>
         </div>
       </div>
-      <div class="col-md-6">
+
+      <div class="col-md-4">
         <div class="gallery-item">
           <div class="items-wrapper">
-            <img _ngcontent-hil-c76="" [src]="getImages(1)" class="gallery-img" />
+            <img [src]="getImages(1)" _ngcontent-hil-c76="" alt="" class="gallery-img"/>
             <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(1)">
               <i class="delete-img"></i></a>
           </div>
         </div>
-
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
 
+      <div class="col-md-4">
         <div class="gallery-item">
           <div class="items-wrapper">
-            <img _ngcontent-hil-c76="" [src]="getImages(2)" class="gallery-img" />
-            <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(2)">
+            <img [src]="getImages(2)" _ngcontent-hil-c76="" alt="" class="gallery-img"/>
+            <a (click)="deleteImage(2)" [routerLink]="" class="close" queryParamsHandling="preserve">
               <i class="delete-img"></i></a>
           </div>
         </div>
       </div>
-      <div class="col-md-6">
+
+    </div>
+    <div class="row">
+
+      <div class="col-md-4">
         <div class="gallery-item">
           <div class="items-wrapper">
-            <img _ngcontent-hil-c76="" [src]="getImages(3)" class="gallery-img" />
+            <img [src]="getImages(3)" _ngcontent-hil-c76="" alt="" class="gallery-img"/>
             <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(3)">
               <i class="delete-img"></i></a>
           </div>
         </div>
       </div>
+
+
     </div>
 
     <div class="row">
@@ -193,7 +196,7 @@
         <div class="gallery-item">
           <div class="items-wrapper">
 
-            <img _ngcontent-hil-c76="" src="/assets/images/yaari-logo.png" height="200px" width="228px" *ngIf="!newVideo.src">
+            <img *ngIf="!newVideo.src" alt="" src="/assets/images/yaari-logo.png">
             <video [src]="newVideo.src" *ngIf="newVideo.src" height="200" width="228px" controls></video>
             <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteVideo()">
               <i class="delete-img"></i></a>
