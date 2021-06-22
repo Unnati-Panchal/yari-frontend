@@ -7,12 +7,17 @@ import {SupplierNewRegistrationComponent} from '~admin/key-account-management/co
 import {SupplierOnboardingApprovalComponent} from '~admin/key-account-management/components/supplier/supplier-onboarding-approval/supplier-onboarding-approval.component';
 import {SupplierDetailsComponent} from '~admin/key-account-management/components/supplier/supplier-details/supplier-details.component';
 import {SupplierProductDetailsComponent} from '~admin/key-account-management/components/supplier/supplier-product-details/supplier-product-details.component';
+import {DashboardComponent} from '~admin/key-account-management/components/dashboard/dashboard.component';
 
 const routes: Routes = [
   {
     path: '',
     component: KeyAccountManagementComponent,
     children: [
+      {
+        path: 'dashboard',
+        component: DashboardComponent
+      },
       {
         path: 'reseller-complaints',
         component: ResellerComplaintsComponent
@@ -38,7 +43,9 @@ const routes: Routes = [
         component: SupplierProductDetailsComponent
       },
     ]
-  }
+  },
+  {path: '', pathMatch: 'full', redirectTo: 'admin/key-account-management/dashboard'},
+  {path: '**', redirectTo: 'admin/key-account-management/dashboard'}
 ];
 
 @NgModule({

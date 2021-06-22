@@ -10,6 +10,7 @@ import {SupplierNewRegistrationComponent} from '~admin/key-account-management/co
 import {SupplierOnboardingApprovalComponent} from '~admin/key-account-management/components/supplier/supplier-onboarding-approval/supplier-onboarding-approval.component';
 import {SupplierDetailsComponent} from '~admin/key-account-management/components/supplier/supplier-details/supplier-details.component';
 import {SupplierProductDetailsComponent} from '~admin/key-account-management/components/supplier/supplier-product-details/supplier-product-details.component';
+import {DashboardComponent} from '~admin/key-account-management/components/dashboard/dashboard.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,8 @@ import {SupplierProductDetailsComponent} from '~admin/key-account-management/com
     SupplierNewRegistrationComponent,
     SupplierOnboardingApprovalComponent,
     SupplierDetailsComponent,
-    SupplierProductDetailsComponent
+    SupplierProductDetailsComponent,
+    DashboardComponent
   ],
   imports: [
     CommonModule,
