@@ -1,9 +1,14 @@
 .container-fluid {
-  font-family: Poppins;
-  margin-top: 30px;
+  font-family: Poppins, serif;
+  margin-top: 45px;
+
+  .title {
+    font-size: 29px;
+    margin: 0 0 40px 0;
+  }
 
   .row {
-    margin-bottom: 25px;
+    margin-bottom: 40px;
   }
 
   .col-md-4,
@@ -29,12 +34,12 @@
     height: 50px;
     border-radius: 15px;
     background-color: #efefef;
-    font-family: Poppins;
+    font-family: Poppins, serif;
     color: #363636;
     font-size: 20px;
-    border: 0px;
-    padding-left: 10px;
-    padding-right: 10px;
+    border: 0;
+    padding-left: 15px;
+    padding-right: 15px;
   }
 
   input:focus,
@@ -73,8 +78,8 @@ select {
 
   &__button {
     width: 336px;
-    height: 74px;
-    border-radius: 24px;
+    height: 50px;
+    border-radius: 15px;
     background-color: #f62101;
     border: 0;
     font-size: 20px;
@@ -99,7 +104,6 @@ select {
   }
   .gallery-img {
     cursor: pointer;
-
     height: 200px;
     width: 128px;
     position: relative;
@@ -109,11 +113,12 @@ select {
   }
 
   .close {
-    position: absolute; 
+    position: absolute;
     top: 0;
     right: 0;
     display: none;
-    .delete-img{
+
+    .delete-img {
       background: url('/assets/images/close-white-thin.svg') no-repeat rgba(0, 0, 0, 0.5);
       width: 22px;
       height: 22px;

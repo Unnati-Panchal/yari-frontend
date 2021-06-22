@@ -34,7 +34,7 @@
         border: 1px solid #f62101;
         width: 90px;
     }
-    
+
   ::ng-deep .mat-form-field-wrapper {
     height: 42px;
     border: solid 2px #efefef;
@@ -43,14 +43,13 @@
   }
 
   .search-button {
-    position: absolute;
-    margin-top: 1px;
     margin-left: 20px;
-    height: 41px;
+    height: 46px;
     border-radius: 12px;
     background-color: #f62101;
     color: #ffffff;
   }
+
   td,
   th {
     padding: 15px;
