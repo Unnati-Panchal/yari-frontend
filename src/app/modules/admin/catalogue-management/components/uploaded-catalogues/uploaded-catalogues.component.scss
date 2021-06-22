@@ -77,7 +77,6 @@
   .search-button {
     margin-left: 20px;
     height: 41px;
-
     border-radius: 12px;
     background-color: #f62101;
     color: #ffffff;
@@ -202,6 +201,17 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  .download-button
+  {
+    width: 54px;
+    height: 46px;
+    border-radius: 24px;
+    background-color: #f62101;
+  }
+
+  .download-icon {
+    color: #FFFFFF;
   }
 
 }
