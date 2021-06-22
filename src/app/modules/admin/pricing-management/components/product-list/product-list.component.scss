@@ -23,7 +23,7 @@
     .actions {
         min-width: 280px;
     }
-    
+
   ::ng-deep .search .mat-form-field-wrapper {
     height: 42px;
     border: solid 2px #efefef;
@@ -32,14 +32,14 @@
   }
 
   .search-button {
-    position: absolute;
     margin-left: 20px;
-    margin-top: 1px;
-    height: 41px;
+    height: 46px;
     border-radius: 12px;
     background-color: #f62101;
     color: #ffffff;
   }
+
+
   td,
   th {
     padding: 15px;
