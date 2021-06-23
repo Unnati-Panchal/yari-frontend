@@ -51,6 +51,6 @@ export const KAMSupplierComplaints$ = createSelector(
   selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.KAMSupplierComplaints
 );
 
-export const KAMResellerList$ = createSelector(
-  selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.KAMResellerList
+export const KAMResellerComplaints$ = createSelector(
+  selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.KAMResellerComplaints
 );

@@ -34,7 +34,7 @@ export interface IAdminState extends fromRoot.IAppState {
   KAMSupplierOnboardings: ISupplierDetails[];
   KAMApprovedResponse: IMsgResponse;
   KAMSupplierComplaints: IComplaints[];
-  KAMResellerList: IComplaints[]
+  KAMResellerComplaints: IComplaints[];
 }
 
 export const adminInitialState: IAdminState = {
@@ -56,7 +56,7 @@ export const adminInitialState: IAdminState = {
   KAMSupplierOnboardings: undefined,
   KAMApprovedResponse: undefined,
   KAMSupplierComplaints: undefined,
-  KAMResellerList: undefined,
+  KAMResellerComplaints: undefined,
 };
 
 
@@ -149,7 +149,7 @@ export const adminReducer = createReducer(
   on(fromAdminActions.getSupplierComplaintsError, (state, {error}) => ({...state, loading: false, error})),
 
   on(fromAdminActions.getResellerComplaints, (state) => ({...state, loading: true})),
-  on(fromAdminActions.getResellerComplaintsSuccess, (state, {KAMResellerList}) => ({...state, loading: false, KAMResellerList})),
+  on(fromAdminActions.getResellerComplaintsSuccess, (state, {KAMResellerComplaints}) => ({...state, loading: false, KAMResellerComplaints})),
   on(fromAdminActions.getResellerComplaintsError, (state, {error}) => ({...state, loading: false, error})),
 
 );

@@ -121,5 +121,5 @@ export const getSupplierComplaintsError = createAction('[ADMIN] getSupplierCompl
 
 export const getResellerComplaints = createAction('[ADMIN] getResellerComplaints');
 // tslint:disable-next-line:max-line-length
-export const getResellerComplaintsSuccess = createAction('[ADMIN] getResellerComplaints Success', props<{ KAMResellerList: IComplaints[] }>());
+export const getResellerComplaintsSuccess = createAction('[ADMIN] getResellerComplaints Success', props<{ KAMResellerComplaints: IComplaints[] }>());
 export const getResellerComplaintsError = createAction('[ADMIN] getResellerComplaints Error', props<{ error: HttpErrorResponse }>());

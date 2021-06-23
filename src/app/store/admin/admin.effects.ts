@@ -228,7 +228,7 @@ export class AdminEffects {
       ofType(fromAdminActions.getResellerComplaints),
       switchMap(() =>
         this._adminService.getResellerComplaints().pipe(
-          map((KAMResellerList: IComplaints[]) => fromAdminActions.getResellerComplaintsSuccess({ KAMResellerList })),
+          map((KAMResellerComplaints: IComplaints[]) => fromAdminActions.getResellerComplaintsSuccess({ KAMResellerComplaints })),
           catchError(error => of(fromAdminActions.getResellerComplaintsError(error)))
         )
       )
