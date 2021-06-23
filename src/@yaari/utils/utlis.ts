@@ -75,3 +75,20 @@ export function getQuery(filter: IFilter): string {
   }
   return query;
 }
+
+export function toDataURL(url): Promise<string> {
+  return fetch(url).then((response) => {
+    return response.blob();
+  }).then(blob => {
+    return URL.createObjectURL(blob);
+  });
+}
+
+export async function downloadFile(url): Promise<void> {
+  const a = document.createElement('a');
+  a.href = await toDataURL(url);
+  a.download = 'image.png';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
