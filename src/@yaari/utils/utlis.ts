@@ -40,6 +40,13 @@ export class Utilities {
       }
     });
   }
+
+  public static scrollToFirstInvalidControl(): void {
+    const firstElementWithError = document.querySelector('.ng-invalid[formControlName]');
+    if (firstElementWithError) {
+      firstElementWithError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
 }
 
 export function compare(a: number | string, b: number | string, isAsc: boolean): any {
@@ -47,7 +54,7 @@ export function compare(a: number | string, b: number | string, isAsc: boolean):
 }
 
 export function getQuery(filter: IFilter): string {
-  let query: string;
+  let query = '';
   if (filter?.filterBy || filter?.limit || filter?.skip) {
     query = '?';
   }

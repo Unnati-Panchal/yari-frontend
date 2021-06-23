@@ -1,14 +1,21 @@
 import {
-  IAdminUserDetails, ICatalog,
+  IAdminUserDetails,
+  ICatalog,
   ICatalogueApprove,
   ICatalogueContentManagement,
-  ICatalogueProducts, IComplaints,
-  IEditProduct, IFilter, IMsgResponse,
+  ICatalogueProducts,
+  IComplaints,
+  IEditProduct,
+  IFilter,
+  IMsgResponse,
   IPricingCatalogue,
   IPricingEdit,
   IPricingProduct,
   IProductDetail,
-  IResMsg, ISupplierDetails, ISupplierList, ISupplierOnboard,
+  IResMsg,
+  ISupplierDetails,
+  ISupplierList,
+  ISupplierOnboard,
   IUploadedCatalogue
 } from '@yaari/models/admin/admin.interface';
 
@@ -146,12 +153,13 @@ export class AdminService {
     return this._http.get<ISupplierList[]>(`${environment.API_BASE_URL}/api/v1/admin/kam/suppliers${query}`);
   }
 
-  public getSupplierById(supplierId: number): Observable<ISupplierDetails> {
+  public getSupplierDetailsById(supplierId: number): Observable<ISupplierDetails> {
     return this._http.get<ISupplierDetails>(`${environment.API_BASE_URL}/api/v1/admin/kam/supplier-details?supplier_id=${supplierId}`);
   }
 
-  public getCatalogList(): Observable<ICatalog[]> {
-    return this._http.get<ICatalog[]>(`${environment.API_BASE_URL}/api/v1/admin/kam/catalogues`);
+  public getCatalogList(filter?: IFilter): Observable<ICatalog[]> {
+    const query = getQuery(filter);
+    return this._http.get<ICatalog[]>(`${environment.API_BASE_URL}/api/v1/admin/kam/catalogues${query}`);
   }
 
   public getProductsByCatalogId(catalogId: number): Observable<IProductDetail[]> {
@@ -163,8 +171,12 @@ export class AdminService {
     return this._http.get<ISupplierDetails[]>(`${environment.API_BASE_URL}/api/v1/admin/kam/onboarding/supppliers${query}`);
   }
 
+  public approveRejectSupplier(supplier: ISupplierOnboard): Observable<IMsgResponse> {
+    return this._http.post<IMsgResponse>(`${environment.API_BASE_URL}/api/v1/admin/kam/onboarding/approve-reject`, supplier);
+  }
+
   public downloadSupplier(): Observable<string> {
-    return this._http.get<string>(`${environment.API_BASE_URL}api/v1/admin/kam/onboarding/download-suppliers`);
+    return this._http.get<string>(`${environment.API_BASE_URL}/api/v1/admin/kam/onboarding/download-suppliers`);
   }
 
   public getSupplierComplaints(): Observable<IComplaints[]> {
