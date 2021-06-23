@@ -1,6 +1,5 @@
 @import 'variables';
 @import 'mixins';
-
 :host {
   .main-body {
     margin: 28px 80px;
@@ -61,27 +60,20 @@
     color: #ffffff;
   }
 
-
-
   .edit-button {
-    display: flex;
-    border: 0px;
+    float: right;
+    border: 0;
     height: 41px;
-    border-radius: 12px;
+    border-radius: 24px;
     background-color: #f62101;
     color: #ffffff;
-    width: 220px;
-    padding: 7px 10px;
-    margin-top: 2px;
-    margin-left: auto;
-    flex-wrap: wrap;
-    align-content: center;
-    justify-content: space-evenly;
-    align-items: center;
+    margin-right: 20px;
 
     &__icon {
-      margin-right: 5px;
+      margin-top: 5px;
+      font-size: 15px;
     }
+
     &.mat-button-disabled {
       // Those lines change the color & background color of the button when disabled
       // $palette: if($property == 'color', $foreground, $background);
@@ -89,6 +81,17 @@
       opacity: 0.5;
     }
   }
+
+  .back-button {
+    height: 41px;
+    border-radius: 24px;
+    background-color: #ffffff;
+    border: 2px solid #f62101;
+    color: #f62101;
+    width: 90px;
+    float: right;
+  }
+
 
   td,
   th {

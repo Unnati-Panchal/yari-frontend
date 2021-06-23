@@ -17,6 +17,7 @@ import {ViewCatalogueRoutingModule} from './view-catalogue-routing.module';
 import {ViewCatalogueComponent, ViewCatalogueDetailComponent} from '~admin/view-catalogue/components';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSortModule} from '@angular/material/sort';
+import {MatListModule} from '@angular/material/list';
 
 @NgModule({
   declarations: [ViewCatalogueComponent, ViewCatalogueDetailComponent],
@@ -36,7 +37,8 @@ import {MatSortModule} from '@angular/material/sort';
     ViewCatalogueRoutingModule,
     MatProgressSpinnerModule,
     MatButtonModule,
-    MatSortModule
+    MatSortModule,
+    MatListModule
   ],
   providers: [{ provide: MAT_DATE_FORMATS, useValue: MatDateFormat }]
 })
