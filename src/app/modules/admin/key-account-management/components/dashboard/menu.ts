@@ -26,24 +26,24 @@ export const supplierDashboardMenu: IMenuItem[] = [
     url: `${baseKAMPath}supplier-complaints`,
     label: 'Complaints'
   },
-  {
-    url: `${baseKAMPath}supplier-payment-reversal`,
-    label: 'Payment Reversal'
-  }
+  // {
+  //   url: `${baseKAMPath}supplier-payment-reversal`,
+  //   label: 'Payment Reversal'
+  // }
 ];
 
 
 export const resellerDashboardMenu: IMenuItem[] = [
-  {
-    url: `${baseKAMPath}reseller-list`,
-    label: 'View Re-Seller Details'
-  },
+  // {
+  //   url: `${baseKAMPath}reseller-list`,
+  //   label: 'View Re-Seller Details'
+  // },
   {
     url: `${baseKAMPath}reseller-complaints`,
     label: 'Complaints'
   },
-  {
-    url: `${baseKAMPath}reseller-payment-reversal`,
-    label: 'Payment Reversal'
-  }
+  // {
+  //   url: `${baseKAMPath}reseller-payment-reversal`,
+  //   label: 'Payment Reversal'
+  // }
 ];
