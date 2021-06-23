@@ -50,7 +50,6 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
       combineLatest([this.KAMCatalogList$])
         .subscribe(([KAMCatalogList]) => {
           this.loading = false;
-          console.log(KAMCatalogList);
           this.setTableDataSource(KAMCatalogList);
         })
     );
