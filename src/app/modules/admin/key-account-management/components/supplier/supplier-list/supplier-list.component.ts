@@ -17,7 +17,7 @@ import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
   styleUrls: ['./supplier-list.component.scss']
 })
 export class SupplierListComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['contact_person', 'email_id'];
+  displayedColumns: string[] = ['sr_no', 'contact_person', 'email_id'];
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();
   public KAMSupplierList$ = this._store.pipe(select(fromAdminSelectors.KAMSupplierList$), filter(list => !!list));
@@ -57,7 +57,7 @@ export class SupplierListComponent implements OnInit, OnDestroy {
   }
 
   supplierDetails(supplier: ISupplierList): void {
-    this.router.navigate([`admin/key-account-management/supplier-list/${supplier?.id}`]);
+    this.router.navigate([`admin/key-account-management/supplier-details/${supplier?.id}`]);
   }
 
   setTableDataSource(data: IBulkUploadBasic[]): void {

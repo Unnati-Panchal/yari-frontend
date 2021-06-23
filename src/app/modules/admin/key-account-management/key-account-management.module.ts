@@ -32,6 +32,7 @@ import {ResellerListComponent} from './components/reseller/reseller-list/reselle
 import {ResellerDetailsComponent} from './components/reseller/reseller-details/reseller-details.component';
 import {ResellerPaymentReversalComponent} from './components/reseller/reseller-payment-reversal/reseller-payment-reversal.component';
 import {SupplierPaymentReversalComponent} from './components/supplier/supplier-payment-reversal/supplier-payment-reversal.component';
+import { SupplierCatalogProductDetailsComponent } from './components/supplier/supplier-catalog-product-details/supplier-catalog-product-details.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,8 @@ import {SupplierPaymentReversalComponent} from './components/supplier/supplier-p
     ResellerListComponent,
     ResellerDetailsComponent,
     ResellerPaymentReversalComponent,
-    SupplierPaymentReversalComponent
+    SupplierPaymentReversalComponent,
+    SupplierCatalogProductDetailsComponent
   ],
   imports: [
     CommonModule,

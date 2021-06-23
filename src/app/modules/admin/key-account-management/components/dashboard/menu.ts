@@ -11,7 +11,7 @@ export const supplierDashboardMenu: IMenuItem[] = [
     label: 'New Supplier Registration'
   },
   {
-    url: `${baseKAMPath}supplier-list`,
+    url: `${baseKAMPath}supplier-details`,
     label: 'View Supplier Details'
   },
   {

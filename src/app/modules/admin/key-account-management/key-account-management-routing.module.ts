@@ -12,6 +12,7 @@ import {ResellerListComponent} from '~admin/key-account-management/components/re
 import {ResellerDetailsComponent} from '~admin/key-account-management/components/reseller/reseller-details/reseller-details.component';
 import {ResellerPaymentReversalComponent} from '~admin/key-account-management/components/reseller/reseller-payment-reversal/reseller-payment-reversal.component';
 import {SupplierPaymentReversalComponent} from '~admin/key-account-management/components/supplier/supplier-payment-reversal/supplier-payment-reversal.component';
+import {SupplierCatalogProductDetailsComponent} from '~admin/key-account-management/components/supplier/supplier-catalog-product-details/supplier-catalog-product-details.component';
 
 const routes: Routes = [
   {
@@ -35,16 +36,20 @@ const routes: Routes = [
     component: SupplierOnboardingApprovalComponent
   },
   {
-    path: 'supplier-list',
+    path: 'supplier-details',
     component: SupplierListComponent,
   },
   {
-    path: 'supplier-list/:id',
+    path: 'supplier-details/:id',
     component: SupplierDetailsComponent
   },
   {
     path: 'supplier-product-details',
     component: SupplierProductDetailsComponent
+  },
+  {
+    path: 'supplier-product-details/:id',
+    component: SupplierCatalogProductDetailsComponent
   },
   {
     path: 'reseller-details',
