@@ -1,3 +1,5 @@
+@import "~@fortawesome/fontawesome-free/css/all.css";
+
 :host {
   .main-body {
     margin: 28px 80px;
@@ -212,6 +214,7 @@
 
   .download-icon {
     color: #FFFFFF;
+    font-size: 25px;
   }
 
 }
