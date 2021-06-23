@@ -37,7 +37,7 @@
                             <input matInput formControlName="password" [type]="!hide ? 'password' : 'text'"
                                 placeholder="Enter your password">
                             <button mat-icon-button matSuffix type="button">
-                                <mat-icon (click)="hide = !hide">{{hide ? 'visibility' : 'visibility_off'}}</mat-icon>
+                                <mat-icon (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                             </button>
                             <mat-error class="error" *ngIf="loginForm.controls.password.hasError('required')">Password
                                 is required
