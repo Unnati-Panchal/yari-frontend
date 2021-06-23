@@ -11,6 +11,10 @@ import {SupplierOnboardingApprovalComponent} from '~admin/key-account-management
 import {SupplierDetailsComponent} from '~admin/key-account-management/components/supplier/supplier-details/supplier-details.component';
 import {SupplierProductDetailsComponent} from '~admin/key-account-management/components/supplier/supplier-product-details/supplier-product-details.component';
 import {DashboardComponent} from '~admin/key-account-management/components/dashboard/dashboard.component';
+import { SupplierListComponent } from './components/supplier/supplier-list/supplier-list.component';
+import { ResellerListComponent } from './components/reseller/reseller-list/reseller-list.component';
+import { ResellerDetailsComponent } from './components/reseller/reseller-details/reseller-details.component';
+import { ResellerPaymentReversalComponent } from './components/reseller/reseller-payment-reversal/reseller-payment-reversal.component';
 
 @NgModule({
   declarations: [
@@ -21,7 +25,11 @@ import {DashboardComponent} from '~admin/key-account-management/components/dashb
     SupplierOnboardingApprovalComponent,
     SupplierDetailsComponent,
     SupplierProductDetailsComponent,
-    DashboardComponent
+    DashboardComponent,
+    SupplierListComponent,
+    ResellerListComponent,
+    ResellerDetailsComponent,
+    ResellerPaymentReversalComponent
   ],
   imports: [
     CommonModule,

@@ -8,6 +8,10 @@ import {SupplierOnboardingApprovalComponent} from '~admin/key-account-management
 import {SupplierDetailsComponent} from '~admin/key-account-management/components/supplier/supplier-details/supplier-details.component';
 import {SupplierProductDetailsComponent} from '~admin/key-account-management/components/supplier/supplier-product-details/supplier-product-details.component';
 import {DashboardComponent} from '~admin/key-account-management/components/dashboard/dashboard.component';
+import {SupplierListComponent} from '~admin/key-account-management/components/supplier/supplier-list/supplier-list.component';
+import {ResellerListComponent} from '~admin/key-account-management/components/reseller/reseller-list/reseller-list.component';
+import {ResellerDetailsComponent} from '~admin/key-account-management/components/reseller/reseller-details/reseller-details.component';
+import {ResellerPaymentReversalComponent} from '~admin/key-account-management/components/reseller/reseller-payment-reversal/reseller-payment-reversal.component';
 
 const routes: Routes = [
   {
@@ -39,8 +43,24 @@ const routes: Routes = [
         component: SupplierDetailsComponent
       },
       {
+        path: 'supplier-list',
+        component: SupplierListComponent
+      },
+      {
         path: 'supplier-product-details',
         component: SupplierProductDetailsComponent
+      },
+      {
+        path: 'reseller-details',
+        component: ResellerDetailsComponent
+      },
+      {
+        path: 'reseller-list',
+        component: ResellerListComponent
+      },
+      {
+        path: 'reseller-payment-reversal',
+        component: ResellerPaymentReversalComponent
       },
     ]
   },
