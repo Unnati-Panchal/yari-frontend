@@ -6,6 +6,7 @@ import { AuthService } from '@yaari/services/auth/auth.service';
 import { Subscription } from 'rxjs';
 import { AppFacade } from '~app/store/app.state';
 
+
 @Component({
   selector: 'app-pricing-management',
   templateUrl: './pricing-management.component.html',
@@ -21,20 +22,23 @@ export class PricingManagementComponent implements OnInit, OnDestroy {
     private _snackbar: MatSnackBar
   ) { }
 
-  menus: any = [
-    { name: 'Update Pricing', link: 'update' }
-  ];
+  menus: any = [];
+  hide: boolean
   clicked: number;
   ngOnInit(): void {
     this._appFacade.clearMessages();
     this._adminService.authorizedAdmin('pricing_management');
+    
     this._authService.adminDetails().subscribe((adminDetails: IAdminDetails)=>{
       if(adminDetails.admin_designation === 'associate'){
-        this._authService.logoutService().subscribe(res=>res);
-        this._authService.logoutAdmin();
-        this._snackbar.open('Unauthorized access', '', { duration: 5000 });
+        this.hide = true;
       }
+      this.menus = [
+        { name: 'Update Pricing', link: 'update' }
+      ];
     })
+    
+    
   }
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
