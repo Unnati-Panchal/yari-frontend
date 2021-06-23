@@ -6,7 +6,7 @@ import {IAppState} from '~store/app.state';
 import {filter} from 'rxjs/operators';
 import {Router} from '@angular/router';
 import {MatTableDataSource} from '@angular/material/table';
-import {ICatalog, IFilter, ISupplierList} from '@yaari/models/admin/admin.interface';
+import {ICatalog, IFilter} from '@yaari/models/admin/admin.interface';
 
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
@@ -56,7 +56,7 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   catalogueDetails(catalog: ICatalog): void {
-    this.router.navigate([`admin/key-account-management/supplier-product-details/${catalog?.id}`]);
+    this.router.navigate([`admin/key-account-management/supplier-product-details/${catalog.id}/${catalog.catalogue_name}`]);
   }
 
   setTableDataSource(data: IBulkUploadBasic[]): void {

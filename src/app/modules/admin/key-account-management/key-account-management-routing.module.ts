@@ -48,7 +48,7 @@ const routes: Routes = [
     component: SupplierProductDetailsComponent
   },
   {
-    path: 'supplier-product-details/:id',
+    path: 'supplier-product-details/:id/:name',
     component: SupplierCatalogProductDetailsComponent
   },
   {
