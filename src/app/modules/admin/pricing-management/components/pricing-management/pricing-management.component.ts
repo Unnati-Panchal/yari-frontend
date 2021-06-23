@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Store } from '@ngrx/store';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { IAdminDetails } from '@yaari/models/auth/auth.interface';
 import { AdminService } from '@yaari/services/admin/admin.service';
+import { AuthService } from '@yaari/services/auth/auth.service';
 import { Subscription } from 'rxjs';
-import { AppFacade, IAppState } from '~app/store/app.state';
-import * as fromAuthActions from '~store/auth/auth.actions';
+import { AppFacade } from '~app/store/app.state';
 
 @Component({
   selector: 'app-pricing-management',
@@ -14,9 +15,10 @@ export class PricingManagementComponent implements OnInit, OnDestroy {
 
   private _subscription: Subscription = new Subscription();
   constructor(
-    private _store: Store<IAppState>,
     private _appFacade: AppFacade,
-    private _adminService: AdminService
+    private _adminService: AdminService,
+    private _authService: AuthService,
+    private _snackbar: MatSnackBar
   ) { }
 
   menus: any = [
@@ -25,8 +27,14 @@ export class PricingManagementComponent implements OnInit, OnDestroy {
   clicked: number;
   ngOnInit(): void {
     this._appFacade.clearMessages();
-    this._store.dispatch(fromAuthActions.adminDetails());
     this._adminService.authorizedAdmin('pricing_management');
+    this._authService.adminDetails().subscribe((adminDetails: IAdminDetails)=>{
+      if(adminDetails.admin_designation === 'associate'){
+        this._authService.logoutService().subscribe(res=>res);
+        this._authService.logoutAdmin();
+        this._snackbar.open('Unauthorized access', '', { duration: 5000 });
+      }
+    })
   }
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();

@@ -24,8 +24,8 @@ export class ResetPasswordComponent implements OnInit {
     private _appFacade: AppFacade,
     private _activatedRoute: ActivatedRoute,
     private _adminService: AdminService,
-    private _snackBar: MatSnackBar
-
+    private _snackBar: MatSnackBar,
+    private _router: Router
   ) {
   }
 
@@ -58,10 +58,12 @@ export class ResetPasswordComponent implements OnInit {
       access_token: this._token,
       new_password: this.resetPassForm.value.password
     };
+    
     this._adminService.resetPasswordAdmin(resetPasswordInfo).subscribe(
       (res: IResMsg) => {
         this._snackBar.open(res.msg, '', { duration: 5000 });
         this.loading = false;
+        this._router.navigate(['/admin/login']);
       });
 
   }

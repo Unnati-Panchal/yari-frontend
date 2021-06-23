@@ -76,18 +76,18 @@
     <div class="row">
       <div class="col-md-4">
         <label for="discount" class="form-label">Discount</label>
-        <input type="text" class="form-control input-bg-white" formControlName="discount" name="discount">
+        <input type="text" class="form-control" formControlName="discount" name="discount" disabled>
       </div>
       <div class="col-md-4">
         <label for="offer_start_date" class="form-label">Discount Start Date</label>
         <input matInput [matDatepicker]="offer_start_date" type="text" (click)="offer_start_date.open()"
-          class="form-control input-bg-white" formControlName="offer_start_date" name="offer_start_date">
+          class="form-control" formControlName="offer_start_date" name="offer_start_date" disabled>
         <mat-datepicker #offer_start_date></mat-datepicker>
       </div>
       <div class="col-md-4">
         <label for="offer_end_date" class="form-label">Discount End Date</label>
         <input matInput [matDatepicker]="offer_end_date" type="text" (click)="offer_end_date.open()"
-          class="form-control input-bg-white" formControlName="offer_end_date" name="offer_end_date">
+          class="form-control" formControlName="offer_end_date" name="offer_end_date" disabled>
         <mat-datepicker #offer_end_date></mat-datepicker>
       </div>
     </div>
