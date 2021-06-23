@@ -10,8 +10,15 @@ import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatTableModule} from '@angular/material/table';
+import {MatNativeDateModule} from '@angular/material/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
 
 import {SharedModule} from '@yaari/shared.module';
+
 import {KeyAccountManagementRoutingModule} from '~admin/key-account-management/key-account-management-routing.module';
 import {ResellerComplaintsComponent} from '~admin/key-account-management/components/reseller/reseller-complaints/reseller-complaints.component';
 import {SupplierComplaintsComponent} from '~admin/key-account-management/components/supplier/supplier-complaints/supplier-complaints.component';
@@ -54,7 +61,13 @@ import {SupplierPaymentReversalComponent} from './components/supplier/supplier-p
     MatSelectModule,
     MatProgressSpinnerModule,
     MatCheckboxModule,
-    MatIconModule
+    MatIconModule,
+    MatDatepickerModule,
+    ReactiveFormsModule,
+    MatNativeDateModule,
+    MatTableModule,
+    MatPaginatorModule,
+    MatSortModule
   ]
 })
 export class KeyAccountManagementModule {

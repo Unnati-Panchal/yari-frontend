@@ -35,12 +35,12 @@ const routes: Routes = [
     component: SupplierOnboardingApprovalComponent
   },
   {
-    path: 'supplier-details',
-    component: SupplierDetailsComponent
+    path: 'supplier-list',
+    component: SupplierListComponent,
   },
   {
-    path: 'supplier-list',
-    component: SupplierListComponent
+    path: 'supplier-list/:id',
+    component: SupplierDetailsComponent
   },
   {
     path: 'supplier-product-details',

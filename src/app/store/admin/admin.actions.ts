@@ -1,4 +1,12 @@
-import { ICatalogueContentManagement, ICatalogueProducts, IEditProduct, IProductDetail, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
+import {
+  ICatalog,
+  ICatalogueContentManagement,
+  ICatalogueProducts, IComplaints,
+  IEditProduct, IFilter, IMsgResponse,
+  IProductDetail, ISupplierDetails,
+  ISupplierList, ISupplierOnboard,
+  IUploadedCatalogue
+} from '@yaari/models/admin/admin.interface';
 import { createAction, props } from '@ngrx/store';
 
 import { HttpErrorResponse } from '@angular/common/http';
@@ -72,3 +80,46 @@ export const editProductError = createAction('[ADMIN] edit product detail error'
 
 
 
+export const getSupplierList = createAction('[ADMIN] getSupplierList', props<{ filter: IFilter }>());
+export const getSupplierListSuccess = createAction('[ADMIN] getSupplierList Success', props<{ KAMSupplierList: ISupplierList[] }>());
+export const getSupplierListError = createAction('[ADMIN] getSupplierList Error', props<{ error: HttpErrorResponse }>());
+
+export const getSupplierDetailsById = createAction('[ADMIN] getSupplierDetailsById', props<{ supplierId: number }>());
+// tslint:disable-next-line:max-line-length
+export const getSupplierDetailsByIdSuccess = createAction('[ADMIN] getSupplierDetailsById Success', props<{ KAMSupplierDetails: ISupplierDetails }>());
+export const getSupplierDetailsByIdError = createAction('[ADMIN] getSupplierDetailsById Error', props<{ error: HttpErrorResponse }>());
+
+
+export const getCatalogList = createAction('[ADMIN] getSupplierList', props<{ filter: IFilter }>());
+export const getCatalogListSuccess = createAction('[ADMIN] getSupplierList Success', props<{ KAMCatalogList: ICatalog[] }>());
+export const getCatalogListError = createAction('[ADMIN] getSupplierList Error', props<{ error: HttpErrorResponse }>());
+
+
+export const getProductsByCatalogId = createAction('[ADMIN] getProductsByCatalogId', props<{ catalogId: number }>());
+// tslint:disable-next-line:max-line-length
+export const getProductsByCatalogIdSuccess = createAction('[ADMIN] getProductsByCatalogId Success', props<{ KAMProductDetails: IProductDetail[] }>());
+export const getProductsByCatalogIdError = createAction('[ADMIN] getProductsByCatalogId Error', props<{ error: HttpErrorResponse }>());
+
+
+export const getSupplierOnBoardings = createAction('[ADMIN] getSupplierOnBoardings', props<{ filter: IFilter }>());
+// tslint:disable-next-line:max-line-length
+export const getSupplierOnBoardingsSuccess = createAction('[ADMIN] getSupplierOnBoardings Success', props<{ KAMSupplierOnboardings: ISupplierDetails[] }>());
+export const getSupplierOnBoardingsError = createAction('[ADMIN] getSupplierOnBoardings Error', props<{ error: HttpErrorResponse }>());
+
+
+export const approveRejectSupplier = createAction('[ADMIN] approveRejectSupplier', props<{ supplier: ISupplierOnboard }>());
+// tslint:disable-next-line:max-line-length
+export const approveRejectSupplierSuccess = createAction('[ADMIN] approveRejectSupplier Success', props<{ KAMApprovedResponse: IMsgResponse }>());
+export const approveRejectSupplierError = createAction('[ADMIN] approveRejectSupplier Error', props<{ error: HttpErrorResponse }>());
+
+
+export const getSupplierComplaints = createAction('[ADMIN] getSupplierComplaints');
+// tslint:disable-next-line:max-line-length
+export const getSupplierComplaintsSuccess = createAction('[ADMIN] getSupplierComplaints Success', props<{ KAMSupplierComplaints: IComplaints[] }>());
+export const getSupplierComplaintsError = createAction('[ADMIN] getSupplierComplaints Error', props<{ error: HttpErrorResponse }>());
+
+
+export const getResellerComplaints = createAction('[ADMIN] getResellerComplaints');
+// tslint:disable-next-line:max-line-length
+export const getResellerComplaintsSuccess = createAction('[ADMIN] getResellerComplaints Success', props<{ KAMResellerList: IComplaints[] }>());
+export const getResellerComplaintsError = createAction('[ADMIN] getResellerComplaints Error', props<{ error: HttpErrorResponse }>());
