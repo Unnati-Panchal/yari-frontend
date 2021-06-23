@@ -29,7 +29,7 @@ export class AdminComponent implements OnInit {
   }
 
   logout(): void {
-    this._auth.logoutService().subscribe(res => this._snackbar.open(res.msg, '', { duration: 3000 }));
+    this._auth.logoutService().subscribe(res => this._snackbar.open(res.msg, '', { duration: 5000 }));
     this._auth.logoutAdmin();
 
     this.adminDetails$ = this._store.pipe(
