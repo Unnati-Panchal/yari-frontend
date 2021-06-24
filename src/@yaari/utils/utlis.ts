@@ -1,5 +1,6 @@
 import {ESortDirection, ICatalogProducts} from '@yaari/models/product/product.interface';
 import {Sort} from '@angular/material/sort';
+import {IFilter} from '@yaari/models/admin/admin.interface';
 
 export class Utilities {
 
@@ -39,8 +40,55 @@ export class Utilities {
       }
     });
   }
+
+  public static scrollToFirstInvalidControl(): void {
+    const firstElementWithError = document.querySelector('.ng-invalid[formControlName]');
+    if (firstElementWithError) {
+      firstElementWithError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }
 }
 
 export function compare(a: number | string, b: number | string, isAsc: boolean): any {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+}
+
+export function getQuery(filter: IFilter): string {
+  let query = '';
+  if (filter?.filterBy || filter?.limit || filter?.skip) {
+    query = '?';
+  }
+  if (filter?.filterBy) {
+    query += `filter_by=${filter.filterBy}`;
+  }
+  if (filter?.limit) {
+    if (filter?.filterBy) {
+      query += `&`;
+    }
+    query += `limit=${filter.limit}`;
+  }
+  if (filter?.skip) {
+    if (filter?.filterBy || filter?.limit) {
+      query += `&`;
+    }
+    query += `skip=${filter.skip}`;
+  }
+  return query;
+}
+
+export function toDataURL(url): Promise<string> {
+  return fetch(url).then((response) => {
+    return response.blob();
+  }).then(blob => {
+    return URL.createObjectURL(blob);
+  });
+}
+
+export async function downloadFile(url): Promise<void> {
+  const a = document.createElement('a');
+  a.href = await toDataURL(url);
+  a.download = 'image.png';
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
 }

@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AdminAuthGuard, AuthGuard} from '@yaari/guards/auth.guard';
+import {AuthGuard} from '@yaari/guards/auth.guard';
 import {TermsAndConditionsComponent} from '~app/modules/terms-and-conditions/terms-and-conditions.component';
 
 const routes: Routes = [

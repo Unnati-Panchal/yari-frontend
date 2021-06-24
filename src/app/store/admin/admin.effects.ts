@@ -2,13 +2,46 @@ import * as fromAdminActions from '~store/admin/admin.actions';
 import * as fromRouter from '~store/route/route.selectors';
 
 import { Actions, createEffect, ofType } from '@ngrx/effects';
-import { ICatalogueContentManagement, ICatalogueProducts, IEditProduct, IProductDetail, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
+import {
+  ICatalog,
+  ICatalogueContentManagement,
+  ICatalogueProducts, IComplaints,
+  IEditProduct,
+  IFilter, IMsgResponse,
+  IProductDetail, ISupplierDetails, ISupplierList, ISupplierOnboard,
+  IUploadedCatalogue
+} from '@yaari/models/admin/admin.interface';
 import { catchError, map, switchMap } from 'rxjs/operators';
 
 import { AdminService } from '@yaari/services/admin/admin.service';
 import { Injectable } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
+import {
+  approveRejectSupplier,
+  approveRejectSupplierError,
+  approveRejectSupplierSuccess,
+  getCatalogList,
+  getCatalogListError,
+  getCatalogListSuccess,
+  getProductsByCatalogId,
+  getProductsByCatalogIdError,
+  getProductsByCatalogIdSuccess,
+  getResellerComplaints, getResellerComplaintsError,
+  getResellerComplaintsSuccess,
+  getSupplierComplaints,
+  getSupplierComplaintsError,
+  getSupplierComplaintsSuccess,
+  getSupplierDetailsById,
+  getSupplierDetailsByIdError,
+  getSupplierDetailsByIdSuccess,
+  getSupplierList,
+  getSupplierListError,
+  getSupplierListSuccess,
+  getSupplierOnBoardings,
+  getSupplierOnBoardingsError,
+  getSupplierOnBoardingsSuccess
+} from '~store/admin/admin.actions';
 
 @Injectable()
 export class AdminEffects {
@@ -95,6 +128,108 @@ export class AdminEffects {
         this._adminService.getCatalogueProducts(catalogueId).pipe(
           map((catalogueProducts: ICatalogueProducts[]) => fromAdminActions.getCatalogueProductsSuccess({ catalogueProducts })),
           catchError(error => of(fromAdminActions.getCatalogueProductsError(error)))
+        )
+      )
+    )
+  );
+
+  public getSupplierList$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAdminActions.getSupplierList),
+      map(action => action.filter),
+      switchMap((filter: IFilter) =>
+        this._adminService.getSupplierList(filter).pipe(
+          map((KAMSupplierList: ISupplierList[]) => fromAdminActions.getSupplierListSuccess({ KAMSupplierList })),
+          catchError(error => of(fromAdminActions.getSupplierListError(error)))
+        )
+      )
+    )
+  );
+
+  public getSupplierDetailsById$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAdminActions.getSupplierDetailsById),
+      map(action => action.supplierId),
+      switchMap((supplierId: number) =>
+        this._adminService.getSupplierDetailsById(supplierId).pipe(
+          map((KAMSupplierDetails: ISupplierDetails) => fromAdminActions.getSupplierDetailsByIdSuccess({ KAMSupplierDetails })),
+          catchError(error => of(fromAdminActions.getSupplierDetailsByIdError(error)))
+        )
+      )
+    )
+  );
+
+  public getCatalogList$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAdminActions.getCatalogList),
+      map(action => action.filter),
+      switchMap((filter: IFilter) =>
+        this._adminService.getCatalogList(filter).pipe(
+          map((KAMCatalogList: ICatalog[]) => fromAdminActions.getCatalogListSuccess({ KAMCatalogList })),
+          catchError(error => of(fromAdminActions.getCatalogListError(error)))
+        )
+      )
+    )
+  );
+
+  public getProductsByCatalogId$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAdminActions.getProductsByCatalogId),
+      map(action => action.catalogId),
+      switchMap((catalogId: number) =>
+        this._adminService.getProductsByCatalogId(catalogId).pipe(
+          map((KAMProductDetails: IProductDetail[]) => fromAdminActions.getProductsByCatalogIdSuccess({ KAMProductDetails })),
+          catchError(error => of(fromAdminActions.getProductsByCatalogIdError(error)))
+        )
+      )
+    )
+  );
+
+  public getSupplierOnBoardings$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAdminActions.getSupplierOnBoardings),
+      map(action => action.filter),
+      switchMap((filter: IFilter) =>
+        this._adminService.getSupplierOnBoardings(filter).pipe(
+          map((KAMSupplierOnboardings: ISupplierDetails[]) => fromAdminActions.getSupplierOnBoardingsSuccess({ KAMSupplierOnboardings })),
+          catchError(error => of(fromAdminActions.getSupplierOnBoardingsError(error)))
+        )
+      )
+    )
+  );
+
+  public approveRejectSupplier$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAdminActions.approveRejectSupplier),
+      map(action => action.supplier),
+      switchMap((supplier: ISupplierOnboard) =>
+        this._adminService.approveRejectSupplier(supplier).pipe(
+          map((KAMApprovedResponse: IMsgResponse) => fromAdminActions.approveRejectSupplierSuccess({ KAMApprovedResponse })),
+          catchError(error => of(fromAdminActions.approveRejectSupplierError(error)))
+        )
+      )
+    )
+  );
+
+  public getSupplierComplaints$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAdminActions.getSupplierComplaints),
+      switchMap(() =>
+        this._adminService.getSupplierComplaints().pipe(
+          map((KAMSupplierComplaints: IComplaints[]) => fromAdminActions.getSupplierComplaintsSuccess({ KAMSupplierComplaints })),
+          catchError(error => of(fromAdminActions.getSupplierComplaintsError(error)))
+        )
+      )
+    )
+  );
+
+  public getResellerComplaints$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAdminActions.getResellerComplaints),
+      switchMap(() =>
+        this._adminService.getResellerComplaints().pipe(
+          map((KAMResellerComplaints: IComplaints[]) => fromAdminActions.getResellerComplaintsSuccess({ KAMResellerComplaints })),
+          catchError(error => of(fromAdminActions.getResellerComplaintsError(error)))
         )
       )
     )

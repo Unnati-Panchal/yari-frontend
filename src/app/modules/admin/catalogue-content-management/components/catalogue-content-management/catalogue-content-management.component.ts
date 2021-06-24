@@ -12,8 +12,8 @@ import { IAppState } from '~app/store/app.state';
 import { IEditProduct , NewImage, NewVideo } from '@yaari/models/admin/admin.interface';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
 import { ProductSpecificationComponent} from '../product-specification/product-specification.component';
-import { Subscription } from 'rxjs/internal/Subscription';
 import { filter } from 'rxjs/operators';
+import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-catalogue-content-management',

@@ -1,0 +1,172 @@
+<main>
+  <section>
+    <h3>Supplier Onboarding Approval</h3>
+    <div class="red-line"></div>
+
+    <div class="search-container">
+
+      <div class="date-range-form">
+
+        <mat-form-field appearance="outline">
+          <mat-label>Search by Business Name or Email ID</mat-label>
+          <input matInput [(ngModel)]="selectedSupplierName">
+        </mat-form-field>
+
+        <button mat-button (click)="viewBtn()">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+
+      <div class="date-range-form">
+        <button mat-button (click)="downloadSupplier()">
+          <mat-icon>download</mat-icon>
+        </button>
+      </div>
+    </div>
+
+    <div>
+      <app-error-success [errors]="isError$ | async"></app-error-success>
+    </div>
+
+    <div *ngIf="!loading && dataSource?.data?.length" class="table-box">
+      <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+        <ng-container matColumnDef="sr_no">
+          <th mat-header-cell *matHeaderCellDef> Sr. No. </th>
+          <td mat-cell *matCellDef="let idx = index">{{idx + 1}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="contact_person">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Business Name </th>
+          <td mat-cell *matCellDef="let element">{{element?.contact_person}}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="phone_no">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Mobile No. </th>
+          <td mat-cell *matCellDef="let element"> {{element?.phone_no}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="email_id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Email ID </th>
+          <td mat-cell *matCellDef="let element"> {{element?.email_id}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="state">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> State </th>
+          <td mat-cell *matCellDef="let element"> {{element?.state}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="city">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> City </th>
+          <td mat-cell *matCellDef="let element"> {{element?.city}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="primary_category_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Main Category </th>
+          <td mat-cell *matCellDef="let element"> {{element?.primary_category_name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="gst_no">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> GST No. </th>
+          <td mat-cell *matCellDef="let element"> {{element?.gst_no}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="gst_certificate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> GST Certificate </th>
+          <td mat-cell *matCellDef="let element">
+            <span *ngIf="element?.gst_certificate">
+              <button mat-button class="table-btn" (click)="downloadImage(element.gst_certificate)">VIEW</button>
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pan_no">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> PAN No. </th>
+          <td mat-cell *matCellDef="let element"> {{element?.pan_no}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="name_pan_card">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Name As Per Pan </th>
+          <td mat-cell *matCellDef="let element"> {{element?.name_pan_card}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="pan_card">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> PAN Card </th>
+          <td mat-cell *matCellDef="let element">
+            <span *ngIf="element?.pan_card">
+              <button mat-button class="table-btn" (click)="downloadImage(element.pan_card)">VIEW</button>
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="price_range_max">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Price Range </th>
+          <td mat-cell *matCellDef="let element">{{element?.price_range_max}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="average_monthly_stock">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Average Stock Count </th>
+          <td mat-cell *matCellDef="let element">{{element?.average_monthly_stock}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="bank_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Bank Name </th>
+          <td mat-cell *matCellDef="let element">{{element?.bank_name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="bank_account_name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Account Holder Name </th>
+          <td mat-cell *matCellDef="let element">{{element?.bank_account_name}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="bank_ifsc">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> IFSC Code </th>
+          <td mat-cell *matCellDef="let element">{{element?.bank_ifsc}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="bank_account_number">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Account Number </th>
+          <td mat-cell *matCellDef="let element">{{element?.bank_account_number}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cancelled_cheque">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Cancelled Cheque </th>
+          <td mat-cell *matCellDef="let element">
+            <span *ngIf="element?.cancelled_cheque">
+              <button mat-button class="table-btn" (click)="downloadImage(element.cancelled_cheque)">VIEW</button>
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="msme_certificate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> MSME </th>
+          <td mat-cell *matCellDef="let element">
+            <span *ngIf="element?.msme_certificate">
+              <button mat-button class="table-btn" (click)="downloadImage(element.msme_certificate)">VIEW</button>
+            </span>
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header> Action </th>
+          <td mat-cell *matCellDef="let element">
+            <span class="action-btns">
+              <button mat-button class="table-btn approve" (click)="approveSupplier(element, true)">Approve</button>
+              <button mat-button class="table-btn" (click)="approveSupplier(element, false)">Reject</button>
+            </span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+
+    <div *ngIf="loading" class="centered">
+      <mat-spinner color="warn" [diameter]="50"></mat-spinner>
+    </div>
+    <div *ngIf="submitted && !loading && !dataSource?.data?.length" class="centered">
+      <p>Oops, nothing found.</p>
+    </div>
+  </section>
+</main>
