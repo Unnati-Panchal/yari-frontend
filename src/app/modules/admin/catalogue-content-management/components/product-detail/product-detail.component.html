@@ -180,7 +180,7 @@
 
     <div class="row">
       <div class="col-md-12">
-        <input type="file" #fileInput id="uploadFile" class="file-input" (change)="uploadFileEvt($event)"
+        <input type="file" #fileInput id="uploadFile" class="file-input" (click)="fileInputClick($event)" (change)="uploadFileEvt($event)"
           name="uploadFile" multiple="multiple" accept="image/*" />
 
         <div class="btn-container">
@@ -196,8 +196,8 @@
         <div class="gallery-item">
           <div class="items-wrapper">
 
-            <img *ngIf="!newVideo.src" alt="" src="/assets/images/yaari-logo.png">
-            <video [src]="newVideo.src" *ngIf="newVideo.src" height="200" width="228px" controls></video>
+            <img *ngIf="!newVideo?.src" alt="" src="/assets/images/yaari-logo.png">
+            <video [src]="newVideo?.src" *ngIf="newVideo?.src" height="200" width="228px" controls></video>
             <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteVideo()">
               <i class="delete-img"></i></a>
           </div>
