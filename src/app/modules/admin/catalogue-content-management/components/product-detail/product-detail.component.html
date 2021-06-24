@@ -180,7 +180,7 @@
 
     <div class="row">
       <div class="col-md-12">
-        <input type="file" #fileInput id="uploadFile" class="file-input" (change)="uploadFileEvt($event)"
+        <input type="file" #fileInput id="uploadFile" class="file-input" (click)="fileInputClick($event)" (change)="uploadFileEvt($event)"
           name="uploadFile" multiple="multiple" accept="image/*" />
 
         <div class="btn-container">
