@@ -13,7 +13,11 @@
           <mat-icon>search</mat-icon>
         </button>
       </div>
+      <div class="col-md-6">
+        <button class="back-button" mat-button routerLink="../" type="button">Back</button>
+      </div>
     </div>
+
     <div *ngIf="!loading && dataSource?.data?.length" class="centered table-box">
     <div class="col-md-12">
         <table mat-table [dataSource]="dataSource" matSort>
