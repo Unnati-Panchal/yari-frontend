@@ -46,7 +46,6 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
   dataSource = new MatTableDataSource([]);
   filter = '';
   selectedRows = new MatTableDataSource([]);
-
   private _subscription: Subscription = new Subscription();
   selectedCatalogId: string;
 
@@ -55,7 +54,8 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
     private _adminService: AdminService,
     private _appFacade: AppFacade, private router: Router,
     private route: ActivatedRoute
-  ) { }
+  ) {
+  }
 
   getIsError$ = this._store.pipe(
     select(fromAdminSelectors.getIsError));
@@ -73,7 +73,14 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
     this.loading = true;
     this._appFacade.clearMessages();
     this._adminService.authorizedAdmin('catalogue_management');
-    this._store.dispatch(fromAdminActions.getCatalogueContentManagements());
+
+    this._store.dispatch(fromAdminActions.getCatalogueContentManagements({
+      filter: {
+        skip: 0,
+        limit: 1000,
+        fetch_type: 'catalogue_content_management',
+      }
+    }));
     this._subscription.add(
       this.getCatalogueContentManagements$.subscribe((catalogueContentManagements) => {
         this.setTableDataSource(catalogueContentManagements);
@@ -105,15 +112,13 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
     }
     if (event.checked) {
       this.selectedRows.data.push(selectedProduct);
-    }
-    else {
+    } else {
       _.remove(this.selectedRows.data, selectedProduct);
     }
   }
 
   nagivateToEdit(): void {
     const selectedCatalogues = this.selectedRows.data.map(e => e.catalogue_id).join(',');
-    this.router.navigate(['admin/catalogue-content-management/products'], { queryParams: { catalogIds: selectedCatalogues } });
+    this.router.navigate(['admin/catalogue-content-management/products'], {queryParams: {catalogIds: selectedCatalogues}});
   }
-
 }

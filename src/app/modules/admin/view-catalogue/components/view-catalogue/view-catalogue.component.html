@@ -23,7 +23,7 @@
         <table mat-table [dataSource]="dataSource" matSort>
             <ng-container matColumnDef="catalogue_name" sticky>
                 <th mat-header-cell mat-sort-header *matHeaderCellDef>Catalogue Name</th>
-                <td mat-cell *matCellDef="let element; let i = index"><a
+                <td mat-cell class="truncate-cell" *matCellDef="let element; let i = index"><a [title]="element['catalogue_name']"
                   [routerLink]="['./view',{id:element['catalogue_id'],name:element['catalogue_name']}]">{{element["catalogue_name"]}}</a>
                 </td>
             </ng-container>

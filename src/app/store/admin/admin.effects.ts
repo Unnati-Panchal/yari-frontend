@@ -62,12 +62,11 @@ export class AdminEffects {
     this._actions$.pipe(
       ofType(fromAdminActions.getCatalogueContentManagements),
 
-      map(action => action),
-      switchMap(() =>
-        this._adminService.getCatalogContents().pipe(
-
+      map(action => action.filter),
+      switchMap((filter: IFilter) =>
+        this._adminService.getCatalogContents(filter).pipe(
           // tslint:disable-next-line: max-line-length
-          map((cataloguesContentManagements: ICatalogueContentManagement[]) => fromAdminActions.getCatalogueContentManagementsSuccess({ cataloguesContentManagements })),
+          map((cataloguesContentManagements: ICatalogueContentManagement[]) => fromAdminActions.getCatalogueContentManagementsSuccess({cataloguesContentManagements})),
           catchError(error => of(fromAdminActions.getCatalogueContentManagementsError(error)))
         )
       )

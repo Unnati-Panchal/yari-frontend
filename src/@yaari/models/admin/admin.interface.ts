@@ -240,6 +240,7 @@ export interface IFilter {
   filterBy?: string;
   limit?: number;
   skip?: number;
+  fetch_type?: string;
 }
 
 export interface ISupplierOnboard {
