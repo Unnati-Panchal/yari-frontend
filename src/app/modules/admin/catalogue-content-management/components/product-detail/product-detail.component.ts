@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { IProductCategory, IProductDetail } from '@yaari/models/admin/admin.interface';
 
 import { DomSanitizer } from '@angular/platform-browser';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import _ from 'lodash';
 
 @Component({
@@ -25,23 +26,21 @@ export class ProductDetailComponent implements OnInit {
 
   constructor(
     private fb: FormBuilder,
-    private sanitizer: DomSanitizer) {
+    private sanitizer: DomSanitizer,
+    private _snackBar: MatSnackBar) {
     this.createForm();
     this.getProductCategories();
   }
 
   ngOnInit(): void { }
 
-  public uploadFileEvt(imgFile: any): void {
+  uploadFileEvt(imgFile: any): void {
 
     if (imgFile.target.files && imgFile.target.files[0]) {
       const file: File = imgFile.target.files[0];
       const reader = new FileReader();
 
       reader.onload = () => {
-        if (this.newImages.length === 4) {
-          this.deleteImage(0);
-        }
         this.newImages.push({
           src: reader.result as string,
           name: file.name,
@@ -54,7 +53,7 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  public uploadFile(event: any): void {
+  uploadFile(event: any): void {
     const file = event.target.files[0];
     const URL = window.URL;
     this.newVideo.src = this.sanitizer.bypassSecurityTrustUrl(URL.createObjectURL(file));
@@ -68,8 +67,22 @@ export class ProductDetailComponent implements OnInit {
     reader.readAsDataURL(file);
   }
 
-  public getImages(id: number): string {
+  fileInputClick(event): boolean {
+    const maxImageCount = 4;
+    if (this.newImages.length >= maxImageCount) {
+      this._snackBar.open(
+        'Please remove at least one Image before uploading new one. \n Maximum 4 Images can be uploaded.',
+        '',
+        { duration: 3000 }
+      );
+      event.preventDefault();
+      event.stopPropagation();
+      return false;
+    }
+    return true;
+  }
 
+  getImages(id: number): string {
     const image = this.newImages[id];
     if (image) {
       return image.src;
@@ -77,7 +90,7 @@ export class ProductDetailComponent implements OnInit {
     return this.defaultImage;
   }
 
-  public deleteImage(id: number): void {
+  deleteImage(id: number): void {
     const image = this.newImages[id];
     if (image) {
 
@@ -86,7 +99,7 @@ export class ProductDetailComponent implements OnInit {
     }
   }
 
-  public deleteVideo(): void {
+  deleteVideo(): void {
     this.newVideo = null;
   }
 
@@ -113,8 +126,8 @@ export class ProductDetailComponent implements OnInit {
       videos: new FormControl(''),
       discount: new FormControl(''),
       hsnCode: new FormControl(''),
-      productId:new FormControl(''),
-      groupId:new FormControl(''),
+      productId: new FormControl(''),
+      groupId: new FormControl(''),
     });
   }
 
@@ -162,8 +175,8 @@ export class ProductDetailComponent implements OnInit {
       videos: product.video_url,
       discount: product.discount,
       hsnCode: product.hsn_code,
-      productId:product.product_id,
-      groupId:product.group_id,
+      productId: product.product_id,
+      groupId: product.group_id,
     });
     this.newImages = [];
     product.product_img.forEach(e => {
