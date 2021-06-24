@@ -28,7 +28,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {environment} from '~env/environment';
-import {getQuery} from '@yaari/utils/utlis';
+import {getQuery, getQueryAndParam} from '@yaari/utils/utlis';
 
 @Injectable({
   providedIn: 'root'
@@ -99,15 +99,16 @@ export class AdminService {
   public authorizedAdmin(role: string): void {
     this._auth.adminDetails().subscribe(adminDetails => {
       if (adminDetails.admin_role !== role) {
-        this._snackbar.open('Unauthorized Access', '', { duration: 3000 });
+        this._snackbar.open('Unauthorized Access', '', {duration: 3000});
         this._router.navigate([`/admin/${adminDetails.admin_role.split('_').join('-')}`]);
       }
     });
   }
 
-  public getCatalogContents(): Observable<ICatalogueContentManagement[]> {
+  public getCatalogContents(filter: IFilter): Observable<ICatalogueContentManagement[]> {
+    const query = getQueryAndParam(filter);//catalogue_content_management
     return this._http.get<ICatalogueContentManagement[]>(
-      `${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=catalogue_content_management`
+      `${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}`
     );
   }
 

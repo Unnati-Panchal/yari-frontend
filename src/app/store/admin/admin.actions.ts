@@ -37,7 +37,7 @@ export const getCatalogueProductsSuccess = createAction('[ADMIN] get catalogue p
 export const getCatalogueProductsError = createAction('[ADMIN] get catalogue products error', props<{ error: HttpErrorResponse }>());
 
 
-export const getCatalogueContentManagements = createAction('[ADMIN] get catalogue content managements');
+export const getCatalogueContentManagements = createAction('[ADMIN] get catalogue content managements' ,props<{ filter: IFilter }>());
 
 
 export const getCatalogueContentManagementsSuccess = createAction('[ADMIN] get catalogue content managements success',
