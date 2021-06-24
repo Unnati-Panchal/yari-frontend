@@ -1,0 +1,147 @@
+<main>
+  <section *ngIf="!loading">
+    <h3>{{KAMSupplierDetails?.contact_person}}</h3>
+    <div class="red-line"></div>
+
+    <div>
+      <app-error-success [errors]="isError$ | async"></app-error-success>
+    </div>
+
+    <div *ngIf="!loading && KAMSupplierDetails" class="table-box">
+      <div>
+        <h4>Total Product Sold By Volume</h4>
+        <span>{{KAMSupplierDetails?.total_volume_sold}}</span>
+      </div>
+
+      <div>
+        <h4>Total Product Sold By Price Value</h4>
+        <span>{{KAMSupplierDetails?.total_price_sold}}</span>
+      </div>
+
+      <div>
+        <h4>Total Product Returned By Volume</h4>
+        <span>{{KAMSupplierDetails?.total_volume_exchange}}</span>
+      </div>
+
+      <div>
+        <h4>Total Product Returned By Price</h4>
+        <span>{{KAMSupplierDetails?.total_price_returns}}</span>
+      </div>
+
+      <div>
+        <h4>Total Product Exchanged</h4>
+        <span>{{KAMSupplierDetails?.total_volume_exchange}}</span>
+      </div>
+
+      <div>
+        <h4>Business Name</h4>
+        <span>{{KAMSupplierDetails?.contact_person}}</span>
+      </div>
+
+      <div>
+        <h4>Supplier Status</h4>
+        <span>{{KAMSupplierDetails?.supplier_status}}</span>
+      </div>
+
+      <div>
+        <h4>Email ID</h4>
+        <span>{{KAMSupplierDetails?.email_id}}</span>
+      </div>
+
+      <div>
+        <h4>Phone Number</h4>
+        <span>{{KAMSupplierDetails?.phone_no}}</span>
+      </div>
+
+      <div>
+        <h4>State</h4>
+        <span>{{KAMSupplierDetails?.state}}</span>
+      </div>
+
+      <div>
+        <h4>City</h4>
+        <span>{{KAMSupplierDetails?.city}}</span>
+      </div>
+
+      <div>
+        <h4>Main Category</h4>
+        <span>{{KAMSupplierDetails?.primary_category_name}}</span>
+      </div>
+
+      <div>
+        <h4>Supplier Type</h4>
+        <span>{{KAMSupplierDetails?.type}}</span>
+      </div>
+
+      <div *ngIf="KAMSupplierDetails?.quality_report">
+        <h4>Quality report</h4>
+        <button mat-button class="element-btn" (click)="downloadImage(KAMSupplierDetails.quality_report)">
+          View
+        </button>
+      </div>
+
+      <div>
+        <h4>GST No.</h4>
+        <span>{{KAMSupplierDetails?.gst_no}}</span>
+      </div>
+
+      <div>
+        <h4>PAN No.</h4>
+        <span>{{KAMSupplierDetails?.pan_no}}</span>
+      </div>
+
+      <div>
+        <h4>Bank Name</h4>
+        <span>{{KAMSupplierDetails?.bank_name}}</span>
+      </div>
+
+      <div>
+        <h4>Account No.</h4>
+        <span>{{KAMSupplierDetails?.bank_account_number}}</span>
+      </div>
+
+      <div>
+        <h4>IFSC</h4>
+        <span>{{KAMSupplierDetails?.bank_ifsc}}</span>
+      </div>
+
+      <div>
+        <h4>Account Holder's Name</h4>
+        <span>{{KAMSupplierDetails?.bank_account_name}}</span>
+      </div>
+
+      <div *ngIf="KAMSupplierDetails?.gst_certificate">
+        <h4>GST Certificate</h4>
+        <button mat-button class="element-btn" (click)="downloadImage(KAMSupplierDetails.gst_certificate)">
+          View
+        </button>
+      </div>
+
+      <div *ngIf="KAMSupplierDetails?.cancelled_cheque">
+        <h4>Cancelled Cheque</h4>
+        <button mat-button class="element-btn" (click)="downloadImage(KAMSupplierDetails.cancelled_cheque)">
+          View
+        </button>
+      </div>
+
+      <div *ngIf="KAMSupplierDetails?.pan_card">
+        <h4>PAN Card</h4>
+        <button mat-button class="element-btn" (click)="downloadImage(KAMSupplierDetails.pan_card)">
+          View
+        </button>
+      </div>
+
+      <div *ngIf="KAMSupplierDetails?.msme_certificate">
+        <h4>MSME</h4>
+        <button mat-button class="element-btn" (click)="downloadImage(KAMSupplierDetails.msme_certificate)">
+          View
+        </button>
+      </div>
+
+
+    </div>
+    <div *ngIf="loading" class="centered">
+      <mat-spinner color="warn" [diameter]="50"></mat-spinner>
+    </div>
+  </section>
+</main>

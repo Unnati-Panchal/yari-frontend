@@ -1,27 +1,34 @@
-
 import {
   IAdminUserDetails,
+  ICatalog,
   ICatalogueApprove,
   ICatalogueContentManagement,
   ICatalogueProducts,
+  IComplaints,
   IEditProduct,
+  IFilter,
+  IMsgResponse,
   IPricingCatalogue,
   IPricingEdit,
   IPricingProduct,
   IProductDetail,
   IResMsg,
+  ISupplierDetails,
+  ISupplierList,
+  ISupplierOnboard,
   IUploadedCatalogue
 } from '@yaari/models/admin/admin.interface';
 
 
-import { AuthService } from '../auth/auth.service';
-import { HttpClient } from '@angular/common/http';
-import { IResetPassword } from '@yaari/models/auth/auth.interface';
-import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
-import { environment } from '~env/environment';
+import {AuthService} from '../auth/auth.service';
+import {HttpClient} from '@angular/common/http';
+import {IResetPassword} from '@yaari/models/auth/auth.interface';
+import {Injectable} from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {Observable} from 'rxjs';
+import {Router} from '@angular/router';
+import {environment} from '~env/environment';
+import {getQuery} from '@yaari/utils/utlis';
 
 @Injectable({
   providedIn: 'root'
@@ -37,7 +44,9 @@ export class AdminService {
 
   public forgotPasswordAdmin(email: string): Observable<{ msg: string }> {
     const url = window.location.href.split('forgot-password').join('reset-password');
-    return this._http.post<{ msg: string }>(`${environment.API_BASE_URL}/api/v1/user/password-recovery/${email}?user_role=admin&redirect_url=${url}`, email);
+    return this._http.post<{ msg: string }>(
+      `${environment.API_BASE_URL}/api/v1/user/password-recovery/${email}?user_role=admin&redirect_url=${url}`, email
+    );
   }
 
   public resetPasswordAdmin(resetPassword: IResetPassword): Observable<{ msg: string }> {
@@ -45,7 +54,9 @@ export class AdminService {
   }
 
   public getUploadedCatalogues(): Observable<IUploadedCatalogue[]> {
-    return this._http.get<IUploadedCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=approve_uploaded_catalogue`);
+    return this._http.get<IUploadedCatalogue[]>(
+      `${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=approve_uploaded_catalogue`
+    );
   }
 
   public getCatalogueProducts(catalogueId: number): Observable<ICatalogueProducts[]> {
@@ -61,19 +72,18 @@ export class AdminService {
 
 
   public getProductDetail(productIds: string): Observable<IProductDetail[]> {
-    const body = productIds;
-    return this._http.post<IProductDetail[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/content-mgmt/editable-products`, '[' + body+ ']');
+    return this._http.post<IProductDetail[]>(
+      `${environment.API_BASE_URL}/api/v1/admin/catalogue/content-mgmt/editable-products`, '[' + productIds + ']'
+    );
 
   }
 
   public editProduct(editProduct: IEditProduct): Observable<IEditProduct> {
-    const body = editProduct;
-    return this._http.post<IEditProduct>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/content-mgmt/edit`, body);
+    return this._http.post<IEditProduct>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/content-mgmt/edit`, editProduct);
   }
 
   public approveRejectCatalogue(catalogueApprove: ICatalogueApprove): Observable<IResMsg> {
-    const body = catalogueApprove;
-    return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/approve-reject`, body);
+    return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/approve-reject`, catalogueApprove);
   }
 
   public getAllRolesDesignations(): Observable<any> {
@@ -85,6 +95,7 @@ export class AdminService {
     const url = window.location.href.replace('super-user/create-user', 'login');
     return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/register/admin-user?redirect_url=${url}`, body);
   }
+
   public authorizedAdmin(role: string): void {
     this._auth.adminDetails().subscribe(adminDetails => {
       if (adminDetails.admin_role !== role) {
@@ -95,11 +106,15 @@ export class AdminService {
   }
 
   public getCatalogContents(): Observable<ICatalogueContentManagement[]> {
-    return this._http.get<ICatalogueContentManagement[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=catalogue_content_management`);
+    return this._http.get<ICatalogueContentManagement[]>(
+      `${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=catalogue_content_management`
+    );
   }
 
   public getCatalogProductList(catalogueIds: string): Observable<ICatalogueContentManagement[]> {
-    return this._http.get<ICatalogueContentManagement[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/content-mgmt/products?catalog_ids=${catalogueIds}&limit=100&skip=0`);
+    return this._http.get<ICatalogueContentManagement[]>(
+      `${environment.API_BASE_URL}/api/v1/admin/catalogue/content-mgmt/products?catalog_ids=${catalogueIds}&limit=100&skip=0`
+    );
   }
   public getofferTypes(): Observable<any> {
     return this._http.get<IPricingCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/pricing/offers`);
@@ -122,8 +137,7 @@ export class AdminService {
   }
 
   public editPricing(editPricingDetails: IPricingEdit[]): Observable<IResMsg> {
-    const body = editPricingDetails;
-    return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/pricing/edit`, body);
+    return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/pricing/edit`, editPricingDetails);
   }
 
   public uploadPricing(file: any): Observable<IResMsg> {
@@ -132,5 +146,44 @@ export class AdminService {
 
   public getViewCatalogues(): Observable<IUploadedCatalogue[]> {
     return this._http.get<IUploadedCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=view_catalogue`);
+  }
+
+  public getSupplierList(filter: IFilter): Observable<ISupplierList[]> {
+    const query = getQuery(filter);
+    return this._http.get<ISupplierList[]>(`${environment.API_BASE_URL}/api/v1/admin/kam/suppliers${query}`);
+  }
+
+  public getSupplierDetailsById(supplierId: number): Observable<ISupplierDetails> {
+    return this._http.get<ISupplierDetails>(`${environment.API_BASE_URL}/api/v1/admin/kam/supplier-details?supplier_id=${supplierId}`);
+  }
+
+  public getCatalogList(filter: IFilter): Observable<ICatalog[]> {
+    const query = getQuery(filter);
+    return this._http.get<ICatalog[]>(`${environment.API_BASE_URL}/api/v1/admin/kam/catalogues${query}`);
+  }
+
+  public getProductsByCatalogId(catalogId: number): Observable<IProductDetail[]> {
+    return this._http.get<IProductDetail[]>(`${environment.API_BASE_URL}/api/v1/admin/kam/products?catalog_id=${catalogId}`);
+  }
+
+  public getSupplierOnBoardings(filter: IFilter): Observable<ISupplierDetails[]> {
+    const query = getQuery(filter);
+    return this._http.get<ISupplierDetails[]>(`${environment.API_BASE_URL}/api/v1/admin/kam/onboarding/supppliers${query}`);
+  }
+
+  public approveRejectSupplier(supplier: ISupplierOnboard): Observable<IMsgResponse> {
+    return this._http.post<IMsgResponse>(`${environment.API_BASE_URL}/api/v1/admin/kam/onboarding/approve-reject`, supplier);
+  }
+
+  public getSupplierComplaints(): Observable<IComplaints[]> {
+    return this._http.get<IComplaints[]>(`${environment.API_BASE_URL}/api/v1/admin/kam/supplier/complaints`);
+  }
+
+  public getResellerComplaints(): Observable<IComplaints[]> {
+    return this._http.get<IComplaints[]>(`${environment.API_BASE_URL}/api/v1/admin/kam/reseller/complaints`);
+  }
+
+  public downloadSupplier(): Observable<string> {
+    return this._http.get<string>(`${environment.API_BASE_URL}/api/v1/admin/kam/onboarding/download-suppliers`);
   }
 }

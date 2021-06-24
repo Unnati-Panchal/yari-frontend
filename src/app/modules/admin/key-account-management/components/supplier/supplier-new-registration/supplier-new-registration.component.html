@@ -1,0 +1,324 @@
+<main>
+  <section class="left-image"></section>
+  <section class="register-container">
+    <form [formGroup]="regForm" class="register-form">
+
+      <section>
+        <h3>New Supplier Registration</h3>
+        <div class="red-line"></div>
+      </section>
+
+      <section class="form-fields">
+        <div>
+          <h4>Name<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter your name</mat-label>
+            <input matInput formControlName="contact_person" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['contact_person'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="radio-buttons">
+          <h4>Register As<span class="required">*</span></h4>
+          <mat-radio-group class="radio-group" formControlName="type">
+            <mat-radio-button *ngFor="let type of types" [value]="type.key">{{type.label}}</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div>
+          <h4>Email ID<span class="required">*</span></h4>
+          <div>
+            <mat-form-field appearance="outline" class="small-form-group">
+              <mat-label>Enter your email address</mat-label>
+              <input matInput formControlName="email_id" autocomplete="new-email">
+              <mat-error *ngIf="regForm.controls['email_id'].hasError('required')">Required field</mat-error>
+              <mat-error *ngIf="regForm.controls['email_id'].hasError('email')">Please enter a valid email address
+              </mat-error>
+              <!--              <mat-error *ngIf="regForm.controls['email_id'].hasError('InvalidValue')">Email Verification failed-->
+              <!--              </mat-error>-->
+              <!--              <mat-hint *ngIf="emailVerificationSuccessful" class="hint-message">OTP sent successfully</mat-hint>-->
+            </mat-form-field>
+            <!--            <button mat-button (click)="verifyEmail($event)">-->
+            <!--              <span *ngIf="!loadingEmailVerification else LoadingSpinner">Verify Email</span>-->
+            <!--              <ng-template #LoadingSpinner>-->
+            <!--                <mat-spinner [diameter]="25"></mat-spinner>-->
+            <!--              </ng-template>-->
+            <!--            </button>-->
+          </div>
+        </div>
+
+        <!--        <div>-->
+        <!--          <h4>OTP Number<span class="required">*</span></h4>-->
+        <!--          <div class="small-form-group">-->
+        <!--            <mat-form-field appearance="outline">-->
+        <!--              <mat-label>Enter the OTP Number from your email</mat-label>-->
+        <!--              <input matInput formControlName="otp" autocomplete="nope">-->
+        <!--              <mat-error *ngIf="regForm.controls['otp'].hasError('required')">Required field</mat-error>-->
+        <!--            </mat-form-field>-->
+        <!--          </div>-->
+        <!--        </div>-->
+
+        <div>
+          <h4>Phone Number<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter your phone number</mat-label>
+            <input matInput formControlName="phone_no" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['phone_no'].hasError('required')">Required field</mat-error>
+            <mat-error *ngIf="regForm.controls['phone_no'].hasError('invalidNumber')">Please enter only digits
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="inline-group">
+          <div>
+            <h4>State<span class="required">*</span></h4>
+            <mat-form-field appearance="outline" class="small-form-group">
+              <mat-label>Enter your state</mat-label>
+              <mat-select formControlName="state">
+                <ng-container *ngIf="states$ | async as states">
+                  <mat-option *ngFor="let state of states" [value]="state">{{ state.name }}</mat-option>
+                </ng-container>
+              </mat-select>
+              <mat-error *ngIf="regForm.controls['state'].hasError('required')">Required field</mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <h4>City<span class="required">*</span></h4>
+            <mat-form-field appearance="outline" class="small-form-group">
+              <mat-label>Enter your city</mat-label>
+              <mat-select formControlName="city">
+                <ng-container *ngIf="cities$ | async as cities">
+                  <mat-option *ngFor="let city of cities" [value]="city.name">{{ city.name }}</mat-option>
+                </ng-container>
+              </mat-select>
+              <mat-error *ngIf="regForm.controls['city'].hasError('required')">Required field</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="inline-group">
+          <div>
+            <h4>Main Category<span class="required">*</span></h4>
+            <mat-form-field appearance="outline" class="small-form-group">
+              <mat-label>Enter main category</mat-label>
+              <mat-select formControlName="primary_category_id">
+                <ng-container *ngIf="categories$ | async as categories">
+                  <mat-option *ngFor="let category of categories" [value]="category.id">{{ category.name }}</mat-option>
+                </ng-container>
+              </mat-select>
+              <mat-error *ngIf="regForm.controls['primary_category_id'].hasError('required')">Required field</mat-error>
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="radio-buttons">
+          <h4>Onboarded by<span class="required">*</span></h4>
+          <mat-radio-group class="radio-group" formControlName="selfOnboarded">
+            <mat-radio-button [value]="true">Self</mat-radio-button>
+            <mat-radio-button [value]="false">Assisted</mat-radio-button>
+          </mat-radio-group>
+        </div>
+
+        <div *ngIf="regForm.get('selfOnboarded').value === false">
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter onboarded by</mat-label>
+            <mat-select formControlName="onboarder_id">
+              <ng-container *ngIf="onboarders$ | async as onboarders">
+                <ng-container *ngFor="let onBoard of onboarders">
+                  <mat-option *ngIf="onBoard.id !== 1"  [value]="onBoard.id">{{ onBoard.name }}</mat-option>
+                </ng-container>
+              </ng-container>
+            </mat-select>
+            <mat-error *ngIf="regForm.controls['onboarder_id'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Please Enter Your GST Certificate Number And Upload GST Certificate<span class="required">*</span></h4>
+          <div class="form-field-container">
+            <mat-form-field appearance="outline" class="small-form-group">
+              <mat-label>Enter your GST Certificate</mat-label>
+              <input matInput formControlName="gst_no" autocomplete="nope">
+              <mat-error *ngIf="regForm.controls['gst_no'].hasError('required')">Required field</mat-error>
+            </mat-form-field>
+            <button mat-button (click)="gstFileDropRef.click()">Upload GST Certificate</button>
+            <input type="file" style="display: none" #gstFileDropRef id="fileDropRef" (change)="gstFileBrowseHandler($event.target.files)"/>
+          </div>
+          <span *ngIf="selectedGstFileName">{{'GST Certificate added  "' + selectedGstFileName + '".'}}</span>
+        </div>
+
+        <div>
+          <h4>Enter Your Business PAN Card Number And Upload Business PAN Card<span class="required">*</span></h4>
+          <div class="form-field-container">
+            <mat-form-field appearance="outline" class="small-form-group">
+              <mat-label>Enter your PAN Card</mat-label>
+              <input matInput formControlName="pan_no" autocomplete="nope">
+              <mat-error *ngIf="regForm.controls['pan_no'].hasError('required')">Required field</mat-error>
+            </mat-form-field>
+            <button mat-button (click)="panCardFileDropRef.click()">Upload PAN Card</button>
+            <input type="file" style="display: none" #panCardFileDropRef id="panFileDropRef" (change)="panCardFileBrowseHandler($event.target.files)"/>
+          </div>
+          <span *ngIf="selectedPanCardFileName">{{'PAN Card added  "' + selectedPanCardFileName + '".'}}</span>
+        </div>
+
+        <div>
+          <h4>Name as per PAN Card<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter your Name PAN Card</mat-label>
+            <input matInput formControlName="name_pan_card" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['name_pan_card'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Enter Average Monthly Stock Count You Want To Share On Yaari<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Please enter number</mat-label>
+            <input matInput formControlName="average_monthly_stock" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['average_monthly_stock'].hasError('required')">Required field</mat-error>
+            <mat-error *ngIf="regForm.controls['average_monthly_stock'].hasError('invalidNumber')">Please enter only
+              digits
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Select Among Different Price Range<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Min price</mat-label>
+            <input matInput formControlName="price_range_min" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['price_range_min'].hasError('required')">Required field</mat-error>
+            <mat-error *ngIf="regForm.controls['price_range_min'].hasError('invalidNumber')">Please enter only digits
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Select Among Different Price Range<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Max price</mat-label>
+            <input matInput formControlName="price_range_max" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['price_range_max'].hasError('required')">Required field</mat-error>
+            <mat-error *ngIf="regForm.controls['price_range_max'].hasError('invalidNumber')">Please enter only digits
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <h4>More Information</h4>
+
+        <div>
+          <h4>Bank Name<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter your Bank Name</mat-label>
+            <input matInput formControlName="bank_name" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['bank_name'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>IFSC code<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter your Bank IFSC</mat-label>
+            <input matInput formControlName="bank_ifsc" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['bank_ifsc'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Bank Account Name<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter your Bank Account Name</mat-label>
+            <input matInput formControlName="bank_account_name" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['bank_account_name'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Bank Account Number<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter your Bank Account Number</mat-label>
+            <input matInput formControlName="bank_account_number" autocomplete="nope">
+            <mat-error *ngIf="regForm.controls['bank_account_number'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Bank Account Type<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter your bank account type</mat-label>
+            <mat-select formControlName="bank_account_type">
+              <mat-option [value]="'Savings'">{{'Savings'}}</mat-option>
+              <mat-option [value]="'Current'">{{'Current'}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="regForm.controls['bank_account_type'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Password<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter your password</mat-label>
+            <input matInput formControlName="password" autocomplete="new-password" [type]="!hidePass ? 'password' : 'text'" appBlockCopyPaste>
+            <mat-icon matSuffix (click)="hidePass = !hidePass">{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="regForm.controls['password'].hasError('required')">Required field</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Confirm Password<span class="required">*</span></h4>
+          <mat-form-field appearance="outline" class="small-form-group">
+            <mat-label>Enter your password again</mat-label>
+            <input matInput formControlName="confirmPassword" autocomplete="nope" [type]="!hidePass ? 'password' : 'text'" appBlockCopyPaste>
+            <mat-icon matSuffix (click)="hidePass = !hidePass">{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
+            <mat-error *ngIf="regForm.controls['confirmPassword'].hasError('required')">Required field</mat-error>
+            <mat-error *ngIf="regForm.controls['confirmPassword'].hasError('mustMatch')">Must match your password</mat-error>
+          </mat-form-field>
+        </div>
+
+        <div>
+          <h4>Upload MSME Certificate</h4>
+          <div class="form-field-container">
+            <button mat-button (click)="MSMEFileDropRef.click()">Upload Picture</button>
+            <input type="file" style="display: none" #MSMEFileDropRef id="MSMEFileDropRef" (change)="MSMEFileBrowseHandler($event.target.files)"/>
+          </div>
+          <span *ngIf="selectedMSMEFileName">{{'MSME Certificate added  "' + selectedMSMEFileName + '".'}}</span>
+        </div>
+
+        <div>
+          <h4>Upload Cancelled Cheque</h4>
+          <div class="form-field-container">
+            <button mat-button (click)="cancelledChequeFileDropRef.click()">Upload Picture</button>
+            <input type="file" style="display: none" #cancelledChequeFileDropRef id="cancelledChequeFileDropRef" (change)="cancelledChequeFileBrowseHandler($event.target.files)"/>
+          </div>
+          <span *ngIf="selectedCancelledChequeFileName">{{'Cancelled Cheque added  "' + selectedCancelledChequeFileName + '".'}}</span>
+        </div>
+
+        <div>
+          <mat-checkbox formControlName="termsAndConditions">
+              <span>Please review and accept our
+                <a [routerLink]="['/supplier-guidelines']" target="_blank">Terms and Conditions</a>
+              </span>
+          </mat-checkbox>
+          <mat-error *ngIf="regForm.controls['termsAndConditions'].hasError('requiredTrue')">Required field</mat-error>
+        </div>
+
+        <div>
+          <app-error-success [errors]="isAuthError$ | async"></app-error-success>
+          <app-error-success [errors]="isProductError$ | async"></app-error-success>
+          <app-error-success [errors]="isProfileError$ | async"></app-error-success>
+        </div>
+
+        <div class="form-group submit-btn-container">
+          <button mat-button class="btn login-btn" (click)="registerSupplier()">
+            <span *ngIf="!loading else LoadingSpinner">Submit</span>
+            <ng-template #LoadingSpinner>
+              <mat-spinner [diameter]="25"></mat-spinner>
+            </ng-template>
+          </button>
+        </div>
+
+      </section>
+    </form>
+  </section>
+</main>

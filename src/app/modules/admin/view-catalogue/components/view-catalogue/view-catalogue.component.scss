@@ -1,6 +1,5 @@
 @import 'src/@yaari/styles/lib/variables';
 @import 'src/@yaari/styles/lib/mixins';
-
 :host {
   .main-body {
     margin: 28px 80px;
@@ -21,6 +20,16 @@
 
   .search--flex {
     display: flex;
+  }
+
+  .back-button {
+    height: 41px;
+    border-radius: 24px;
+    background-color: #ffffff;
+    border: 2px solid #f62101;
+    color: #f62101;
+    width: 90px;
+    float: right;
   }
 
   .form-field {
@@ -51,8 +60,7 @@
 
   .search-button {
     margin-left: 20px;
-    height: 41px;
-
+    height: 46px;
     border-radius: 12px;
     background-color: #f62101;
     color: #ffffff;
@@ -164,17 +172,13 @@
 
 .download-button
 {
-  width: 64px;
+  width: 54px;
   height: 46px;
-  margin: 18px 5px 18px;
-  padding: 10px 17.1px 10.8px 18px;
   border-radius: 24px;
   background-color: #f62101;
 }
 
-.download-icon
-{
-  width: 25.9px;
-  height: 21.2px;
-  background-color: #ffffff;
+.download-icon {
+  color: #FFFFFF;
+  font-size: 25px;
 }

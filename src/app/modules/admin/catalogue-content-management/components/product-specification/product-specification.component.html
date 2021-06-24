@@ -1,10 +1,10 @@
 <div class="container-fluid">
-  <b><h2>Product Specifications</h2></b>
+  <h2 class="title"><strong>Product Specifications</strong></h2>
   <form [formGroup]="form">
     <div class="row">
-      <div class="col-md-6" *ngFor="let item of specifications" style="margin-top: 16px">
-        <label for="{{ item.key }}" class="form-label">{{ item.key }}</label>
-        <input type="text" class="form-control" formControlName="{{ item.key }}" name="{{ item.key }}" value="{{ item.value }}" >
+      <div class="col-md-6" *ngFor="let item of specifications" >
+        <label  class="form-label">{{ item.key }}</label>
+        <input type="text" class="form-control input-bg-white" formControlName="{{ item.key }}" name="{{ item.key }}" value="{{ item.value }}" >
       </div>
     </div>
   </form>

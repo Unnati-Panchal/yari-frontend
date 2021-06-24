@@ -1,15 +1,12 @@
-import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { MatTableDataSource } from '@angular/material/table';
-import { select, Store } from '@ngrx/store';
-import { AdminService } from '@yaari/services/admin/admin.service';
-import { Subscription } from 'rxjs';
-import { AppFacade, IAppState } from '~store/app.state';
-import * as fromAdminActions from '~store/admin/admin.actions';
-import * as fromAdminSelectors from '~store/admin/admin.selectors';
-import { IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
-import { filter } from 'rxjs/operators';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MatTableDataSource} from '@angular/material/table';
+import {Store} from '@ngrx/store';
+import {AdminService} from '@yaari/services/admin/admin.service';
+import {Subscription} from 'rxjs';
+import {AppFacade, IAppState} from '~store/app.state';
+import {IUploadedCatalogue} from '@yaari/models/admin/admin.interface';
 import * as fileSaver from 'file-saver';
-import { MatPaginator } from '@angular/material/paginator';
+import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 
 @Component({

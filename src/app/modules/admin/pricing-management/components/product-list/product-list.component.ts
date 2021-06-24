@@ -113,7 +113,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   public edit = () => {
     if(!this.checked.length){
-      this._snackbar.open("Please select a product to edit", 'Dismiss', { duration: 4000 });
+      this._snackbar.open("Please select a product to edit", 'Dismiss', { duration: 5000 });
       return
     }
     this.loading = true;
@@ -135,7 +135,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   public editPricing = (editPricingDetails: IPricingEdit[]) => {
     this._subscription.add(this._adminService.editPricing(editPricingDetails).subscribe((res: IResMsg) => {
-      this._snackbar.open(res.msg, 'Dismiss', { duration: 4000 });
+      this._snackbar.open(res.msg, 'Dismiss', { duration: 5000 });
       if (res.success) {
         this.ngOnInit();
       }
@@ -147,7 +147,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     const file = new FormData();
     file.append('file', fileInputEvent.target.files[0]);
     this._subscription.add(this._adminService.uploadPricing(file).subscribe((res: IResMsg) => {
-      this._snackbar.open(res.msg, 'Dismiss', { duration: 4000 });
+      this._snackbar.open(res.msg, 'Dismiss', { duration: 5000 });
       this.loading = false;
       if (res.success) {
         this.ngOnInit();
@@ -162,5 +162,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
+  }
+
+  restrictAlphabets = ($event) => {
+    const x = $event.which || $event.keycode;
+    return (x>=48 && x<=57);
   }
 }

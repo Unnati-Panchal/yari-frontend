@@ -5,7 +5,7 @@ import { CatalogueContentManagementComponent } from './components/catalogue-cont
 import { CatalogueContentManagementRoutingModule } from './catalogue-content-management-routing.module';
 import { CommonModule } from '@angular/common';
 import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatDateFormat } from '~app/shared/MatDateFormat';
+import { MatDateFormat } from '@yaari/utils/MatDateFormat';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';

@@ -1,0 +1,206 @@
+@import 'variables';
+@import 'mixins';
+
+:host {
+  main {
+    width: 100%;
+    height: calc(100vh - 100px);
+    @include yaari-display-flex();
+
+    section {
+      width: 100%;
+
+      @include media-breakpoint(lt-md) {
+        width: 100%;
+      }
+    }
+
+    .red-line {
+      height: $yaari-tiny;
+      background: $yaari-red;
+    }
+
+    .left-image {
+      background-image: url('~src/assets/images/registration.png');
+      background-size: cover;
+
+      @include media-breakpoint(lt-md) {
+        display: none;
+      }
+
+
+      h1 {
+        padding: $yaari-base * 2 0 $yaari-tiny yaari-to-rem(120px);
+        color: $yaari-light;
+        margin: 0;
+        font-size: $yaari-h1;
+        font-weight: bold;
+        line-height: 100%;
+      }
+
+      .red-line {
+        width: yaari-to-rem(100px);
+        margin-left: yaari-to-rem(120px);
+      }
+    }
+
+    .register-container {
+
+
+      .register-form {
+        padding: $yaari-base * 2;
+
+        @include media-breakpoint(lt-lg) {
+          padding: $yaari-base $yaari-large;
+        }
+
+        section {
+          h3 {
+            margin: 0;
+            line-height: 100%;
+            font-size: $yaari-h4;
+            font-weight: 500;
+            color: $yaari-dark;
+          }
+
+          .red-line {
+            width: yaari-to-rem(50px);
+            margin-top: 0;
+          }
+        }
+
+        .form-fields {
+          width: 100%;
+          margin-top: $yaari-large;
+          overflow: auto;
+          height: calc(100vh - 360px);
+          padding-right: $yaari-base;
+
+          div {
+            padding: 0 0 $yaari-tiny 0;
+
+            @include media-breakpoint(lt-lg) {
+              padding: 0;
+            }
+
+            div {
+              padding: 0;
+            }
+
+            h4 {
+              margin: 0 0 $yaari-tiny 0;
+
+              @include media-breakpoint(lt-lg) {
+                margin: $yaari-tiny 0;
+              }
+            }
+
+            .mat-form-field-wrapper {
+              padding-bottom: yaari-to-rem(25px);
+              padding-right: yaari-to-rem(10px);
+
+            }
+
+            .form-field-container {
+
+              @include media-breakpoint(lt-lg) {
+                padding: $yaari-tiny / 2 0;
+              }
+
+              .small-form-group {
+                width: 50%;
+                padding-right: $yaari-base;
+
+                @include media-breakpoint(lt-lg) {
+                  width: 100%;
+                  padding-bottom: $yaari-base;
+                }
+              }
+
+              button {
+                width: yaari-to-rem(200px);
+                border-radius: 24px;
+                background-color: $yaari-red;
+                color: $yaari-light;
+                border: 1px solid $yaari-red;
+              }
+            }
+
+            ::ng-deep .mat-checkbox-layout {
+              white-space: pre-wrap;
+            }
+
+            &.inline-group {
+              @include yaari-display-flex(flex-start);
+
+              @include media-breakpoint(lt-lg) {
+                width: 49%;
+              }
+
+              div {
+                width: 100%;
+                margin-right: $yaari-tiny;
+                padding: 0;
+              }
+            }
+          }
+
+          @include media-breakpoint(lt-lg) {
+            margin-top: $yaari-base;
+          }
+
+          h4 {
+            font-size: $yaari-default;
+            font-weight: 500;
+            color: $yaari-dark;
+            white-space: pre-wrap;
+          }
+
+          .radio-buttons {
+            padding-bottom: $yaari-base;
+          }
+
+          .mat-radio-button {
+            margin-right: $yaari-base;
+          }
+
+          .small-form-group {
+            width: 100%;
+          }
+        }
+
+        .submit-btn-container {
+          @include yaari-display-flex(center, center);
+          margin-top: $yaari-base;
+
+          button {
+            @include yaari-display-flex(center, center);
+            width: yaari-to-rem(260px);
+            border-radius: 24px;
+            background-color: $yaari-red;
+            font-size: $yaari-h6;
+            color: $yaari-light;
+          }
+        }
+
+        .hint-message {
+          color: #008800;
+        }
+      }
+
+
+
+      div {
+        width: 100%;
+
+        .mat-form-field {
+          width: 100%;
+
+          mat-icon {
+            cursor: pointer;
+          }
+        }
+      }
+    }
+  }
+}

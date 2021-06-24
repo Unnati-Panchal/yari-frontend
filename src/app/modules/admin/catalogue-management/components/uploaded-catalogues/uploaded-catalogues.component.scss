@@ -92,12 +92,12 @@
     color: #ffffff;
   }
 
+
   .back-button {
-    position: relative;
     height: 41px;
-    border-radius: 12px;
+    border-radius: 24px;
     background-color: #ffffff;
-    border: 1px solid #f62101;
+    border: 2px solid #f62101;
     color: #f62101;
     width: 90px;
     float: right;
@@ -116,7 +116,7 @@
   th {
     padding: 15px;
     text-align: center;
-    min-width: 100px;
+    min-width: 200px;
     max-height: fit-content;
     border: 1px solid gray !important;
     color: #363636;
@@ -149,7 +149,7 @@
   .the-container th {
     padding: 15px;
     text-align: center;
-    min-width: 100px;
+    min-width: 200px;
     max-height: fit-content;
     border: 1px solid gray !important;
     color: #363636;
@@ -163,7 +163,7 @@
 
   th.mat-header-cell,
   td {
-    min-width: 150px;
+    min-width: 200px;
     text-align: center;
   }
 
@@ -196,9 +196,21 @@
   }
 
   .truncate-cell {
-    max-width: 175px;
+    max-width: 200px; /* feel free to include any other value */
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+  }
+  .download-button
+  {
+    width: 54px;
+    height: 46px;
+    border-radius: 24px;
+    background-color: #f62101;
+  }
+
+  .download-icon {
+    color: #FFFFFF;
+    font-size: 25px;
   }
 }

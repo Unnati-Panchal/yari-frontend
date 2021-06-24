@@ -1,0 +1,67 @@
+@import 'variables';
+@import 'mixins';
+
+:host {
+  main {
+    width: 100%;
+    height: calc(100vh - 100px);
+    @include yaari-display-flex(center, center, column);
+    font-family: Poppins, serif;
+
+    mat-card {
+      border-radius: 24px;
+      box-shadow: $basic-shadow;
+      padding: 0;
+
+      mat-card-header {
+        box-shadow: $basic-shadow;
+        width: 100%;
+
+        ::ng-deep .mat-card-header-text {
+          display: none;
+        }
+
+        mat-button-toggle-group {
+          width: 100%;
+
+          mat-button-toggle {
+            width: 50%;
+            font-size: 19px;
+
+            ::ng-deep .mat-button-toggle-label-content {
+              line-height: $yaari-small * 2;
+              margin-bottom: 0;
+            }
+
+            &.mat-button-toggle-checked {
+              background: $yaari-light;
+              line-height: $yaari-large;
+
+              ::ng-deep .mat-button-toggle-label-content {
+                border-bottom: 5px solid $yaari-red;
+                margin-bottom: $yaari-small;
+              }
+            }
+          }
+        }
+      }
+
+      mat-card-content {
+        padding: $yaari-base;
+        @include yaari-display-flex(center, center, column);
+        width: 100%;
+
+        button {
+          @include yaari-display-flex(center, center);
+          width: yaari-to-rem(360px);
+          height: $yaari-base * 2;
+          border-radius: 24px;
+          background-color: $yaari-red;
+          font-size: $yaari-h6;
+          color: $yaari-light;
+          margin: $yaari-tiny 0;
+        }
+      }
+    }
+  }
+}

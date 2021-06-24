@@ -14,8 +14,9 @@
       </div>
 
       <div class="col-md-6">
+        <button class="back-button" mat-button routerLink="../" type="button">Back</button>
         <button mat-button type="button" [disabled]="selectedRows.data.length === 0" class="edit-button" (click)="nagivateToEdit()">
-          <mat-icon class="edit-button__icon">edit</mat-icon> Edit Selected Product
+          <mat-icon class="edit-button__icon" fontIcon="fa-edit" fontSet="fa"></mat-icon> Edit Selected Product
         </button>
       </div>
     </div>

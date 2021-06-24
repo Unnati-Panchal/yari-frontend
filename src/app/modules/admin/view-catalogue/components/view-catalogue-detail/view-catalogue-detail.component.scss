@@ -75,7 +75,6 @@
   .search-button {
     margin-left: 20px;
     height: 41px;
-
     border-radius: 12px;
     background-color: #f62101;
     color: #ffffff;
@@ -91,11 +90,10 @@
   }
 
   .back-button {
-    position: relative;
     height: 41px;
-    border-radius: 12px;
+    border-radius: 24px;
     background-color: #ffffff;
-    border: 1px solid #f62101;
+    border: 2px solid #f62101;
     color: #f62101;
     width: 90px;
     float: right;

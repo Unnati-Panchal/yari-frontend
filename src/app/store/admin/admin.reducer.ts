@@ -2,10 +2,16 @@ import * as fromAdminActions from '~store/admin/admin.actions';
 import * as fromRoot from '~store/app.state';
 
 import { Action, createReducer, on } from '@ngrx/store';
-import { ICatalogueContentManagement, ICatalogueProducts, IProductDetail, IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
+import {
+  ICatalog,
+  ICatalogueContentManagement,
+  ICatalogueProducts, IComplaints, IMsgResponse,
+  IProductDetail, ISupplierDetails,
+  ISupplierList,
+  IUploadedCatalogue
+} from '@yaari/models/admin/admin.interface';
 
 import { HttpErrorResponse } from '@angular/common/http';
-import { state } from '@angular/animations';
 
 export const adminFeatureKey = 'admin';
 
@@ -16,13 +22,19 @@ export interface IAdminState extends fromRoot.IAppState {
   uploadedCatalogues: IUploadedCatalogue[];
   catalogueId: number;
   catalogueProducts: ICatalogueProducts[];
-
   catalogueProductLists: ICatalogueContentManagement[];
-
   cataloguesContentManagements: ICatalogueContentManagement[];
   // catalogueExcel: Blob;
   productDetails: IProductDetail[];
-  productDetail:IProductDetail;
+  productDetail: IProductDetail;
+  KAMSupplierList: ISupplierList[];
+  KAMSupplierDetails: ISupplierDetails;
+  KAMCatalogList: ICatalog[];
+  KAMProductDetails: IProductDetail[];
+  KAMSupplierOnboardings: ISupplierDetails[];
+  KAMApprovedResponse: IMsgResponse;
+  KAMSupplierComplaints: IComplaints[];
+  KAMResellerComplaints: IComplaints[];
 }
 
 export const adminInitialState: IAdminState = {
@@ -32,15 +44,19 @@ export const adminInitialState: IAdminState = {
   uploadedCatalogues: [],
   catalogueId: null,
   catalogueProducts: [],
-
-
   catalogueProductLists: [],
-
   cataloguesContentManagements: undefined,
-
   // catalogueExcel: null
   productDetails: [],
-  productDetail: null
+  productDetail: null,
+  KAMSupplierList: undefined,
+  KAMSupplierDetails: undefined,
+  KAMCatalogList: undefined,
+  KAMProductDetails: undefined,
+  KAMSupplierOnboardings: undefined,
+  KAMApprovedResponse: undefined,
+  KAMSupplierComplaints: undefined,
+  KAMResellerComplaints: undefined,
 };
 
 
@@ -98,13 +114,43 @@ export const adminReducer = createReducer(
   on(fromAdminActions.getProductDetailsError, (state, { error }) => ({ ...state, loading: false, error })),
 
   on(fromAdminActions.editProductSuccess, (state, action) => ({
-    ...state,
-    loading: false,
-    // productDetail: action.product
+    ...state, loading: false, // productDetail: action.product
   })),
-
   on(fromAdminActions.editProductError, (state, { error }) => ({ ...state, loading: false, error })),
 
+  on(fromAdminActions.getSupplierList, (state, {filter}) => ({...state, loading: true, filter})),
+  on(fromAdminActions.getSupplierListSuccess, (state, {KAMSupplierList}) => ({...state, loading: false, KAMSupplierList})),
+  on(fromAdminActions.getSupplierListError, (state, {error}) => ({...state, loading: false, error})),
+
+  on(fromAdminActions.getSupplierDetailsById, (state, {supplierId}) => ({...state, loading: true, supplierId})),
+  on(fromAdminActions.getSupplierDetailsByIdSuccess, (state, {KAMSupplierDetails}) => ({...state, loading: false, KAMSupplierDetails})),
+  on(fromAdminActions.getSupplierDetailsByIdError, (state, {error}) => ({...state, loading: false, error})),
+
+  on(fromAdminActions.getCatalogList, (state, {filter}) => ({...state, loading: true, filter})),
+  on(fromAdminActions.getCatalogListSuccess, (state, {KAMCatalogList}) => ({...state, loading: false, KAMCatalogList})),
+  on(fromAdminActions.getCatalogListError, (state, {error}) => ({...state, loading: false, error})),
+
+  on(fromAdminActions.getProductsByCatalogId, (state, {catalogId}) => ({...state, loading: true, catalogId})),
+  on(fromAdminActions.getProductsByCatalogIdSuccess, (state, {KAMProductDetails}) => ({...state, loading: false, KAMProductDetails})),
+  on(fromAdminActions.getProductsByCatalogIdError, (state, {error}) => ({...state, loading: false, error})),
+
+  on(fromAdminActions.getSupplierOnBoardings, (state, {filter}) => ({...state, loading: true, filter})),
+  // tslint:disable-next-line:max-line-length
+  on(fromAdminActions.getSupplierOnBoardingsSuccess, (state, {KAMSupplierOnboardings}) => ({...state, loading: false, KAMSupplierOnboardings})),
+  on(fromAdminActions.getSupplierOnBoardingsError, (state, {error}) => ({...state, loading: false, error})),
+
+  on(fromAdminActions.approveRejectSupplier, (state, {supplier}) => ({...state, loading: true, supplier})),
+  on(fromAdminActions.approveRejectSupplierSuccess, (state, {KAMApprovedResponse}) => ({...state, loading: false, KAMApprovedResponse})),
+  on(fromAdminActions.approveRejectSupplierError, (state, {error}) => ({...state, loading: false, error})),
+
+  on(fromAdminActions.getSupplierComplaints, (state) => ({...state, loading: true})),
+  // tslint:disable-next-line:max-line-length
+  on(fromAdminActions.getSupplierComplaintsSuccess, (state, {KAMSupplierComplaints}) => ({...state, loading: false, KAMSupplierComplaints})),
+  on(fromAdminActions.getSupplierComplaintsError, (state, {error}) => ({...state, loading: false, error})),
+
+  on(fromAdminActions.getResellerComplaints, (state) => ({...state, loading: true})),
+  on(fromAdminActions.getResellerComplaintsSuccess, (state, {KAMResellerComplaints}) => ({...state, loading: false, KAMResellerComplaints})),
+  on(fromAdminActions.getResellerComplaintsError, (state, {error}) => ({...state, loading: false, error})),
 
 );
 
