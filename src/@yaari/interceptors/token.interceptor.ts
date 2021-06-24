@@ -37,7 +37,6 @@ export class TokenInterceptor implements HttpInterceptor {
           }
           if (err.status === 404 || err.error.detail) {
             let msg = '';
-            console.log(err.error.detail);
             if (Array.isArray(err.error.detail)) {
               err.error.detail.forEach(e => {
                 msg += e.loc[1] + `: ` + e.msg + `\n`;
