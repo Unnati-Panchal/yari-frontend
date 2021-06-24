@@ -111,8 +111,6 @@ export class ViewCatalogueDetailComponent implements OnInit {
     if (index === 0) {
       this.displayedColumns = Object.keys(this.productDetails);
     } else {
-      const obj1 = {...this.productSpecifications, ...{Comments: 'comments'}};
-      this.productSpecifications = obj1;
       this.displayedColumns = Object.keys(this.productSpecifications);
     }
   }
