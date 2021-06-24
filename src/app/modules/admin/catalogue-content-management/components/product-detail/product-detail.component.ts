@@ -41,9 +41,6 @@ export class ProductDetailComponent implements OnInit {
       const reader = new FileReader();
 
       reader.onload = () => {
-        if (this.newImages.length === 4) {
-          this.deleteImage(0);
-        }
         this.newImages.push({
           src: reader.result as string,
           name: file.name,
