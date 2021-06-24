@@ -42,10 +42,12 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
   getCatalogueContentManagements$ = this._store.pipe(select(fromAdminSelectors.getCataloguesContentManagements$), filter(value => !!value));
   loading: boolean;
   paginationSizes: number[] = [5, 15, 30, 60, 100];
-  defaultPageSize = this.paginationSizes[0];
+  pageSize = 100;
   dataSource = new MatTableDataSource([]);
   filter = '';
   selectedRows = new MatTableDataSource([]);
+
+  currentPage = 1;
   private _subscription: Subscription = new Subscription();
   selectedCatalogId: string;
 
@@ -77,7 +79,7 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
     this._store.dispatch(fromAdminActions.getCatalogueContentManagements({
       filter: {
         skip: 0,
-        limit: 1000,
+        limit: this.pageSize,
         fetch_type: 'catalogue_content_management',
       }
     }));
@@ -121,4 +123,26 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
     const selectedCatalogues = this.selectedRows.data.map(e => e.catalogue_id).join(',');
     this.router.navigate(['admin/catalogue-content-management/products'], {queryParams: {catalogIds: selectedCatalogues}});
   }
+
+  getNextPaginationData = (next: boolean = true) => {
+    this.loading = true;
+    let skip = 0;
+    if (next) {
+      this.currentPage += 1;
+      skip = (this.currentPage - 1) * this.pageSize;
+    } else {
+      this.currentPage -= 1;
+      skip = (this.currentPage - 1) * this.pageSize;
+    }
+    if (skip < 0) {
+      skip = 0;
+    }
+    this._store.dispatch(fromAdminActions.getCatalogueContentManagements({
+      filter: {
+        skip: skip,
+        limit: this.pageSize,
+        fetch_type: 'catalogue_content_management',
+      }
+    }));
+  };
 }

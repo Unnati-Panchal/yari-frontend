@@ -75,9 +75,6 @@
     }
 
     &.mat-button-disabled {
-      // Those lines change the color & background color of the button when disabled
-      // $palette: if($property == 'color', $foreground, $background);
-      // #{$property}: mat-color($palette, disabled-button);
       opacity: 0.5;
     }
   }
@@ -90,6 +87,21 @@
     color: #f62101;
     width: 90px;
     float: right;
+  }
+
+  .nav-button {
+    height: 41px;
+    border-radius: 24px;
+    background-color: #ffffff;
+    border: 2px solid #f62101;
+    color: #f62101;
+    width: 70px;
+    float: right;
+    margin-right: 15px;
+
+    &.mat-button-disabled {
+      opacity: 0.5;
+    }
   }
 
 
