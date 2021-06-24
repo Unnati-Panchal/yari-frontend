@@ -2,15 +2,16 @@
     <div>
         <h2 class="head">Approve Uploaded Catalogues</h2>
     </div>
-    <div class="search">
-        <mat-form-field floatLabel="never" appearance="none" class="form-field">
-            <input matInput (keyup.enter)="applyFilter(filter)"  placeholder="Search By Business Name or Catalogue Name" [(ngModel)]="filter">
-        </mat-form-field>
-        <button mat-button type="button" class="search-button" (click)="applyFilter(filter)">
-            <mat-icon>search</mat-icon>
-        </button>
-    </div>
 
+      <div class="col-md-12 search">
+      <mat-form-field floatLabel="never" appearance="none" class="form-field">
+        <input matInput (keyup.enter)="applyFilter(filter)"  placeholder="Search By Business Name or Catalogue Name" [(ngModel)]="filter">
+      </mat-form-field>
+      <button mat-button type="button" class="search-button" (click)="applyFilter(filter)">
+        <mat-icon>search</mat-icon>
+      </button>
+      <button class="back-button" mat-button routerLink="../" type="button">Back</button>
+    </div>
 
     <div class="main-table">
         <table mat-table [dataSource]="dataSource" matSort>
