@@ -5,7 +5,7 @@
     <div class="row">
       <div class="col-md-6">
         <label for="product_name" class="form-label">Product Name</label>
-        <input type="text" class="form-control" disabled name="product_name" formControlName="product_name">
+        <input type="text" class="form-control input-bg-white"  name="product_name" formControlName="product_name">
       </div>
       <div class="col-md-6">
         <label for="product_sku_id" class="form-label">Product SKU ID</label>
@@ -33,11 +33,11 @@
     <div class="row">
       <div class="col-md-6">
         <label for="mrp" class="form-label">MRP</label>
-        <input type="text" class="form-control input-bg-white" name="mrp" formControlName="mrp">
+        <input type="number" [minlength]="1" class="form-control input-bg-white" name="mrp" formControlName="mrp">
       </div>
       <div class="col-md-6">
         <label for="final_selling_price" class="form-label">Final Selling Price</label>
-        <input type="text" class="form-control input-bg-white" name="final_selling_price" formControlName="final_selling_price">
+        <input type="number" [minlength]="1" class="form-control input-bg-white" name="final_selling_price" formControlName="final_selling_price">
       </div>
     </div>
     <div class="row">
@@ -63,7 +63,7 @@
     <div class="row">
       <div class="col-md-6">
         <label for="country_of_origin" class="form-label">Country of Origin</label>
-        <input type="text" class="form-control" name="country_of_origin" disabled formControlName="country_of_origin">
+        <input type="text" class="form-control input-bg-white" name="country_of_origin"  formControlName="country_of_origin">
       </div>
     </div>
     <div class="row">

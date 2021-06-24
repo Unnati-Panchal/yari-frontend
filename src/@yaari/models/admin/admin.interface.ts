@@ -114,6 +114,8 @@ interface ICategory {
 
 export interface IEditProduct {
   id: number;
+  product_name: string;
+  country_of_origin: string;
   description: string;
   key_features: string;
   guarantee: string;
