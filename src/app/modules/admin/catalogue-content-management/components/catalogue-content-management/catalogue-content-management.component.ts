@@ -102,6 +102,8 @@ export class CatalogueContentManagementComponent implements OnInit {
   submitProduct(): void {
     const product = {} as IEditProduct;
     product.id = +this.productDetailComponent.form.controls['id'].value;
+    product.product_name = this.productDetailComponent.form.controls['product_name'].value;
+    product.country_of_origin = this.productDetailComponent.form.controls['country_of_origin'].value;
     product.description = this.productDetailComponent.form.controls['product_description'].value;
     product.key_features = this.productDetailComponent.form.controls['key_feature'].value;
     product.guarantee = this.productDetailComponent.form.controls['guarantee'].value;
