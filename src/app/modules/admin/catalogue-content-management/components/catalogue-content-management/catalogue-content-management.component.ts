@@ -1,19 +1,18 @@
 import * as _ from 'lodash';
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { IEditProduct, NewImage, NewVideo } from '@yaari/models/admin/admin.interface';
 import { Store, select } from '@ngrx/store';
 
 import { ActivatedRoute } from '@angular/router';
 import { AdminService } from '@yaari/services/admin/admin.service';
 import { IAppState } from '~app/store/app.state';
-import { IEditProduct , NewImage, NewVideo } from '@yaari/models/admin/admin.interface';
 import { ProductDetailComponent } from '../product-detail/product-detail.component';
-import { ProductSpecificationComponent} from '../product-specification/product-specification.component';
+import { ProductSpecificationComponent } from '../product-specification/product-specification.component';
+import { Subscription } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import {Subscription} from 'rxjs';
 
 @Component({
   selector: 'app-catalogue-content-management',
@@ -34,7 +33,6 @@ export class CatalogueContentManagementComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private _store: Store<IAppState>,
-    private _snackBar: MatSnackBar,
     private _adminService: AdminService) { }
 
   getProductDetail$ = this._store.pipe(select(fromAdminSelectors.getProductDetail$), filter(value => !!value));
@@ -60,7 +58,7 @@ export class CatalogueContentManagementComponent implements OnInit {
 
   selectedIndexChange(index: number): void {
     this.selectedTabIndex = index;
-    if(this.selectedTabIndex == 1){
+    if (this.selectedTabIndex === 1) {
       this._subscription.add(
         this.getProductDetail$.subscribe((productDetail) => {
           return this.productSpecificationComponent.bindProduct(productDetail);
@@ -101,6 +99,7 @@ export class CatalogueContentManagementComponent implements OnInit {
 
   submitProduct(): void {
     const product = {} as IEditProduct;
+
     product.id = +this.productDetailComponent.form.controls['id'].value;
     product.description = this.productDetailComponent.form.controls['product_description'].value;
     product.key_features = this.productDetailComponent.form.controls['key_feature'].value;
@@ -116,13 +115,13 @@ export class CatalogueContentManagementComponent implements OnInit {
       .map(i => ({ media_bytes: i.src, media_name: i.name }));
     product.new_images = newImages as NewImage[];
     product.new_video = {
-      media_bytes: this.productDetailComponent.newVideo.data,
-      media_name: this.productDetailComponent.newVideo.name
+      media_bytes: this.productDetailComponent.newVideo?.data,
+      media_name: this.productDetailComponent.newVideo?.name
     } as NewVideo;
     product.key_features = this.productDetailComponent.form.controls['key_feature'].value;
     product.warranty = this.productDetailComponent.form.controls['warranty'].value;
     product.guarantee = this.productDetailComponent.form.controls['guarantee'].value;
+
     this._store.dispatch(fromAdminActions.editProduct({ product }));
-    this._snackBar.open('Product update completed', '', { duration: 5000 });
   }
 }

@@ -1,6 +1,6 @@
 import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, map } from 'rxjs/operators';
+import { catchError, map, tap } from 'rxjs/operators';
 
 import { AuthService } from '@yaari/services/auth/auth.service';
 import { Injectable } from '@angular/core';
@@ -18,6 +18,13 @@ export class TokenInterceptor implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(
+      tap(evt => {
+        if (evt instanceof HttpResponse) {
+          if (evt.body && evt.body.success) {
+            this._snackBar.open(evt.body.msg, '', { duration: 3000 });
+          }
+        }
+      }),
       catchError(err => {
         if (err.url.includes('/api/v1/admin')) {
           if ((err.status === 401 || err.status === 403)) {
@@ -29,12 +36,20 @@ export class TokenInterceptor implements HttpInterceptor {
             return of(err);
           }
           if (err.status === 404 || err.error.detail) {
-              const msg = err.error.detail;
-              this._snackBar.open(msg, '', { duration: 3000 });
-              return of(err);
+            let msg = '';
+            console.log(err.error.detail);
+            if (Array.isArray(err.error.detail)) {
+              err.error.detail.forEach(e => {
+                msg += e.loc[1] + `: ` + e.msg + `\n`;
+              });
+            } else {
+              msg = err.error.detail;
+            }
+            this._snackBar.open(msg, '', { duration: 3000 });
+            return of(err);
           }
         }
-        else if (err.url.includes('login/access-token?user_role=admin')){
+        else if (err.url.includes('login/access-token?user_role=admin')) {
           const msg = err.error.detail;
           this._snackBar.open(msg, '', { duration: 3000 });
           return throwError(err);
