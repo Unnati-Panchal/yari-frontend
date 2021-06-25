@@ -139,6 +139,8 @@ export class ApproveRejectComponent implements OnInit, OnDestroy {
   }
   openMedia(urls: any): void {
     this._dialog.open(GalleryDialogComponent, {
+      maxWidth:'600px',
+      maxHeight:'600px',
       width: 'auto',
       data: { urls }
     });

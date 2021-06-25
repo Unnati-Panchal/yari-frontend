@@ -1,9 +1,9 @@
 <div *ngIf="!video">
-  <div *ngFor="let url of data.urls">
+  <ng-container *ngFor="let url of data.urls" >
     <a [href]="url.url" target="_blank">
       <img *ngIf="!!url.url" [src]="url.url" alt="" class="gallery-dialog-img"/>
     </a>
-  </div>
+  </ng-container>
 </div>
 <div *ngIf="video">
   <div>
