@@ -139,7 +139,7 @@ export class ApproveRejectComponent implements OnInit, OnDestroy {
   }
   openMedia(urls: any): void {
     this._dialog.open(GalleryDialogComponent, {
-      width: '250px',
+      width: 'auto',
       data: { urls }
     });
   }

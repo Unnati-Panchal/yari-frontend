@@ -105,6 +105,9 @@
     background-color: #f62101;
     color: #ffffff;
     width: 90px;
+    &.mat-button-disabled {
+      opacity: 0.5;
+    }
   }
 
 

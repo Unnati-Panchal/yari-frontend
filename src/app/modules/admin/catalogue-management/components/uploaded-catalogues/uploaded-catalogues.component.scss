@@ -108,6 +108,9 @@
     background-color: #f62101;
     color: #ffffff;
     width: 90px;
+    &.mat-button-disabled {
+      opacity: 0.5;
+    }
   }
 
 
@@ -214,6 +217,22 @@
     color: #FFFFFF;
     font-size: 25px;
   }
+
+  .gallery-dialog-img {
+    cursor: pointer;
+    height: 300px;
+    width: 300px;
+    position: relative;
+    float: left;
+    opacity: 1;
+    transition: opacity 0.3s ease-in;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 10px 10px 10px 10px;
+    object-fit: contain;
+  }
+
 
 
 }

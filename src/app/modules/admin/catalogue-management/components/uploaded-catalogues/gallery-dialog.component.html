@@ -1,11 +1,16 @@
 <div *ngIf="!video">
-    <div *ngFor="let url of data.urls">
-        <a [href]="url.url" target="_blank">{{url.url}}</a>
-        <br>
-    </div>
+  <div *ngFor="let url of data.urls">
+    <a [href]="url.url" target="_blank">
+      <img *ngIf="!!url.url" [src]="url.url" alt="" class="gallery-dialog-img"/>
+    </a>
+  </div>
 </div>
 <div *ngIf="video">
+  <div>
+    <pre>{{data|json}}</pre>
     <div>
-        <a [href]="data.urls" target="_blank">{{data.urls}}</a>
+      not video
     </div>
+    <a [href]="data.urls" target="_blank">{{data.urls}}</a>
+  </div>
 </div>
