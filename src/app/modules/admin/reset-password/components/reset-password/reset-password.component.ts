@@ -41,12 +41,12 @@ export class ResetPasswordComponent implements OnInit {
   }
 
   public resetPass(): void {
-    this.loading = true;
-    this.resetPassForm.updateValueAndValidity();
-    if (!this.resetPassForm.value.password) {
-      this.loading = false;
-      return;
+    this.loading = true;    
+   
+    if (this.validator() === false){
+      return
     }
+
     if (this.resetPassForm.value.password !== this.resetPassForm.value.repeatPassword) {
       this.resetPassForm.get('repeatPassword').setErrors({ notMatch: true });
       this.loading = false;
@@ -73,5 +73,35 @@ export class ResetPasswordComponent implements OnInit {
       password: ['', [Validators.required]],
       repeatPassword: ['', [Validators.required]]
     });
+  }
+
+  public setError(err: any): any{
+    this.loading = false;
+    this.resetPassForm.get('password').setErrors(err);
+    return false;
+  }
+
+  public validator(): boolean {
+    if (!this.resetPassForm.value.password) {
+      return this.setError({required: true});
+    }
+    if (this.resetPassForm.value.password.length < 8) {
+      return this.setError({minlength: true});
+    }
+    if(!/(?=.*[a-z]).{1,}$/.test(this.resetPassForm.value.password)){
+      return this.setError({lower: true});
+    }
+    if(!/(?=.*[A-Z]).{1,}$/.test(this.resetPassForm.value.password)){
+      return this.setError({upper: true});
+    }
+    if(!/(?=.*\d).{1,}$/.test(this.resetPassForm.value.password)){
+      return this.setError({numeric: true});
+    }
+    if (!/(?=.*[^a-zA-Z0-9]).{1,}$/.test(this.resetPassForm.value.password)){
+      return this.setError({special: true})
+    }
+    if (/(?=.*[ ,;&]).{1}$/.test(this.resetPassForm.value.password)){
+      return this.setError({invalid_char: true});
+    }
   }
 }
