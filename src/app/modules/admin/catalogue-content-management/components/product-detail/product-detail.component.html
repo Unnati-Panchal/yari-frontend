@@ -135,7 +135,7 @@
       <div class="col-md-4">
         <div class="gallery-item">
           <div class="items-wrapper">
-            <img [src]="getImages(0)" _ngcontent-hil-c76="" alt="" class="gallery-img"/>
+            <img *ngIf="!!getImages(0)" [src]="getImages(0)"  alt="" class="gallery-img"/>
             <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(0)">
               <i class="delete-img"></i></a>
           </div>
@@ -145,7 +145,7 @@
       <div class="col-md-4">
         <div class="gallery-item">
           <div class="items-wrapper">
-            <img [src]="getImages(1)" _ngcontent-hil-c76="" alt="" class="gallery-img"/>
+            <img *ngIf="!!getImages(1)" [src]="getImages(1)" _ngcontent-hil-c76="" alt="" class="gallery-img"/>
             <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(1)">
               <i class="delete-img"></i></a>
           </div>
@@ -155,7 +155,7 @@
       <div class="col-md-4">
         <div class="gallery-item">
           <div class="items-wrapper">
-            <img [src]="getImages(2)" _ngcontent-hil-c76="" alt="" class="gallery-img"/>
+            <img *ngIf="!!getImages(2)" [src]="getImages(2)" _ngcontent-hil-c76="" alt="" class="gallery-img"/>
             <a (click)="deleteImage(2)" [routerLink]="" class="close" queryParamsHandling="preserve">
               <i class="delete-img"></i></a>
           </div>
@@ -168,8 +168,17 @@
       <div class="col-md-4">
         <div class="gallery-item">
           <div class="items-wrapper">
-            <img [src]="getImages(3)" _ngcontent-hil-c76="" alt="" class="gallery-img"/>
+            <img *ngIf="!!getImages(3)" [src]="getImages(3)" _ngcontent-hil-c76="" alt="" class="gallery-img"/>
             <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(3)">
+              <i class="delete-img"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="gallery-item">
+          <div class="items-wrapper">
+            <img *ngIf="!!getImages(4)" [src]="getImages(4)" _ngcontent-hil-c76="" alt="" class="gallery-img"/>
+            <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteImage(4)">
               <i class="delete-img"></i></a>
           </div>
         </div>
@@ -196,7 +205,7 @@
         <div class="gallery-item">
           <div class="items-wrapper">
 
-            <img *ngIf="!newVideo?.src" alt="" src="/assets/images/yaari-logo.png">
+            <!--            <img *ngIf="!newVideo?.src" alt="" src="/assets/images/yaari-logo.png">-->
             <video [src]="newVideo?.src" *ngIf="newVideo?.src" height="200" width="228px" controls></video>
             <a [routerLink]="" queryParamsHandling="preserve" class="close" (click)="deleteVideo()">
               <i class="delete-img"></i></a>

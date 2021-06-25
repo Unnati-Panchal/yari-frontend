@@ -1,10 +1,9 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { IProductCategory, IProductDetail } from '@yaari/models/admin/admin.interface';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
+import {IProductDetail} from '@yaari/models/admin/admin.interface';
 
-import { DomSanitizer } from '@angular/platform-browser';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import _ from 'lodash';
+import {DomSanitizer} from '@angular/platform-browser';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-product-detail',
@@ -14,12 +13,11 @@ import _ from 'lodash';
 export class ProductDetailComponent implements OnInit {
   selectedProductId: number;
   form: FormGroup;
-  productCategories: IProductCategory[] = [];
   newVideo: { src?: any, data?: string, file?: any, name?: string } = {};
 
   newImages: { src: string, file?: any, name?: string, newlyUploaded: boolean }[] = [];
   deletedImages: { src: string, file?: any, name?: string }[] = [];
-  private defaultImage = 'assets/images/yaari-logo.png';
+  // private defaultImage = 'assets/images/yaari-logo.png';
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
@@ -29,7 +27,6 @@ export class ProductDetailComponent implements OnInit {
     private sanitizer: DomSanitizer,
     private _snackBar: MatSnackBar) {
     this.createForm();
-    this.getProductCategories();
   }
 
   ngOnInit(): void { }
@@ -68,12 +65,12 @@ export class ProductDetailComponent implements OnInit {
   }
 
   fileInputClick(event): boolean {
-    const maxImageCount = 4;
+    const maxImageCount = 5;
     if (this.newImages.length >= maxImageCount) {
       this._snackBar.open(
-        'Please remove at least one Image before uploading new one. \n Maximum 4 Images can be uploaded.',
+        `Please remove at least one Image before uploading new one. \n Maximum ${maxImageCount} Images can be uploaded.`,
         '',
-        { duration: 3000 }
+        {duration: 3000}
       );
       event.preventDefault();
       event.stopPropagation();
@@ -87,7 +84,7 @@ export class ProductDetailComponent implements OnInit {
     if (image) {
       return image.src;
     }
-    return this.defaultImage;
+    // return this.defaultImage;
   }
 
   deleteImage(id: number): void {
@@ -128,24 +125,6 @@ export class ProductDetailComponent implements OnInit {
       hsnCode: new FormControl(''),
       productId: new FormControl(''),
       groupId: new FormControl(''),
-    });
-  }
-
-  private getProductCategories(): void {
-    this.productCategories.push({
-      id: 1, name: 'Women\'s wear'
-    });
-
-    this.productCategories.push({
-      id: 2, name: 'Men\'s wear'
-    });
-
-    this.productCategories.push({
-      id: 3, name: 'Mercedes'
-    });
-
-    this.productCategories.push({
-      id: 4, name: 'Audi'
     });
   }
 
