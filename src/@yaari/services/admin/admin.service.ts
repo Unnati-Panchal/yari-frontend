@@ -185,7 +185,9 @@ export class AdminService {
     return this._http.get<IComplaints[]>(`${environment.API_BASE_URL}/api/v1/admin/kam/reseller/complaints`);
   }
 
-  public downloadSupplier(): Observable<string> {
-    return this._http.get<string>(`${environment.API_BASE_URL}/api/v1/admin/kam/onboarding/download-suppliers`);
+  public downloadSupplier(): Observable<ArrayBuffer> {
+    // @ts-ignore
+    // tslint:disable-next-line:max-line-length
+    return this._http.get<ArrayBuffer>(`${environment.API_BASE_URL}/api/v1/admin/kam/onboarding/download-suppliers`, { responseType: 'blob' });
   }
 }
