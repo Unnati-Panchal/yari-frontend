@@ -15,6 +15,13 @@
       </div>
       <div class="col-md-6">
         <button class="back-button" mat-button routerLink="../" type="button">Back</button>
+        <button (click)="getNextPaginationData()" [disabled]="dataSource?.data?.length < 100"
+                class="nav-button" mat-button
+                type="button">Next
+        </button>
+        <button (click)="getNextPaginationData(false)" [disabled]="currentPage<2" class="nav-button" mat-button
+                type="button">Prev
+        </button>
       </div>
     </div>
 

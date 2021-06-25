@@ -4,7 +4,7 @@ import {Store} from '@ngrx/store';
 import {AdminService} from '@yaari/services/admin/admin.service';
 import {Subscription} from 'rxjs';
 import {AppFacade, IAppState} from '~store/app.state';
-import {IUploadedCatalogue} from '@yaari/models/admin/admin.interface';
+import {IFilter, IUploadedCatalogue} from '@yaari/models/admin/admin.interface';
 import * as fileSaver from 'file-saver';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
@@ -16,21 +16,26 @@ import {MatSort} from '@angular/material/sort';
 })
 export class ViewCatalogueComponent implements OnInit, OnDestroy {
 
-  public loading: boolean;
-  public dataSource = new MatTableDataSource([]);
+  @ViewChild(MatSort) sort: MatSort;
+
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
+
+  loading: boolean;
+  dataSource = new MatTableDataSource([]);
   filter = '';
   private _subscription: Subscription = new Subscription();
   paginationSizes: number[] = [5, 15, 30, 60, 100];
-  defaultPageSize = this.paginationSizes[0];
-  @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
+  pageSize = 100;
 
-  @ViewChild(MatSort) sort: MatSort;
+  currentPage = 1;
+
 
   constructor(
     private _store: Store<IAppState>,
     private _adminService: AdminService,
     private _appFacade: AppFacade
-  ) { }
+  ) {
+  }
 
   displayedColumns = [
     'catalogue_name',
@@ -51,9 +56,15 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
     this.loading = true;
     this._appFacade.clearMessages();
     this._adminService.authorizedAdmin('catalogue_management');
-
+    const filterQuery = {
+      skip: 0,
+      limit: this.pageSize,
+      fetch_type: 'view_catalogue',
+    } as IFilter;
     this._subscription.add(
-      this._adminService.getViewCatalogues().subscribe(viewCatalogues => {
+      this._adminService.getViewCatalogues(
+        filterQuery
+      ).subscribe(viewCatalogues => {
         this.setTableDataSource(viewCatalogues);
         this.loading = false;
       })
@@ -84,9 +95,37 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
 
   downloadCatalogueExcel(catalogue: IUploadedCatalogue): void {
     this._subscription.add(this._adminService.getCatalogueDownload(+catalogue.catalogue_id).subscribe(res => {
-      const blob = new Blob([res], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const blob = new Blob([res], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
       fileSaver.saveAs(blob, `${catalogue.catalogue_name}.xlsx`);
     }));
   }
+
+  getNextPaginationData = (next: boolean = true) => {
+    this.loading = true;
+    let skip = 0;
+    if (next) {
+      this.currentPage += 1;
+      skip = (this.currentPage - 1) * this.pageSize;
+    } else {
+      this.currentPage -= 1;
+      skip = (this.currentPage - 1) * this.pageSize;
+    }
+    if (skip < 0) {
+      skip = 0;
+    }
+    const filterQuery = {
+      skip: skip,
+      limit: this.pageSize,
+      fetch_type: 'view_catalogue',
+    } as IFilter;
+    this._subscription.add(
+      this._adminService.getViewCatalogues(
+        filterQuery
+      ).subscribe(viewCatalogues => {
+        this.setTableDataSource(viewCatalogues);
+        this.loading = false;
+      })
+    );
+  };
 
 }

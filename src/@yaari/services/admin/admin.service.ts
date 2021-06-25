@@ -145,8 +145,9 @@ export class AdminService {
     return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/pricing/upload`, file);
   }
 
-  public getViewCatalogues(): Observable<IUploadedCatalogue[]> {
-    return this._http.get<IUploadedCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=view_catalogue`);
+  public getViewCatalogues(filter:  IFilter): Observable<IUploadedCatalogue[]> {
+    const query = getQueryAndParam(filter);//view_catalogue
+    return this._http.get<IUploadedCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}`);
   }
 
   public getSupplierList(filter: IFilter): Observable<ISupplierList[]> {
