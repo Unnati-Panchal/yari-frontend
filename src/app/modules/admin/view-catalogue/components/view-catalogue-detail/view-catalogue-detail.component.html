@@ -28,7 +28,8 @@
           <td *matCellDef="let element" mat-cell>
             <span *ngIf="!col.endsWith('URL')">{{element[productDetails[col]]}}</span>
             <span *ngIf="col.endsWith('URL')">
-              <button (click)="openMedia(element[productDetails[col]])" class="view-button"
+              <button (click)="openMedia(element[productDetails[col]])" [disabled]="!element[productDetails[col]]"
+                      class="view-button"
                       mat-button>View</button></span>
           </td>
         </ng-container>

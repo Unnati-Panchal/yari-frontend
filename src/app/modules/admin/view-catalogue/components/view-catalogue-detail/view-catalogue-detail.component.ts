@@ -117,7 +117,9 @@ export class ViewCatalogueDetailComponent implements OnInit {
 
   openMedia(urls: any): void {
     this._dialog.open(GalleryDialogComponent, {
-      width: '%50',
+      maxWidth:'600px',
+      maxHeight:'600px',
+      width: 'auto',
       data: {urls}
     });
   }
