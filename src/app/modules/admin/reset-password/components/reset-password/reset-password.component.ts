@@ -64,7 +64,8 @@ export class ResetPasswordComponent implements OnInit {
         this._snackBar.open(res.msg, '', { duration: 5000 });
         this.loading = false;
         this._router.navigate(['/admin/login']);
-      });
+      },err=>err,()=>this.loading = false
+      );
 
   }
 
