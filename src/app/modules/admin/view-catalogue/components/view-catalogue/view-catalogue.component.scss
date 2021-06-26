@@ -39,6 +39,10 @@
   .actions {
     min-width: 280px;
   }
+  .table-box table {
+    display: block;
+    overflow-x: scroll;
+  }
 
   .act-button {
     position: relative;
