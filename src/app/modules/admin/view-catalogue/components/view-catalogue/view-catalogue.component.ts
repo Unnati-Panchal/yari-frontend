@@ -1,6 +1,6 @@
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
-import {Store} from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 import {AdminService} from '@yaari/services/admin/admin.service';
 import {Subscription} from 'rxjs';
 import {AppFacade, IAppState} from '~store/app.state';
@@ -8,6 +8,9 @@ import {IFilter, IUploadedCatalogue} from '@yaari/models/admin/admin.interface';
 import * as fileSaver from 'file-saver';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
+import * as fromAdminSelectors from '~store/admin/admin.selectors';
+import * as fromAdminActions from '~store/admin/admin.actions';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-view-catalogue',
@@ -20,13 +23,18 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
 
-  loading: boolean;
+  isLoading$ = this._store.pipe(select(fromAdminSelectors.getIsLoading));
+
+  getViewCatalogues$ = this._store.pipe(
+    select(fromAdminSelectors.getViewCatalogues$),
+    filter(details => !!details)
+  );
+
   dataSource = new MatTableDataSource([]);
   filter = '';
   private _subscription: Subscription = new Subscription();
   paginationSizes: number[] = [5, 15, 30, 60, 100];
   pageSize = 100;
-
   currentPage = 1;
 
 
@@ -53,22 +61,22 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
   ];
 
   ngOnInit(): void {
-    this.loading = true;
     this._appFacade.clearMessages();
     this._adminService.authorizedAdmin('catalogue_management');
-    const filterQuery = {
-      skip: 0,
-      limit: this.pageSize,
-      fetch_type: 'view_catalogue',
-    } as IFilter;
-    this._subscription.add(
-      this._adminService.getViewCatalogues(
-        filterQuery
-      ).subscribe(viewCatalogues => {
-        this.setTableDataSource(viewCatalogues);
-        this.loading = false;
-      })
-    );
+
+    this._store.dispatch(fromAdminActions.getViewCatalogues({
+      filter: {
+        skip: 0,
+        limit: this.pageSize,
+        fetch_type: 'view_catalogue',
+      } as IFilter
+    }));
+
+
+    this._subscription.add(this.getViewCatalogues$.subscribe(viewCatalogues => {
+      this.setTableDataSource(viewCatalogues);
+    }));
+
   }
 
   setTableDataSource(data: IUploadedCatalogue[]): void {
@@ -82,11 +90,9 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
 
 
   public applyFilter(filterValue: string): void {
-    this.loading = true;
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
-    this.loading = false;
   }
 
   public ngOnDestroy(): void {
@@ -101,7 +107,6 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
   }
 
   getNextPaginationData = (next: boolean = true) => {
-    this.loading = true;
     let skip = 0;
     if (next) {
       this.currentPage += 1;
@@ -113,19 +118,14 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
     if (skip < 0) {
       skip = 0;
     }
-    const filterQuery = {
-      skip: skip,
-      limit: this.pageSize,
-      fetch_type: 'view_catalogue',
-    } as IFilter;
-    this._subscription.add(
-      this._adminService.getViewCatalogues(
-        filterQuery
-      ).subscribe(viewCatalogues => {
-        this.setTableDataSource(viewCatalogues);
-        this.loading = false;
-      })
-    );
+    this._store.dispatch(fromAdminActions.getViewCatalogues({
+      filter: {
+        skip: skip,
+        limit: this.pageSize,
+        fetch_type: 'view_catalogue',
+      } as IFilter
+    }));
+
   };
 
 }

@@ -51,7 +51,6 @@
     border-radius: 12px;
     background-color: #ffffff;
     color: #f62101;
-    border: 1px solid #f62101;
     width: 90px;
   }
 
@@ -97,7 +96,6 @@
     text-align: center;
     min-width: 100px;
     max-height: fit-content;
-    border: 1px solid gray !important;
     color: #363636;
     font-size: 18px;
   }
@@ -114,9 +112,35 @@
   }
 
   table {
-    max-width: 100%;
     width: 100%;
+    max-width: 100%;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
   }
+
+  table th {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+  }
+
+  table td {
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+  }
+
+  table th:first-child,
+  table td:first-child {
+    border-left: 1px solid;
+  }
+
+  table thead th {
+    position: sticky;
+    top: 0;
+    background-color: grey;
+  }
+
 
   &.centered {
     @include yaari-display-flex(center, center);
@@ -135,7 +159,6 @@
     text-align: center;
     min-width: 100px;
     max-height: fit-content;
-    border: 1px solid gray !important;
     color: #363636;
     font-size: 18px;
   }

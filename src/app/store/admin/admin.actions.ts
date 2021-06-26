@@ -123,3 +123,8 @@ export const getResellerComplaints = createAction('[ADMIN] getResellerComplaints
 // tslint:disable-next-line:max-line-length
 export const getResellerComplaintsSuccess = createAction('[ADMIN] getResellerComplaints Success', props<{ KAMResellerComplaints: IComplaints[] }>());
 export const getResellerComplaintsError = createAction('[ADMIN] getResellerComplaints Error', props<{ error: HttpErrorResponse }>());
+
+
+export const getViewCatalogues = createAction('[ADMIN] get view catalogues',props<{ filter: IFilter }>());
+export const getViewCataloguesSuccess = createAction('[ADMIN] get view catalogue success',  props<{ viewCataloguesList: IUploadedCatalogue[] }>());
+export const getViewCataloguesError = createAction('[ADMIN] get view catalogue error', props<{ error: HttpErrorResponse }>());

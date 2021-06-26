@@ -35,6 +35,7 @@ export interface IAdminState extends fromRoot.IAppState {
   KAMApprovedResponse: IMsgResponse;
   KAMSupplierComplaints: IComplaints[];
   KAMResellerComplaints: IComplaints[];
+  viewCataloguesList:IUploadedCatalogue[];
 }
 
 export const adminInitialState: IAdminState = {
@@ -57,6 +58,7 @@ export const adminInitialState: IAdminState = {
   KAMApprovedResponse: undefined,
   KAMSupplierComplaints: undefined,
   KAMResellerComplaints: undefined,
+  viewCataloguesList:[],
 };
 
 
@@ -151,6 +153,10 @@ export const adminReducer = createReducer(
   on(fromAdminActions.getResellerComplaints, (state) => ({...state, loading: true})),
   on(fromAdminActions.getResellerComplaintsSuccess, (state, {KAMResellerComplaints}) => ({...state, loading: false, KAMResellerComplaints})),
   on(fromAdminActions.getResellerComplaintsError, (state, {error}) => ({...state, loading: false, error})),
+
+  on(fromAdminActions.getViewCatalogues, (state) => ({ ...state, loading: true })),
+  on(fromAdminActions.getViewCataloguesSuccess, (state, { viewCataloguesList }) => ({ ...state, loading: false, viewCataloguesList })),
+  on(fromAdminActions.getViewCataloguesError, (state, { error }) => ({ ...state, loading: false, error })),
 
 );
 
