@@ -13,7 +13,8 @@
     <button class="back-button" mat-button routerLink="../" type="button">Back</button>
 
   </div>
-  <div *ngIf="isLoading$ | async ;else resultContent" class="centered loading">
+  <app-error-success [errors]="getIsError$ | async"></app-error-success>
+  <div *ngIf="isLoading$ | async;else resultContent" class="centered loading">
     <mat-spinner [diameter]="50" color="warn"></mat-spinner>
   </div>
 

@@ -12,6 +12,7 @@ import { createAction, props } from '@ngrx/store';
 import { HttpErrorResponse } from '@angular/common/http';
 
 export const clearMessages = createAction('[ADMIN] clear messages');
+export const stopLoading = createAction('[ADMIN] stop loading');
 
 
 export const getUploadedCatalogues = createAction('[ADMIN] get uploaded catalogues');

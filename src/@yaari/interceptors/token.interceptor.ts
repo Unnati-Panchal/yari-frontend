@@ -1,15 +1,18 @@
-import { HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import {HttpEvent, HttpHandler, HttpInterceptor, HttpRequest, HttpResponse} from '@angular/common/http';
+import {Observable, of, throwError} from 'rxjs';
+import {catchError, tap} from 'rxjs/operators';
 
-import { AuthService } from '@yaari/services/auth/auth.service';
-import { Injectable } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import {AuthService} from '@yaari/services/auth/auth.service';
+import {Injectable} from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {Store} from '@ngrx/store';
+import {IAppState} from '~store/app.state';
+import * as fromAdminActions from '~store/admin/admin.actions';
 
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
-  constructor(private _auth: AuthService, private _snackBar: MatSnackBar) {
+  constructor(private _auth: AuthService, private _snackBar: MatSnackBar, private _store: Store<IAppState>,) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -65,7 +68,8 @@ export class TokenInterceptor implements HttpInterceptor {
           return of(err);
         }
         if (err.status === 500) {
-          this._snackBar.open(err.error, '', { duration: 3000 });
+          this._snackBar.open(err.error, '', {duration: 3000});
+          this._store.dispatch(fromAdminActions.stopLoading());
           return of(err);
         }
         return throwError(err);

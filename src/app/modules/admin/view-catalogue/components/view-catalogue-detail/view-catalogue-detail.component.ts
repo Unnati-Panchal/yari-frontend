@@ -70,8 +70,7 @@ export class ViewCatalogueDetailComponent implements OnInit {
 
   isLoading$ = this._store.pipe(select(fromAdminSelectors.getIsLoading));
   getIsError$ = this._store.pipe(select(fromAdminSelectors.getIsError));
-  catalogueProducts$ = this._store.pipe(select(fromAdminSelectors.getCatalogueProducts), filter(details => !!details)
-  );
+  catalogueProducts$ = this._store.pipe(select(fromAdminSelectors.getCatalogueProducts), filter(details => !!details));
   private _subscription: Subscription = new Subscription();
 
   constructor(

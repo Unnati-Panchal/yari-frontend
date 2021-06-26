@@ -1,17 +1,20 @@
 import * as fromAdminActions from '~store/admin/admin.actions';
 import * as fromRoot from '~store/app.state';
 
-import { Action, createReducer, on } from '@ngrx/store';
+import {Action, createReducer, on} from '@ngrx/store';
 import {
   ICatalog,
   ICatalogueContentManagement,
-  ICatalogueProducts, IComplaints, IMsgResponse,
-  IProductDetail, ISupplierDetails,
+  ICatalogueProducts,
+  IComplaints,
+  IMsgResponse,
+  IProductDetail,
+  ISupplierDetails,
   ISupplierList,
   IUploadedCatalogue
 } from '@yaari/models/admin/admin.interface';
 
-import { HttpErrorResponse } from '@angular/common/http';
+import {HttpErrorResponse} from '@angular/common/http';
 
 export const adminFeatureKey = 'admin';
 
@@ -64,17 +67,18 @@ export const adminInitialState: IAdminState = {
 
 export const adminReducer = createReducer(
   adminInitialState,
-  on(fromAdminActions.clearMessages, (state) => ({ ...state, msg: '', error: null })),
+  on(fromAdminActions.clearMessages, (state) => ({...state, msg: '', error: null})),
+  on(fromAdminActions.stopLoading, (state) => ({...state, loading: false, error: null})),
 
-  on(fromAdminActions.getUploadedCatalogues, (state) => ({ ...state, loading: true })),
-  on(fromAdminActions.getUploadedCataloguesSuccess, (state, { uploadedCatalogues }) => ({ ...state, loading: false, uploadedCatalogues })),
-  on(fromAdminActions.getUploadedCataloguesError, (state, { error }) => ({ ...state, loading: false, error })),
+  on(fromAdminActions.getUploadedCatalogues, (state) => ({...state, loading: true})),
+  on(fromAdminActions.getUploadedCataloguesSuccess, (state, {uploadedCatalogues}) => ({...state, loading: false, uploadedCatalogues})),
+  on(fromAdminActions.getUploadedCataloguesError, (state, {error}) => ({...state, loading: false, error})),
 
   // on(fromAdminActions.getCatalogueDownload, (state, { catalogueId }) => ({ ...state, loading: true, catalogueId })),
   // on(fromAdminActions.getCatalogueDownloadSuccess, (state, { catalogueExcel }) => ({ ...state, loading: false, catalogueExcel })),
   // on(fromAdminActions.getCatalogueDownloadError, (state, { error }) => ({ ...state, loading: false, error })),
 
-  on(fromAdminActions.getCatalogueProducts, (state, { catalogueId }) => ({ ...state, loading: true, catalogueId })),
+  on(fromAdminActions.getCatalogueProducts, (state, {catalogueId}) => ({...state, loading: true, catalogueId})),
   on(fromAdminActions.getCatalogueProductsSuccess, (state, { catalogueProducts }) => ({ ...state, loading: false, catalogueProducts })),
   on(fromAdminActions.getCatalogueProductsError, (state, { error }) => ({ ...state, loading: false, error })),
 
