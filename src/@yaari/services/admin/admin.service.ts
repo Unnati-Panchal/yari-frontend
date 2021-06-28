@@ -55,7 +55,7 @@ export class AdminService {
 
   public getUploadedCatalogues(): Observable<IUploadedCatalogue[]> {
     return this._http.get<IUploadedCatalogue[]>(
-      `${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=approve_uploaded_catalogue`
+      `${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=approve_uploaded_catalogue&limit=10000`
     );
   }
 
@@ -108,7 +108,7 @@ export class AdminService {
   public getCatalogContents(filter: IFilter): Observable<ICatalogueContentManagement[]> {
     const query = getQueryAndParam(filter);//catalogue_content_management
     return this._http.get<ICatalogueContentManagement[]>(
-      `${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}`
+      `${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}&limit=10000`
     );
   }
 
@@ -147,7 +147,7 @@ export class AdminService {
 
   public getViewCatalogues(filter:  IFilter): Observable<IUploadedCatalogue[]> {
     const query = getQueryAndParam(filter);//view_catalogue
-    return this._http.get<IUploadedCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}`);
+    return this._http.get<IUploadedCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}&limit=10000`);
   }
 
   public getSupplierList(filter: IFilter): Observable<ISupplierList[]> {
