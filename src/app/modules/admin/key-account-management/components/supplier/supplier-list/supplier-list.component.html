@@ -7,7 +7,7 @@
 
       <div class="date-range-form">
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" (keyup.enter)="viewBtn()">
           <mat-label>Search by Supplier Business Name or Email ID</mat-label>
           <input matInput [(ngModel)]="selectedSupplierName">
         </mat-form-field>
