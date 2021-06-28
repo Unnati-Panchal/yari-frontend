@@ -9,11 +9,11 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { SharedModule } from '@yaari/shared.module';
 import { CatalogueManagementRoutingModule } from './catalogue-management-routing.module';
-import { CatalogueManagementComponent } from './components/catalogue-management/catalogue-management.component';
 import { ApproveRejectComponent, GalleryDialogComponent } from './components/uploaded-catalogues/approve-reject.component';
-import { UploadedCataloguesComponent } from './components/uploaded-catalogues/uploaded-catalogues.component';
 import {MatSortModule} from '@angular/material/sort';
 import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {CatalogueManagementComponent, UploadedCataloguesComponent} from '~admin/catalogue-management/components';
 
 
 
@@ -33,7 +33,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
         MatTabsModule,
         MatDialogModule,
         MatSortModule,
-        MatPaginatorModule
+        MatPaginatorModule,
+        MatProgressSpinnerModule
     ]
 })
 export class CatalogueManagementModule { }

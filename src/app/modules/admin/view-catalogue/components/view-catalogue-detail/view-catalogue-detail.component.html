@@ -13,10 +13,12 @@
     <button class="back-button" mat-button routerLink="../" type="button">Back</button>
 
   </div>
-  <div *ngIf="!loading && !dataSource?.data?.length;else noResult" class="centered">
-    <p>Oops, nothing found.</p>
+  <app-error-success [errors]="getIsError$ | async"></app-error-success>
+  <div *ngIf="isLoading$ | async;else resultContent" class="centered loading">
+    <mat-spinner [diameter]="50" color="warn"></mat-spinner>
   </div>
-  <ng-template #noResult>
+
+  <ng-template #resultContent>
     <mat-tab-group (selectedTabChange)="onTabChange($event.index);">
       <mat-tab label="Product Details"></mat-tab>
       <mat-tab label="Product Specifications"></mat-tab>
@@ -61,15 +63,11 @@
       </table>
     </div>
     <div class="paginator">
-      <mat-paginator *ngIf="!loading && dataSource?.data?.length"
+      <mat-paginator *ngIf=" dataSource?.data?.length"
                      [pageSizeOptions]="paginationSizes"
                      [pageSize]="defaultPageSize"
                      showFirstLastButtons>
       </mat-paginator>
-    </div>
-
-    <div *ngIf="loading" class="centered">
-      <mat-spinner [diameter]="50" color="warn"></mat-spinner>
     </div>
   </ng-template>
 </div>

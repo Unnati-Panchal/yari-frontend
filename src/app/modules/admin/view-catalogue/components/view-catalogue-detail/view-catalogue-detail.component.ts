@@ -21,6 +21,9 @@ import {MatPaginator} from '@angular/material/paginator';
 })
 
 export class ViewCatalogueDetailComponent implements OnInit {
+
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
+
   catalogueName = '';
   catalogueId = '';
   displayedColumns = [];
@@ -33,9 +36,7 @@ export class ViewCatalogueDetailComponent implements OnInit {
   productSpecificationData = [];
   paginationSizes: number[] = [5, 15, 30, 60, 100];
   defaultPageSize = this.paginationSizes[0];
-  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
   // columns to be displayed
-  public loading: boolean;
 
   // columns to be displayed
   productDetails = {
@@ -67,12 +68,9 @@ export class ViewCatalogueDetailComponent implements OnInit {
     'Material Care': 'material_care'
   };
 
-  public getIsError$ = this._store.pipe(
-    select(fromAdminSelectors.getIsError));
-  public catalogueProducts$ = this._store.pipe(
-    select(fromAdminSelectors.getCatalogueProducts),
-    filter(details => !!details)
-  );
+  isLoading$ = this._store.pipe(select(fromAdminSelectors.getIsLoading));
+  getIsError$ = this._store.pipe(select(fromAdminSelectors.getIsError));
+  catalogueProducts$ = this._store.pipe(select(fromAdminSelectors.getCatalogueProducts), filter(details => !!details));
   private _subscription: Subscription = new Subscription();
 
   constructor(

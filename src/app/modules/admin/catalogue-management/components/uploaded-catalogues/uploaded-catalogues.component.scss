@@ -1,7 +1,7 @@
 :host {
   .main-body {
     margin: 28px 80px;
-    font-family: Poppins;
+    font-family: Poppins, serif;
   }
 
   .head {
@@ -15,16 +15,12 @@
     width: 100%;
     margin: 30px 0 20px 0;
   }
-
-
-
-
     .actions {
         min-width: 280px;
     }
     .act-button {
         position: relative;
-        margin: 1px 15px 0px 0px;
+        margin: 1px 15px 0 0;
         height: 39px;
         border-radius: 12px;
         background-color: #ffffff;
@@ -49,7 +45,7 @@
 
   .act-button {
     position: relative;
-    margin: 1px 15px 0px 0px;
+    margin: 1px 15px 0 0;
     height: 39px;
     border-radius: 12px;
     background-color: #f62101;
@@ -82,7 +78,6 @@
     color: #ffffff;
   }
 
-
   .action-button {
     margin: 5px;
     height: 35px;
@@ -90,7 +85,6 @@
     background-color: #f62101;
     color: #ffffff;
   }
-
 
   .back-button {
     height: 41px;
@@ -113,17 +107,14 @@
     }
   }
 
-
   td,
   th {
     padding: 15px;
     text-align: center;
     min-width: 200px;
     max-height: fit-content;
-    border: 1px solid gray !important;
     color: #363636;
     font-size: 18px;
-    font-family: Poppins;
   }
 
   th {
@@ -138,7 +129,32 @@
   }
 
   table {
-    max-width: 100%;
+    width: 100%;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  table th {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+  }
+
+  table td {
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+  }
+
+  table th:first-child,
+  table td:first-child {
+    border-left: 1px solid;
+  }
+
+  table thead th {
+    position: sticky;
+    top: 0;
+    background-color: grey;
   }
 
   .the-container {
@@ -153,7 +169,6 @@
     text-align: center;
     min-width: 200px;
     max-height: fit-content;
-    border: 1px solid gray !important;
     color: #363636;
     font-size: 18px;
   }
@@ -170,7 +185,7 @@
   }
 
   ::ng-deep .mat-form-field {
-    font-family: Poppins;
+    font-family: Poppins, serif;
   }
 
   ::ng-deep .mat-tab-group {
@@ -181,7 +196,7 @@
     font-size: 20px;
     color: #363636;
     padding: 0 30px;
-    font-family: Poppins;
+    font-family: Poppins, serif;
   }
 
   ::ng-deep .mat-tab-header {
@@ -205,6 +220,7 @@
     overflow: hidden;
     text-overflow: ellipsis;
   }
+
   .download-button
   {
     width: 54px;
