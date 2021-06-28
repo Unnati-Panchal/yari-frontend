@@ -25,6 +25,7 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
     'contact_person',
     'phone_no',
     'email_id',
+    'type',
     'state',
     'city',
     'primary_category_name',
