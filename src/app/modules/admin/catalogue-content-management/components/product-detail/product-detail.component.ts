@@ -17,7 +17,6 @@ export class ProductDetailComponent implements OnInit {
 
   newImages: { src: string, file?: any, name?: string, newlyUploaded: boolean }[] = [];
   deletedImages: { src: string, file?: any, name?: string }[] = [];
-  // private defaultImage = 'assets/images/yaari-logo.png';
 
   @ViewChild('fileInput', { static: false }) fileInput: ElementRef;
   @ViewChild('fileInputVideo', { static: false }) fileInputVideo: ElementRef;
@@ -84,7 +83,6 @@ export class ProductDetailComponent implements OnInit {
     if (image) {
       return image.src;
     }
-    // return this.defaultImage;
   }
 
   deleteImage(id: number): void {
