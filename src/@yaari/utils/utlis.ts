@@ -99,10 +99,13 @@ export function toDataURL(url): Promise<string> {
 }
 
 export async function downloadFile(url): Promise<void> {
-  const a = document.createElement('a');
-  a.href = await toDataURL(url);
-  a.download = 'image.png';
-  document.body.appendChild(a);
-  a.click();
-  document.body.removeChild(a);
+  const pom = document.createElement('a');
+  pom.setAttribute('href', url);
+  let name = url.split('/');
+  name = name[name.length - 1];
+  pom.setAttribute('download', name);
+  pom.style.display = 'none';
+  document.body.appendChild(pom);
+  pom.click();
+  document.body.removeChild(pom);
 }
