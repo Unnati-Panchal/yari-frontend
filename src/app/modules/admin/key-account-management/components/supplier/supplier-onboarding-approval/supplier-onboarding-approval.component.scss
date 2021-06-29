@@ -128,7 +128,7 @@
         }
 
         &.table-btn {
-          padding: 0 $yaari-large;
+          padding: 0 $yaari-base;
           font-size: $yaari-default-small;
           margin-bottom: 0;
           margin-left: 0;
@@ -139,9 +139,10 @@
         @include yaari-display-flex(center, space-between);
 
         .table-btn {
-          padding: 0 $yaari-small;
+          padding: 0 $yaari-base / 2;
           font-size: $yaari-default-small;
           margin: 0 $yaari-tiny;
+          height: $yaari-small * 2;
 
           &.approve {
             background: $Yaari-success;
