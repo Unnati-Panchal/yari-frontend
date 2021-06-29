@@ -2,15 +2,15 @@ import * as fileSaver from 'file-saver';
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
 
-import { AppFacade, IAppState } from '~app/store/app.state';
+import {AppFacade, IAppState} from '~app/store/app.state';
 import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import { Store, select } from '@ngrx/store';
+import {select, Store} from '@ngrx/store';
 
-import { AdminService } from '@yaari/services/admin/admin.service';
-import { IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
-import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import {AdminService} from '@yaari/services/admin/admin.service';
+import {IUploadedCatalogue} from '@yaari/models/admin/admin.interface';
+import {MatTableDataSource} from '@angular/material/table';
+import {Subscription} from 'rxjs';
+import {filter} from 'rxjs/operators';
 import {MatSort} from '@angular/material/sort';
 import {MatPaginator} from '@angular/material/paginator';
 
@@ -23,15 +23,19 @@ export class UploadedCataloguesComponent implements OnInit, OnDestroy {
 
   @ViewChild(MatSort) sort: MatSort;
 
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
+
   paginationSizes: number[] = [5, 15, 30, 60, 100];
   defaultPageSize = this.paginationSizes[0];
-  @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
-  public loading: boolean;
+
+  isLoading$ = this._store.pipe(select(fromAdminSelectors.getIsLoading));
+
   constructor(
     private _store: Store<IAppState>,
     private _adminService: AdminService,
     private _appFacade: AppFacade
-  ) { }
+  ) {
+  }
 
   displayedColumns = [
     'catalogue_name',
