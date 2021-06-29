@@ -7,7 +7,7 @@
 
       <div class="date-range-form">
 
-        <mat-form-field appearance="outline">
+        <mat-form-field appearance="outline" (keyup.enter)="viewBtn()">
           <mat-label>Search by Catalogue Uploaded or Name</mat-label>
           <input matInput [(ngModel)]="selectedName">
         </mat-form-field>
