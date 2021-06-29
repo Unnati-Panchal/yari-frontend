@@ -2,7 +2,7 @@
   <div class="left-panel">
     <div class="left-panel--button-container">
       <a class="item" [ngClass]="selectedProductId == productId ?  'active' : ''"
-        *ngFor="let productId of productIds; let i = index" [routerLink]="['../edit']"
+        *ngFor="let productId of productIds;trackBy:trackByKey let i = index" [routerLink]="['../edit']"
         [queryParams]="{productIds: arrangeProductIdQuery(productId).join(',')}" (click)="setProductId(productId)" >
         {{ productId }}
       </a>
