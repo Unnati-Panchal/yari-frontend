@@ -70,9 +70,6 @@
     }
 
     &.mat-button-disabled {
-      // Those lines change the color & background color of the button when disabled
-      // $palette: if($property == 'color', $foreground, $background);
-      // #{$property}: mat-color($palette, disabled-button);
       opacity: 0.5;
     }
   }
@@ -93,7 +90,6 @@
     text-align: center;
     min-width: 115px;
     max-height: fit-content;
-    border: 1px solid gray !important;
     color: #363636;
     font-size: 18px;
   }
@@ -109,9 +105,36 @@
     font-weight: normal;
   }
 
+
+
   table {
-    max-width: 100%;
     width: 100%;
+    max-width: 100%;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  table th {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+  }
+
+  table td {
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+  }
+
+  table th:first-child,
+  table td:first-child {
+    border-left: 1px solid;
+  }
+
+  table thead th {
+    position: sticky;
+    top: 0;
+    background-color: grey;
   }
 
   &.centered {
@@ -131,7 +154,6 @@
     text-align: center;
     min-width: 140px;
     max-height: fit-content;
-    border: 1px solid gray !important;
     color: #363636;
     font-size: 18px;
   }
