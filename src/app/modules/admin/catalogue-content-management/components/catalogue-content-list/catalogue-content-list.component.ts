@@ -39,8 +39,11 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
     'content_updated_by',
     'content_updated_date'
   ];
+
+  isLoading$ = this._store.pipe(select(fromAdminSelectors.getIsLoading));
+
   getCatalogueContentManagements$ = this._store.pipe(select(fromAdminSelectors.getCataloguesContentManagements$), filter(value => !!value));
-  loading: boolean;
+
   paginationSizes: number[] = [5, 15, 30, 60, 100];
   pageSize = 100;
   dataSource = new MatTableDataSource([]);
@@ -72,7 +75,6 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
         this.selectedCatalogId = this.route.snapshot.queryParamMap.get('id');
       }
     }
-    this.loading = true;
     this._appFacade.clearMessages();
     this._adminService.authorizedAdmin('catalogue_management');
 
@@ -86,7 +88,6 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
     this._subscription.add(
       this.getCatalogueContentManagements$.subscribe((catalogueContentManagements) => {
         this.setTableDataSource(catalogueContentManagements);
-        this.loading = false;
       })
     );
   }
@@ -100,11 +101,9 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(filterValue: string): void {
-    this.loading = true;
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
-    this.loading = false;
   }
 
   changed(event: any, catalogueId: number): void {
@@ -125,7 +124,6 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
   }
 
   getNextPaginationData = (next: boolean = true) => {
-    this.loading = true;
     let skip = 0;
     if (next) {
       this.currentPage += 1;
