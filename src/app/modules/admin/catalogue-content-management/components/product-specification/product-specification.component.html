@@ -2,7 +2,7 @@
   <h2 class="title"><strong>Product Specifications</strong></h2>
   <form [formGroup]="form">
     <div class="row">
-      <div class="col-md-6" *ngFor="let item of specifications" >
+      <div class="col-md-6" *ngFor="let item of specifications;trackBy:trackByKey" >
         <label  class="form-label">{{ item.key }}</label>
         <input type="text" class="form-control input-bg-white" formControlName="{{ item.key }}" name="{{ item.key }}" value="{{ item.value }}" >
       </div>
