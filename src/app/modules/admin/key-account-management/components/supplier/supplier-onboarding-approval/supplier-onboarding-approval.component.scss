@@ -34,6 +34,10 @@
           @include yaari-display-flex(center, center, column);
         }
 
+        .additional-btns {
+          @include yaari-display-flex(center, flex-end);
+        }
+
 
         .date-range-form {
           padding-top: $yaari-large;
@@ -132,6 +136,12 @@
           font-size: $yaari-default-small;
           margin-bottom: 0;
           margin-left: 0;
+        }
+
+        &.with-border {
+          background-color: $yaari-light;
+          color: $yaari-red;
+          border: 1px solid $yaari-red;
         }
       }
 

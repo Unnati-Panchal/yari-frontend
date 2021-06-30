@@ -13,6 +13,7 @@ import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
 import {downloadFile} from '@yaari/utils/utlis';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AdminService} from '@yaari/services/admin/admin.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-supplier-onboarding-approval',
@@ -54,7 +55,7 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
   public dataSource = new MatTableDataSource([]);
   selectedSupplierName: string;
 
-  constructor(private _store: Store<IAppState>, private _snackBar: MatSnackBar, private _adminService: AdminService) { }
+  constructor(private _store: Store<IAppState>, private _snackBar: MatSnackBar, private _adminService: AdminService, private _location: Location) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
@@ -64,6 +65,10 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
     this.getSupplierList();
     this.getSupplierActionResponse();
     this.viewBtn();
+  }
+
+  public backBtn(): void {
+    this._location.back();
   }
 
   public viewBtn(): void {

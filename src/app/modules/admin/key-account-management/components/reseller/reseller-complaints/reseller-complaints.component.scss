@@ -122,6 +122,12 @@
         margin-bottom: $yaari-large / 2;
         margin-left: $yaari-large;
 
+        &.with-border {
+          background-color: $yaari-light;
+          color: $yaari-red;
+          border: 1px solid $yaari-red;
+        }
+
         @include media-breakpoint(lt-sm) {
           margin-left: 0;
         }

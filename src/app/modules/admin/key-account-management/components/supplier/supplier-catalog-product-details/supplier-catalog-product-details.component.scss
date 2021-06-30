@@ -125,6 +125,12 @@
         @include media-breakpoint(lt-sm) {
           margin-left: 0;
         }
+
+        &.with-border {
+          background-color: $yaari-light;
+          color: $yaari-red;
+          border: 1px solid $yaari-red;
+        }
       }
 
     }

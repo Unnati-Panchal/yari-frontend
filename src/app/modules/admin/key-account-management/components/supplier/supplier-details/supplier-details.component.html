@@ -7,10 +7,14 @@
       <app-error-success [errors]="isError$ | async"></app-error-success>
     </div>
 
-    <mat-button-toggle-group [(ngModel)]="isKYCDetailsSelected">
-      <mat-button-toggle [value]="false">Business Details</mat-button-toggle>
-      <mat-button-toggle [value]="true">KYC Details</mat-button-toggle>
-    </mat-button-toggle-group>
+    <div class="action-btns">
+      <mat-button-toggle-group [(ngModel)]="isKYCDetailsSelected">
+        <mat-button-toggle [value]="false">Business Details</mat-button-toggle>
+        <mat-button-toggle [value]="true">KYC Details</mat-button-toggle>
+      </mat-button-toggle-group>
+
+      <button mat-button class="with-border" (click)="backBtn()">Back</button>
+    </div>
 
     <div *ngIf="!loading && KAMSupplierDetails" class="table-box">
       <ng-container *ngIf="!isKYCDetailsSelected; else KYCDetails">

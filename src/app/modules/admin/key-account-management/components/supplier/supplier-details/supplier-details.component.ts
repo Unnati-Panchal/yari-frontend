@@ -8,6 +8,7 @@ import {ISupplierDetails} from '@yaari/models/admin/admin.interface';
 import {IAppState} from '~store/app.state';
 import * as fromAdminActions from '~store/admin/admin.actions';
 import {downloadFile} from '@yaari/utils/utlis';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-supplier-details',
@@ -22,7 +23,7 @@ export class SupplierDetailsComponent implements OnInit, OnDestroy {
   KAMSupplierDetails: ISupplierDetails;
   isKYCDetailsSelected = false;
 
-  constructor(private _store: Store<IAppState>, private router: Router, private route: ActivatedRoute) { }
+  constructor(private _store: Store<IAppState>, private router: Router, private route: ActivatedRoute, private _location: Location) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
@@ -33,6 +34,10 @@ export class SupplierDetailsComponent implements OnInit, OnDestroy {
     const supplierId = this.route.snapshot.paramMap.get('id');
     this._store.dispatch(fromAdminActions.getSupplierDetailsById({supplierId: Number(supplierId)}));
     this.getCatalogList();
+  }
+
+  public backBtn(): void {
+    this._location.back();
   }
 
   getCatalogList(): void {

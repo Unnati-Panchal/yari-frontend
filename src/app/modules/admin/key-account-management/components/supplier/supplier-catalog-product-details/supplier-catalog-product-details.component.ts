@@ -10,6 +10,7 @@ import {IProductDetail} from '@yaari/models/admin/admin.interface';
 
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-supplier-catalog-product-details',
@@ -29,7 +30,7 @@ export class SupplierCatalogProductDetailsComponent implements OnInit, OnDestroy
   KAMProductDetails: IProductDetail[];
   filteredKAMProductDetails: IProductDetail[];
 
-  constructor(private _store: Store<IAppState>, private router: Router, private route: ActivatedRoute) { }
+  constructor(private _store: Store<IAppState>, private router: Router, private route: ActivatedRoute, private _location: Location) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
@@ -41,6 +42,10 @@ export class SupplierCatalogProductDetailsComponent implements OnInit, OnDestroy
     this.selectedCatalogName = this.route.snapshot.paramMap.get('name');
     this._store.dispatch(fromAdminActions.getProductsByCatalogId({catalogId: Number(catalogId)}));
     this.getCatalogList();
+  }
+
+  public backBtn(): void {
+    this._location.back();
   }
 
   public viewBtn(): void {

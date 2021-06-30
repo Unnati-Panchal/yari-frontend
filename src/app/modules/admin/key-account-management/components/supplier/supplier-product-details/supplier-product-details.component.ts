@@ -5,6 +5,7 @@ import {select, Store} from '@ngrx/store';
 import {IAppState} from '~store/app.state';
 import {filter} from 'rxjs/operators';
 import {Router} from '@angular/router';
+import {Location} from '@angular/common';
 import {MatTableDataSource} from '@angular/material/table';
 import {ICatalog, IFilter} from '@yaari/models/admin/admin.interface';
 
@@ -27,7 +28,7 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
   public dataSource = new MatTableDataSource([]);
   selectedName: string;
 
-  constructor(private _store: Store<IAppState>, private router: Router) { }
+  constructor(private _store: Store<IAppState>, private router: Router, private _location: Location) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
@@ -35,6 +36,10 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getCatalogList();
+  }
+
+  public backBtn(): void {
+    this._location.back();
   }
 
   public viewBtn(): void {

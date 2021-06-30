@@ -26,6 +26,10 @@
         padding: 0;
       }
 
+      .action-btns {
+        @include yaari-display-flex(center, space-between);
+      }
+
       .mat-button-toggle-group-appearance-standard {
         border: none;
       }
@@ -171,6 +175,13 @@
 
         @include media-breakpoint(lt-sm) {
           margin-left: 0;
+        }
+
+        &.with-border {
+          background-color: $yaari-light;
+          color: $yaari-red;
+          border: 1px solid $yaari-red;
+          margin: 0;
         }
 
         &.element-btn {
