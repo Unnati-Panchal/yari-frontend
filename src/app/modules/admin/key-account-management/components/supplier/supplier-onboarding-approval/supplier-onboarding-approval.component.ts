@@ -63,6 +63,7 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getSupplierList();
     this.getSupplierActionResponse();
+    this.viewBtn();
   }
 
   public viewBtn(): void {
