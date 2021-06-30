@@ -127,6 +127,7 @@ export interface IEditProduct {
   new_images: NewImage[];
   to_delete_video_url: string;
   new_video: NewVideo;
+  inventory:number;
 }
 
 export interface NewImage {
