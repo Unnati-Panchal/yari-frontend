@@ -20,6 +20,7 @@ export class SupplierDetailsComponent implements OnInit, OnDestroy {
   public isError$ = this._store.pipe(select(fromAdminSelectors.getIsError), filter(err => !!err));
   loading: boolean;
   KAMSupplierDetails: ISupplierDetails;
+  isKYCDetailsSelected = false;
 
   constructor(private _store: Store<IAppState>, private router: Router, private route: ActivatedRoute) { }
 
