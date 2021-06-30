@@ -43,7 +43,8 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
     'bank_account_number',
     'cancelled_cheque',
     'msme_certificate',
-    'action'
+    'action',
+    'comment'
   ];
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();
@@ -54,8 +55,16 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
   submitted: boolean;
   public dataSource = new MatTableDataSource([]);
   selectedSupplierName: string;
+  updatedComment: string[] = [];
+  supplierDetails: ISupplierDetails[];
 
-  constructor(private _store: Store<IAppState>, private _snackBar: MatSnackBar, private _adminService: AdminService, private _location: Location) { }
+  constructor(
+    private _store: Store<IAppState>,
+    private _snackBar: MatSnackBar,
+    private _adminService: AdminService,
+    private _location: Location
+  ) {
+  }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
@@ -94,7 +103,8 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
       combineLatest([this.KAMSupplierOnboardings$])
         .subscribe(([KAMSupplierOnboardings]) => {
           this.loading = false;
-          this.setTableDataSource(KAMSupplierOnboardings);
+          this.supplierDetails = KAMSupplierOnboardings;
+          this.setTableDataSource(this.supplierDetails);
         })
     );
   }
@@ -107,10 +117,10 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
     downloadFile(url).then();
   }
 
-  approveSupplier(approved: ISupplierDetails, approve: boolean): void {
+  approveSupplier(approved: ISupplierDetails, approve: boolean, index: number): void {
     const supplier: ISupplierOnboard = {
       approve,
-      comment: approve ? 'Approved' : 'Rejected',
+      comment: this.updatedComment[index] ? this.updatedComment[index] : 'Na',
       supplier_id: approved.id.toString()
     };
     this._store.dispatch(fromAdminActions.approveRejectSupplier({supplier}));

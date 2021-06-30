@@ -225,6 +225,7 @@ export interface ISupplierDetails {
   price_range_max?: string;
   cancelled_cheque?: string;
   msme_certificate?: string;
+  comment?: string;
 }
 
 export interface ICatalog {
