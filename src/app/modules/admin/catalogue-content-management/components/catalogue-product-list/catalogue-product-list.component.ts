@@ -1,18 +1,16 @@
 import * as _ from 'lodash';
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
-
-import { ActivatedRoute, Router } from '@angular/router';
-import { AppFacade, IAppState } from '~app/store/app.state';
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { Store, select } from '@ngrx/store';
-
-import { AdminService } from '@yaari/services/admin/admin.service';
-import { ICatalogueContentManagement } from '@yaari/models/admin/admin.interface';
-import { MatPaginator } from '@angular/material/paginator';
-import { MatTableDataSource } from '@angular/material/table';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import {ActivatedRoute, Router} from '@angular/router';
+import {AppFacade, IAppState} from '~app/store/app.state';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {select, Store} from '@ngrx/store';
+import {AdminService} from '@yaari/services/admin/admin.service';
+import {ICatalogueContentManagement} from '@yaari/models/admin/admin.interface';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatTableDataSource} from '@angular/material/table';
+import {Subscription} from 'rxjs';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-catalogue-product-list',
@@ -20,15 +18,20 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./catalogue-product-list.component.scss']
 })
 export class CatalogueProductListComponent implements OnInit, OnDestroy {
-  @ViewChild(MatPaginator, { static: false }) matPaginator: MatPaginator;
+
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
 
   displayedColumns: string[] = [
     'selected_product_sku_id',
     'sku_id',
     'catalog_name'
   ];
+  isLoading$ = this._store.pipe(select(fromAdminSelectors.getIsLoading));
+
+  getIsError$ = this._store.pipe(select(fromAdminSelectors.getIsError));
+
   getCatalogueProductList$ = this._store.pipe(select(fromAdminSelectors.getCatalogueProductList$), filter(value => !!value));
-  loading: boolean;
+
   paginationSizes: number[] = [5, 15, 30, 60, 100];
   defaultPageSize = this.paginationSizes[0];
   dataSource = new MatTableDataSource([]);
@@ -45,15 +48,12 @@ export class CatalogueProductListComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute
   ) { }
 
-  getIsError$ = this._store.pipe(
-    select(fromAdminSelectors.getIsError));
 
   ngOnDestroy(): void {
     this._subscription.unsubscribe();
   }
 
   ngOnInit(): void {
-    this.loading = true;
     this._appFacade.clearMessages();
     this._adminService.authorizedAdmin('catalogue_management');
     const catalogIds = this.route.snapshot.queryParamMap.get('catalogIds');
@@ -61,7 +61,6 @@ export class CatalogueProductListComponent implements OnInit, OnDestroy {
     this._subscription.add(
       this.getCatalogueProductList$.subscribe((catalogueProductList) => {
         this.setTableDataSource(catalogueProductList);
-        this.loading = false;
       })
     );
   }
@@ -74,11 +73,9 @@ export class CatalogueProductListComponent implements OnInit, OnDestroy {
   }
 
   applyFilter(filterValue: string): void {
-    this.loading = true;
     filterValue = filterValue.trim();
     filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
-    this.loading = false;
   }
 
   changed(event: any, id: number): void {
