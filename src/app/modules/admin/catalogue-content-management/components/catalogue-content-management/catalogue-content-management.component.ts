@@ -124,13 +124,9 @@ export class CatalogueContentManagementComponent implements OnInit {
       media_bytes: this.productDetailComponent.newVideo?.data,
       media_name: this.productDetailComponent.newVideo?.name
     } as NewVideo;
-    product.key_features = this.productDetailComponent.form.controls['key_feature'].value;
-    product.warranty = this.productDetailComponent.form.controls['warranty'].value;
-    product.guarantee = this.productDetailComponent.form.controls['guarantee'].value;
-
+    product.material_care = this.productDetailComponent.form.controls['material_care'].value;
     this._store.dispatch(fromAdminActions.editProduct({product}));
     this._store.dispatch(fromAdminActions.getProductDetails({productIds: this.productIds.toString()}));
-
     this._subscription.add(
       this.getProductDetail$.subscribe((productDetail) => {
         this.productDetailComponent.bindProduct(productDetail);

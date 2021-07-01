@@ -128,6 +128,7 @@ export interface IEditProduct {
   to_delete_video_url: string;
   new_video: NewVideo;
   inventory:number;
+  material_care:string;
 }
 
 export interface NewImage {
