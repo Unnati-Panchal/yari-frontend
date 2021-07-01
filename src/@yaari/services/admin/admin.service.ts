@@ -147,7 +147,7 @@ export class AdminService {
 
   public getViewCatalogues(filter:  IFilter): Observable<IUploadedCatalogue[]> {
     const query = getQueryAndParam(filter);//view_catalogue
-    return this._http.get<IUploadedCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}&limit=10000`);
+    return this._http.get<IUploadedCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}`);
   }
 
   public getSupplierList(filter: IFilter): Observable<ISupplierList[]> {

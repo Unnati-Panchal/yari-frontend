@@ -216,18 +216,3 @@
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-.nav-button {
-  height: 41px;
-  border-radius: 24px;
-  background-color: #ffffff;
-  border: 2px solid #f62101;
-  color: #f62101;
-  width: 70px;
-  float: right;
-  margin-right: 15px;
-
-  &.mat-button-disabled {
-    opacity: 0.5;
-  }
-}
