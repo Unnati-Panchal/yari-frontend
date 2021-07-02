@@ -36,6 +36,7 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getCatalogList();
+    this.viewBtn();
   }
 
   public backBtn(): void {
