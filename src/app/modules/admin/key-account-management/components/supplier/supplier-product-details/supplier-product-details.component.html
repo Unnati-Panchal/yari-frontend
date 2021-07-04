@@ -69,6 +69,13 @@
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>
     </div>
+    <div>
+      <mat-paginator *ngIf="!loading && dataSource?.data?.length"
+                     [pageSizeOptions]="paginationSizes"
+                     [pageSize]="defaultPageSize"
+                     showFirstLastButtons>
+      </mat-paginator>
+    </div>
 
     <div *ngIf="loading" class="centered">
       <mat-spinner color="warn" [diameter]="50"></mat-spinner>

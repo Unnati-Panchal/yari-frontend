@@ -1,4 +1,4 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {combineLatest, Subscription} from 'rxjs';
 import {IBulkUploadBasic, IQuery} from '@yaari/models/product/product.interface';
 import {select, Store} from '@ngrx/store';
@@ -11,6 +11,7 @@ import {ICatalog, IFilter} from '@yaari/models/admin/admin.interface';
 
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
+import {MatPaginator} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-supplier-product-details',
@@ -27,6 +28,9 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
   submitted: boolean;
   public dataSource = new MatTableDataSource([]);
   selectedName: string;
+  paginationSizes: number[] = [5, 15, 30, 60, 100];
+  defaultPageSize = this.paginationSizes[0];
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
 
   constructor(private _store: Store<IAppState>, private router: Router, private _location: Location) { }
 
@@ -67,6 +71,9 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
 
   setTableDataSource(data: IBulkUploadBasic[]): void {
     this.dataSource = new MatTableDataSource<any>(data);
+    setTimeout( () => {
+      this.dataSource.paginator = this.matPaginator;
+    });
   }
 }
 
