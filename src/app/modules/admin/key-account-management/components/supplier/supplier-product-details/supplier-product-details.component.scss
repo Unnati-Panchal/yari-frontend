@@ -131,6 +131,18 @@
           color: $yaari-red;
           border: 1px solid $yaari-red;
         }
+
+        &.action-buttons {
+          display: block;
+          padding: 0;
+          border-radius: $yaari-base;
+          background-color: $yaari-red;
+          color: $yaari-light;
+          margin-bottom: 0;
+          margin-left: 0;
+          height: yaari-to-rem(35px);
+          min-width: yaari-to-rem(35px);
+        }
       }
 
     }

@@ -8,10 +8,12 @@ import {Router} from '@angular/router';
 import {Location} from '@angular/common';
 import {MatTableDataSource} from '@angular/material/table';
 import {ICatalog, IFilter} from '@yaari/models/admin/admin.interface';
+import * as fileSaver from 'file-saver';
 
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
 import {MatPaginator} from '@angular/material/paginator';
+import {AdminService} from '@yaari/services/admin/admin.service';
 
 @Component({
   selector: 'app-supplier-product-details',
@@ -19,7 +21,16 @@ import {MatPaginator} from '@angular/material/paginator';
   styleUrls: ['./supplier-product-details.component.scss']
 })
 export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['sr_no', 'catalogue_name', 'supplier_business_name', 'catalogue_uploaded_by', 'catalogue_uploaded_date', 'category_name', 'catalogue_status'];
+  displayedColumns: string[] = [
+    'sr_no',
+    'catalogue_name',
+    'supplier_business_name',
+    'catalogue_uploaded_by',
+    'catalogue_uploaded_date',
+    'category_name',
+    'catalogue_status',
+    'actions'
+  ];
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();
   public KAMCatalogList$ = this._store.pipe(select(fromAdminSelectors.KAMCatalogList$), filter(list => !!list));
@@ -32,7 +43,12 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
   defaultPageSize = this.paginationSizes[0];
   @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
 
-  constructor(private _store: Store<IAppState>, private router: Router, private _location: Location) { }
+  constructor(
+    private _store: Store<IAppState>,
+    private router: Router,
+    private _location: Location,
+    private _adminService: AdminService,
+    ) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
@@ -75,6 +91,15 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
     setTimeout( () => {
       this.dataSource.paginator = this.matPaginator;
     });
+  }
+
+  downloadProduct(catalogue: ICatalog): void {
+    this._subscription.add(
+      this._adminService.getCatalogueDownload(+catalogue.id).subscribe(res => {
+      const blob = new Blob([res], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      fileSaver.saveAs(blob, `${catalogue.catalogue_name}.xlsx`);
+    })
+    );
   }
 }
 
