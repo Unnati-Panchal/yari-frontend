@@ -49,7 +49,7 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
 
   public viewBtn(): void {
     const query: IFilter = {
-      filterBy: this.selectedName
+      filterBy: this.selectedName.trim()
     };
     this.loading = true;
     this.submitted = true;
