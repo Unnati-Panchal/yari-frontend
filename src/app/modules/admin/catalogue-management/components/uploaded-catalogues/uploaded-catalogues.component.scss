@@ -19,14 +19,14 @@
         min-width: 280px;
     }
     .act-button {
-        position: relative;
-        margin: 1px 15px 0 0;
-        height: 39px;
-        border-radius: 12px;
-        background-color: #ffffff;
-        color: #f62101;
-        border: 1px solid #f62101;
-        width: 90px;
+      height: 41px;
+      border-radius: 24px;
+      float: right;
+      margin: 1px 15px 0 0;
+      background-color: #ffffff;
+      color: #f62101;
+      border: 2px solid #f62101;
+      width: 90px;
     }
     ::ng-deep .search .mat-form-field-wrapper {
         border: solid 2px #efefef;
@@ -44,10 +44,7 @@
   }
 
   .act-button {
-    position: relative;
     margin: 1px 15px 0 0;
-    height: 39px;
-    border-radius: 12px;
     background-color: #f62101;
     color: #ffffff;
     border: 1px solid #f62101;
@@ -55,11 +52,13 @@
 
     &__green {
       margin-right: 15px;
-      height: 39px;
       color: #ffffff;
-      border: 1px solid #02c730;
+      float: right;
+      border: 2px solid #02c730;
       background-color: #02c730;
-      border-radius: 12px;
+      border-radius: 24px;
+      height: 41px;
+      width: 90px;
     }
   }
 
