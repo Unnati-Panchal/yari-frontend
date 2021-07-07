@@ -18,7 +18,31 @@ import {Location} from '@angular/common';
   styleUrls: ['./supplier-catalog-product-details.component.scss']
 })
 export class SupplierCatalogProductDetailsComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['sku_id', 'size_chart', 'mrp', 'key_features', 'material', 'material_care', 'description', 'colors', 'final_price', 'stock', 're_stock_date', 'offer', 'hsn_code', 'group_id', 'product_id'];
+  displayedColumns: string[] = [];
+  firstGroupColumns: string[] = [
+    'product_name',
+    'sku_id'
+  ];
+  secondGroupColumns: string[] = [
+    'product_status',
+    'key_features',
+    'description',
+    'material_care',
+    'hsn_code',
+    'offer',
+    'group_id',
+    'product_id',
+    'guarantee',
+    'warranty',
+    'material',
+    'size_chart',
+    'color_chart',
+    'mrp',
+    'stock_count',
+    're_stock_date',
+    'images'
+  ];
+  specKeys: string[] = [];
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();
   public KAMProductDetails$ = this._store.pipe(select(fromAdminSelectors.KAMProductDetails$), filter(list => !!list));
@@ -62,8 +86,10 @@ export class SupplierCatalogProductDetailsComponent implements OnInit, OnDestroy
       combineLatest([this.KAMProductDetails$])
         .subscribe(([KAMProductDetails]) => {
           this.loading = false;
+          this.specKeys = [...new Set(Object.keys(KAMProductDetails[0].specifications))];
+          this.displayedColumns = [...this.firstGroupColumns, ...this.specKeys, ...this.secondGroupColumns];
           this.KAMProductDetails = KAMProductDetails;
-          this.filteredKAMProductDetails = this. KAMProductDetails;
+          this.filteredKAMProductDetails = this.KAMProductDetails;
           this.setTableDataSource(KAMProductDetails);
         })
     );
