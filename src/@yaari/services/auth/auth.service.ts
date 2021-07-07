@@ -29,12 +29,20 @@ export class AuthService {
   }
 
   public get accessToken(): string {
-    return JSON.parse(sessionStorage.getItem(this._accessKeyStorageKey));
+    return this.getCookie(this._accessKeyStorageKey);
+    // return JSON.parse(sessionStorage.getItem(this._accessKeyStorageKey));
   }
 
   public set accessToken(accessToken: string) {
-    sessionStorage.setItem(this._accessKeyStorageKey, JSON.stringify(accessToken));
+    document.cookie = `${this._accessKeyStorageKey}=${accessToken}; path=/`;
+    // sessionStorage.setItem(this._accessKeyStorageKey, JSON.stringify(accessToken));
   }
+
+  getCookie = (name) => {
+    let match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+    if (match) return match[2];
+  }
+
 
   public logout(): void {
     sessionStorage.clear();
@@ -51,9 +59,13 @@ export class AuthService {
   }
 
   public logoutAdmin(): void {
+    this.clear_cookies();
     this.redirectToAdminLogin();
-    sessionStorage.clear();
     this._store.dispatch(fromAuthActions.clearState());
+  }
+
+  public clear_cookies():void{
+    document.cookie = `${this._accessKeyStorageKey}=${null}; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/`;
   }
 
   public logoutService(): Observable<{ msg: string }> {

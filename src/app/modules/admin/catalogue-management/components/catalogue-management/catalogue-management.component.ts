@@ -5,13 +5,12 @@ import { AppFacade, IAppState } from '~app/store/app.state';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 
 import { Store, select } from '@ngrx/store';
-import { tap } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 
 import { AdminService } from '@yaari/services/admin/admin.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '@yaari/services/auth/auth.service';
 import { IAdminDetails } from '@yaari/models/auth/auth.interface';
-
 
 
 @Component({
@@ -25,6 +24,11 @@ export class CatalogueManagementComponent implements OnInit, OnDestroy {
     select(fromAuthSelectors.getIsError),
     tap(() => this.loading = false)
   );
+
+public adminDetails$ = this._store.pipe(
+  select(fromAuthSelectors.adminDetails$),
+  filter(details => !!details),
+);
 
   public hide: boolean;
   public loading: boolean;
@@ -46,7 +50,7 @@ export class CatalogueManagementComponent implements OnInit, OnDestroy {
     this._appFacade.clearMessages();
     // this._store.dispatch(fromAuthActions.adminDetails());
     this._adminService.authorizedAdmin('catalogue_management');
-    this._auth.adminDetails().subscribe((adminDetails: IAdminDetails) => {
+    this.adminDetails$.subscribe((adminDetails: IAdminDetails) => {
       if(adminDetails.admin_designation == "associate"){
         this.menus = [
           { name: 'Approve Uploaded Catalogues', link: 'catalogues' },

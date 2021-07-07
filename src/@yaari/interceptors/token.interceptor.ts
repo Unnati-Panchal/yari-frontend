@@ -29,11 +29,19 @@ export class TokenInterceptor implements HttpInterceptor {
         }
       }),
       catchError(err => {
+        if (err.status === 504){
+          this._snackBar.open('Please Check Your Internet Connection', '', { duration: 3000 });
+        }
+
         if (err.url.includes('/api/v1/admin')) {
           if ((err.status === 401 || err.status === 403)) {
             const msg = err.status === 401 ? `Status 401. You are not authorized, please log in` : `Status 403. You are not authorized`;
             this._snackBar.open(msg, '', { duration: 3000 });
-            if (err.status === 401) {
+            if (err.error.detail.toString().toLowerCase().startsWith("session expired")){
+              this._auth.clear_cookies();
+              window.location.reload();
+            }
+            else if (err.status === 401) {
               this._auth.redirectToAdminLogin();
             }
             return of(err);
@@ -57,7 +65,7 @@ export class TokenInterceptor implements HttpInterceptor {
           return throwError(err);
         }
         else if (err.status === 401 || err.status === 403) {
-          this._auth.logout();
+          this._auth.redirectToAdminLogin();
           const msg = err.status === 401 ? `Status 401. You are not authorized, please log in` : `Status 403. You are not authorized, please log in`;
           this._snackBar.open(msg, '', { duration: 3000 });
           return of(err);

@@ -22,13 +22,18 @@ import {
 
 import {AuthService} from '../auth/auth.service';
 import {HttpClient} from '@angular/common/http';
-import {IResetPassword} from '@yaari/models/auth/auth.interface';
+import {IAdminDetails, IResetPassword} from '@yaari/models/auth/auth.interface';
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {environment} from '~env/environment';
 import {getQuery, getQueryAndParam} from '@yaari/utils/utlis';
+import { IAppState } from '~app/store/app.state';
+import { select, Store } from '@ngrx/store';
+import { filter } from 'rxjs/operators';
+import * as fromAuthSelectors from '~store/auth/auth.selectors';
+
 
 @Injectable({
   providedIn: 'root'
@@ -39,8 +44,15 @@ export class AdminService {
     private _http: HttpClient,
     private _snackbar: MatSnackBar,
     private _auth: AuthService,
-    private _router: Router
+    private _router: Router,
+    private _store: Store<IAppState>,
+
   ) { }
+
+  public adminDetails$ = this._store.pipe(
+    select(fromAuthSelectors.adminDetails$),
+    filter(details => !!details),
+  );
 
   public forgotPasswordAdmin(email: string): Observable<{ msg: string }> {
     const url = window.location.href.split('forgot-password').join('reset-password');
@@ -96,11 +108,20 @@ export class AdminService {
     return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/register/admin-user?redirect_url=${url}`, body);
   }
 
-  public authorizedAdmin(role: string): void {
-    this._auth.adminDetails().subscribe(adminDetails => {
-      if (adminDetails.admin_role !== role) {
-        this._snackbar.open('Unauthorized Access', '', {duration: 3000});
+  public authorizedAdmin(role: string = ""): void {
+    
+    this.adminDetails$.subscribe(adminDetails => {  
+      
+      if (adminDetails.admin_role === "catalogue_management"){
+        if (window.location.toString().includes("/admin/catalogue-content-management") || window.location.toString().includes("/admin/view-catalogue")){
+          return
+        }
+      }
+      
+      if (!window.location.toString().includes('login') && !(window.location.toString()).includes(adminDetails.admin_role.split('_').join('-'))) {
+        this._snackbar.open('Unauthorized Access', '', {duration: 5000});
         this._router.navigate([`/admin/${adminDetails.admin_role.split('_').join('-')}`]);
+        
       }
     });
   }

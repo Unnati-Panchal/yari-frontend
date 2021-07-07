@@ -8,7 +8,8 @@ import { AppFacade, IAppState } from '~store/app.state';
 import { select, Store } from '@ngrx/store';
 import * as fromProfileActions from '~store/profile/profile.actions';
 import * as fromAuthActions from '~store/auth/auth.actions';
-import * as fromAuthSelectors from '~store/auth/auth.selectors';
+import { AdminService } from '@yaari/services/admin/admin.service';
+
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -50,6 +51,7 @@ export class AdminAuthGuard implements CanActivate {
 
   constructor(
     private _authService: AuthService,
+    private _adminService: AdminService,
     private _snackBar: MatSnackBar,
     private _router: Router,
     private _appFacade: AppFacade,
@@ -57,32 +59,17 @@ export class AdminAuthGuard implements CanActivate {
   ) {
   }
 
-  public adminDetails$ = this._store.pipe(
-    select(fromAuthSelectors.adminDetails$),
-    filter(details => !!details),
-  );
-
   public canActivate(): boolean {
+    if (this._authService.accessToken && this._authService.accessToken !== "null") {
+      this._store.dispatch(fromAuthActions.adminDetails());
+    }
     this._router.events.pipe(filter(val => val instanceof NavigationEnd))
       .subscribe((val: NavigationEnd) => {
-
         this._appFacade.clearMessages();
-        if (val.url !== '/admin/login' && val.url !== '/admin/forgot-password' && val.url !=='/') {
-          if (!this._authService.accessToken) {
-            this._snackBar.open('You are not authorized, Please log in', '', { duration: 3000 });
-            this._router.navigate(['/admin/login']);
-            return false;
-          }
-          else {
-            this._store.dispatch(fromAuthActions.adminDetails());
-          }
-        }
-        else if (val.url === '/admin/login' && this._authService.accessToken) {
-          this._store.dispatch(fromAuthActions.adminDetails());
-          this.adminDetails$.subscribe(adminDetails => {
-            this._router.navigate([`/admin/${adminDetails.admin_role.split('_').join('-')}`]);
-            return false;
-          });
+        if (val.url !== '/admin/login' && val.url !== '/admin/forgot-password' && val.url !== '/' && (!this._authService.accessToken || this._authService.accessToken === "null")) {
+          this._snackBar.open('You are not authorized, Please log in', '', { duration: 3000 });
+          this._router.navigate(['/admin/login']);
+          return false; 
         }
       });
     return true;
