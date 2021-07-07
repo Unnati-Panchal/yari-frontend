@@ -31,6 +31,7 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
     'catalogue_status',
     'actions'
   ];
+
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();
   public KAMCatalogList$ = this._store.pipe(select(fromAdminSelectors.KAMCatalogList$), filter(list => !!list));
