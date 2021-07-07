@@ -53,9 +53,10 @@ export class AdminService {
     return this._http.post<{ msg: string }>(`${environment.API_BASE_URL}/api/v1/user/reset-password?user_role=admin`, resetPassword);
   }
 
-  public getUploadedCatalogues(): Observable<IUploadedCatalogue[]> {
+  public getUploadedCatalogues(filter: IFilter): Observable<IUploadedCatalogue[]> {
+    const query = getQuery(filter);//approve_uploaded_catalogue
     return this._http.get<IUploadedCatalogue[]>(
-      `${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues?fetch_type=approve_uploaded_catalogue&limit=10000`
+      `${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}`
     );
   }
 
@@ -108,7 +109,7 @@ export class AdminService {
   public getCatalogContents(filter: IFilter): Observable<ICatalogueContentManagement[]> {
     const query = getQuery(filter);//catalogue_content_management
     return this._http.get<ICatalogueContentManagement[]>(
-      `${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}&limit=10000`
+      `${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}`
     );
   }
 

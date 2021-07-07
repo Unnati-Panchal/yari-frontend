@@ -21,7 +21,7 @@ export const clearMessages = createAction('[ADMIN] clear messages');
 export const stopLoading = createAction('[ADMIN] stop loading');
 
 
-export const getUploadedCatalogues = createAction('[ADMIN] get uploaded catalogues');
+export const getUploadedCatalogues = createAction('[ADMIN] get uploaded catalogues',props<{ filter: IFilter }>());
 
 export const getUploadedCataloguesSuccess = createAction('[ADMIN] get uploaded catalogues success',
     props<{ uploadedCatalogues: IUploadedCatalogue[] }>());

@@ -29,9 +29,9 @@ export class AdminEffects {
   public getUploadedCatalogues$ = createEffect(() =>
     this._actions$.pipe(
       ofType(fromAdminActions.getUploadedCatalogues),
-      map(action => action),
-      switchMap(() =>
-        this._adminService.getUploadedCatalogues().pipe(
+      map(action => action.filter),
+      switchMap((filter: IFilter) =>
+        this._adminService.getUploadedCatalogues(filter).pipe(
           map((uploadedCatalogues: IUploadedCatalogue[]) => fromAdminActions.getUploadedCataloguesSuccess({uploadedCatalogues})),
           catchError(error => of(fromAdminActions.getUploadedCataloguesError(error)))
         )

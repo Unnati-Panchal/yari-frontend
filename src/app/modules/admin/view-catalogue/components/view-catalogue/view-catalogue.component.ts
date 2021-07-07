@@ -41,13 +41,15 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
     select(fromAdminSelectors.getViewCatalogues$),
     filter(details => !!details)
   );
+
+
+  private _subscription: Subscription = new Subscription();
   filter: '';
   dataSource = new HttpPaginatedDataSource([]);
-  totalCount = 220;
-  private _subscription: Subscription = new Subscription();
   paginationSizes: number[] = [5, 15, 30, 60, 100];
   pageSize = 5;
   currentPage = 0;
+  totalCount = 0;
 
 
   constructor(
@@ -152,7 +154,7 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
         skip: skip,
         limit: this.pageSize,
         fetch_type: 'view_catalogue',
-        filter_by: this.filter,
+        filter_by: this.filter || '',
       } as IFilter
     }));
   }
