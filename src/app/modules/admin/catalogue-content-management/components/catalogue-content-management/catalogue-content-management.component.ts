@@ -26,16 +26,17 @@ export class CatalogueContentManagementComponent implements OnInit {
 
   private _subscription: Subscription = new Subscription();
 
-  @ViewChild('productDetail', { static: true }) productDetailComponent: ProductDetailComponent;
-  @ViewChild('productSpecification', { static: true }) productSpecificationComponent: ProductSpecificationComponent;
+  @ViewChild('productDetail', {static: true}) productDetailComponent: ProductDetailComponent;
+  @ViewChild('productSpecification', {static: true}) productSpecificationComponent: ProductSpecificationComponent;
+  isLoading$ = this._store.pipe(select(fromAdminSelectors.getIsLoading));
+
+  getProductDetail$ = this._store.pipe(select(fromAdminSelectors.getProductDetail$), filter(value => !!value));
 
   constructor(
     private route: ActivatedRoute,
     private _store: Store<IAppState>,
-    private _adminService: AdminService) { }
-
-  getProductDetail$ = this._store.pipe(select(fromAdminSelectors.getProductDetail$), filter(value => !!value));
-
+    private _adminService: AdminService) {
+  }
 
   ngOnInit(): void {
     this._adminService.authorizedAdmin('catalogue_management');
@@ -44,10 +45,12 @@ export class CatalogueContentManagementComponent implements OnInit {
         const productIds = this.route.snapshot.queryParamMap.get('productIds').split(',');
         this.pushProductIds(productIds);
         this.setProductId(+productIds[0]);
-        this._store.dispatch(fromAdminActions.getProductDetails({ productIds: this.productIds.toString() }));
+        this._store.dispatch(fromAdminActions.getProductDetails({productIds: this.productIds.toString()}));
         this._subscription.add(
           this.getProductDetail$.subscribe((productDetail) => {
-            return this.productDetailComponent.bindProduct(productDetail);
+            this.productDetailComponent.bindProduct(productDetail);
+            this.productSpecificationComponent.bindProduct(productDetail);
+            this.setProductId(this.selectedProductId || +productIds[0]);
           })
         );
       }
@@ -98,9 +101,9 @@ export class CatalogueContentManagementComponent implements OnInit {
     this.selectedProductId = +productId;
     this._store.dispatch(fromAdminActions.getProductDetail({productId: this.selectedProductId}));
 
-  }
+  };
 
-  submitProduct(): void {
+  async submitProduct() {
     const product = {} as IEditProduct;
 
     product.id = +this.productDetailComponent.form.controls['id'].value;
@@ -126,13 +129,11 @@ export class CatalogueContentManagementComponent implements OnInit {
     } as NewVideo;
     product.material_care = this.productDetailComponent.form.controls['material_care'].value;
     this._store.dispatch(fromAdminActions.editProduct({product}));
-    this._store.dispatch(fromAdminActions.getProductDetails({productIds: this.productIds.toString()}));
-    this._subscription.add(
-      this.getProductDetail$.subscribe((productDetail) => {
-        this.productDetailComponent.bindProduct(productDetail);
-        this.productSpecificationComponent.bindProduct(productDetail);
-        return this.setProductId(+this.productDetailComponent.form.controls['id'].value);
-      })
-    );
+    await this.delay(3000);
+  }
+
+  async delay(ms: number) {
+    await new Promise(resolve => setTimeout(() => resolve(), ms)).then(() => this._store.dispatch(fromAdminActions.getProductDetails({productIds: this.productIds.toString()})));
   }
 }
+
