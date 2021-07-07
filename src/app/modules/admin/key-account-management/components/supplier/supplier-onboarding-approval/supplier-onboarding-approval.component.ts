@@ -118,9 +118,13 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
   }
 
   approveSupplier(approved: ISupplierDetails, approve: boolean, index: number): void {
+    if (!this.updatedComment[index]) {
+      this.openSnackBar('Please add a comment');
+      return;
+    }
     const supplier: ISupplierOnboard = {
       approve,
-      comment: this.updatedComment[index] ? this.updatedComment[index] : 'Na',
+      comment: this.updatedComment[index],
       supplier_id: approved.id.toString()
     };
     this._store.dispatch(fromAdminActions.approveRejectSupplier({supplier}));

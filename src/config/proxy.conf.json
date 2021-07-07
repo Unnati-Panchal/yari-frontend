@@ -1,6 +1,6 @@
 {
     "/api/*": {
-        "target": "https://api-dev.yaari.com",
+        "target": "https://api-qa.yaari.com",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true
