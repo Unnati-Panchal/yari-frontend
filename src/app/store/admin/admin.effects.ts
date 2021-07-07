@@ -5,6 +5,7 @@ import {Actions, createEffect, ofType} from '@ngrx/effects';
 import {
   ICatalog,
   ICatalogueContentManagement,
+  ICatalogueManagementCountFilter,
   ICatalogueProducts,
   IComplaints,
   IEditProduct,
@@ -220,6 +221,19 @@ export class AdminEffects {
           // tslint:disable-next-line: max-line-length
           map((viewCataloguesList: IUploadedCatalogue[]) => fromAdminActions.getViewCataloguesSuccess({viewCataloguesList})),
           catchError(error => of(fromAdminActions.getViewCataloguesError(error)))
+        )
+      )
+    )
+  );
+
+  public getCatalogueManagementCount$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAdminActions.getCatalogueManagementCount),
+      map(action => action.filter),
+      switchMap((filter: ICatalogueManagementCountFilter) =>
+        this._adminService.getCatalogueManagementCount(filter).pipe(
+          map((count: number) => fromAdminActions.getCatalogueManagementCountSuccess({catalogueManagementCount: count})),
+          catchError(error => of(fromAdminActions.getCatalogueManagementCountError(error)))
         )
       )
     )

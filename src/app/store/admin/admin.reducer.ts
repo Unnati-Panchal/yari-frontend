@@ -38,7 +38,8 @@ export interface IAdminState extends fromRoot.IAppState {
   KAMApprovedResponse: IMsgResponse;
   KAMSupplierComplaints: IComplaints[];
   KAMResellerComplaints: IComplaints[];
-  viewCataloguesList:IUploadedCatalogue[];
+  viewCataloguesList: IUploadedCatalogue[];
+  catalogueManagementCount: number;
 }
 
 export const adminInitialState: IAdminState = {
@@ -61,7 +62,8 @@ export const adminInitialState: IAdminState = {
   KAMApprovedResponse: undefined,
   KAMSupplierComplaints: undefined,
   KAMResellerComplaints: undefined,
-  viewCataloguesList:[],
+  viewCataloguesList: [],
+  catalogueManagementCount: 0,
 };
 
 
@@ -136,13 +138,21 @@ export const adminReducer = createReducer(
   on(fromAdminActions.getCatalogListSuccess, (state, {KAMCatalogList}) => ({...state, loading: false, KAMCatalogList})),
   on(fromAdminActions.getCatalogListError, (state, {error}) => ({...state, loading: false, error})),
 
+  on(fromAdminActions.getCatalogueManagementCount, (state, {filter}) => ({...state, loading: true, filter})),
+  on(fromAdminActions.getCatalogueManagementCountSuccess, (state, {catalogueManagementCount}) => ({...state, loading: false, catalogueManagementCount})),
+  on(fromAdminActions.getCatalogueManagementCountError, (state, {error}) => ({...state, loading: false, error})),
+
   on(fromAdminActions.getProductsByCatalogId, (state, {catalogId}) => ({...state, loading: true, catalogId})),
   on(fromAdminActions.getProductsByCatalogIdSuccess, (state, {KAMProductDetails}) => ({...state, loading: false, KAMProductDetails})),
   on(fromAdminActions.getProductsByCatalogIdError, (state, {error}) => ({...state, loading: false, error})),
 
   on(fromAdminActions.getSupplierOnBoardings, (state, {filter}) => ({...state, loading: true, filter})),
   // tslint:disable-next-line:max-line-length
-  on(fromAdminActions.getSupplierOnBoardingsSuccess, (state, {KAMSupplierOnboardings}) => ({...state, loading: false, KAMSupplierOnboardings})),
+  on(fromAdminActions.getSupplierOnBoardingsSuccess, (state, {KAMSupplierOnboardings}) => ({
+    ...state,
+    loading: false,
+    KAMSupplierOnboardings
+  })),
   on(fromAdminActions.getSupplierOnBoardingsError, (state, {error}) => ({...state, loading: false, error})),
 
   on(fromAdminActions.approveRejectSupplier, (state, {supplier}) => ({...state, loading: true, supplier})),

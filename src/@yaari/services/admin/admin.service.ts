@@ -2,7 +2,7 @@ import {
   IAdminUserDetails,
   ICatalog,
   ICatalogueApprove,
-  ICatalogueContentManagement,
+  ICatalogueContentManagement, ICatalogueManagementCountFilter,
   ICatalogueProducts,
   IComplaints,
   IEditProduct,
@@ -28,7 +28,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import {Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {environment} from '~env/environment';
-import {getQuery, getQueryAndParam} from '@yaari/utils/utlis';
+import {getQuery} from '@yaari/utils/utlis';
 
 @Injectable({
   providedIn: 'root'
@@ -106,7 +106,7 @@ export class AdminService {
   }
 
   public getCatalogContents(filter: IFilter): Observable<ICatalogueContentManagement[]> {
-    const query = getQueryAndParam(filter);//catalogue_content_management
+    const query = getQuery(filter);//catalogue_content_management
     return this._http.get<ICatalogueContentManagement[]>(
       `${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}&limit=10000`
     );
@@ -146,7 +146,7 @@ export class AdminService {
   }
 
   public getViewCatalogues(filter:  IFilter): Observable<IUploadedCatalogue[]> {
-    const query = getQueryAndParam(filter);//view_catalogue
+    const query = getQuery(filter);//view_catalogue
     return this._http.get<IUploadedCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}`);
   }
 
@@ -189,5 +189,10 @@ export class AdminService {
     // @ts-ignore
     // tslint:disable-next-line:max-line-length
     return this._http.get<ArrayBuffer>(`${environment.API_BASE_URL}/api/v1/admin/kam/onboarding/download-suppliers`, { responseType: 'blob' });
+  }
+
+  public getCatalogueManagementCount(filter:ICatalogueManagementCountFilter): Observable<number> {
+    const query = getQuery(filter);
+    return this._http.get<number>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/catalogue-count${query}`);
   }
 }

@@ -1,15 +1,21 @@
 import {
   ICatalog,
   ICatalogueContentManagement,
-  ICatalogueProducts, IComplaints,
-  IEditProduct, IFilter, IMsgResponse,
-  IProductDetail, ISupplierDetails,
-  ISupplierList, ISupplierOnboard,
+  ICatalogueManagementCountFilter,
+  ICatalogueProducts,
+  IComplaints,
+  IEditProduct,
+  IFilter,
+  IMsgResponse,
+  IProductDetail,
+  ISupplierDetails,
+  ISupplierList,
+  ISupplierOnboard,
   IUploadedCatalogue
 } from '@yaari/models/admin/admin.interface';
-import { createAction, props } from '@ngrx/store';
+import {createAction, props} from '@ngrx/store';
 
-import { HttpErrorResponse } from '@angular/common/http';
+import {HttpErrorResponse} from '@angular/common/http';
 
 export const clearMessages = createAction('[ADMIN] clear messages');
 export const stopLoading = createAction('[ADMIN] stop loading');
@@ -126,6 +132,10 @@ export const getResellerComplaintsSuccess = createAction('[ADMIN] getResellerCom
 export const getResellerComplaintsError = createAction('[ADMIN] getResellerComplaints Error', props<{ error: HttpErrorResponse }>());
 
 
-export const getViewCatalogues = createAction('[ADMIN] get view catalogues',props<{ filter: IFilter }>());
-export const getViewCataloguesSuccess = createAction('[ADMIN] get view catalogue success',  props<{ viewCataloguesList: IUploadedCatalogue[] }>());
+export const getViewCatalogues = createAction('[ADMIN] get view catalogues', props<{ filter: IFilter }>());
+export const getViewCataloguesSuccess = createAction('[ADMIN] get view catalogue success', props<{ viewCataloguesList: IUploadedCatalogue[] }>());
 export const getViewCataloguesError = createAction('[ADMIN] get view catalogue error', props<{ error: HttpErrorResponse }>());
+
+export const getCatalogueManagementCount = createAction('[ADMIN] getCatalogueManagementCount', props<{ filter: ICatalogueManagementCountFilter }>());
+export const getCatalogueManagementCountSuccess = createAction('[ADMIN] getCatalogueManagementCount Success', props<{ catalogueManagementCount: number }>());
+export const getCatalogueManagementCountError = createAction('[ADMIN] getCatalogueManagementCount Error', props<{ error: HttpErrorResponse }>());
