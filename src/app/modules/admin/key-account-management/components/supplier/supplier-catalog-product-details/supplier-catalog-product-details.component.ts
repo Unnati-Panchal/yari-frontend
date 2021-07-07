@@ -34,7 +34,6 @@ export class SupplierCatalogProductDetailsComponent implements OnInit, OnDestroy
     'product_id',
     'guarantee',
     'warranty',
-    'material',
     'size_chart',
     'color_chart',
     'mrp',
@@ -87,7 +86,8 @@ export class SupplierCatalogProductDetailsComponent implements OnInit, OnDestroy
         .subscribe(([KAMProductDetails]) => {
           this.loading = false;
           this.specKeys = [...new Set(Object.keys(KAMProductDetails[0].specifications))];
-          this.displayedColumns = [...this.firstGroupColumns, ...this.specKeys, ...this.secondGroupColumns];
+          const columns = [...this.firstGroupColumns, ...this.specKeys.map(key => key.toLowerCase()), ...this.secondGroupColumns];
+          this.displayedColumns = [...new Set(columns)];
           this.KAMProductDetails = KAMProductDetails;
           this.filteredKAMProductDetails = this.KAMProductDetails;
           this.setTableDataSource(KAMProductDetails);
