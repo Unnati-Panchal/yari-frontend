@@ -23,11 +23,6 @@ export class HttpPaginatedDataSource<T> extends MatTableDataSource<T> {
   }
 }
 
-export interface paginatedQuery {
-  data: any;
-  totalElements: number;
-}
-
 @Component({
   selector: 'app-view-catalogue',
   templateUrl: './view-catalogue.component.html',
@@ -99,8 +94,6 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
     this._subscription.add(
       combineLatest([this.getViewCatalogues$, this.catalogueManagementCount$])
         .subscribe(([viewCatalogues, count]) => {
-          console.log(viewCatalogues,'view');
-          console.log(count,'count');
           this.setTableDataSource(viewCatalogues);
           this.totalCount = count;
         })
@@ -148,7 +141,6 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
 
 
   change(pageEvent: PageEvent) {
-    console.log(pageEvent, 'page');
     this.currentPage = pageEvent.pageIndex;
     this.pageSize = pageEvent.pageSize;
     let skip = pageEvent.pageIndex * pageEvent.pageSize;
@@ -160,6 +152,7 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
         skip: skip,
         limit: this.pageSize,
         fetch_type: 'view_catalogue',
+        filter_by: this.filter,
       } as IFilter
     }));
   }
