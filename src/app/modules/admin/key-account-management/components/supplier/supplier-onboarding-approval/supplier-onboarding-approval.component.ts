@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {combineLatest, Subscription} from 'rxjs';
 import {IBulkUploadBasic, IQuery} from '@yaari/models/product/product.interface';
 import {select, Store} from '@ngrx/store';
-import {IAppState} from '~store/app.state';
+import {AppFacade, IAppState} from '~store/app.state';
 import {filter} from 'rxjs/operators';
 import {MatTableDataSource} from '@angular/material/table';
 import {IFilter, ISupplierDetails, ISupplierOnboard} from '@yaari/models/admin/admin.interface';
@@ -62,7 +62,8 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
     private _store: Store<IAppState>,
     private _snackBar: MatSnackBar,
     private _adminService: AdminService,
-    private _location: Location
+    private _location: Location,
+    private _appFacade: AppFacade,
   ) {
   }
 
@@ -132,11 +133,12 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
 
   getSupplierActionResponse(): void {
     this._subscription.add(
-      combineLatest([this.KAMApprovedResponse$])
-        .subscribe(([KAMApprovedResponse]) => {
+      this.KAMApprovedResponse$
+        .subscribe((KAMApprovedResponse) => {
           this.loading = false;
           this.viewBtn();
           this.openSnackBar(KAMApprovedResponse.msg);
+          this._appFacade.clearMessages();
         })
     );
   }
@@ -144,7 +146,6 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
   openSnackBar(msg): void {
     this._snackBar.open(msg, 'X', {duration: 5000});
   }
-
 }
 
 

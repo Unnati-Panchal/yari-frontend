@@ -57,7 +57,8 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
   constructor(
     private _store: Store<IAppState>,
     private _adminService: AdminService,
-    private _appFacade: AppFacade, private router: Router,
+    private _appFacade: AppFacade,
+    private router: Router,
     private route: ActivatedRoute
   ) {
   }
