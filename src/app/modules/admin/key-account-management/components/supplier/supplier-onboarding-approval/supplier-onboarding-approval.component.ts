@@ -144,7 +144,7 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
   }
 
   openSnackBar(msg): void {
-    this._snackBar.open(msg, 'X', {duration: 5000});
+    this._snackBar.open(msg, 'X', {duration: 3000});
   }
 }
 
