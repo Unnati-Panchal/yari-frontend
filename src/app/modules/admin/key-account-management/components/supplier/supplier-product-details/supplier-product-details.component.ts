@@ -14,6 +14,7 @@ import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
 import {MatPaginator} from '@angular/material/paginator';
 import {AdminService} from '@yaari/services/admin/admin.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-supplier-product-details',
@@ -49,6 +50,7 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
     private router: Router,
     private _location: Location,
     private _adminService: AdminService,
+    private _snackBar: MatSnackBar,
     ) { }
 
   public ngOnDestroy(): void {
@@ -57,7 +59,7 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getCatalogList();
-    this.viewBtn();
+    this.loadList('');
   }
 
   public backBtn(): void {
@@ -65,8 +67,16 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   public viewBtn(): void {
+    if (!this.selectedName) {
+      this.openSnackBar('Please add catalogue uploaded or name');
+      return;
+    }
+    this.loadList(this.selectedName);
+  }
+
+  public loadList(content: string): void {
     const query: IFilter = {
-      filterBy: this.selectedName?.trim()
+      filterBy: content?.trim()
     };
     this.loading = true;
     this.submitted = true;
@@ -101,6 +111,10 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
       fileSaver.saveAs(blob, `${catalogue.catalogue_name}.xlsx`);
     })
     );
+  }
+
+  openSnackBar(msg): void {
+    this._snackBar.open(msg, 'X', {duration: 5000});
   }
 }
 
