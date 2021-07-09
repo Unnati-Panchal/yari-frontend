@@ -23,18 +23,18 @@ export class Utilities {
     return data.sort((a, b) => {
       const isAsc = sort.direction === ESortDirection.Asc;
       switch (sort.active) {
-        case 'catalog_name':
-          return compare(a.catalog_name, b.catalog_name, isAsc);
+        case 'catalogue_name':
+          return compare(a.catalogue_name, b.catalogue_name, isAsc);
+        case 'supplier_business_name':
+          return compare(a.supplier_business_name, b.supplier_business_name, isAsc);
+        case 'catalogue_uploaded_by':
+          return compare(a.catalogue_uploaded_by, b.catalogue_uploaded_by, isAsc);
+        case 'catalogue_uploaded_date':
+          return compare(a.catalogue_uploaded_date, b.catalogue_uploaded_date, isAsc);
         case 'category_name':
           return compare(a.category_name, b.category_name, isAsc);
-        case 'created_time':
-          return compare(a.created_time, b.created_time, isAsc);
-        case 'approved':
-          return compare(a.approved, b.approved, isAsc);
-        case 'viewed':
-          return compare(a.viewed, b.viewed, isAsc);
-        case 'shared':
-          return compare(a.shared, b.shared, isAsc);
+        case 'catalogue_status':
+          return compare(a.catalogue_status, b.catalogue_status, isAsc);
         default:
           return 0;
       }

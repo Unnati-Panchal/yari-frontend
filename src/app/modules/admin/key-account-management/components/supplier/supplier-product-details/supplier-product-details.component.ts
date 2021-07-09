@@ -15,6 +15,8 @@ import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
 import {MatPaginator} from '@angular/material/paginator';
 import {AdminService} from '@yaari/services/admin/admin.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import {Utilities} from '@yaari/utils/utlis';
+import {MatSort, Sort} from '@angular/material/sort';
 
 @Component({
   selector: 'app-supplier-product-details',
@@ -44,6 +46,8 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
   paginationSizes: number[] = [5, 15, 30, 60, 100];
   defaultPageSize = this.paginationSizes[0];
   @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) matSort: MatSort;
+  sort: Sort;
 
   constructor(
     private _store: Store<IAppState>,
@@ -101,7 +105,14 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
     this.dataSource = new MatTableDataSource<any>(data);
     setTimeout( () => {
       this.dataSource.paginator = this.matPaginator;
+      this.dataSource.sort = this.matSort;
     });
+  }
+
+  sortData(sort: Sort): any {
+    this.sort = sort;
+    const sortedData = Utilities.sortData(sort, this.dataSource.data);
+    this.setTableDataSource(sortedData);
   }
 
   downloadProduct(catalogue: ICatalog): void {
