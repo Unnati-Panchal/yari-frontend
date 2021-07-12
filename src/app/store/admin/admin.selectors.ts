@@ -58,3 +58,7 @@ export const KAMResellerComplaints$ = createSelector(
 export const getViewCatalogues$ = createSelector(
   selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.viewCataloguesList
 );
+
+export const catalogueManagementCount$ = createSelector(
+  selectBaseFeature, (state: fromAdminReducer.IAdminState) => state.catalogueManagementCount
+);

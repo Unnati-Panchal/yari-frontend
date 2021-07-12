@@ -4,6 +4,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   ICatalog,
   ICatalogueContentManagement,
+  ICatalogueManagementCountFilter,
   ICatalogueProducts,
   IComplaints,
   IFilter,
@@ -229,4 +230,23 @@ export class AdminEffects {
       )
     )
   );
+
+  public getCatalogueManagementCount$ = createEffect(() =>
+    this._actions$.pipe(
+      ofType(fromAdminActions.getCatalogueManagementCount),
+      map(action => action.filter),
+      switchMap((filter: ICatalogueManagementCountFilter) =>
+        this._adminService.getCatalogueManagementCount(filter).pipe(
+          map((count: number) => fromAdminActions.getCatalogueManagementCountSuccess({catalogueManagementCount: count})),
+          catchError(error => of(fromAdminActions.getCatalogueManagementCountError(error)))
+        )
+      )
+    )
+  );
+
+  constructor(
+    private _actions$: Actions,
+    private _adminService: AdminService,
+    private _store: Store<fromRouter.IRouterState>) {
+  }
 }

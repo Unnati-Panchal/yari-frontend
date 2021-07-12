@@ -2,15 +2,26 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from '@angular/material/table';
 import {select, Store} from '@ngrx/store';
 import {AdminService} from '@yaari/services/admin/admin.service';
-import {Subscription} from 'rxjs';
+import {combineLatest, Subscription} from 'rxjs';
 import {AppFacade, IAppState} from '~store/app.state';
-import {IFilter, IUploadedCatalogue} from '@yaari/models/admin/admin.interface';
+import {ICatalogueManagementCountFilter, IFilter, IUploadedCatalogue} from '@yaari/models/admin/admin.interface';
 import * as fileSaver from 'file-saver';
-import {MatPaginator} from '@angular/material/paginator';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
 import * as fromAdminSelectors from '~store/admin/admin.selectors';
 import * as fromAdminActions from '~store/admin/admin.actions';
 import {filter} from 'rxjs/operators';
+
+
+export class HttpPaginatedDataSource<T> extends MatTableDataSource<T> {
+  public _updatePaginator(filteredDataLength: number): void {
+    if (this.filter === '') {
+      super._updatePaginator(this.paginator.length);
+    } else {
+      super._updatePaginator(filteredDataLength);
+    }
+  }
+}
 
 @Component({
   selector: 'app-view-catalogue',
@@ -24,18 +35,21 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
   @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
 
   isLoading$ = this._store.pipe(select(fromAdminSelectors.getIsLoading));
+  catalogueManagementCount$ = this._store.pipe(select(fromAdminSelectors.catalogueManagementCount$));
 
   getViewCatalogues$ = this._store.pipe(
     select(fromAdminSelectors.getViewCatalogues$),
     filter(details => !!details)
   );
 
-  dataSource = new MatTableDataSource([]);
-  filter = '';
+
   private _subscription: Subscription = new Subscription();
+  filter: '';
+  dataSource = new HttpPaginatedDataSource([]);
   paginationSizes: number[] = [5, 15, 30, 60, 100];
-  pageSize = 100;
-  currentPage = 1;
+  pageSize = 5;
+  currentPage = 0;
+  totalCount = 0;
 
 
   constructor(
@@ -72,27 +86,48 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
       } as IFilter
     }));
 
-
-    this._subscription.add(this.getViewCatalogues$.subscribe(viewCatalogues => {
-      this.setTableDataSource(viewCatalogues);
+    this._store.dispatch(fromAdminActions.getCatalogueManagementCount({
+      filter: {
+        count_type: 'view_catalogue',
+      } as ICatalogueManagementCountFilter
     }));
 
-  }
 
-  setTableDataSource(data: IUploadedCatalogue[]): void {
-    this.dataSource = new MatTableDataSource<any>(data);
+    this._subscription.add(
+      combineLatest([this.getViewCatalogues$, this.catalogueManagementCount$])
+        .subscribe(([viewCatalogues, count]) => {
+          this.setTableDataSource(viewCatalogues);
+          this.totalCount = count;
+        })
+    );
+
     setTimeout(() => {
       this.dataSource.paginator = this.matPaginator;
       this.dataSource.sort = this.sort;
     });
   }
 
+  setTableDataSource(data: IUploadedCatalogue[]): void {
+    this.dataSource = new HttpPaginatedDataSource<any>(data);
+  }
 
 
   public applyFilter(filterValue: string): void {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase();
-    this.dataSource.filter = filterValue;
+    this._store.dispatch(fromAdminActions.getViewCatalogues({
+      filter: {
+        skip: 0,
+        limit: this.pageSize,
+        fetch_type: 'view_catalogue',
+        filter_by: filterValue
+      } as IFilter
+    }));
+
+    this._store.dispatch(fromAdminActions.getCatalogueManagementCount({
+      filter: {
+        count_type: 'view_catalogue',
+        filter_by: filterValue
+      } as ICatalogueManagementCountFilter
+    }));
   }
 
   public ngOnDestroy(): void {
@@ -106,15 +141,11 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
     }));
   }
 
-  getNextPaginationData = (next: boolean = true) => {
-    let skip = 0;
-    if (next) {
-      this.currentPage += 1;
-      skip = (this.currentPage - 1) * this.pageSize;
-    } else {
-      this.currentPage -= 1;
-      skip = (this.currentPage - 1) * this.pageSize;
-    }
+
+  change(pageEvent: PageEvent) {
+    this.currentPage = pageEvent.pageIndex;
+    this.pageSize = pageEvent.pageSize;
+    let skip = pageEvent.pageIndex * pageEvent.pageSize;
     if (skip < 0) {
       skip = 0;
     }
@@ -123,9 +154,11 @@ export class ViewCatalogueComponent implements OnInit, OnDestroy {
         skip: skip,
         limit: this.pageSize,
         fetch_type: 'view_catalogue',
+        filter_by: this.filter || '',
       } as IFilter
     }));
-
-  };
+  }
 
 }
+
+

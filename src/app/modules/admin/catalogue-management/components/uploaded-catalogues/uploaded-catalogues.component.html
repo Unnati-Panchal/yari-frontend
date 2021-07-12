@@ -69,9 +69,12 @@
         </tr>
       </table>
       <div class="paginator">
-        <mat-paginator *ngIf="dataSource?.data?.length"
+        <mat-paginator
+                       (page)="change($event)"
+                       [length]="totalCount"
+                       [pageIndex]="currentPage"
                        [pageSizeOptions]="paginationSizes"
-                       [pageSize]="defaultPageSize"
+                       [pageSize]="pageSize"
                        showFirstLastButtons>
         </mat-paginator>
       </div>

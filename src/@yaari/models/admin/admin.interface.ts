@@ -219,7 +219,7 @@ export interface ISupplierDetails {
   total_volume_sold: string;
   total_price_sold: string;
   total_volume_returns: string;
-  total_price_returns: string;
+  total_price_returns: string;KAMSupplierList: ISupplierList[]
   total_volume_exchange: string;
   name_pan_card?: string;
   price_range_min?: string;
@@ -239,7 +239,7 @@ export interface ICatalog {
 }
 
 export interface IFilter {
-  filterBy?: string;
+  filter_by?: string;
   limit?: number;
   skip?: number;
   fetch_type?: string;
@@ -278,4 +278,9 @@ export interface IComplaints {
   grievance: string;
   action: string;
   handeling_team: string;
+}
+
+export interface ICatalogueManagementCountFilter {
+  count_type: 'approve_uploaded_catalogue' | 'catalogue_content_management' | 'view_catalogue';
+  filter_by?: string;
 }
