@@ -83,7 +83,7 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
 
   public viewBtn(): void {
     const query: IFilter = {
-      filterBy: this.selectedSupplierName
+      filter_by: this.selectedSupplierName
     };
     this.loading = true;
     this.submitted = true;

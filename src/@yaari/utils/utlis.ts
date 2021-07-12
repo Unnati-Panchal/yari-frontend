@@ -54,29 +54,6 @@ export function compare(a: number | string, b: number | string, isAsc: boolean):
 }
 
 export function getQuery(filter: IFilter): string {
-  let query = '';
-  if (filter?.filterBy || filter?.limit || filter?.skip) {
-    query = '?';
-  }
-  if (filter?.filterBy) {
-    query += `filter_by=${filter.filterBy}`;
-  }
-  if (filter?.limit) {
-    if (filter?.filterBy) {
-      query += `&`;
-    }
-    query += `limit=${filter.limit}`;
-  }
-  if (filter?.skip) {
-    if (filter?.filterBy || filter?.limit) {
-      query += `&`;
-    }
-    query += `skip=${filter.skip}`;
-  }
-  return query;
-}
-
-export function getQueryAndParam(filter: IFilter): string {
   let url = '';
   let qs = '';
   for (const key in filter) {

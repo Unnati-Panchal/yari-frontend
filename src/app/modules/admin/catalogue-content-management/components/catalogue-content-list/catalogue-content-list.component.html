@@ -19,13 +19,6 @@
         <mat-icon class="edit-button__icon" fontIcon="fa-edit" fontSet="fa"></mat-icon>
         Edit Selected Catalogue
       </button>
-      <!-- <button (click)="getNextPaginationData()" [disabled]="dataSource?.data?.length < 100"
-              class="nav-button" mat-button
-              type="button">Next
-      </button>
-      <button (click)="getNextPaginationData(false)" [disabled]="currentPage<2" class="nav-button" mat-button
-              type="button">Prev
-      </button> -->
     </div>
   </div>
   <div *ngIf="isLoading$|async ;else resultContent" class="centered loading">
@@ -85,7 +78,7 @@
           </ng-container>
 
           <ng-container matColumnDef="content_updated_by">
-            <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalogue Content Updated Date</th>
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalogue Content Updated By</th>
             <td *matCellDef="let element" mat-cell>{{element.content_updated_by}}</td>
           </ng-container>
 
@@ -103,9 +96,12 @@
       </div>
 
       <div class="paginator">
-        <mat-paginator *ngIf=" dataSource?.data?.length"
-                       [pageSizeOptions]="paginationSizes"
-                       [pageSize]="5"
+        <mat-paginator
+          (page)="change($event)"
+          [length]="totalCount"
+          [pageIndex]="currentPage"
+          [pageSizeOptions]="paginationSizes"
+          [pageSize]="pageSize"
                        showFirstLastButtons>
         </mat-paginator>
       </div>

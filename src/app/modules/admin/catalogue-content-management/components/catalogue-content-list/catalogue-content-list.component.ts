@@ -8,12 +8,12 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 
 import {AdminService} from '@yaari/services/admin/admin.service';
-import {ICatalogueContentManagement} from '@yaari/models/admin/admin.interface';
-import {MatPaginator} from '@angular/material/paginator';
-import {MatTableDataSource} from '@angular/material/table';
-import {Subscription} from 'rxjs';
+import {ICatalogueManagementCountFilter, IFilter} from '@yaari/models/admin/admin.interface';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {combineLatest, Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators';
 import {MatSort} from '@angular/material/sort';
+import {HttpPaginatedDataSource} from '~admin/view-catalogue/components';
 
 @Component({
   selector: 'app-catalogue-content-list',
@@ -44,13 +44,18 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
 
   getCatalogueContentManagements$ = this._store.pipe(select(fromAdminSelectors.getCataloguesContentManagements$), filter(value => !!value));
 
-  paginationSizes: number[] = [5, 15, 30, 60, 100];
-  pageSize = 100;
-  dataSource = new MatTableDataSource([]);
-  filter = '';
-  selectedRows = new MatTableDataSource([]);
+  getIsError$ = this._store.pipe(select(fromAdminSelectors.getIsError));
 
-  currentPage = 1;
+  catalogueManagementCount$ = this._store.pipe(select(fromAdminSelectors.catalogueManagementCount$));
+
+  filter: '';
+  dataSource = new HttpPaginatedDataSource([]);
+  paginationSizes: number[] = [5, 15, 30, 60, 100];
+  pageSize = 5;
+  currentPage = 0;
+  totalCount = 0;
+  selectedRows = new HttpPaginatedDataSource([]);
+
   private _subscription: Subscription = new Subscription();
   selectedCatalogId: string;
 
@@ -63,8 +68,7 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
   ) {
   }
 
-  getIsError$ = this._store.pipe(
-    select(fromAdminSelectors.getIsError));
+
 
   ngOnDestroy(): void {
     this._subscription.unsubscribe();
@@ -86,25 +90,45 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
         fetch_type: 'catalogue_content_management',
       }
     }));
-    this._subscription.add(
-      this.getCatalogueContentManagements$.subscribe((catalogueContentManagements) => {
-        this.setTableDataSource(catalogueContentManagements);
-      })
-    );
-  }
 
-  setTableDataSource(data: ICatalogueContentManagement[]): void {
-    this.dataSource = new MatTableDataSource<any>(data);
+    this._store.dispatch(fromAdminActions.getCatalogueManagementCount({
+      filter: {
+        count_type: 'catalogue_content_management',
+      } as ICatalogueManagementCountFilter
+    }));
+
+
+    this._subscription.add(
+      combineLatest([this.getCatalogueContentManagements$, this.catalogueManagementCount$])
+        .subscribe(([catalogueContentManagements, count]) => {
+          this.dataSource = new HttpPaginatedDataSource<any>(catalogueContentManagements);
+          this.totalCount = count;
+        })
+    );
+
     setTimeout(() => {
       this.dataSource.paginator = this.matPaginator;
       this.dataSource.sort = this.sort;
     });
   }
 
-  applyFilter(filterValue: string): void {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase();
-    this.dataSource.filter = filterValue;
+
+  public applyFilter(filterValue: string): void {
+    this._store.dispatch(fromAdminActions.getCatalogueContentManagements({
+      filter: {
+        skip: 0,
+        limit: this.pageSize,
+        fetch_type: 'catalogue_content_management',
+        filter_by: filterValue
+      } as IFilter
+    }));
+
+    this._store.dispatch(fromAdminActions.getCatalogueManagementCount({
+      filter: {
+        count_type: 'catalogue_content_management',
+        filter_by: filterValue
+      } as ICatalogueManagementCountFilter
+    }));
   }
 
   changed(event: any, catalogueId: number): void {
@@ -124,15 +148,10 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
     this.router.navigate(['admin/catalogue-content-management/products'], {queryParams: {catalogIds: selectedCatalogues}});
   }
 
-  getNextPaginationData = (next: boolean = true) => {
-    let skip = 0;
-    if (next) {
-      this.currentPage += 1;
-      skip = (this.currentPage - 1) * this.pageSize;
-    } else {
-      this.currentPage -= 1;
-      skip = (this.currentPage - 1) * this.pageSize;
-    }
+  change(pageEvent: PageEvent) {
+    this.currentPage = pageEvent.pageIndex;
+    this.pageSize = pageEvent.pageSize;
+    let skip = pageEvent.pageIndex * pageEvent.pageSize;
     if (skip < 0) {
       skip = 0;
     }
@@ -141,7 +160,8 @@ export class CatalogueContentListComponent implements OnInit, OnDestroy {
         skip: skip,
         limit: this.pageSize,
         fetch_type: 'catalogue_content_management',
-      }
+        filter_by: this.filter || '',
+      } as IFilter
     }));
-  };
+  }
 }
