@@ -15,7 +15,7 @@ import {
   ISupplierOnboard,
   IUploadedCatalogue
 } from '@yaari/models/admin/admin.interface';
-import { catchError, concatMap, map, switchMap } from 'rxjs/operators';
+import { catchError, concatMap, filter, map, switchMap } from 'rxjs/operators';
 
 import { AdminService } from '@yaari/services/admin/admin.service';
 import { Injectable } from '@angular/core';
@@ -32,9 +32,9 @@ export class AdminEffects {
   public getUploadedCatalogues$ = createEffect(() =>
     this._actions$.pipe(
       ofType(fromAdminActions.getUploadedCatalogues),
-      map(action => action),
-      switchMap(() =>
-        this._adminService.getUploadedCatalogues().pipe(
+      map(action => action.filter),
+      switchMap((filter: IFilter) =>
+        this._adminService.getUploadedCatalogues(filter).pipe(
           map((uploadedCatalogues: IUploadedCatalogue[]) => fromAdminActions.getUploadedCataloguesSuccess({ uploadedCatalogues })),
           catchError(error => of(fromAdminActions.getUploadedCataloguesError(error)))
         )
@@ -243,10 +243,4 @@ export class AdminEffects {
       )
     )
   );
-
-  constructor(
-    private _actions$: Actions,
-    private _adminService: AdminService,
-    private _store: Store<fromRouter.IRouterState>) {
-  }
 }
