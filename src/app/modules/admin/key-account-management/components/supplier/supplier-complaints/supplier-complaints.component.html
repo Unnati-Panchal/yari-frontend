@@ -3,6 +3,15 @@
     <h3>Supplier Complaints</h3>
     <div class="red-line"></div>
 
+    <div class="search-container">
+
+      <div class="date-range-form">
+
+      </div>
+
+      <button mat-button class="with-border" (click)="backBtn()">Back</button>
+    </div>
+
     <div>
       <app-error-success [errors]="isError$ | async"></app-error-success>
     </div>

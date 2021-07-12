@@ -26,6 +26,47 @@
         padding: 0;
       }
 
+      .action-btns {
+        @include yaari-display-flex(center, space-between);
+      }
+
+      .mat-button-toggle-group-appearance-standard {
+        border: none;
+      }
+
+      mat-button-toggle-group {
+        width: 50%;
+        margin-top: $yaari-small;
+
+        ::ng-deep .mat-button-toggle-button {
+          text-align: left;
+        }
+
+        mat-button-toggle {
+          width: 50%;
+          font-size: 19px;
+
+          &:last-child {
+            padding-left: $yaari-large;
+          }
+
+          ::ng-deep .mat-button-toggle-label-content {
+            line-height: $yaari-small * 2;
+            margin-bottom: 0;
+            padding-left: 0;
+          }
+
+          &.mat-button-toggle-checked {
+            background: $yaari-light;
+            line-height: $yaari-large;
+
+            ::ng-deep .mat-button-toggle-label-content {
+              border-bottom: 5px solid $yaari-red;
+            }
+          }
+        }
+      }
+
       .search-container {
         @include yaari-display-flex(center, flex-start);
 
@@ -134,6 +175,13 @@
 
         @include media-breakpoint(lt-sm) {
           margin-left: 0;
+        }
+
+        &.with-border {
+          background-color: $yaari-light;
+          color: $yaari-red;
+          border: 1px solid $yaari-red;
+          margin: 0;
         }
 
         &.element-btn {

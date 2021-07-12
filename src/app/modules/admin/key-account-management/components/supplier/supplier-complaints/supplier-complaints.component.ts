@@ -12,6 +12,7 @@ import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
 import {KAMSupplierComplaints$} from '~app/store/admin/admin.selectors';
 import {getSupplierComplaints} from '~app/store/admin/admin.actions';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-supplier-complaints',
@@ -27,7 +28,7 @@ export class SupplierComplaintsComponent implements OnInit, OnDestroy {
   loading: boolean;
   public dataSource = new MatTableDataSource([]);
 
-  constructor(private _store: Store<IAppState>, private router: Router) { }
+  constructor(private _store: Store<IAppState>, private _location: Location) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
@@ -37,6 +38,10 @@ export class SupplierComplaintsComponent implements OnInit, OnDestroy {
     this.getSupplierList();
     this.loading = true;
     this._store.dispatch(fromAdminActions.getSupplierComplaints());
+  }
+
+  public backBtn(): void {
+    this._location.back();
   }
 
   getSupplierList(): void {

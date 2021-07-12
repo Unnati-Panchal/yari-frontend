@@ -10,6 +10,7 @@ import {IFilter, ISupplierList} from '@yaari/models/admin/admin.interface';
 
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-supplier-list',
@@ -27,7 +28,7 @@ export class SupplierListComponent implements OnInit, OnDestroy {
   public dataSource = new MatTableDataSource([]);
   selectedSupplierName: string;
 
-  constructor(private _store: Store<IAppState>, private router: Router) { }
+  constructor(private _store: Store<IAppState>, private router: Router, private _location: Location) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
@@ -35,6 +36,10 @@ export class SupplierListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.getSupplierList();
+  }
+
+  public backBtn(): void {
+    this._location.back();
   }
 
   public viewBtn(): void {

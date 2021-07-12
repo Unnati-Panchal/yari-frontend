@@ -2,7 +2,7 @@ import {Component, OnDestroy, OnInit} from '@angular/core';
 import {combineLatest, Subscription} from 'rxjs';
 import {IBulkUploadBasic, IQuery} from '@yaari/models/product/product.interface';
 import {select, Store} from '@ngrx/store';
-import {IAppState} from '~store/app.state';
+import {AppFacade, IAppState} from '~store/app.state';
 import {filter} from 'rxjs/operators';
 import {MatTableDataSource} from '@angular/material/table';
 import {IFilter, ISupplierDetails, ISupplierOnboard} from '@yaari/models/admin/admin.interface';
@@ -13,6 +13,7 @@ import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
 import {downloadFile} from '@yaari/utils/utlis';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import {AdminService} from '@yaari/services/admin/admin.service';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-supplier-onboarding-approval',
@@ -42,7 +43,8 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
     'bank_account_number',
     'cancelled_cheque',
     'msme_certificate',
-    'action'
+    'action',
+    'comment'
   ];
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();
@@ -53,8 +55,17 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
   submitted: boolean;
   public dataSource = new MatTableDataSource([]);
   selectedSupplierName: string;
+  updatedComment: string[] = [];
+  supplierDetails: ISupplierDetails[];
 
-  constructor(private _store: Store<IAppState>, private _snackBar: MatSnackBar, private _adminService: AdminService) { }
+  constructor(
+    private _store: Store<IAppState>,
+    private _snackBar: MatSnackBar,
+    private _adminService: AdminService,
+    private _location: Location,
+    private _appFacade: AppFacade,
+  ) {
+  }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
@@ -63,6 +74,11 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.getSupplierList();
     this.getSupplierActionResponse();
+    this.viewBtn();
+  }
+
+  public backBtn(): void {
+    this._location.back();
   }
 
   public viewBtn(): void {
@@ -88,7 +104,8 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
       combineLatest([this.KAMSupplierOnboardings$])
         .subscribe(([KAMSupplierOnboardings]) => {
           this.loading = false;
-          this.setTableDataSource(KAMSupplierOnboardings);
+          this.supplierDetails = KAMSupplierOnboardings;
+          this.setTableDataSource(this.supplierDetails);
         })
     );
   }
@@ -101,10 +118,14 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
     downloadFile(url).then();
   }
 
-  approveSupplier(approved: ISupplierDetails, approve: boolean): void {
+  approveSupplier(approved: ISupplierDetails, approve: boolean, index: number): void {
+    if (!this.updatedComment[index]) {
+      this.openSnackBar('Please add a comment');
+      return;
+    }
     const supplier: ISupplierOnboard = {
       approve,
-      comment: approve ? 'Approved' : 'Rejected',
+      comment: this.updatedComment[index],
       supplier_id: approved.id.toString()
     };
     this._store.dispatch(fromAdminActions.approveRejectSupplier({supplier}));
@@ -112,19 +133,19 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
 
   getSupplierActionResponse(): void {
     this._subscription.add(
-      combineLatest([this.KAMApprovedResponse$])
-        .subscribe(([KAMApprovedResponse]) => {
+      this.KAMApprovedResponse$
+        .subscribe((KAMApprovedResponse) => {
           this.loading = false;
           this.viewBtn();
           this.openSnackBar(KAMApprovedResponse.msg);
+          this._appFacade.clearMessages();
         })
     );
   }
 
   openSnackBar(msg): void {
-    this._snackBar.open(msg, 'X', {duration: 5000});
+    this._snackBar.open(msg, 'X', {duration: 3000});
   }
-
 }
 
 

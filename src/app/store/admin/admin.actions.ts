@@ -97,9 +97,9 @@ export const getSupplierDetailsByIdSuccess = createAction('[ADMIN] getSupplierDe
 export const getSupplierDetailsByIdError = createAction('[ADMIN] getSupplierDetailsById Error', props<{ error: HttpErrorResponse }>());
 
 
-export const getCatalogList = createAction('[ADMIN] getSupplierList', props<{ filter: IFilter }>());
-export const getCatalogListSuccess = createAction('[ADMIN] getSupplierList Success', props<{ KAMCatalogList: ICatalog[] }>());
-export const getCatalogListError = createAction('[ADMIN] getSupplierList Error', props<{ error: HttpErrorResponse }>());
+export const getCatalogList = createAction('[ADMIN] getCatalogList', props<{ filter: IFilter }>());
+export const getCatalogListSuccess = createAction('[ADMIN] getCatalogList Success', props<{ KAMCatalogList: ICatalog[] }>());
+export const getCatalogListError = createAction('[ADMIN] getCatalogList Error', props<{ error: HttpErrorResponse }>());
 
 
 export const getProductsByCatalogId = createAction('[ADMIN] getProductsByCatalogId', props<{ catalogId: number }>());
@@ -133,7 +133,7 @@ export const getResellerComplaintsError = createAction('[ADMIN] getResellerCompl
 
 
 export const getViewCatalogues = createAction('[ADMIN] get view catalogues', props<{ filter: IFilter }>());
-export const getViewCataloguesSuccess = createAction('[ADMIN] get view catalogue success', props<{ viewCataloguesList: IUploadedCatalogue[] }>());
+export const getViewCataloguesSuccess = createAction('[ADMIN] get view catalogue success',  props<{ viewCataloguesList: IUploadedCatalogue[] }>());
 export const getViewCataloguesError = createAction('[ADMIN] get view catalogue error', props<{ error: HttpErrorResponse }>());
 
 export const getCatalogueManagementCount = createAction('[ADMIN] getCatalogueManagementCount', props<{ filter: ICatalogueManagementCountFilter }>());

@@ -10,6 +10,7 @@ import {IProductDetail} from '@yaari/models/admin/admin.interface';
 
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
+import {Location} from '@angular/common';
 
 @Component({
   selector: 'app-supplier-catalog-product-details',
@@ -17,7 +18,30 @@ import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
   styleUrls: ['./supplier-catalog-product-details.component.scss']
 })
 export class SupplierCatalogProductDetailsComponent implements OnInit, OnDestroy {
-  displayedColumns: string[] = ['sku_id', 'size_chart', 'mrp', 'key_features', 'material', 'material_care', 'description', 'colors', 'final_price', 'stock', 're_stock_date', 'offer', 'hsn_code', 'group_id', 'product_id'];
+  displayedColumns: string[] = [];
+  firstGroupColumns: string[] = [
+    'product_name',
+    'sku_id'
+  ];
+  secondGroupColumns: string[] = [
+    'product_status',
+    'key_features',
+    'description',
+    'material_care',
+    'hsn_code',
+    'offer',
+    'group_id',
+    'product_id',
+    'guarantee',
+    'warranty',
+    'size_chart',
+    'color_chart',
+    'mrp',
+    'stock_count',
+    're_stock_date',
+    'images'
+  ];
+  specKeys: string[] = [];
   selectedDate: IQuery;
   private _subscription: Subscription = new Subscription();
   public KAMProductDetails$ = this._store.pipe(select(fromAdminSelectors.KAMProductDetails$), filter(list => !!list));
@@ -29,7 +53,7 @@ export class SupplierCatalogProductDetailsComponent implements OnInit, OnDestroy
   KAMProductDetails: IProductDetail[];
   filteredKAMProductDetails: IProductDetail[];
 
-  constructor(private _store: Store<IAppState>, private router: Router, private route: ActivatedRoute) { }
+  constructor(private _store: Store<IAppState>, private router: Router, private route: ActivatedRoute, private _location: Location) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
@@ -41,6 +65,10 @@ export class SupplierCatalogProductDetailsComponent implements OnInit, OnDestroy
     this.selectedCatalogName = this.route.snapshot.paramMap.get('name');
     this._store.dispatch(fromAdminActions.getProductsByCatalogId({catalogId: Number(catalogId)}));
     this.getCatalogList();
+  }
+
+  public backBtn(): void {
+    this._location.back();
   }
 
   public viewBtn(): void {
@@ -57,8 +85,11 @@ export class SupplierCatalogProductDetailsComponent implements OnInit, OnDestroy
       combineLatest([this.KAMProductDetails$])
         .subscribe(([KAMProductDetails]) => {
           this.loading = false;
+          this.specKeys = [...new Set(Object.keys(KAMProductDetails[0].specifications))];
+          const columns = [...this.firstGroupColumns, ...this.specKeys.map(key => key.toLowerCase()), ...this.secondGroupColumns];
+          this.displayedColumns = [...new Set(columns)];
           this.KAMProductDetails = KAMProductDetails;
-          this.filteredKAMProductDetails = this. KAMProductDetails;
+          this.filteredKAMProductDetails = this.KAMProductDetails;
           this.setTableDataSource(KAMProductDetails);
         })
     );
