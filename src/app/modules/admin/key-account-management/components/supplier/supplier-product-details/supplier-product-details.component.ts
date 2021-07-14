@@ -80,7 +80,7 @@ export class SupplierProductDetailsComponent implements OnInit, OnDestroy {
 
   public loadList(content: string): void {
     const query: IFilter = {
-      filterBy: content?.trim()
+      filter_by: content?.trim()
     };
     this.loading = true;
     this.submitted = true;
