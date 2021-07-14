@@ -71,7 +71,6 @@
             <td *matCellDef="let element" mat-cell>{{element.action_by}}</td>
           </ng-container>
 
-
           <ng-container matColumnDef="action_date">
             <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalog Action Date</th>
             <td *matCellDef="let element" mat-cell>{{element.action_date}}</td>
@@ -105,10 +104,6 @@
                        showFirstLastButtons>
         </mat-paginator>
       </div>
-    </div>
-
-    <div *ngIf="!dataSource?.data?.length" class="centered">
-      <p>Oops, nothing found.</p>
     </div>
   </ng-template>
 
