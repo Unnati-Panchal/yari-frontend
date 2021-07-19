@@ -11,7 +11,9 @@
             <button mat-button type="submit" class="search-button" (click)="applyFilter(filter)">
                 <mat-icon>search</mat-icon>
             </button>
-            <button mat-button type="button" class="download-button" (click)="download()">
+          <button class="back-button" mat-button routerLink="../" type="button">Back</button>
+
+          <button mat-button type="button" class="download-button" (click)="download()">
                 <mat-icon>download</mat-icon>
             </button>
             <button mat-button type="button" class="act-button" (click)="edit()">Submit</button>

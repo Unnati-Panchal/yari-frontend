@@ -11,7 +11,9 @@
             <button mat-button type="submit" class="search-button" (click)="search(filter)">
                 <mat-icon>search</mat-icon>
             </button>
-            <button mat-button type="button" class="nav-button" (click)="getPricingCatalogues()"
+          <button class="back-button" mat-button routerLink="../" type="button">Back</button>
+
+          <button mat-button type="button" class="nav-button" (click)="getPricingCatalogues()"
                 [disabled]="dataSource?.data?.length < 20">Next</button>
             <button mat-button type="button" class="nav-button" (click)="getPricingCatalogues(false)"
                 [disabled]="currentPage==1">Prev</button>
