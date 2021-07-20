@@ -15,7 +15,7 @@ import {
   ISupplierOnboard,
   IUploadedCatalogue
 } from '@yaari/models/admin/admin.interface';
-import { catchError, concatMap, filter, map, switchMap } from 'rxjs/operators';
+import { catchError, concatMap,  map, switchMap } from 'rxjs/operators';
 
 import { AdminService } from '@yaari/services/admin/admin.service';
 import { Injectable } from '@angular/core';
@@ -94,7 +94,7 @@ export class AdminEffects {
       switchMap((action) =>
         this._adminService.editProduct(action.product).pipe(
           concatMap(() => of(fromAdminActions.editProductSuccess({ product: action.product }),
-            fromAdminActions.getProductDetails({ productIds: action.product.id.toString() }))),
+            fromAdminActions.getProductDetails({ productIds: action.product.product_ids }))),
           catchError(error => of(fromAdminActions.editProductError(error)))
         ),
       )
