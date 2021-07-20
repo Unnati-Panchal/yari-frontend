@@ -3,6 +3,7 @@ const baseKAMPath = '/admin/key-account-management/';
 export interface IMenuItem {
   url: string;
   label: string;
+  disabled?: boolean;
 }
 
 export const supplierDashboardMenu: IMenuItem[] = [

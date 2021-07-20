@@ -13,6 +13,7 @@ import {ResellerDetailsComponent} from '~admin/key-account-management/components
 import {ResellerPaymentReversalComponent} from '~admin/key-account-management/components/reseller/reseller-payment-reversal/reseller-payment-reversal.component';
 import {SupplierPaymentReversalComponent} from '~admin/key-account-management/components/supplier/supplier-payment-reversal/supplier-payment-reversal.component';
 import {SupplierCatalogProductDetailsComponent} from '~admin/key-account-management/components/supplier/supplier-catalog-product-details/supplier-catalog-product-details.component';
+import {AuthKAMGuard} from '@yaari/guards/authKAM.guard';
 
 const routes: Routes = [
   {
@@ -33,7 +34,8 @@ const routes: Routes = [
   },
   {
     path: 'supplier-onboarding-approval',
-    component: SupplierOnboardingApprovalComponent
+    component: SupplierOnboardingApprovalComponent,
+    canActivate: [AuthKAMGuard]
   },
   {
     path: 'supplier-details',

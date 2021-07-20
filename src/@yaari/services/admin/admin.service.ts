@@ -2,7 +2,8 @@ import {
   IAdminUserDetails,
   ICatalog,
   ICatalogueApprove,
-  ICatalogueContentManagement, ICatalogueManagementCountFilter,
+  ICatalogueContentManagement,
+  ICatalogueManagementCountFilter,
   ICatalogueProducts,
   IComplaints,
   IEditProduct,
@@ -54,7 +55,7 @@ export class AdminService {
   }
 
   public getUploadedCatalogues(filter: IFilter): Observable<IUploadedCatalogue[]> {
-    const query = getQuery(filter);//approve_uploaded_catalogue
+    const query = getQuery(filter); // approve_uploaded_catalogue
     return this._http.get<IUploadedCatalogue[]>(
       `${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}`
     );
@@ -107,7 +108,7 @@ export class AdminService {
   }
 
   public getCatalogContents(filter: IFilter): Observable<ICatalogueContentManagement[]> {
-    const query = getQuery(filter);//catalogue_content_management
+    const query = getQuery(filter); // catalogue_content_management
     return this._http.get<ICatalogueContentManagement[]>(
       `${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}`
     );
@@ -146,8 +147,8 @@ export class AdminService {
     return this._http.post<IResMsg>(`${environment.API_BASE_URL}/api/v1/admin/pricing/upload`, file);
   }
 
-  public getViewCatalogues(filter:  IFilter): Observable<IUploadedCatalogue[]> {
-    const query = getQuery(filter);//view_catalogue
+  public getViewCatalogues(filter: IFilter): Observable<IUploadedCatalogue[]> {
+    const query = getQuery(filter); // view_catalogue
     return this._http.get<IUploadedCatalogue[]>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/list-catalogues${query}`);
   }
 
@@ -192,7 +193,7 @@ export class AdminService {
     return this._http.get<ArrayBuffer>(`${environment.API_BASE_URL}/api/v1/admin/kam/onboarding/download-suppliers`, { responseType: 'blob' });
   }
 
-  public getCatalogueManagementCount(filter:ICatalogueManagementCountFilter): Observable<number> {
+  public getCatalogueManagementCount(filter: ICatalogueManagementCountFilter): Observable<number> {
     const query = getQuery(filter);
     return this._http.get<number>(`${environment.API_BASE_URL}/api/v1/admin/catalogue/catalogue-count${query}`);
   }
