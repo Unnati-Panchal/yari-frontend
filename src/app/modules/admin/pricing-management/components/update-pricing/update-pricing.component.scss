@@ -35,6 +35,16 @@
         width: 90px;
     }
 
+  .back-button {
+    height: 41px;
+    border-radius: 24px;
+    background-color: #ffffff;
+    border: 2px solid #f62101;
+    color: #f62101;
+    width: 90px;
+    float: right;
+  }
+
   ::ng-deep .mat-form-field-wrapper {
     height: 42px;
     border: solid 2px #efefef;

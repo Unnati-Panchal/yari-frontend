@@ -12,7 +12,6 @@
     }
 
     .search {
-        width: 1200px;
         margin: 25px 0 35px 0;
     }
 
@@ -37,6 +36,18 @@
     border-radius: 12px;
     background-color: #f62101;
     color: #ffffff;
+  }
+
+
+  .back-button {
+    height: 41px;
+    margin-left: 20px;
+    border-radius: 24px;
+    background-color: #ffffff;
+    border: 2px solid #f62101;
+    color: #f62101;
+    width: 90px;
+    float: right;
   }
 
 
