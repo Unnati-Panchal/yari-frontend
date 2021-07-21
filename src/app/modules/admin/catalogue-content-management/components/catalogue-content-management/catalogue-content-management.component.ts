@@ -1,17 +1,17 @@
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
 
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { IEditProduct, NewImage, NewVideo } from '@yaari/models/admin/admin.interface';
-import { Store, select } from '@ngrx/store';
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {IEditProduct, NewImage, NewVideo} from '@yaari/models/admin/admin.interface';
+import {select, Store} from '@ngrx/store';
 
-import { ActivatedRoute } from '@angular/router';
-import { AdminService } from '@yaari/services/admin/admin.service';
-import { IAppState } from '~app/store/app.state';
-import { ProductDetailComponent } from '../product-detail/product-detail.component';
-import { ProductSpecificationComponent } from '../product-specification/product-specification.component';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import {ActivatedRoute} from '@angular/router';
+import {AdminService} from '@yaari/services/admin/admin.service';
+import {IAppState} from '~app/store/app.state';
+import {ProductDetailComponent} from '../product-detail/product-detail.component';
+import {ProductSpecificationComponent} from '../product-specification/product-specification.component';
+import {Subscription} from 'rxjs';
+import {filter} from 'rxjs/operators';
 
 @Component({
   selector: 'app-catalogue-content-management',
@@ -23,14 +23,11 @@ export class CatalogueContentManagementComponent implements OnInit {
   selectedTabIndex = 0;
   productIds = [];
   selectedProductId: number;
-
-  private _subscription: Subscription = new Subscription();
-
-  @ViewChild('productDetail', { static: true }) productDetailComponent: ProductDetailComponent;
-  @ViewChild('productSpecification', { static: true }) productSpecificationComponent: ProductSpecificationComponent;
+  @ViewChild('productDetail', {static: true}) productDetailComponent: ProductDetailComponent;
+  @ViewChild('productSpecification', {static: true}) productSpecificationComponent: ProductSpecificationComponent;
   isLoading$ = this._store.pipe(select(fromAdminSelectors.getIsLoading));
-
   getProductDetail$ = this._store.pipe(select(fromAdminSelectors.getProductDetail$), filter(value => !!value));
+  private _subscription: Subscription = new Subscription();
 
   constructor(
     private route: ActivatedRoute,
@@ -45,7 +42,7 @@ export class CatalogueContentManagementComponent implements OnInit {
         const productIds = this.route.snapshot.queryParamMap.get('productIds').split(',');
         this.pushProductIds(productIds);
         this.setProductId(+productIds[0]);
-        this._store.dispatch(fromAdminActions.getProductDetails({ productIds: this.productIds.toString() }));
+        this._store.dispatch(fromAdminActions.getProductDetails({productIds: this.productIds.toString()}));
         this._subscription.add(
           this.getProductDetail$.subscribe((productDetail) => {
             this.productDetailComponent.bindProduct(productDetail);
@@ -94,11 +91,11 @@ export class CatalogueContentManagementComponent implements OnInit {
 
   trackByKey = (index: number): number => {
     return index;
-  }
+  };
 
   setProductId(productId: number): void {
     this.selectedProductId = +productId;
-    this._store.dispatch(fromAdminActions.getProductDetail({ productId: this.selectedProductId }));
+    this._store.dispatch(fromAdminActions.getProductDetail({productId: this.selectedProductId}));
   }
 
   submitProduct(): void {
@@ -119,14 +116,15 @@ export class CatalogueContentManagementComponent implements OnInit {
     product.to_delete_image_urls = this.productDetailComponent.deletedImages.map(i => i.src);
     const newImages = this.productDetailComponent.newImages
       .filter(r => r.newlyUploaded)
-      .map(i => ({ media_bytes: i.src, media_name: i.name }));
+      .map(i => ({media_bytes: i.src, media_name: i.name}));
     product.new_images = newImages as NewImage[];
     product.new_video = {
       media_bytes: this.productDetailComponent.newVideo?.data,
       media_name: this.productDetailComponent.newVideo?.name
     } as NewVideo;
     product.material_care = this.productDetailComponent.form.controls['material_care'].value;
-    this._store.dispatch(fromAdminActions.editProduct({ product }));
+    product.product_ids = this.productIds.toString();
+    this._store.dispatch(fromAdminActions.editProduct({product}));
   }
 }
 
