@@ -173,7 +173,14 @@ export class ProductListComponent implements OnInit, OnDestroy {
     if (Number(sellingPrice) > mrp) {
       this.cpy[index].sp = this.cpy[index].mrp;
       this._snackbar.open('Selling Price should not be greater than MRP', 'Dismiss', { duration: 5000 });
-      return;
+    }
+    if (Number(sellingPrice) < 1) {
+      this.cpy[index].sp = 1;
+      this._snackbar.open('Selling Price should be greater than 0', 'Dismiss', { duration: 5000 });
+    }
+    if (mrp < 1) {
+      this.cpy[index].sp = 1;
+      this._snackbar.open('MRP should be greater than 0', 'Dismiss', { duration: 5000 });
     }
   }
 }
