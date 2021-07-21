@@ -127,8 +127,9 @@ export interface IEditProduct {
   new_images: NewImage[];
   to_delete_video_url: string;
   new_video: NewVideo;
-  inventory:number;
-  material_care:string;
+  inventory: number;
+  material_care: string;
+  product_ids: string;
 }
 
 export interface NewImage {
@@ -219,7 +220,8 @@ export interface ISupplierDetails {
   total_volume_sold: string;
   total_price_sold: string;
   total_volume_returns: string;
-  total_price_returns: string;KAMSupplierList: ISupplierList[]
+  total_price_returns: string;
+  KAMSupplierList: ISupplierList[]
   total_volume_exchange: string;
   name_pan_card?: string;
   price_range_min?: string;
