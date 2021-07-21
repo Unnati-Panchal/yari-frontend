@@ -67,6 +67,7 @@ export class TokenInterceptor implements HttpInterceptor {
           this._snackBar.open(msg, '', { duration: 3000 });
           return of(err);
         }
+
         if (err.status === 500) {
           this._snackBar.open(err.error, '', {duration: 3000});
           this._store.dispatch(fromAdminActions.stopLoading());
