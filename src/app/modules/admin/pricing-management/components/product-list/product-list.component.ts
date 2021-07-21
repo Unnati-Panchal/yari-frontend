@@ -78,7 +78,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.loading = false;
   }
   public getPricingProducts = () => {
-   
+
     this.loading = true;
     this.cpy = [];
     this.res = [];
@@ -112,9 +112,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   public edit = () => {
-    if(!this.checked.length){
-      this._snackbar.open("Please select a product to edit", 'Dismiss', { duration: 5000 });
-      return
+    if (!this.checked.length){
+      this._snackbar.open('Please select a product to edit', 'Dismiss', { duration: 5000 });
+      return;
     }
     this.loading = true;
     const editDetailsList = [];
@@ -166,6 +166,15 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   restrictAlphabets = ($event) => {
     const x = $event.which || $event.keycode;
-    return (x>=48 && x<=57);
+    return (x >= 48 && x <= 57);
+  }
+
+  restrictSellingPrice(sellingPrice: string, mrp: number, index: number): void {
+    if (Number(sellingPrice) > mrp) {
+      this.cpy[index].sp = this.cpy[index].mrp;
+      this._snackbar.open('Selling Price should not be greater than MRP', 'Dismiss', { duration: 5000 });
+      return;
+    }
   }
 }
+
