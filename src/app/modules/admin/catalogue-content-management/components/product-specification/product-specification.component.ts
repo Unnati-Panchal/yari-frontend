@@ -12,7 +12,7 @@ export class ProductSpecificationComponent implements OnInit {
   specifications: any[] = [];
 
   constructor(private fb: FormBuilder) {
-    this.createForm();
+
   }
 
   private createForm() {
@@ -41,5 +41,7 @@ export class ProductSpecificationComponent implements OnInit {
 
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.createForm();
+  }
 }
