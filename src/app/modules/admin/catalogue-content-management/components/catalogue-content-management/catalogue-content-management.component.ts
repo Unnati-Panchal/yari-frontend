@@ -9,7 +9,7 @@ import {ActivatedRoute} from '@angular/router';
 import {AdminService} from '@yaari/services/admin/admin.service';
 import {IAppState} from '~app/store/app.state';
 import {ProductDetailComponent} from '../product-detail/product-detail.component';
-import {ProductSpecificationComponent} from '~admin/catalogue-content-management/components';
+import {ProductSpecificationComponent} from '../product-specification/product-specification.component';
 import {Subscription} from 'rxjs';
 import {filter} from 'rxjs/operators';
 
