@@ -12,11 +12,11 @@ import * as fromAdminActions from '~store/admin/admin.actions';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
-  constructor(private _auth: AuthService, private _snackBar: MatSnackBar, private _store: Store<IAppState>,) {
+  constructor(private _auth: AuthService, private _snackBar: MatSnackBar, private _store: Store<IAppState>) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this._auth.accessToken) {
+    if (this._auth.accessToken && !request.url.includes('/api/v1/supplier/kyc-files')) {
       request = request.clone({ setHeaders: { 'X-Auth-Token': `${this._auth.accessToken}` } });
     }
 
