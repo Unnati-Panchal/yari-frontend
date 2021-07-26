@@ -1,6 +1,10 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { ActivatedRoute } from '@angular/router';
+import { AdminService } from '@yaari/services/admin/admin.service';
 import { CatalogueContentManagementComponent } from './catalogue-content-management.component';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
+import { provideMockStore } from '@ngrx/store/testing';
 
 describe('CatalogueContentManagementComponent', () => {
   let component: CatalogueContentManagementComponent;
@@ -8,18 +12,32 @@ describe('CatalogueContentManagementComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CatalogueContentManagementComponent ]
+      declarations: [CatalogueContentManagementComponent],
+      providers: [
+        { provide: AdminService, useValue: { authorizedAdmin: jest.fn() } },
+        {
+          provide: ActivatedRoute, useValue: {
+            snapshot: {
+              queryParamMap: {
+                has: () => false,
+              }
+            }
+          }
+        },
+        provideMockStore()
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     })
-    .compileComponents();
+      .compileComponents();
   });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(CatalogueContentManagementComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });
