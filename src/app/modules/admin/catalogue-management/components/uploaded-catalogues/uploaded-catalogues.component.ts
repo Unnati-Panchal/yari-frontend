@@ -1,17 +1,18 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTableDataSource } from '@angular/material/table';
-import { Router } from '@angular/router';
-import { select, Store } from '@ngrx/store';
-import { IUploadedCatalogue } from '@yaari/models/admin/admin.interface';
-import { AdminService } from '@yaari/services/admin/admin.service';
-import { AuthService } from '@yaari/services/auth/auth.service';
 import * as fileSaver from 'file-saver';
-import { Subscription } from 'rxjs';
-import { filter } from 'rxjs/operators';
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
-import { AppFacade, IAppState } from '~app/store/app.state';
+
+import {AppFacade, IAppState} from '~app/store/app.state';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {select, Store} from '@ngrx/store';
+
+import {AdminService} from '@yaari/services/admin/admin.service';
+import {ICatalogueManagementCountFilter, IFilter, IUploadedCatalogue} from '@yaari/models/admin/admin.interface';
+import {combineLatest, Subscription} from 'rxjs';
+import {filter} from 'rxjs/operators';
+import {MatSort} from '@angular/material/sort';
+import {MatPaginator, PageEvent} from '@angular/material/paginator';
+import {HttpPaginatedDataSource} from '~admin/view-catalogue/components';
 
 @Component({
   selector: 'app-uploaded-catalogues',
@@ -20,74 +21,120 @@ import { AppFacade, IAppState } from '~app/store/app.state';
 })
 export class UploadedCataloguesComponent implements OnInit, OnDestroy {
 
+  @ViewChild(MatSort) sort: MatSort;
+
+  @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
+
+
+  isLoading$ = this._store.pipe(select(fromAdminSelectors.getIsLoading));
+
+  catalogueManagementCount$ = this._store.pipe(select(fromAdminSelectors.catalogueManagementCount$));
+
   constructor(
     private _store: Store<IAppState>,
     private _adminService: AdminService,
-    private _appFacade: AppFacade,
-    private _auth: AuthService,
-    private _snackBar: MatSnackBar,
-    private _router: Router
-  ) { }
-
+    private _appFacade: AppFacade
+  ) {
+  }
 
   displayedColumns = [
     'catalogue_name',
     'product_count',
     'supplier_business_name',
+    'action_by',
+    'action_date',
+    'content_updated_by',
+    'content_updated_date',
     'action',
   ];
-  dataSource: MatTableDataSource<any[]>;
-  allData = [];
-  filter = '';
+
+  filter: '';
+  dataSource = new HttpPaginatedDataSource([]);
+  paginationSizes: number[] = [5, 15, 30, 60, 100];
+  pageSize = 5;
+  currentPage = 0;
+  totalCount = 0;
   private _subscription: Subscription = new Subscription();
 
-  public getIsError$ = this._store.pipe(
-    select(fromAdminSelectors.getIsError));
+  getIsError$ = this._store.pipe(select(fromAdminSelectors.getIsError));
 
-  public uploadedCatalogues$ = this._store.pipe(
-    select(fromAdminSelectors.getUploadedCatalogues),
-    filter(details => !!details)
-  );
+  uploadedCatalogues$ = this._store.pipe(select(fromAdminSelectors.getUploadedCatalogues), filter(details => !!details));
+
   ngOnInit(): void {
     this._appFacade.clearMessages();
-    this.authorizedAdmin();
+    this._adminService.authorizedAdmin('catalogue_management');
+
+    this._store.dispatch(fromAdminActions.getUploadedCatalogues({
+      filter: {
+        skip: 0,
+        limit: this.pageSize,
+        fetch_type: 'approve_uploaded_catalogue',
+      } as IFilter
+    }));
+
+    this._store.dispatch(fromAdminActions.getCatalogueManagementCount({
+      filter: {
+        count_type: 'approve_uploaded_catalogue',
+      } as ICatalogueManagementCountFilter
+    }));
+
+    this._subscription.add(
+      combineLatest([this.uploadedCatalogues$, this.catalogueManagementCount$])
+        .subscribe(([uploadedCatalogues, count]) => {
+          this.dataSource = new HttpPaginatedDataSource<any>(uploadedCatalogues);
+          this.totalCount = count;
+        })
+    );
+
+    setTimeout(() => {
+      this.dataSource.paginator = this.matPaginator;
+      this.dataSource.sort = this.sort;
+    });
   }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
   }
 
-  public authorizedAdmin(): void {
-    this._auth.adminDetails().subscribe(adminDetails => {
-      // this.loading = false;
-      if (adminDetails.admin_role !== 'catalogue_management') {
-        this._snackBar.open('Unauthorized Access', '', { duration: 3000 });
-        this._router.navigate([`/admin/${adminDetails.admin_role.split('_').join('-')}`]);
-      }
-      else {
-        this.getUploadedCatalogues();
-      }
-    });
-  }
-
   public applyFilter(filterValue: string): void {
-    filterValue = filterValue.trim();
-    filterValue = filterValue.toLowerCase();
-    this.dataSource.filter = filterValue;
-  }
-
-  getUploadedCatalogues(): void {
-    this._store.dispatch(fromAdminActions.getUploadedCatalogues());
-    this._subscription.add(this.uploadedCatalogues$.subscribe(res => {
-      this.allData = res;
-      this.dataSource = new MatTableDataSource(this.allData);
+    this._store.dispatch(fromAdminActions.getUploadedCatalogues({
+      filter: {
+        skip: 0,
+        limit: this.pageSize,
+        fetch_type: 'approve_uploaded_catalogue',
+        filter_by: filterValue
+      } as IFilter
+    }));
+    this._store.dispatch(fromAdminActions.getCatalogueManagementCount({
+      filter: {
+        count_type: 'approve_uploaded_catalogue',
+        filter_by: filterValue
+      } as ICatalogueManagementCountFilter
     }));
   }
 
+
   downloadCatalogueExcel(catalogue: IUploadedCatalogue): void {
     this._subscription.add(this._adminService.getCatalogueDownload(+catalogue.catalogue_id).subscribe(res => {
-      const blob = new Blob([res], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const blob = new Blob([res], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
       fileSaver.saveAs(blob, `${catalogue.catalogue_name}.xlsx`);
+    }));
+  }
+
+  change(pageEvent: PageEvent) {
+    this.currentPage = pageEvent.pageIndex;
+    this.pageSize = pageEvent.pageSize;
+    let skip = pageEvent.pageIndex * pageEvent.pageSize;
+    if (skip < 0) {
+      skip = 0;
+    }
+    this._store.dispatch(fromAdminActions.getUploadedCatalogues({
+      filter: {
+        skip: skip,
+        limit: this.pageSize,
+        fetch_type: 'approve_uploaded_catalogue',
+        filter_by: this.filter || '',
+      } as IFilter
     }));
   }
 }

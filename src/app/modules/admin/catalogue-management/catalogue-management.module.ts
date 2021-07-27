@@ -9,27 +9,32 @@ import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
 import { SharedModule } from '@yaari/shared.module';
 import { CatalogueManagementRoutingModule } from './catalogue-management-routing.module';
-import { CatalogueManagementComponent } from './components/catalogue-management/catalogue-management.component';
 import { ApproveRejectComponent, GalleryDialogComponent } from './components/uploaded-catalogues/approve-reject.component';
-import { UploadedCataloguesComponent } from './components/uploaded-catalogues/uploaded-catalogues.component';
+import {MatSortModule} from '@angular/material/sort';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {CatalogueManagementComponent, UploadedCataloguesComponent} from '~admin/catalogue-management/components';
 
 
 
 @NgModule({
   declarations: [CatalogueManagementComponent, UploadedCataloguesComponent, ApproveRejectComponent, GalleryDialogComponent],
   entryComponents: [GalleryDialogComponent],
-  imports: [
-    CommonModule,
-    SharedModule,
-    CatalogueManagementRoutingModule,
-    MatButtonModule,
-    MatTableModule,
-    MatSnackBarModule,
-    MatInputModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTabsModule,
-    MatDialogModule
-  ]
+    imports: [
+        CommonModule,
+        SharedModule,
+        CatalogueManagementRoutingModule,
+        MatButtonModule,
+        MatTableModule,
+        MatSnackBarModule,
+        MatInputModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTabsModule,
+        MatDialogModule,
+        MatSortModule,
+        MatPaginatorModule,
+        MatProgressSpinnerModule
+    ]
 })
 export class CatalogueManagementModule { }

@@ -1,16 +1,18 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import * as fromProductsActions from '~store/products/products.actions';
-import {select, Store} from '@ngrx/store';
-import {AppFacade, IAppState} from '~store/app.state';
-import {Subscription} from 'rxjs';
-import {ProductsService} from '@yaari/services/products/products.service';
 import * as fileSaver from 'file-saver';
+import * as fromProductsActions from '~store/products/products.actions';
 import * as fromProductsSelectors from '~store/products/products.selectors';
-import {filter, tap} from 'rxjs/operators';
+
+import {AppFacade, IAppState} from '~store/app.state';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import {Store, select} from '@ngrx/store';
+import {filter, tap} from 'rxjs/operators';
+
 import {ICategory} from '@yaari/models/product/product.interface';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import * as moment from 'moment';
+import {ProductsService} from '@yaari/services/products/products.service';
+import {Subscription} from 'rxjs';
+import moment from 'moment';
 
 @Component({
   selector: 'app-catalogue',

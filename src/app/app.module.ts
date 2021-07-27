@@ -1,32 +1,33 @@
-import {BrowserModule} from '@angular/platform-browser';
-import {NgModule} from '@angular/core';
-import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HTTP_INTERCEPTORS, HttpClientModule} from '@angular/common/http';
-
-import {environment} from '~env/environment';
-
-import {ActionReducerMap, StoreModule} from '@ngrx/store';
-import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-import {EffectsModule} from '@ngrx/effects';
-import {routerReducer, RouterState, StoreRouterConnectingModule} from '@ngrx/router-store';
-
-import {AppFacade, IAppState} from '~store/app.state';
-import {AuthEffects} from '~store/auth/auth.effects';
-import {ProductsEffects} from '~store/products/products.effects';
+import * as fromAdmin from '~store/admin/admin.reducer';
 import * as fromAuth from '~store/auth/auth.reducer';
 import * as fromProducts from '~store/products/products.reducer';
 import * as fromProfile from '~store/profile/profile.reducer';
-import * as fromAdmin from '~store/admin/admin.reducer';
 
-import {AppComponent} from '~app/app.component';
-import {AppRoutingModule} from '~app/app-routing.module';
-import {AdminAuthGuard, AuthGuard} from '@yaari/guards/auth.guard';
-import {TokenInterceptor} from '@yaari/interceptors/token.interceptor';
-import {MatSnackBarModule} from '@angular/material/snack-bar';
-import {ProfileEffects} from '~store/profile/profile.effects';
-import {NgxDocViewerModule} from 'ngx-doc-viewer';
-import {TermsAndConditionsComponent} from '~app/modules/terms-and-conditions/terms-and-conditions.component';
-import { AdminEffects } from './store/admin/admin.effects';
+
+import { ActionReducerMap, StoreModule } from '@ngrx/store';
+import { AdminAuthGuard, AuthGuard } from '@yaari/guards/auth.guard';
+import { AppFacade, IAppState } from '~store/app.state';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { RouterState, StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
+import { AdminEffects } from '~store/admin/admin.effects';
+import { AppComponent } from '~app/app.component';
+import { AppRoutingModule } from '~app/app-routing.module';
+import { AuthEffects } from '~store/auth/auth.effects';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { BrowserModule } from '@angular/platform-browser';
+import { EffectsModule } from '@ngrx/effects';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { NgModule } from '@angular/core';
+import { NgxDocViewerModule } from 'ngx-doc-viewer';
+import { ProductsEffects } from '~store/products/products.effects';
+import { ProfileEffects } from '~store/profile/profile.effects';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { TermsAndConditionsComponent } from '~app/modules/terms-and-conditions/terms-and-conditions.component';
+import { TokenInterceptor } from '@yaari/interceptors/token.interceptor';
+import { environment } from '~env/environment';
+import {AuthKAMGuard} from '@yaari/guards/authKAM.guard';
+
+
 
 const reducers: ActionReducerMap<IAppState> = {
   ['router']: routerReducer,
@@ -61,7 +62,7 @@ export function getReducers(): ActionReducerMap<IAppState> {
     MatSnackBarModule,
     NgxDocViewerModule,
     StoreModule.forRoot(
-      {...getReducers()},
+      { ...getReducers() },
       {
         metaReducers: [fromAuth.clearState],
         runtimeChecks: {
@@ -74,13 +75,14 @@ export function getReducers(): ActionReducerMap<IAppState> {
       routerState: RouterState.Minimal
     }),
     EffectsModule.forRoot(effects),
-    StoreDevtoolsModule.instrument({maxAge: 25, logOnly: environment.production}),
+    StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
   ],
   providers: [
     AuthGuard,
     AdminAuthGuard,
+    AuthKAMGuard,
     AppFacade,
-    {provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true}
+    { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],
   bootstrap: [AppComponent]
 })

@@ -1,0 +1,143 @@
+.container-fluid {
+  font-family: Poppins, serif;
+  margin-top: 45px;
+
+  .title {
+    font-size: 29px;
+    margin: 0 0 40px 0;
+  }
+
+  .row {
+    margin-bottom: 40px;
+  }
+
+  .col-md-4,
+  .col-md-6,
+  .col-md-12 {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .form-label {
+    font-size: 20px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    letter-spacing: normal;
+    text-align: left;
+    color: #363636;
+    margin-left: 10px;
+  }
+
+  .form-control {
+    height: 50px;
+    border-radius: 15px;
+    background-color: #efefef;
+    font-family: Poppins, serif;
+    color: #363636;
+    font-size: 20px;
+    border: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+
+  input:focus,
+  textarea:focus,
+  select:focus {
+    outline: none;
+  }
+  .input-bg-white{
+    background-color: white !important;
+    border: 1px solid black !important;
+  }
+}
+
+textarea {
+  resize: none;
+  color: #363636;
+  font-size: 20px;
+  border-radius: 15px;
+  border: solid 1px #363636;
+  padding: 10px;
+}
+
+select {
+  padding: 15px;
+  background: url(http://cdn1.iconfinder.com/data/icons/cc_mono_icon_set/blacks/16x16/br_down.png) no-repeat right#efefef;
+  -webkit-appearance: none;
+  background-position-x: right;
+}
+
+.btn-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 30px;
+  margin-bottom: 20px;
+
+  &__button {
+    width: 336px;
+    height: 50px;
+    border-radius: 15px;
+    background-color: #f62101;
+    border: 0;
+    font-size: 20px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1;
+    color: #ffffff;
+  }
+}
+
+.file-input {
+  display: none;
+}
+
+.gallery-item {
+  display: inline-block;
+  position: relative;
+  .items-wrapper{
+    position: relative;
+    display: inline-block;
+  }
+  .gallery-img {
+    cursor: pointer;
+    height: 300px;
+    width: 300px;
+    position: relative;
+    opacity: 1;
+    transition: opacity 0.3s ease-in;
+    border: 1px solid #ddd; /* Gray border */
+    border-radius: 4px;  /* Rounded border */
+    padding: 5px; /* Some padding */
+    object-fit: cover;
+  }
+
+  img:hover {
+    box-shadow: 0 0 2px 1px rgba(0, 140, 186, 0.5);
+  }
+
+  .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: none;
+
+    .delete-img {
+      background: url('/assets/images/close-white-thin.svg') no-repeat rgba(0, 0, 0, 0.5);
+      width: 22px;
+      height: 22px;
+      display: block;
+      border-radius: 50%;
+    }
+  }
+  .items-wrapper{
+    &:hover{
+      .close{
+        display: block;
+      }
+    }
+  }
+}

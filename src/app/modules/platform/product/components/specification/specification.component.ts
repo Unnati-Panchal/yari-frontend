@@ -2,15 +2,15 @@ import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {FormControl, FormGroup} from '@angular/forms';
 import {combineLatest, Subscription} from 'rxjs';
 import * as fromProductsActions from '~store/products/products.actions';
-import {select, Store} from '@ngrx/store';
-import {IAppState} from '~store/app.state';
 import * as fromProductsSelectors from '~store/products/products.selectors';
-import {filter, tap} from 'rxjs/operators';
 import {IBulkUploadBasic, ICatalogProducts, IQuery, ISpecifications} from '@yaari/models/product/product.interface';
-import {MatSnackBar} from '@angular/material/snack-bar';
-import * as moment from 'moment';
-import {Utilities} from '@yaari/utils/utlis';
+import {Store, select} from '@ngrx/store';
+import {filter, tap} from 'rxjs/operators';
 import {HttpErrorResponse} from '@angular/common/http';
+import {IAppState} from '~store/app.state';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {Utilities} from '@yaari/utils/utlis';
+import moment from 'moment';
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 
@@ -47,13 +47,11 @@ export class SpecificationComponent implements OnInit, OnDestroy {
   );
   public isMsg$ = this._store.pipe(
     select(fromProductsSelectors.getIsMsg),
-    filter(msg => !!msg),
-    tap(() => this.clearMessages())
+    filter(msg => !!msg)
   );
   public isError$ = this._store.pipe(
     select(fromProductsSelectors.getIsError),
-    filter(error => !!error),
-    tap(() => this.clearMessages())
+    filter(error => !!error)
   );
   public getCatalogues$ = this._store.pipe(select(fromProductsSelectors.getCatalogs), filter(catalogs => !!catalogs));
 
@@ -89,7 +87,7 @@ export class SpecificationComponent implements OnInit, OnDestroy {
       this._store.dispatch(fromProductsActions.clearMessages());
       this.errorMessages = null;
       this.successMessage = null;
-    }, 3000);
+    }, 5000);
   }
 
   getCataloguesRes(): void {
@@ -113,17 +111,22 @@ export class SpecificationComponent implements OnInit, OnDestroy {
     this._subscription.add(this.getCatalogues$.subscribe((list) =>
       this.catalogueList = list.filter(catalog => !!catalog.approved)
     ));
-    this._subscription.add(this.isError$.subscribe((errors) => this.errorMessages = errors));
+    this._subscription.add(this.isError$.subscribe((errors) => {
+      this.errorMessages = errors;
+      this.clearMessages();
+    }));
     this._subscription.add(this.isMsg$.subscribe((msg) => {
+      this.successMessage = msg;
       if (msg === 'Successfully deleted') {
         this.viewCatalogueList();
         this._store.dispatch(fromProductsActions.clearMessages());
       }
+      this.clearMessages();
     }));
   }
 
   backToCatalogueList(): void {
-    this.isSelectedCatalogue = {};
+    this.isSelectedCatalogue = null;
   }
 
   submit(): void {

@@ -1,0 +1,36 @@
+<div class="main-body">
+  <div class="left-panel">
+    <div class="left-panel--button-container">
+      <a class="item" [ngClass]="selectedProductId == productId ?  'active' : ''"
+        *ngFor="let productId of productIds;trackBy:trackByKey let i = index" [routerLink]="['../edit']"
+        [queryParams]="{productIds: arrangeProductIdQuery(productId).join(',')}" (click)="setProductId(productId)" >
+        {{ productId }}
+      </a>
+    </div>
+
+  </div>
+  <div class="right-panel">
+    <button class="back-button" mat-button routerLink="../" type="button">Back</button>
+    <mat-tab-group animationDuration="0ms" (selectedIndexChange)="selectedIndexChange($event)">
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="product-detail" [ngClass]="{'active' : selectedTabIndex === 0}">
+            Product Details
+          </div>
+        </ng-template>
+        <app-product-detail #productDetail></app-product-detail>
+      </mat-tab>
+      <mat-tab>
+        <ng-template mat-tab-label>
+          <div class="product-specifications" [ngClass]="{'active' : selectedTabIndex === 1}">
+            Product Specifications
+          </div>
+        </ng-template>
+        <app-product-specification #productSpecification></app-product-specification>
+      </mat-tab>
+    </mat-tab-group>
+    <div class="btn-container">
+      <button class="btn-container__button" (click)="submitProduct()">Submit</button>
+    </div>
+  </div>
+</div>

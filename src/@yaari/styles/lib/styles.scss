@@ -2,6 +2,7 @@
 @import 'styles/components';
 @import 'styles/fonts';
 @import 'styles/typography';
+@import "~@fortawesome/fontawesome-free/css/all.css";
 
 @mixin yaari-styles {
   @include yaari-normalize();

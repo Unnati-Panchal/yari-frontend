@@ -1,0 +1,26 @@
+<main>
+  <mat-card>
+    <mat-card-header>
+      <mat-button-toggle-group [(ngModel)]="isResellerMenu">
+        <mat-button-toggle [value]="false">Supplier</mat-button-toggle>
+        <mat-button-toggle [value]="true">Reseller</mat-button-toggle>
+      </mat-button-toggle-group>
+    </mat-card-header>
+    <mat-card-content>
+      <ng-container *ngIf="!isResellerMenu; else ResellerMenu">
+        <ng-container *ngFor="let item of supplierDashboardMenu">
+          <ng-container *ngIf="!item?.disabled">
+            <button [routerLink]="[item.url]" mat-button>
+              <span class="item-label">{{item.label}}</span>
+            </button>
+          </ng-container>
+        </ng-container>
+      </ng-container>
+      <ng-template #ResellerMenu>
+        <button *ngFor="let item of resellerDashboardMenu" [routerLink]="[item.url]" mat-button>
+          <span>{{item.label}}</span>
+        </button>
+      </ng-template>
+    </mat-card-content>
+  </mat-card>
+</main>

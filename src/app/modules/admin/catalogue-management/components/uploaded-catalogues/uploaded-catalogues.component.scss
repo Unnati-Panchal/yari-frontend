@@ -1,142 +1,251 @@
 :host {
-    .main-body {
-        margin: 28px 80px;
-        font-family: Poppins;
-    }
+  .main-body {
+    margin: 28px 80px;
+    font-family: Poppins, serif;
+  }
 
-    .head {
-        margin-top: 40px;
-        font-size: 40px;
-        font-weight: bold;
-        color: #363636;
-    }
-    .search {
-        width: 100%;
-        margin: 30px 0 20px 0;
-    }
+  .head {
+    margin-top: 40px;
+    font: 40px Poppins;
+    font-weight: bold;
+    color: #363636;
+  }
 
-    .form-field {
-        width: 450px;
-    }
-
+  .search {
+    width: 100%;
+    margin: 30px 0 20px 0;
+  }
     .actions {
         min-width: 280px;
     }
     .act-button {
-        position: relative;
-        margin: 1px 15px 0px 0px;
-        height: 39px;
-        border-radius: 12px;
-        background-color: #ffffff;
-        color: #f62101;
-        border: 1px solid #f62101;
-        width: 90px;
+      height: 41px;
+      border-radius: 24px;
+      float: right;
+      margin: 1px 15px 0 0;
+      background-color: #ffffff;
+      color: #f62101;
+      border: 2px solid #f62101;
+      width: 90px;
     }
     ::ng-deep .search .mat-form-field-wrapper {
-        height: 25px;
         border: solid 2px #efefef;
         border-radius: 12px;
         padding: 3px 13px 10px;
     }
 
-    .search-button {
-        position: absolute;
-        margin-left: 20px;
-        height: 41px;
-        border-radius: 12px;
-        background-color: #f62101;
-        color: #ffffff;
-    }
-    .action-button {
-        margin: 5px;
-        height: 35px;
-        border-radius: 12px;
-        background-color: #f62101;
-        color: #ffffff;
-    }
 
-    .back-button {
-        position: relative;
-        height: 41px;
-        border-radius: 12px;
-        background-color: #f62101;
-        color: #ffffff;
-        width: 90px;
-        float: right;
-    }
+  .actions {
+    min-width: 280px;
+  }
 
-    .view-button {
-        height: 41px;
-        border-radius: 15px;
-        background-color: #f62101;
-        color: #ffffff;
-        width: 90px;
-    }
+  .form-field {
+    width: 450px;
+  }
 
-    td,
-    th {
-        padding: 15px;
-        text-align: center;
-        min-width: 115px;
-        max-height: fit-content;
-        border: 1px solid gray !important;
-        color: #363636;
-        font-size: 18px;
-    }
+  .act-button {
+    margin: 1px 15px 0 0;
+    background-color: #f62101;
+    color: #ffffff;
+    border: 1px solid #f62101;
+    width: 90px;
 
-    th {
-        height: 60px;
-        font-weight: 500;
-        background-color: #efefef;
+    &__green {
+      margin-right: 15px;
+      color: #ffffff;
+      float: right;
+      border: 2px solid #02c730;
+      background-color: #02c730;
+      border-radius: 24px;
+      height: 41px;
+      width: 90px;
     }
-    td {
-        height: 40px;
-        font-weight: normal;
-    }
-    table {
-        max-width: 100%;
-    }
+  }
 
-    .the-container {
-        margin-top: 20px;
-        max-height: calc(50vh - 20px);
-        overflow: auto;
-    }
+  ::ng-deep .search .mat-form-field-wrapper {
+    height: 41px;
+    border: solid 2px #efefef;
+    border-radius: 12px;
+    padding: 3px 13px 10px;
+  }
 
-    .the-container td,
-    .the-container th {
-        padding: 15px;
-        text-align: center;
-        min-width: 140px;
-        max-height: fit-content;
-        border: 1px solid gray !important;
-        color: #363636;
-        font-size: 18px;
-    }
+  .search-button {
+    margin-left: 20px;
+    height: 41px;
+    border-radius: 12px;
+    background-color: #f62101;
+    color: #ffffff;
+  }
 
-    th.mat-column-position,
-    td.mat-column-position {
-        padding-left: 8px;
-    }
-    th.mat-header-cell,
-    td {
-        min-width: 250px;
-        text-align: center;
-    }
+  .action-button {
+    margin: 5px;
+    height: 35px;
+    border-radius: 12px;
+    background-color: #f62101;
+    color: #ffffff;
+  }
 
-    ::ng-deep .mat-tab-group {
-        padding: 0;
+  .back-button {
+    height: 41px;
+    border-radius: 24px;
+    background-color: #ffffff;
+    border: 2px solid #f62101;
+    color: #f62101;
+    width: 90px;
+    float: right;
+  }
+
+  .view-button {
+    height: 41px;
+    border-radius: 15px;
+    background-color: #f62101;
+    color: #ffffff;
+    width: 90px;
+    &.mat-button-disabled {
+      opacity: 0.5;
     }
-    ::ng-deep .mat-tab-label {
-        font-size: 20px;
-        color: #363636;
-        padding: 0 30px;
-    }
-    ::ng-deep .mat-tab-header {
-        border: none;
-    }
-    ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
-        background-color: #f62101;
-        height: 3px;
-    }
+  }
+
+  td,
+  th {
+    padding: 15px;
+    text-align: center;
+    min-width: 200px;
+    max-height: fit-content;
+    color: #363636;
+    font-size: 18px;
+  }
+
+  th {
+    height: 60px;
+    font-weight: 500;
+    background-color: #efefef;
+  }
+
+  td {
+    height: 40px;
+    font-weight: normal;
+  }
+
+  table {
+    width: 100%;
+    text-align: center;
+    border-collapse: separate;
+    border-spacing: 0;
+  }
+
+  table th {
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+  }
+
+  table td {
+    border-bottom: 1px solid;
+    border-right: 1px solid;
+  }
+
+  table th:first-child,
+  table td:first-child {
+    border-left: 1px solid;
+  }
+
+  table thead th {
+    position: sticky;
+    top: 0;
+    background-color: grey;
+  }
+
+  .the-container {
+    margin-top: 20px;
+    max-height: calc(50vh - 20px);
+    overflow: auto;
+  }
+
+  .the-container td,
+  .the-container th {
+    padding: 15px;
+    text-align: center;
+    min-width: 200px;
+    max-height: fit-content;
+    color: #363636;
+    font-size: 18px;
+  }
+
+  th.mat-column-position,
+  td.mat-column-position {
+    padding-left: 8px;
+  }
+
+  th.mat-header-cell,
+  td {
+    min-width: 200px;
+    text-align: center;
+  }
+
+  ::ng-deep .mat-form-field {
+    font-family: Poppins, serif;
+  }
+
+  ::ng-deep .mat-tab-group {
+    padding: 0;
+  }
+
+  ::ng-deep .mat-tab-label {
+    font-size: 20px;
+    color: #363636;
+    padding: 0 30px;
+    font-family: Poppins, serif;
+  }
+
+  ::ng-deep .mat-tab-header {
+    border: none;
+  }
+
+  ::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
+    background-color: #f62101;
+    height: 3px;
+  }
+
+  .main-table {
+    max-height: 60vh;
+    overflow-y: scroll;
+    overflow-x: scroll;
+  }
+
+  .truncate-cell {
+    max-width: 200px; /* feel free to include any other value */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .download-button
+  {
+    width: 54px;
+    height: 46px;
+    border-radius: 24px;
+    background-color: #f62101;
+  }
+
+  .download-icon {
+    color: #FFFFFF;
+    font-size: 25px;
+  }
+
+  .gallery-dialog-img {
+    cursor: pointer;
+    height: 250px;
+    width: 250px;
+    opacity: 1;
+    transition: opacity 0.3s ease-in;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 10px 10px 10px 10px;
+    object-fit: contain;
+  }
+
+
+
 }

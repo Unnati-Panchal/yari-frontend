@@ -3,7 +3,7 @@
         <img src="assets/images/yaari-login.png" class="left-image">
     </div>
     <div class="login-container">
-        <form [formGroup]="loginForm" class="field-350">
+        <form [formGroup]="loginForm" class="field-350" (ngSubmit)="login()">
             <section>
                 <!-- <div class="drpdwn">
                     <mat-form-field floatLabel="never" style="width: 280px;" appearance="none"
@@ -19,7 +19,7 @@
                 <div class="form-div">
                     <h4 class="labels">Login ID</h4>
                     <div class="login-password-field"
-                        [ngClass]="{'invalid-field':loginForm.controls.username.touched && loginForm.controls.username.hasError('required')}">
+                        [ngClass]="{'invalid-field':loginForm.controls.username.touched && (loginForm.controls.username.hasError('required') || loginForm.controls.username.hasError('email'))}">
                         <mat-form-field floatLabel="never" appearance="none" class="field-350">
                             <input matInput formControlName="username" placeholder="Enter your login ID" email>
                             <mat-error class="error" *ngIf="loginForm.controls.username.hasError('required')">Email is
@@ -36,7 +36,7 @@
                         <mat-form-field floatLabel="never" appearance="none" class="field-350">
                             <input matInput formControlName="password" [type]="!hide ? 'password' : 'text'"
                                 placeholder="Enter your password">
-                            <button mat-icon-button matSuffix>
+                            <button mat-icon-button matSuffix type="button">
                                 <mat-icon (click)="hide = !hide">{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                             </button>
                             <mat-error class="error" *ngIf="loginForm.controls.password.hasError('required')">Password
@@ -46,23 +46,19 @@
                     </div>
                 </div>
 
-                <div class="error-success">
-                    <app-error-success [errors]="isError$ | async"></app-error-success>
-                </div>
 
                 <div class="forgot">
                     <a [routerLink]="['../forgot-password']">Forgot Password?</a>
                 </div>
                 <div class="sign-div">
-                    <button *ngIf="!loading else LoadingSpinner" mat-button class="signin" (click)="login()">Sign
+                    <button *ngIf="!(isLoading$ |async)" type="submit" mat-button class="signin">Sign
                         In</button>
+                        <button *ngIf="isLoading$ |async" mat-button class="signin">
+                            <mat-spinner [diameter]="25" class="spinner"></mat-spinner>
+                        </button>
                 </div>
 
-                <ng-template #LoadingSpinner>
-                    <button mat-button class="signin">
-                        <mat-spinner [diameter]="25" class="spinner"></mat-spinner>
-                    </button>
-                </ng-template>
+                
             </section>
 
 

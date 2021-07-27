@@ -1,6 +1,6 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {AdminAuthGuard, AuthGuard} from '@yaari/guards/auth.guard';
+import {AuthGuard} from '@yaari/guards/auth.guard';
 import {TermsAndConditionsComponent} from '~app/modules/terms-and-conditions/terms-and-conditions.component';
 
 const routes: Routes = [
@@ -21,8 +21,8 @@ const routes: Routes = [
     path: 'admin',
     loadChildren: () => import('~admin/admin.module').then(m => m.AdminModule),
   },
-  {path: '', pathMatch: 'full', redirectTo: 'auth/login'},
-  {path: '**', redirectTo: 'auth/login'}
+  {path: '', pathMatch: 'full', redirectTo: 'admin/login'},
+  {path: '**', redirectTo: 'admin/login'}
 ];
 
 @NgModule({

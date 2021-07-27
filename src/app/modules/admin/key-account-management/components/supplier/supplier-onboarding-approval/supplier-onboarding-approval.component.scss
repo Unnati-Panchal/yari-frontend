@@ -1,0 +1,177 @@
+@import 'variables';
+@import 'mixins';
+
+:host {
+  main {
+    width: 100%;
+    height: calc(100vh - 100px);
+    overflow: auto;
+    @include yaari-display-flex();
+
+    h3 {
+      @include media-breakpoint(lt-sm) {
+        padding-left: $yaari-small;
+      }
+    }
+
+    section {
+      width: 100%;
+      padding: $yaari-base * 2 yaari-to-rem(120px);
+
+      @include media-breakpoint(lt-md) {
+        padding: 0 0 0 $yaari-small;
+      }
+
+      @include media-breakpoint(lt-sm) {
+        padding: 0;
+      }
+
+      .search-container {
+        @include yaari-display-flex(center, space-between);
+        width: 100%;
+
+        @include media-breakpoint(lt-sm) {
+          @include yaari-display-flex(center, center, column);
+        }
+
+        .additional-btns {
+          @include yaari-display-flex(center, flex-end);
+        }
+
+
+        .date-range-form {
+          padding-top: $yaari-large;
+          @include media-breakpoint(lt-sm) {
+            @include yaari-display-flex(center, center, column);
+          }
+
+          .mat-form-field {
+            width: 50%;
+
+            @include media-breakpoint(lt-sm) {
+              width: 80%;
+            }
+          }
+        }
+      }
+
+      div {
+        width: 100%;
+        overflow: auto;
+        @include yaari-display-flex(center, flex-start);
+
+        &.table-box {
+          padding-bottom: $yaari-large;
+
+          .rejected {
+            color: $yaari-red;
+
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
+
+        table {
+          width: 1280px;
+        }
+
+        &.centered {
+          @include yaari-display-flex(center, center);
+          margin: $yaari-base 0;
+        }
+      }
+
+      h3 {
+        padding-top: $yaari-base * 2;
+        margin: 0;
+        font-size: $yaari-h3;
+        font-weight: bold;
+        line-height: 100%;
+
+        @include media-breakpoint(lt-md) {
+          font-size: $yaari-h5;
+        }
+      }
+
+      h5 {
+        padding-top: $yaari-base * 2;
+        padding-bottom: $yaari-base;
+        margin: 0;
+        font-size: $yaari-h5;
+        font-weight: normal;
+        line-height: 100%;
+
+        @include media-breakpoint(lt-md) {
+          font-size: $yaari-h6;
+        }
+      }
+
+      .red-line {
+        width: yaari-to-rem(100px);
+        height: $yaari-tiny;
+        background: $yaari-red;
+
+        @include media-breakpoint(lt-sm) {
+          margin-left: $yaari-small;
+        }
+      }
+
+      button {
+        @include yaari-display-flex(center, space-between);
+        padding: $yaari-tiny $yaari-large;
+        border-radius: 24px;
+        background-color: $yaari-red;
+        font-size: $yaari-h6;
+        color: $yaari-light;
+        margin-bottom: $yaari-large / 2;
+        margin-left: $yaari-large;
+
+        @include media-breakpoint(lt-sm) {
+          margin-left: 0;
+        }
+
+        &.table-btn {
+          padding: 0 $yaari-base;
+          font-size: $yaari-default-small;
+          margin-bottom: 0;
+          margin-left: 0;
+        }
+
+        &.with-border {
+          background-color: $yaari-light;
+          color: $yaari-red;
+          border: 1px solid $yaari-red;
+        }
+      }
+
+      .action-btns {
+        @include yaari-display-flex(center, space-between);
+
+        .table-btn {
+          padding: 0 $yaari-base / 2;
+          font-size: $yaari-default-small;
+          margin: 0 $yaari-tiny;
+          height: $yaari-small * 2;
+
+          &.approve {
+            background: $Yaari-success;
+          }
+        }
+      }
+
+    }
+  }
+}
+
+.clickable {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+
+
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+  padding: 0 $yaari-small;
+  text-align: center;
+}

@@ -1,0 +1,132 @@
+:host {
+    .main-body {
+        margin: 28px 80px;
+        font-family: Poppins;
+    }
+
+    .head {
+        margin-top: 30px;
+        font: 40px Poppins;
+        font-weight: bold;
+        color: #363636;
+    }
+
+    .search {
+        margin: 25px 0 35px 0;
+    }
+
+    .form-field {
+        width: 450px;
+    }
+
+    .actions {
+        min-width: 280px;
+    }
+
+  ::ng-deep .search .mat-form-field-wrapper {
+    height: 42px;
+    border: solid 2px #efefef;
+    border-radius: 12px;
+    padding: 3px 13px 10px;
+  }
+
+  .search-button {
+    margin-left: 20px;
+    height: 46px;
+    border-radius: 12px;
+    background-color: #f62101;
+    color: #ffffff;
+  }
+
+
+  .back-button {
+    height: 41px;
+    margin-left: 20px;
+    border-radius: 24px;
+    background-color: #ffffff;
+    border: 2px solid #f62101;
+    color: #f62101;
+    width: 90px;
+    float: right;
+  }
+
+
+  td,
+  th {
+    padding: 15px;
+    text-align: center;
+    border: 1px solid gray !important;
+    color: #363636;
+    font-size: 18px;
+    font-family: Poppins;
+  }
+
+  th {
+    height: 60px;
+    font-weight: 500;
+    background-color: #efefef;
+    min-width: 200px;
+  }
+
+  td {
+    height: 40px;
+    font-weight: normal;
+  }
+
+  .select{
+    min-width: 50px;
+  }
+  .main-table{
+      max-width: 1500px;
+      max-height: 350px;
+      overflow-x: auto !important;
+      overflow-y: auto !important;
+  }
+  ::ng-deep .mat-checkbox-inner-container{
+      width: 20px !important;
+      height: 20px !important;
+  }
+  ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+    opacity: 0.03 !important;
+    background-color: green!important;
+  }
+  ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,.mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: green !important;
+  }
+
+  ::ng-deep .mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline{
+    background-color: grey;
+  }
+  ::ng-deep .mat-form-field {
+    font-family: Poppins;
+    margin-bottom: -20px;
+    text-align: center;
+  }
+  ::ng-deep .search .mat-form-field {
+    font-family: Poppins;
+    text-align: left;
+  }
+
+  .download-button{
+    height: 43px;
+    border-radius: 12px;
+    background-color: #f62101;
+    color: #ffffff;
+    float: right;
+  }
+  .act-button {
+    height: 41px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    border: 1px solid #f62101;
+    color: #f62101;
+    width: 70px;
+    float: right;
+    margin-right: 40px;
+  }
+
+  ::ng-deep .mat-button{
+    font-family: Poppins;
+    padding: 0;
+  }
+}

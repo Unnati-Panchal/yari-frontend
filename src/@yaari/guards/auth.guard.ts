@@ -67,7 +67,7 @@ export class AdminAuthGuard implements CanActivate {
       .subscribe((val: NavigationEnd) => {
 
         this._appFacade.clearMessages();
-        if (val.url !== '/admin/login' && val.url !== '/admin/forgot-password') {
+        if (val.url !== '/admin/login' && val.url !== '/admin/forgot-password' && val.url !=='/') {
           if (!this._authService.accessToken) {
             this._snackBar.open('You are not authorized, Please log in', '', { duration: 3000 });
             this._router.navigate(['/admin/login']);

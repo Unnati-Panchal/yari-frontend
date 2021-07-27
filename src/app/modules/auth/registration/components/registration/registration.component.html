@@ -74,21 +74,28 @@
         </div>
 
         <div>
-          <h4>City<span class="required">*</span></h4>
+          <h4>State<span class="required">*</span></h4>
           <mat-form-field appearance="outline" class="small-form-group">
-            <mat-label>Enter your city</mat-label>
-            <input matInput formControlName="city" autocomplete="nope">
-            <mat-error *ngIf="regForm.controls['city'].hasError('required')">Required field</mat-error>
-            <mat-error *ngIf="regForm.controls['city'].hasError('invalidLetters')">Please enter only letters</mat-error>
+            <mat-label>Enter your state</mat-label>
+            <mat-select formControlName="state">
+              <ng-container *ngIf="states$ | async as states">
+                <mat-option *ngFor="let state of states" [value]="state.id">{{ state.name }}</mat-option>
+              </ng-container>
+            </mat-select>
+            <mat-error *ngIf="regForm.controls['state'].hasError('required')">Required field</mat-error>
           </mat-form-field>
         </div>
 
         <div>
-          <h4>State<span class="required">*</span></h4>
+          <h4>City<span class="required">*</span></h4>
           <mat-form-field appearance="outline" class="small-form-group">
-            <mat-label>Enter your state</mat-label>
-            <input matInput formControlName="state" autocomplete="nope">
-            <mat-error *ngIf="regForm.controls['state'].hasError('required')">Required field</mat-error>
+            <mat-label>Enter your city</mat-label>
+            <mat-select formControlName="city">
+              <ng-container *ngIf="cities$ | async as cities">
+                <mat-option *ngFor="let city of cities" [value]="city.id">{{ city.name }}</mat-option>
+              </ng-container>
+            </mat-select>
+            <mat-error *ngIf="regForm.controls['city'].hasError('required')">Required field</mat-error>
           </mat-form-field>
         </div>
 
@@ -247,7 +254,7 @@
           <h4>Password<span class="required">*</span></h4>
           <mat-form-field appearance="outline" class="small-form-group">
             <mat-label>Enter your password</mat-label>
-            <input matInput formControlName="password" autocomplete="nope" [type]="!hidePass ? 'password' : 'text'">
+            <input matInput formControlName="password" autocomplete="nope" [type]="!hidePass ? 'password' : 'text'" appBlockCopyPaste>
             <mat-icon matSuffix (click)="hidePass = !hidePass">{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
             <mat-error *ngIf="regForm.controls['password'].hasError('required')">Required field</mat-error>
           </mat-form-field>
@@ -257,11 +264,67 @@
           <h4>Confirm Password<span class="required">*</span></h4>
           <mat-form-field appearance="outline" class="small-form-group">
             <mat-label>Enter your password again</mat-label>
-            <input matInput formControlName="confirmPassword" autocomplete="nope" [type]="!hidePass ? 'password' : 'text'">
+            <input matInput formControlName="confirmPassword" autocomplete="nope" [type]="!hidePass ? 'password' : 'text'" appBlockCopyPaste>
             <mat-icon matSuffix (click)="hidePass = !hidePass">{{hidePass ? 'visibility_off' : 'visibility'}}</mat-icon>
             <mat-error *ngIf="regForm.controls['confirmPassword'].hasError('required')">Required field</mat-error>
             <mat-error *ngIf="regForm.controls['confirmPassword'].hasError('mustMatch')">Must match your password</mat-error>
           </mat-form-field>
+        </div>
+
+        <div class="button-upload-box">
+          <h4>Upload GST Certificate<span class="required">*</span></h4>
+          <div class="upload-file-btn-container">
+            <button mat-button class="btn login-btn" (click)="gstFileDropRef.click()">
+              <span>Browse</span>
+            </button>
+          </div>
+          <input type="file" style="display: none" #gstFileDropRef id="fileDropRef" (change)="gstFileBrowseHandler($event.target.files)"/>
+        </div>
+        <div *ngIf="selectedGstFileName">
+          <span>{{'GST Certificate added  "' + selectedGstFileName + '".'}}</span>
+        </div>
+
+        <div class="button-upload-box">
+          <h4>Upload PAN Card<span class="required">*</span></h4>
+          <div class="upload-file-btn-container">
+            <button mat-button class="btn login-btn" (click)="panCardFileDropRef.click()">
+              <span>Browse</span>
+            </button>
+          </div>
+          <input type="file" style="display: none" #panCardFileDropRef id="panFileDropRef" (change)="panCardFileBrowseHandler($event.target.files)"/>
+        </div>
+        <div *ngIf="selectedPanCardFileName">
+          <span>{{'PAN Card added  "' + selectedPanCardFileName + '".'}}</span>
+        </div>
+
+        <div class="button-upload-box">
+          <h4>Upload MSME Certificate<span class="required">*</span></h4>
+          <div class="upload-file-btn-container">
+            <button mat-button class="btn login-btn" (click)="MSMEFileDropRef.click()">
+              <span>Browse</span>
+            </button>
+          </div>
+          <input type="file" style="display: none" #MSMEFileDropRef id="MSMEFileDropRef" (change)="MSMEFileBrowseHandler($event.target.files)"/>
+        </div>
+        <div *ngIf="selectedMSMEFileName">
+          <span>{{'MSME Certificate added  "' + selectedMSMEFileName + '".'}}</span>
+        </div>
+
+        <div class="button-upload-box">
+          <h4>Upload Cancelled Cheque<span class="required">*</span></h4>
+          <div class="upload-file-btn-container">
+            <button mat-button class="btn login-btn" (click)="cancelledChequeFileDropRef.click()">
+              <span>Browse</span>
+            </button>
+          </div>
+          <input type="file"
+                 style="display: none"
+                 #cancelledChequeFileDropRef
+                 id="cancelledChequeFileDropRef"
+                 (change)="cancelledChequeFileBrowseHandler($event.target.files)"/>
+        </div>
+        <div *ngIf="selectedCancelledChequeFileName">
+          <span>{{'Cancelled Cheque added  "' + selectedCancelledChequeFileName + '".'}}</span>
         </div>
 
         <div>
@@ -276,6 +339,7 @@
         <div>
           <app-error-success [errors]="isAuthError$ | async"></app-error-success>
           <app-error-success [errors]="isProductError$ | async"></app-error-success>
+          <app-error-success [errors]="isProfileError$ | async"></app-error-success>
         </div>
 
         <div class="form-group submit-btn-container">

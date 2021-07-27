@@ -1,0 +1,125 @@
+.main-body {
+  display: flex;
+  justify-content: stretch;
+  font-family: Poppins;
+
+  .product-detail {
+    margin: 0 0 15px;
+    font-family: Poppins;
+    font-size: 20px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1.62;
+    letter-spacing: normal;
+    text-align: left;
+    color: #363636;
+  }
+
+  .product-specifications {
+    margin: 0 0 15px;
+    font-family: Poppins, serif;
+    font-size: 20px;
+    font-weight: normal;
+    font-style: normal;
+    line-height: 1.62;
+    letter-spacing: normal;
+    text-align: left;
+    color: #363636;
+  }
+
+  .active {
+    border-bottom: 5px solid #f62101;
+  }
+
+  .btn-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+    margin-bottom: 20px;
+
+    &__button {
+      width: 336px;
+      height: 55px;
+      border-radius: 15px;
+      background-color: #f62101;
+      border: 0;
+      font-size: 20px;
+      font-weight: 500;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1;
+      color: #ffffff;
+    }
+  }
+
+  .left-panel {
+    flex-grow: 1;
+    box-shadow: 0 3px 6px 0 rgb(0 0 0 / 16%);
+    max-width: 300px;
+    height: 550px;
+    padding: 0 15px;
+
+    &--button-container {
+      height: 480px;
+      margin-top: 50px;
+      margin-left: 25px;
+      overflow-y: auto;
+
+      .item {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 10px 10px;
+        text-align: center;
+        font-size: 20px;
+        font-weight: bold;
+        text-decoration: none;
+        border-radius: 24px;
+        width: 177px;
+        height: 58px;
+        color: #f62101;
+        border: solid 2px #f62101;
+        cursor: pointer;
+      }
+
+      .active,
+      .item:hover {
+        color: #ffffff;
+        background-color: #f62101;
+      }
+    }
+  }
+
+  .right-panel {
+    min-width: 75%;
+    margin: 28px 80px;
+  }
+
+  .back-button {
+    height: 41px;
+    border-radius: 24px;
+    background-color: #ffffff;
+    border: 2px solid #f62101;
+    color: #f62101;
+    width: 90px;
+    float: right;
+  }
+
+}
+::ng-deep {
+
+  .mat-tab-group.mat-primary .mat-ink-bar,
+  .mat-tab-nav-bar.mat-primary .mat-ink-bar {
+    background-color: white;
+  }
+
+  .mat-tab-nav-bar,
+  .mat-tab-header {
+    border-bottom: solid 1px #707070;
+  }
+
+  .mat-tab-label {
+    opacity: unset !important;
+  }
+}

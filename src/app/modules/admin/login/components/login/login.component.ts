@@ -11,9 +11,6 @@ import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
 
 
-
-
-
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -24,10 +21,8 @@ export class LoginComponent implements OnInit, OnDestroy {
     select(fromAuthSelectors.getToken),
     filter(token => !!token)
   );
-  public isError$ = this._store.pipe(
-    select(fromAuthSelectors.getIsError),
-    tap(() => this.loading = false)
-  );
+
+  public isLoading$: any;
 
   public adminDetails$ = this._store.pipe(
     select(fromAuthSelectors.adminDetails$),
@@ -46,7 +41,6 @@ export class LoginComponent implements OnInit, OnDestroy {
   constructor(private _store: Store<IAppState>, private _appFacade: AppFacade, private _auth: AuthService, private _router: Router) {
   }
 
-
   public ngOnInit(): void {
     this._appFacade.clearMessages();
     this.authorizedAdmin();
@@ -61,9 +55,11 @@ export class LoginComponent implements OnInit, OnDestroy {
     if (!this.loginForm.valid) {
       return;
     }
-    const loginRequest = this.loginForm.value;
+    this.isLoading$ = this._store.pipe(select(fromAuthSelectors.getIsLoading));
     this.loading = true;
+    const loginRequest = this.loginForm.value;
     this._store.dispatch(fromAuthActions.login({ loginRequest }));
+
   }
 
   public authorizedAdmin(): void {

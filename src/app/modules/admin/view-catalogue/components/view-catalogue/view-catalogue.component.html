@@ -1,0 +1,106 @@
+<div class="main-body">
+    <div>
+      <h2 class="head">View Catalogue</h2>
+    </div>
+
+    <div class="search col-md-12">
+      <div class="col-md-6 search--flex">
+        <mat-form-field floatLabel="never" appearance="none" class="form-field">
+          <input (keyup.enter)="applyFilter(filter)" [(ngModel)]="filter" matInput
+                 placeholder="Search By Catalogue Name">
+        </mat-form-field>
+        <button mat-button type="button" class="search-button" (click)="applyFilter(filter)">
+          <mat-icon>search</mat-icon>
+        </button>
+      </div>
+      <div class="col-md-6">
+        <button class="back-button" mat-button routerLink="../" type="button">Back</button>
+      </div>
+    </div>
+  <div *ngIf="isLoading$|async ;else resultContent" class="centered loading">
+    <mat-spinner [diameter]="50" color="warn"></mat-spinner>
+  </div>
+  <ng-template #resultContent>
+    <div *ngIf=" dataSource?.data?.length" class="centered table-box">
+      <div class="col-md-12">
+        <table mat-table [dataSource]="dataSource" matSort>
+          <ng-container matColumnDef="catalogue_name" sticky>
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalogue Name</th>
+            <td *matCellDef="let element; let i = index" class="truncate-cell" mat-cell><a
+              [routerLink]="['./view',{id:element['catalogue_id'],name:element['catalogue_name']}]"
+              [title]="element['catalogue_name']">{{element["catalogue_name"]}}</a>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="product_count">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Total Count</th>
+            <td *matCellDef="let element" mat-cell>{{element["product_count"]}}</td>
+          </ng-container>
+          <ng-container matColumnDef="supplier_business_name">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Supplier Business Name</th>
+            <td *matCellDef="let element" mat-cell>{{element["supplier_business_name"]}}</td>
+          </ng-container>
+          <ng-container matColumnDef="category_name">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Category</th>
+            <td *matCellDef="let element" mat-cell>{{element["category_name"]}}</td>
+          </ng-container>
+          <ng-container matColumnDef="catalogue_status">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalogue Status</th>
+            <td *matCellDef="let element" mat-cell>{{element["catalogue_status"]}}</td>
+          </ng-container>
+          <ng-container matColumnDef="catalogue_uploaded_date">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalogue Upload Date</th>
+            <td *matCellDef="let element" mat-cell>{{element["catalogue_uploaded_date"]}}</td>
+          </ng-container>
+          <ng-container matColumnDef="catalogue_uploaded_by">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalogue Upload By</th>
+            <td *matCellDef="let element" mat-cell>{{element["catalogue_uploaded_by"]}}</td>
+          </ng-container>
+          <ng-container matColumnDef="content_updated_by">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Content Updated By</th>
+            <td *matCellDef="let element" mat-cell>{{element["content_updated_by"]}}</td>
+          </ng-container>
+          <ng-container matColumnDef="content_updated_date">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Content Updated Date</th>
+            <td *matCellDef="let element" mat-cell>{{element["content_updated_date"]}}</td>
+          </ng-container>
+          <ng-container matColumnDef="action_by">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalogue Approved By</th>
+            <td *matCellDef="let element" mat-cell>{{element["action_by"]}}</td>
+          </ng-container>
+          <ng-container matColumnDef="action_date">
+            <th *matHeaderCellDef mat-header-cell mat-sort-header>Catalogue Approved Date</th>
+            <td *matCellDef="let element" mat-cell>{{element["action_date"]}}</td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th *matHeaderCellDef class="actions" mat-header-cell>Action</th>
+            <td *matCellDef="let element" mat-cell>
+              <button (click)="downloadCatalogueExcel(element)" class="download-button" mat-icon-button>
+                <mat-icon class="download-icon" fontSet="fa" fontIcon="fa-file-download"></mat-icon>
+              </button>
+            </td>
+          </ng-container>
+          <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+          <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+          <tr *matNoDataRow class="mat-row">
+            <td class="mat-cell" colspan="12">No data matching the filter</td>
+          </tr>
+
+        </table>
+      </div>
+
+      <div class="paginator">
+        <mat-paginator
+          (page)="change($event)"
+          [length]="totalCount"
+          [pageIndex]="currentPage"
+          [pageSizeOptions]="paginationSizes"
+          [pageSize]="pageSize"
+          showFirstLastButtons>
+        </mat-paginator>
+      </div>
+    </div>
+  </ng-template>
+
+</div>
+
+

@@ -1,0 +1,8 @@
+{
+    "/api/*": {
+        "target": "https://api-qa.yaari.com",
+        "secure": false,
+        "logLevel": "debug",
+        "changeOrigin": true
+    }
+}

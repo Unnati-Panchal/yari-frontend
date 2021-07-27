@@ -1,55 +1,74 @@
 <div class="main-body">
-    <div>
-        <h2 class="head">{{catalogueName}}</h2>
+  <div>
+    <h2 class="head">{{catalogueName}}</h2>
+  </div>
+  <div class="search col-md-12">
+    <mat-form-field appearance="none" class="form-field" floatLabel="never">
+      <input (keyup.enter)="applyFilter(filter)" [(ngModel)]="filter" matInput placeholder="Search By SKU Id">
+    </mat-form-field>
+    <button (click)="applyFilter(filter)" class="search-button" mat-button type="button">
+      <mat-icon>search</mat-icon>
+    </button>
+
+    <button class="back-button" mat-button routerLink="../" type="button">Back</button>
+    <button (click)="approveReject()" class="act-button" mat-button type="button">Reject</button>
+    <button (click)="approveReject('true')" class="act-button__green" mat-button type="button">Approve</button>
+  </div>
+
+  <div *ngIf="isLoading$|async ;else resultContent" class="loading">
+    <mat-spinner
+      [diameter]="50" color="warn" mode="indeterminate"></mat-spinner>
+  </div>
+  <app-error-success [errors]="getIsError$ | async"></app-error-success>
+  <ng-template #resultContent>
+    <mat-tab-group (selectedTabChange)="onTabChange($event.index);">
+      <mat-tab label="Product Details"></mat-tab>
+      <mat-tab label="Product Specifications"></mat-tab>
+    </mat-tab-group>
+    <div *ngIf="index == 0" class="the-container">
+      <table [dataSource]="dataSource" mat-table>
+        <ng-container *ngFor="let col of displayedColumns; let i = index" [matColumnDef]="col" [sticky]="i==0">
+          <th *matHeaderCellDef mat-header-cell> {{col}}</th>
+          <td *matCellDef="let element" mat-cell>
+            <span *ngIf="!col.endsWith('URL')">{{element[productDetails[col]]}}</span>
+            <span *ngIf="col.endsWith('URL')"><button (click)="openMedia(element[productDetails[col]])" [disabled]="!element[productDetails[col]]"
+                                                      class="view-button"
+                                                      mat-button>View</button></span>
+          </td>
+        </ng-container>
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+        <tr *matNoDataRow class="mat-row">
+          <td class="mat-cell" colspan="21">No data matching the filter</td>
+        </tr>
+      </table>
     </div>
-    <div style="position:absolute; width: 44%; margin: 14px 0 0 45%;display: flex; justify-content: flex-end;">
-        <button mat-button type="button" class="act-button" (click)="approveReject('true')">Approve</button>
-        <button mat-button type="button" class="act-button" (click)="approveReject()">Reject</button>
-        <button mat-button type="button" class="back-button" routerLink="../">Back</button>
-    </div>
-    <div class="search">
-        <mat-form-field floatLabel="never" appearance="none" class="form-field">
-            <input matInput placeholder="Search By SKU Id" [(ngModel)]="filter">
-        </mat-form-field>
-        <button mat-button type="button" class="search-button" (click)="applyFilter(filter)">
-            <mat-icon>search</mat-icon>
-        </button>
-    </div>
-    <div>
-        <mat-tab-group (selectedTabChange)="onTabChange($event.index);">
-            <mat-tab label="Product Details"></mat-tab>
-            <mat-tab label="Product Specifications"></mat-tab>
-        </mat-tab-group>
-        <div class="the-container" *ngIf="index == 0">
-            <table mat-table [dataSource]="dataSource">
-                <ng-container *ngFor="let col of displayedColumns; let i = index" [matColumnDef]="col" [sticky]="i==0">
-                    <th mat-header-cell *matHeaderCellDef> {{col}}</th>
-                    <td mat-cell *matCellDef="let element">
-                        <span *ngIf="!col.endsWith('URL')">{{element[productDetails[col]]}}</span>
-                        <span *ngIf="col.endsWith('URL')"><button class="view-button" mat-button
-                                (click)="openMedia(element[productDetails[col]])">View</button></span>
-                    </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-        </div>
-        <div class="the-container" *ngIf="index == 1">
-            <table mat-table [dataSource]="dataSource">
-                <ng-container *ngFor="let col of displayedColumns; let i = index" [matColumnDef]="col" [sticky]="i==0">
-                    <th mat-header-cell *matHeaderCellDef [ngStyle]="{'min-width':i == 1?'250px':'auto'}">{{col |
-                        titlecase}}
-                    </th>
-                    <td mat-cell *matCellDef="let element; let i = index">
-                        <span *ngIf="col !== 'Comments'">{{element[productSpecifications[col]]}}</span>
-                        <span *ngIf="col === 'Comments'">
-                            <textarea matInput type="text" [(ngModel)]="a[i]['comment']"></textarea>
+    <div *ngIf="index == 1" class="the-container">
+      <table [dataSource]="dataSource" mat-table>
+        <ng-container *ngFor="let col of displayedColumns; let i = index" [matColumnDef]="col" [sticky]="i==0">
+          <th *matHeaderCellDef [ngStyle]="{'min-width':i == 1?'250px':'auto'}" mat-header-cell>{{col |
+            titlecase}}
+          </th>
+          <td *matCellDef="let element; let i = index" mat-cell>
+            <span *ngIf="col !== 'Comments'">{{element[productSpecifications[col]]}}</span>
+            <span *ngIf="col === 'Comments'">
+                            <textarea [(ngModel)]="a[i]['comment']" matInput type="text"></textarea>
                         </span>
-                    </td>
-                </ng-container>
-                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-        </div>
+          </td>
+        </ng-container>
+        <tr *matHeaderRowDef="displayedColumns" mat-header-row></tr>
+        <tr *matRowDef="let row; columns: displayedColumns;" mat-row></tr>
+        <tr *matNoDataRow class="mat-row">
+          <td class="mat-cell" colspan="3">No data matching the filter</td>
+        </tr>
+      </table>
     </div>
+    <div class="paginator">
+      <mat-paginator *ngIf=" dataSource?.data?.length"
+                     [pageSizeOptions]="paginationSizes"
+                     [pageSize]="defaultPageSize"
+                     showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </ng-template>
 </div>
