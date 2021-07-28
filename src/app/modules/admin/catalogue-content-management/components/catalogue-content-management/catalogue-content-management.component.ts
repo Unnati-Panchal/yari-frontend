@@ -1,7 +1,7 @@
 import * as fromAdminActions from '~app/store/admin/admin.actions';
 import * as fromAdminSelectors from '~app/store/admin/admin.selectors';
 
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
 import {IEditProduct, NewImage, NewVideo} from '@yaari/models/admin/admin.interface';
 import {select, Store} from '@ngrx/store';
 
@@ -18,7 +18,7 @@ import {filter} from 'rxjs/operators';
   templateUrl: './catalogue-content-management.component.html',
   styleUrls: ['./catalogue-content-management.component.scss']
 })
-export class CatalogueContentManagementComponent implements OnInit {
+export class CatalogueContentManagementComponent implements OnInit,OnDestroy {
 
   selectedTabIndex = 0;
   productIds = [];
@@ -52,6 +52,10 @@ export class CatalogueContentManagementComponent implements OnInit {
         );
       }
     }
+  }
+
+  public ngOnDestroy(): void {
+    this._subscription.unsubscribe();
   }
 
 

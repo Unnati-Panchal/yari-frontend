@@ -20,16 +20,6 @@ import {MatPaginator} from '@angular/material/paginator';
 })
 export class ApproveRejectComponent implements OnInit, OnDestroy {
 
-  constructor(
-    private _route: ActivatedRoute,
-    private _store: Store,
-    private _appFacade: AppFacade,
-    private _adminService: AdminService,
-    private _snackBar: MatSnackBar,
-    private _router: Router,
-    private _dialog: MatDialog
-  ) { }
-
   catalogueName = '';
   catalogueId = '';
   displayedColumns = [];
@@ -40,12 +30,9 @@ export class ApproveRejectComponent implements OnInit, OnDestroy {
   allData = [];
   filter = '';
   a = [];
-  loading: boolean;
-
   paginationSizes: number[] = [5, 15, 30, 60, 100];
   defaultPageSize = this.paginationSizes[0];
   @ViewChild(MatPaginator, {static: false}) matPaginator: MatPaginator;
-
   // columns to be displayed
   productDetails = {
     'Product SKU Id': 'sku_id',
@@ -75,16 +62,25 @@ export class ApproveRejectComponent implements OnInit, OnDestroy {
     'Product Description': 'description',
     'Material Care': 'material_care'
   };
+  getIsError$ = this._store.pipe(select(fromAdminSelectors.getIsError));
+  isLoading$ = this._store.pipe(select(fromAdminSelectors.getIsLoading));
 
-  private _subscription: Subscription = new Subscription();
-
-  public getIsError$ = this._store.pipe(
-    select(fromAdminSelectors.getIsError));
-
-  public catalogueProducts$ = this._store.pipe(
+  catalogueProducts$ = this._store.pipe(
     select(fromAdminSelectors.getCatalogueProducts),
     filter(details => !!details)
   );
+  private _subscription: Subscription = new Subscription();
+
+  constructor(
+    private _route: ActivatedRoute,
+    private _store: Store,
+    private _appFacade: AppFacade,
+    private _adminService: AdminService,
+    private _snackBar: MatSnackBar,
+    private _router: Router,
+    private _dialog: MatDialog
+  ) {
+  }
 
   ngOnInit(): void {
     this._appFacade.clearMessages();
@@ -107,21 +103,20 @@ export class ApproveRejectComponent implements OnInit, OnDestroy {
   }
 
   approveReject(action: string = ''): void {
-    const finalComments = { approved: action, catalogue_id: this.catalogueId, product_comments: [] };
+    const finalComments = {approved: action, catalogue_id: this.catalogueId, product_comments: []};
     finalComments.product_comments =
       this.a.filter(el => el.comment && el.comment.trim() !== '' && el.comment !== 'null');
     if (!finalComments.approved && finalComments.product_comments.length === 0) {
-      this._snackBar.open('Please enter comments', '', { duration: 5000 });
+      this._snackBar.open('Please enter comments', '', {duration: 5000});
       return;
     }
     this._adminService.approveRejectCatalogue(finalComments).subscribe(
       (res: IResMsg) => {
         if (res.success === true) {
-          this._snackBar.open(`${action ? 'Approved' : 'Rejected'} Successfully`, '', { duration: 5000 });
-          this._router.navigate(['../'], { relativeTo: this._route });
-        }
-        else {
-          this._snackBar.open('Failed', '', { duration: 5000 });
+          this._snackBar.open(`${action ? 'Approved' : 'Rejected'} Successfully`, '', {duration: 5000});
+          this._router.navigate(['../'], {relativeTo: this._route});
+        } else {
+          this._snackBar.open('Failed', '', {duration: 5000});
         }
       });
   }
@@ -130,24 +125,24 @@ export class ApproveRejectComponent implements OnInit, OnDestroy {
     this.index = index;
     if (index === 0) {
       this.displayedColumns = Object.keys(this.productDetails);
-    }
-    else {
-      const obj1 = { ...this.productSpecifications, ...{ Comments: 'comments' } };
+    } else {
+      const obj1 = {...this.productSpecifications, ...{Comments: 'comments'}};
       this.productSpecifications = obj1;
       this.displayedColumns = Object.keys(this.productSpecifications);
     }
   }
+
   openMedia(urls: any): void {
     this._dialog.open(GalleryDialogComponent, {
-      maxWidth:'600px',
-      maxHeight:'600px',
+      maxWidth: '600px',
+      maxHeight: '600px',
       width: 'auto',
-      data: { urls }
+      data: {urls}
     });
   }
 
   getProducts(id: number): void {
-    this._store.dispatch(fromAdminActions.getCatalogueProducts({ catalogueId: id }));
+    this._store.dispatch(fromAdminActions.getCatalogueProducts({catalogueId: id}));
     this._subscription.add(
       this.catalogueProducts$.subscribe(
         products => {
@@ -165,9 +160,9 @@ export class ApproveRejectComponent implements OnInit, OnDestroy {
           this.productSpecifications[element2] = element2;
         }
       });
-      const mergedObj = { ...element, ...element.specifications, ...{ category: element.product_catalog.category.name } };
+      const mergedObj = {...element, ...element.specifications, ...{category: element.product_catalog.category.name}};
       this.theData.push(mergedObj);
-      this.a.push({ product_id: element.id, comment: element.comment });
+      this.a.push({product_id: element.id, comment: element.comment});
     });
     this.displayedColumns = Object.keys(this.productDetails);
     this.dataSource = new MatTableDataSource(this.theData);
@@ -179,23 +174,25 @@ export class ApproveRejectComponent implements OnInit, OnDestroy {
 }
 
 
-
 @Component({
   selector: 'app-gallery-dialog',
   templateUrl: './gallery-dialog.component.html',
   styleUrls: ['./uploaded-catalogues.component.scss']
 })
 export class GalleryDialogComponent implements OnInit {
+  video = false;
+
   constructor(
     public dialogRef: MatDialogRef<GalleryDialogComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any) { }
+    @Inject(MAT_DIALOG_DATA) public data: any) {
+  }
 
-  video = false;
   ngOnInit(): void {
     if (typeof (this.data.urls) === 'string') {
       this.video = true;
     }
   }
+
   closeDialog(): void {
   }
 }
