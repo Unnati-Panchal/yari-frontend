@@ -68,7 +68,56 @@
         }
 
         table {
-          min-width: 3840px;
+
+          div {
+            @include yaari-display-flex(center, center);
+          }
+
+          th {
+            border-top: 1px solid grey;
+            border-bottom: 1px solid grey;
+            border-right: 1px solid grey;
+          }
+
+          td {
+            border-bottom: 1px solid grey;
+            border-right: 1px solid grey;
+          }
+
+          th:first-child,
+          td:first-child {
+            border-left: 1px solid grey;
+          }
+
+          .mat-header-row {
+            background-color: #efefef;
+            color: black;
+            font-weight: bold;
+          }
+
+          th.mat-header-cell,
+          .mat-cell {
+            min-width: 150px;
+            text-align: center;
+            padding: 0 15px;
+          }
+
+          th.mat-header-cell:nth-child(1),
+          .mat-cell {
+            min-width: 50px;
+            padding-left: 0;
+          }
+
+          th.mat-header-cell:last-child,
+          .mat-cell {
+            min-width: 100px;
+            padding-right: 0;
+          }
+
+          ::ng-deep .mat-sort-header-container {
+            display:flex;
+            justify-content:center;
+          }
         }
 
         &.centered {
