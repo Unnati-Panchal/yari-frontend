@@ -102,7 +102,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public changeOffer = (value: string, index: number) => this.cpy[index].offers = value;
+  public changeOffer(value: string, index: number): void {
+    this._snackbar.open('Please make sure the selling price is within the selected offers range.', 'Dismiss', { duration: 5000 });
+    this.cpy[index].offers = value;
+  }
 
   public download = (catalogueId = this.catalogueId, catalogueName = this.catalogueName) => {
     this._subscription.add(this._adminService.getPricingCatalogueDownload(catalogueId).subscribe(res => {
