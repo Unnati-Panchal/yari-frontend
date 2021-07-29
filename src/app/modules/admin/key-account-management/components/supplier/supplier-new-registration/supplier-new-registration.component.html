@@ -142,7 +142,7 @@
               <input matInput formControlName="gst_no" autocomplete="nope">
               <mat-error *ngIf="regForm.controls['gst_no'].hasError('required')">Required field</mat-error>
             </mat-form-field>
-            <button mat-button (click)="gstFileDropRef.click()">Upload GST Certificate</button>
+            <button mat-button type="button" (click)="gstFileDropRef.click()">Upload GST Certificate</button>
             <input type="file" style="display: none" #gstFileDropRef id="fileDropRef" (change)="gstFileBrowseHandler($event.target.files)"/>
           </div>
           <span *ngIf="selectedGstFileName">{{'GST Certificate added  "' + selectedGstFileName + '".'}}</span>
@@ -156,7 +156,7 @@
               <input matInput formControlName="pan_no" autocomplete="nope">
               <mat-error *ngIf="regForm.controls['pan_no'].hasError('required')">Required field</mat-error>
             </mat-form-field>
-            <button mat-button (click)="panCardFileDropRef.click()">Upload PAN Card</button>
+            <button mat-button type="button" (click)="panCardFileDropRef.click()">Upload PAN Card</button>
             <input type="file" style="display: none" #panCardFileDropRef id="panFileDropRef" (change)="panCardFileBrowseHandler($event.target.files)"/>
           </div>
           <span *ngIf="selectedPanCardFileName">{{'PAN Card added  "' + selectedPanCardFileName + '".'}}</span>
@@ -279,7 +279,7 @@
         <div>
           <h4>Upload MSME Certificate</h4>
           <div class="form-field-container">
-            <button mat-button (click)="MSMEFileDropRef.click()">Upload Picture</button>
+            <button mat-button type="button" (click)="MSMEFileDropRef.click()">Upload Picture</button>
             <input type="file" style="display: none" #MSMEFileDropRef id="MSMEFileDropRef" (change)="MSMEFileBrowseHandler($event.target.files)"/>
           </div>
           <span *ngIf="selectedMSMEFileName">{{'MSME Certificate added  "' + selectedMSMEFileName + '".'}}</span>
@@ -288,7 +288,7 @@
         <div>
           <h4>Upload Cancelled Cheque</h4>
           <div class="form-field-container">
-            <button mat-button (click)="cancelledChequeFileDropRef.click()">Upload Picture</button>
+            <button mat-button type="button" (click)="cancelledChequeFileDropRef.click()">Upload Picture</button>
             <input type="file" style="display: none" #cancelledChequeFileDropRef id="cancelledChequeFileDropRef" (change)="cancelledChequeFileBrowseHandler($event.target.files)"/>
           </div>
           <span *ngIf="selectedCancelledChequeFileName">{{'Cancelled Cheque added  "' + selectedCancelledChequeFileName + '".'}}</span>

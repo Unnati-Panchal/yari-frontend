@@ -38,7 +38,7 @@ export class TokenInterceptor implements HttpInterceptor {
             }
             return of(err);
           }
-          if (err.status === 404 || err.error.detail) {
+          if (err.status === 404) {
             let msg = '';
             if (Array.isArray(err.error.detail)) {
               err.error.detail.forEach(e => {
@@ -62,7 +62,7 @@ export class TokenInterceptor implements HttpInterceptor {
           this._snackBar.open(msg, '', { duration: 3000 });
           return of(err);
         }
-        else if (err.status === 404 || err.error.detail) {
+        else if (err.status === 404) {
           const msg = err.error.detail;
           this._snackBar.open(msg, '', { duration: 3000 });
           return of(err);
