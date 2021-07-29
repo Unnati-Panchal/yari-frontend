@@ -16,10 +16,10 @@ describe('ResellerPaymentReversalComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(ResellerPaymentReversalComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });
