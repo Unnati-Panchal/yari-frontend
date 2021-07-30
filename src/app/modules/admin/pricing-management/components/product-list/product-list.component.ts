@@ -102,7 +102,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public changeOffer = (value: string, index: number) => this.cpy[index].offers = value;
+  public changeOffer(value: string, index: number): void {
+    this._snackbar.open('Please make sure the selling price is within the selected offers range.', 'Dismiss', { duration: 5000 });
+    this.cpy[index].offers = value;
+  }
 
   public download = (catalogueId = this.catalogueId, catalogueName = this.catalogueName) => {
     this._subscription.add(this._adminService.getPricingCatalogueDownload(catalogueId).subscribe(res => {
@@ -169,18 +172,19 @@ export class ProductListComponent implements OnInit, OnDestroy {
     return (x >= 48 && x <= 57);
   }
 
-  restrictSellingPrice(sellingPrice: string, mrp: number, index: number): void {
+  restrictSellingPrice(sellingPrice: string, mrp: number): void {
+    let msg = '';
     if (Number(sellingPrice) > mrp) {
-      this.cpy[index].sp = this.cpy[index].mrp;
-      this._snackbar.open('Selling Price should not be greater than MRP', 'Dismiss', { duration: 5000 });
+      msg = 'Selling Price should not be greater than MRP';
     }
     if (Number(sellingPrice) < 1) {
-      this.cpy[index].sp = 1;
-      this._snackbar.open('Selling Price should be greater than 0', 'Dismiss', { duration: 5000 });
+      msg = 'Selling Price should be greater than 0';
     }
     if (mrp < 1) {
-      this.cpy[index].sp = 1;
-      this._snackbar.open('MRP should be greater than 0', 'Dismiss', { duration: 5000 });
+      msg = 'MRP should be greater than 0';
+    }
+    if (msg) {
+      this._snackbar.open(msg, 'Dismiss', { duration: 5000 });
     }
   }
 }
