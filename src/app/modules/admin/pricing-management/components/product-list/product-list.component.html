@@ -70,7 +70,6 @@
                         <input matInput
                                [(ngModel)]="cpy[i]['mrp']"
                                [disabled]='!checked.includes(i)'
-                               (ngModelChange)="restrictSellingPrice(cpy[i]['sp'], cpy[i]['mrp'])"
                                (keypress)="restrictAlphabets($event)">
                     </mat-form-field>
                 </td>
