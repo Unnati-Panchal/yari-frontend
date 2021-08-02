@@ -8,9 +8,13 @@
     </mat-card-header>
     <mat-card-content>
       <ng-container *ngIf="!isResellerMenu; else ResellerMenu">
-        <button *ngFor="let item of supplierDashboardMenu" [routerLink]="[item.url]" mat-button>
-          <span class="item-label">{{item.label}}</span>
-        </button>
+        <ng-container *ngFor="let item of supplierDashboardMenu">
+          <ng-container *ngIf="!item?.disabled">
+            <button [routerLink]="[item.url]" mat-button>
+              <span class="item-label">{{item.label}}</span>
+            </button>
+          </ng-container>
+        </ng-container>
       </ng-container>
       <ng-template #ResellerMenu>
         <button *ngFor="let item of resellerDashboardMenu" [routerLink]="[item.url]" mat-button>

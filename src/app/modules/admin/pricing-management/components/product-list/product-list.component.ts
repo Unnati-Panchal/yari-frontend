@@ -77,17 +77,20 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.dataSource.filter = filterValue;
     this.loading = false;
   }
+
   public getPricingProducts = () => {
-   
+
     this.loading = true;
     this.cpy = [];
     this.res = [];
-    this._subscription.add(this._adminService.getPricingProducts(this.catalogueId).subscribe((pricingProducts: IPricingProduct[]) => {
+    this._subscription.add(
+      this._adminService.getPricingProducts(this.catalogueId).subscribe((pricingProducts: IPricingProduct[]) => {
       this.cpy = JSON.parse(JSON.stringify(pricingProducts));
       this.res = pricingProducts;
       this.dataSource = new MatTableDataSource(pricingProducts);
       this.loading = false;
-    }));
+      })
+    );
   }
 
   public change = (check, index) => {
@@ -102,7 +105,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     }
   }
 
-  public changeOffer = (value: string, index: number) => this.cpy[index].offers = value;
+  public changeOffer(value: string, index: number): void {
+    this._snackbar.open('Please make sure the selling price is within the selected offers range.', 'Dismiss', { duration: 5000 });
+    this.cpy[index].offers = value;
+  }
 
   public download = (catalogueId = this.catalogueId, catalogueName = this.catalogueName) => {
     this._subscription.add(this._adminService.getPricingCatalogueDownload(catalogueId).subscribe(res => {
@@ -112,9 +118,9 @@ export class ProductListComponent implements OnInit, OnDestroy {
   }
 
   public edit = () => {
-    if(!this.checked.length){
-      this._snackbar.open("Please select a product to edit", 'Dismiss', { duration: 5000 });
-      return
+    if (!this.checked.length){
+      this._snackbar.open('Please select a product to edit', 'Dismiss', { duration: 5000 });
+      return;
     }
     this.loading = true;
     const editDetailsList = [];
@@ -136,9 +142,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   public editPricing = (editPricingDetails: IPricingEdit[]) => {
     this._subscription.add(this._adminService.editPricing(editPricingDetails).subscribe((res: IResMsg) => {
       this._snackbar.open(res.msg, 'Dismiss', { duration: 5000 });
-      if (res.success) {
-        this.ngOnInit();
-      }
+      this.ngOnInit();
     }));
   }
 
@@ -166,6 +170,23 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   restrictAlphabets = ($event) => {
     const x = $event.which || $event.keycode;
-    return (x>=48 && x<=57);
+    return (x >= 48 && x <= 57);
+  }
+
+  restrictSellingPrice(sellingPrice: string, mrp: number): void {
+    let msg = '';
+    if (Number(sellingPrice) > mrp) {
+      msg = 'Selling Price should not be greater than MRP';
+    }
+    if (Number(sellingPrice) < 1) {
+      msg = 'Selling Price should be greater than 0';
+    }
+    if (mrp < 1) {
+      msg = 'MRP should be greater than 0';
+    }
+    if (msg) {
+      this._snackbar.open(msg, 'Dismiss', { duration: 5000 });
+    }
   }
 }
+

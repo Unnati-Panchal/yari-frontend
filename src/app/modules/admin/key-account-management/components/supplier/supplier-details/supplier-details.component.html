@@ -88,9 +88,9 @@
           <span>{{KAMSupplierDetails?.type}}</span>
         </div>
 
-        <div *ngIf="KAMSupplierDetails?.quality_report">
+        <div>
           <h4>Quality report</h4>
-          <button mat-button class="element-btn" (click)="downloadImage(KAMSupplierDetails.quality_report)">
+          <button mat-button class="element-btn" (click)="isFileAvailable(KAMSupplierDetails?.quality_report)">
             View
           </button>
         </div>
@@ -127,30 +127,30 @@
           <span>{{KAMSupplierDetails?.bank_account_name}}</span>
         </div>
 
-        <div *ngIf="KAMSupplierDetails?.gst_certificate">
+        <div>
           <h4>GST Certificate</h4>
-          <button mat-button class="element-btn" (click)="downloadImage(KAMSupplierDetails.gst_certificate)">
+          <button mat-button class="element-btn" (click)="isFileAvailable(KAMSupplierDetails?.gst_certificate)">
             View
           </button>
         </div>
 
-        <div *ngIf="KAMSupplierDetails?.cancelled_cheque">
+        <div>
           <h4>Cancelled Cheque</h4>
-          <button mat-button class="element-btn" (click)="downloadImage(KAMSupplierDetails.cancelled_cheque)">
+          <button mat-button class="element-btn" (click)="isFileAvailable(KAMSupplierDetails?.cancelled_cheque)">
             View
           </button>
         </div>
 
-        <div *ngIf="KAMSupplierDetails?.pan_card">
+        <div>
           <h4>PAN Card</h4>
-          <button mat-button class="element-btn" (click)="downloadImage(KAMSupplierDetails.pan_card)">
+          <button mat-button class="element-btn" (click)="isFileAvailable(KAMSupplierDetails?.pan_card)">
             View
           </button>
         </div>
 
-        <div *ngIf="KAMSupplierDetails?.msme_certificate">
+        <div>
           <h4>MSME</h4>
-          <button mat-button class="element-btn" (click)="downloadImage(KAMSupplierDetails.msme_certificate)">
+          <button mat-button class="element-btn" (click)="isFileAvailable(KAMSupplierDetails?.msme_certificate)">
             View
           </button>
         </div>

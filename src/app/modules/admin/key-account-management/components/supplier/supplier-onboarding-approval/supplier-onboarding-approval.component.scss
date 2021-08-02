@@ -153,6 +153,7 @@
           font-size: $yaari-default-small;
           margin: 0 $yaari-tiny;
           height: $yaari-small * 2;
+          justify-content: center;
 
           &.approve {
             background: $Yaari-success;

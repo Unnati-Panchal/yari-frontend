@@ -1,6 +1,8 @@
 import {ESortDirection, ICatalogProducts} from '@yaari/models/product/product.interface';
 import {Sort} from '@angular/material/sort';
+
 import {IFilter} from '@yaari/models/admin/admin.interface';
+
 
 export class Utilities {
 
@@ -23,6 +25,7 @@ export class Utilities {
     return data.sort((a, b) => {
       const isAsc = sort.direction === ESortDirection.Asc;
       switch (sort.active) {
+
         case 'catalogue_name':
           return compare(a.catalogue_name, b.catalogue_name, isAsc);
         case 'supplier_business_name':
@@ -35,11 +38,13 @@ export class Utilities {
           return compare(a.category_name, b.category_name, isAsc);
         case 'catalogue_status':
           return compare(a.catalogue_status, b.catalogue_status, isAsc);
+
         default:
           return 0;
       }
     });
   }
+
 
   public static scrollToFirstInvalidControl(): void {
     const firstElementWithError = document.querySelector('.ng-invalid[formControlName]');
@@ -47,10 +52,12 @@ export class Utilities {
       firstElementWithError.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
   }
+
 }
 
 export function compare(a: number | string, b: number | string, isAsc: boolean): any {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
+
 }
 
 export function getQuery(filter: IFilter): string {
@@ -85,4 +92,5 @@ export async function downloadFile(url): Promise<void> {
   document.body.appendChild(pom);
   pom.click();
   document.body.removeChild(pom);
+
 }

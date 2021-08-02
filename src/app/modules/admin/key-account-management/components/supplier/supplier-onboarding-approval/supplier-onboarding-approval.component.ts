@@ -118,6 +118,14 @@ export class SupplierOnboardingApprovalComponent implements OnInit, OnDestroy {
     downloadFile(url).then();
   }
 
+  isFileAvailable(url: string): void {
+    if (url) {
+      this.downloadImage(url);
+    } else {
+      this.openSnackBar('No document uploaded');
+    }
+  }
+
   approveSupplier(approved: ISupplierDetails, approve: boolean, index: number): void {
     if (!this.updatedComment[index]) {
       this.openSnackBar('Please add a comment');

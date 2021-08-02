@@ -9,7 +9,7 @@ import { AdminAuthGuard, AuthGuard } from '@yaari/guards/auth.guard';
 import { AppFacade, IAppState } from '~store/app.state';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { RouterState, StoreRouterConnectingModule, routerReducer } from '@ngrx/router-store';
-import { AdminEffects } from './store/admin/admin.effects';
+import { AdminEffects } from '~store/admin/admin.effects';
 import { AppComponent } from '~app/app.component';
 import { AppRoutingModule } from '~app/app-routing.module';
 import { AuthEffects } from '~store/auth/auth.effects';
@@ -25,6 +25,7 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { TermsAndConditionsComponent } from '~app/modules/terms-and-conditions/terms-and-conditions.component';
 import { TokenInterceptor } from '@yaari/interceptors/token.interceptor';
 import { environment } from '~env/environment';
+import {AuthKAMGuard} from '@yaari/guards/authKAM.guard';
 
 
 
@@ -79,6 +80,7 @@ export function getReducers(): ActionReducerMap<IAppState> {
   providers: [
     AuthGuard,
     AdminAuthGuard,
+    AuthKAMGuard,
     AppFacade,
     { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true }
   ],

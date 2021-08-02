@@ -12,6 +12,7 @@ import { Location } from '@angular/common';
 import { downloadFile } from '@yaari/utils/utlis';
 import { filter } from 'rxjs/operators';
 
+
 @Component({
   selector: 'app-supplier-details',
   templateUrl: './supplier-details.component.html',
@@ -25,7 +26,12 @@ export class SupplierDetailsComponent implements OnInit, OnDestroy {
   KAMSupplierDetails: ISupplierDetails;
   isKYCDetailsSelected = false;
 
-  constructor(private _store: Store<IAppState>, private router: Router, private route: ActivatedRoute, private _location: Location) { }
+  constructor(private _store: Store<IAppState>,
+              private router: Router,
+              private route: ActivatedRoute,
+              private _location: Location,
+              private _snackBar: MatSnackBar,
+              ) { }
 
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();
@@ -54,6 +60,18 @@ export class SupplierDetailsComponent implements OnInit, OnDestroy {
 
   downloadImage(url: string): void {
     downloadFile(url).then();
+  }
+
+  isFileAvailable(url: string): void {
+    if (url) {
+      this.downloadImage(url);
+    } else {
+      this.openSnackBar('No document uploaded');
+    }
+  }
+
+  openSnackBar(msg): void {
+    this._snackBar.open(msg, 'X', {duration: 3000});
   }
 
 }

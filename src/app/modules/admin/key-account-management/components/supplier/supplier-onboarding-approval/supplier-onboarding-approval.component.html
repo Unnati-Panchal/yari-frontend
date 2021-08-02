@@ -81,8 +81,8 @@
         <ng-container matColumnDef="gst_certificate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> GST Certificate </th>
           <td mat-cell *matCellDef="let element">
-            <span *ngIf="element?.gst_certificate">
-              <button mat-button class="table-btn" (click)="downloadImage(element.gst_certificate)">VIEW</button>
+            <span class="action-btns">
+              <button mat-button class="table-btn" (click)="isFileAvailable(element.gst_certificate)">VIEW</button>
             </span>
           </td>
         </ng-container>
@@ -100,8 +100,8 @@
         <ng-container matColumnDef="pan_card">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> PAN Card </th>
           <td mat-cell *matCellDef="let element">
-            <span *ngIf="element?.pan_card">
-              <button mat-button class="table-btn" (click)="downloadImage(element.pan_card)">VIEW</button>
+            <span class="action-btns">
+              <button mat-button class="table-btn" (click)="isFileAvailable(element.pan_card)">VIEW</button>
             </span>
           </td>
         </ng-container>
@@ -139,8 +139,8 @@
         <ng-container matColumnDef="cancelled_cheque">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Cancelled Cheque </th>
           <td mat-cell *matCellDef="let element">
-            <span *ngIf="element?.cancelled_cheque">
-              <button mat-button class="table-btn" (click)="downloadImage(element.cancelled_cheque)">VIEW</button>
+            <span class="action-btns">
+              <button mat-button class="table-btn" (click)="isFileAvailable(element.cancelled_cheque)">VIEW</button>
             </span>
           </td>
         </ng-container>
@@ -148,8 +148,8 @@
         <ng-container matColumnDef="msme_certificate">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> MSME </th>
           <td mat-cell *matCellDef="let element">
-            <span *ngIf="element?.msme_certificate">
-              <button mat-button class="table-btn" (click)="downloadImage(element.msme_certificate)">VIEW</button>
+            <span class="action-btns">
+              <button mat-button class="table-btn" (click)="isFileAvailable(element.msme_certificate)">VIEW</button>
             </span>
           </td>
         </ng-container>

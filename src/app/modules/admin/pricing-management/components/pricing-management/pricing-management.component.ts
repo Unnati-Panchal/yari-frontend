@@ -28,17 +28,15 @@ export class PricingManagementComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this._appFacade.clearMessages();
     this._adminService.authorizedAdmin('pricing_management');
-    
-    this._authService.adminDetails().subscribe((adminDetails: IAdminDetails)=>{
+
+    this._authService.adminDetails().subscribe((adminDetails: IAdminDetails) => {
       if(adminDetails.admin_designation === 'associate'){
         this.hide = true;
       }
       this.menus = [
         { name: 'Update Pricing', link: 'update' }
       ];
-    })
-    
-    
+    });
   }
   public ngOnDestroy(): void {
     this._subscription.unsubscribe();

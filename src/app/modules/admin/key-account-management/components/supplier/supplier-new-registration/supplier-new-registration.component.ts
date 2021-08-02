@@ -26,8 +26,9 @@ import {Utilities} from '@yaari/utils/utlis';
 })
 export class SupplierNewRegistrationComponent implements OnInit, OnDestroy {
   public registrationResponse$ = this._store.pipe(select(fromAuthSelectors.getRegResponse), filter(value => !!value));
-  public isAuthError$ = this._store.pipe(select(fromAuthSelectors.getIsError));
+  public isAuthError$ = this._store.pipe(select(fromAuthSelectors.getIsError), filter(error => !!error));
   public isProductError$ = this._store.pipe(select(fromProductsSelectors.getIsError), filter(error => !!error));
+  public isProfileError$ = this._store.pipe(select(fromProfileSelectors.getIsError$), filter(error => !!error));
   public categories$ = this._store.pipe(select(fromProductsSelectors.getCategories), filter(categories => !!categories?.length));
   public cities$ = this._store.pipe(select(fromProductsSelectors.getCities), filter(categories => !!categories?.length));
   public states$ = this._store.pipe(select(fromProductsSelectors.getStates), filter(categories => !!categories?.length));
@@ -37,7 +38,6 @@ export class SupplierNewRegistrationComponent implements OnInit, OnDestroy {
     select(fromProfileSelectors.getUploadedKYCDocs$),
     filter(uploadedKYCDocs => !!uploadedKYCDocs)
   );
-  public isProfileError$ = this._store.pipe(select(fromProfileSelectors.getIsError$), filter(error => !!error));
   public regForm: FormGroup;
   public types = [
     {label: 'Retailer', key: 'retailer'},
@@ -275,12 +275,14 @@ export class SupplierNewRegistrationComponent implements OnInit, OnDestroy {
           }))
         .subscribe()
     );
-    this._subscription.add(this.uploadedKYCDocs$.subscribe(() => {
+    this._subscription.add(
+      this.uploadedKYCDocs$.subscribe(() => {
       this.loading = false;
       const msg = `You've successfully registered new supplier`;
       this._snackBar.open(msg, '', {duration: 3000});
       this._router.navigate(['admin/key-account-management']);
-    }));
+      })
+    );
   }
 
   openSnackBar(msg): void {

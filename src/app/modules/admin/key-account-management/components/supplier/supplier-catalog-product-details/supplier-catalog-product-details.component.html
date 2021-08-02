@@ -27,6 +27,18 @@
     <div *ngIf="!loading && dataSource?.data?.length" class="table-box">
       <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
+        <ng-container matColumnDef="empty-before">
+          <th mat-header-cell *matHeaderCellDef colspan="2"></th>
+        </ng-container>
+
+        <ng-container matColumnDef="empty-after">
+          <th mat-header-cell *matHeaderCellDef [attr.colspan]="displayedColumns?.length - (specKeys?.length + 2)"></th>
+        </ng-container>
+
+        <ng-container matColumnDef="specifications">
+          <th mat-header-cell *matHeaderCellDef [attr.colspan]="specKeys?.length"> Specifications </th>
+        </ng-container>
+
         <ng-container matColumnDef="product_name">
           <th mat-header-cell *matHeaderCellDef mat-sort-header> Product Name </th>
           <td mat-cell *matCellDef="let element">{{element?.product_name}}</td>
@@ -128,6 +140,7 @@
           </td>
         </ng-container>
 
+        <tr mat-header-row *matHeaderRowDef="['empty-before', 'specifications', 'empty-after']"></tr>
         <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
       </table>

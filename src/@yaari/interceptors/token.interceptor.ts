@@ -12,11 +12,11 @@ import * as fromAdminActions from '~store/admin/admin.actions';
 @Injectable()
 export class TokenInterceptor implements HttpInterceptor {
 
-  constructor(private _auth: AuthService, private _snackBar: MatSnackBar, private _store: Store<IAppState>,) {
+  constructor(private _auth: AuthService, private _snackBar: MatSnackBar, private _store: Store<IAppState>) {
   }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    if (this._auth.accessToken) {
+    if (this._auth.accessToken && !request.url.includes('/api/v1/supplier/kyc-files')) {
       request = request.clone({ setHeaders: { 'X-Auth-Token': `${this._auth.accessToken}` } });
     }
 
@@ -38,7 +38,7 @@ export class TokenInterceptor implements HttpInterceptor {
             }
             return of(err);
           }
-          if (err.status === 404 || err.error.detail) {
+          if (err.status === 404) {
             let msg = '';
             if (Array.isArray(err.error.detail)) {
               err.error.detail.forEach(e => {
@@ -62,11 +62,12 @@ export class TokenInterceptor implements HttpInterceptor {
           this._snackBar.open(msg, '', { duration: 3000 });
           return of(err);
         }
-        else if (err.status === 404 || err.error.detail) {
+        else if (err.status === 404) {
           const msg = err.error.detail;
           this._snackBar.open(msg, '', { duration: 3000 });
           return of(err);
         }
+
         if (err.status === 500) {
           this._snackBar.open(err.error, '', {duration: 3000});
           this._store.dispatch(fromAdminActions.stopLoading());
