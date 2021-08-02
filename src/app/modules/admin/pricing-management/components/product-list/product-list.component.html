@@ -24,17 +24,17 @@
     </div>
 
 
-    <div class="main-table" *ngIf="!loading && dataSource?.data?.length">
-        <table mat-table [dataSource]="dataSource">
-            <ng-container matColumnDef="select" sticky>
-                <th mat-header-cell *matHeaderCellDef class="select">Select</th>
-                <td mat-cell *matCellDef="let element; let i = index">
-                    <mat-checkbox (change)="change($event.checked, i)"></mat-checkbox>
-                </td>
-            </ng-container>
-            <ng-container matColumnDef="sku_id">
-                <th mat-header-cell *matHeaderCellDef>Product SKU ID</th>
-                <td mat-cell *matCellDef="let element; let i = index">
+    <div  *ngIf="!loading && dataSource?.data?.length">
+      <table mat-table [dataSource]="dataSource">
+        <ng-container matColumnDef="select" sticky>
+          <th mat-header-cell *matHeaderCellDef class="select">Select</th>
+          <td mat-cell *matCellDef="let element; let i = index">
+            <mat-checkbox (change)="change($event.checked, i)"></mat-checkbox>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="sku_id">
+          <th mat-header-cell *matHeaderCellDef>Product SKU ID</th>
+          <td mat-cell *matCellDef="let element; let i = index">
                     {{element["sku_id"]}}
                 </td>
             </ng-container>
