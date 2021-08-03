@@ -1,0 +1,71 @@
+@import 'variables';
+@import 'mixins';
+
+:host {
+  main {
+    width: 100%;
+    height: calc(100vh - 100px);
+    @include yaari-display-flex();
+
+    section {
+      width: 50%;
+
+      @include media-breakpoint(lt-md) {
+        width: 100%;
+      }
+    }
+
+    .red-line {
+      height: $yaari-tiny;
+      background: $yaari-red;
+    }
+
+    .left-image {
+      background-image: url('~src/assets/images/contact_us.png');
+      background-size: cover;
+
+      @include media-breakpoint(lt-md) {
+        display: none;
+      }
+
+      h1 {
+        padding: $yaari-base * 2 0 $yaari-tiny yaari-to-rem(120px);
+        color: $yaari-light;
+        margin: 0;
+        font-size: $yaari-h1;
+        font-weight: bold;
+        line-height: 100%;
+      }
+
+      .red-line {
+        width: yaari-to-rem(100px);
+        margin-left: yaari-to-rem(120px);
+      }
+    }
+
+    .content-container {
+      margin: yaari-to-rem(50px);
+
+      @include media-breakpoint(lt-sm) {
+        margin: yaari-to-rem(20px);
+      }
+
+      h4 {
+        padding-top: $yaari-tiny;
+        font-size: $yaari-h4;
+        line-height: 1.62;
+        font-weight: normal;
+
+        span {
+          font-weight: bold;
+        }
+      }
+
+      .separator {
+        height: 1px;
+        width: 100%;
+        background: $yaari-separator;
+      }
+    }
+  }
+}

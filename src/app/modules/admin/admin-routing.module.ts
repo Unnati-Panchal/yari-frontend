@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { AdminAuthGuard } from '@yaari/guards/auth.guard';
 import { AdminComponent } from './admin.component';
 import { NgModule } from '@angular/core';
+import {ContactUsPageComponent} from '~admin/contact-us-page/contact-us-page.component';
 
 const routes: Routes = [
   {
@@ -59,6 +60,10 @@ const routes: Routes = [
         path: 'pricing-management',
         loadChildren: () => import('~admin/pricing-management/pricing-management.module').then(m => m.PricingManagementModule),
         canActivate: [AdminAuthGuard]
+      },
+      {
+        path: 'contact-us',
+        component: ContactUsPageComponent
       },
       { path: '**', redirectTo: '/admin/login' }
     ]
