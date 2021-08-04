@@ -4,6 +4,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from '@yaari/shared.module';
 import { AdminRoutingModule } from './admin-routing.module';
 import { AdminComponent } from './admin.component';
+import {MatIconModule} from '@angular/material/icon';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 @NgModule({
   declarations: [AdminComponent],
@@ -11,7 +13,9 @@ import { AdminComponent } from './admin.component';
     CommonModule,
     AdminRoutingModule,
     SharedModule,
-    MatButtonModule
+    MatButtonModule,
+    MatIconModule,
+    MatSidenavModule
   ]
 })
 export class AdminModule { }

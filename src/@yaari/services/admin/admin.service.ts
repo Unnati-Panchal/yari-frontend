@@ -26,15 +26,22 @@ import {HttpClient} from '@angular/common/http';
 import {IResetPassword} from '@yaari/models/auth/auth.interface';
 import {Injectable} from '@angular/core';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import {Observable} from 'rxjs';
+import {BehaviorSubject, Observable} from 'rxjs';
 import {Router} from '@angular/router';
 import {environment} from '~env/environment';
 import {getQuery} from '@yaari/utils/utlis';
+
+export interface IMenuItem {
+  url: string;
+  label: string;
+  disabled?: boolean;
+}
 
 @Injectable({
   providedIn: 'root'
 })
 export class AdminService {
+  activeHeaderMenu$ = new BehaviorSubject<IMenuItem[]>(null);
 
   constructor(
     private _http: HttpClient,

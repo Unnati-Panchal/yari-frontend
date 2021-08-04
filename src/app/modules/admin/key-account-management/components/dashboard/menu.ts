@@ -1,10 +1,6 @@
-const baseKAMPath = '/admin/key-account-management/';
+import {IMenuItem} from '@yaari/services/admin/admin.service';
 
-export interface IMenuItem {
-  url: string;
-  label: string;
-  disabled?: boolean;
-}
+const baseKAMPath = '/admin/key-account-management/';
 
 export const supplierDashboardMenu: IMenuItem[] = [
   {
@@ -25,7 +21,7 @@ export const supplierDashboardMenu: IMenuItem[] = [
   },
   {
     url: `${baseKAMPath}supplier-complaints`,
-    label: 'Complaints'
+    label: 'Supplier Complaints'
   },
   // {
   //   url: `${baseKAMPath}supplier-payment-reversal`,
@@ -41,7 +37,7 @@ export const resellerDashboardMenu: IMenuItem[] = [
   // },
   {
     url: `${baseKAMPath}reseller-complaints`,
-    label: 'Complaints'
+    label: 'Reseller Complaints'
   },
   // {
   //   url: `${baseKAMPath}reseller-payment-reversal`,

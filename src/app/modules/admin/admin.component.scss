@@ -2,121 +2,166 @@
 @import 'mixins';
 
 :host ::ng-deep {
-
-  button {
-    outline: none;
-  }
-
-  ::ng-deep .mat-button-focus-overlay {
-    display: none;
-  }
-
-  .general-menu {
-    background: $yaari-red;
-    color: $yaari-light;
+  .mat-drawer-container {
+    height: 100%;
     width: 100%;
-
-    .my-profile {
-      @include yaari-display-flex(flex-start, space-between);
-      height: $yaari-large * 2;
-      padding: $yaari-base;
-      border-bottom: 1px solid white;
-
-      section {
-        @include yaari-display-flex(flex-start, flex-start);
-
-        img {
-          width: yaari-to-rem(70px);
-          height: yaari-to-rem(70px);
-          border: 2px solid white;
-          border-radius: 50%;
-        }
-
-        div {
-          @include yaari-display-flex(flex-start, flex-start, column);
-
-          p {
-            font-size: $yaari-h5;
-            font-weight: bold;
-            padding: $yaari-tiny 0 0 $yaari-base;
-            margin: 0;
-          }
-
-          button {
-            font-size: $yaari-default-small;
-            font-weight: normal;
-            padding-left: $yaari-base;
-          }
-        }
-      }
-    }
-
-    .button-container {
-      @include yaari-display-flex(flex-end);
-      height: $yaari-xlarge;
-      border-bottom: 1px solid white;
-
-      button {
-        @include yaari-display-flex(flex-start, flex-end, column);
-        width: 100%;
-        height: 100%;
-        font-size: $yaari-default-small;
-        padding-left: $yaari-base;
-      }
-    }
-
+    background: $yaari-light;
   }
 
-  header {
-    @include yaari-display-flex(center, space-between);
-    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
-    height: $header-height;
-    padding: 0 $yaari-large * 2;
+  mat-drawer {
+    height: fit-content;
+    width: yaari-to-rem(500px);
 
     @include media-breakpoint(lt-md) {
-      padding: 0 $yaari-tiny;
+      width: 100%;
     }
 
-    div {
+    .mat-drawer-inner-container {
+      overflow: hidden;
+      background: $yaari-red;
+    }
 
-      &.logo {
-        @include yaari-display-flex(center, flex-start);
+    button {
+      outline: none;
+    }
 
-        img {
-          margin: $yaari-large / 2 0;
-          width: $yaari-large;
-          cursor: pointer;
-        }
+    ::ng-deep .mat-button-focus-overlay {
+      display: none;
+    }
 
-        p {
-          margin: 0 $yaari-xlarge;
+    .general-menu {
+      background: $yaari-red;
+      color: $yaari-light;
+      width: 100%;
 
-          @include media-breakpoint(lt-md) {
-            display: none;
+      .my-profile {
+        @include yaari-display-flex(flex-start, space-between);
+        height: $yaari-large * 2;
+        padding: $yaari-base;
+        border-bottom: 1px solid white;
+
+        section {
+          @include yaari-display-flex(flex-start, flex-start);
+
+          img {
+            width: yaari-to-rem(70px);
+            height: yaari-to-rem(70px);
+            border: 2px solid white;
+            border-radius: 50%;
           }
 
+          div {
+            @include yaari-display-flex(flex-start, flex-start, column);
 
-          span {
-            font-size: $yaari-h4;
+            p {
+              font-size: $yaari-h5;
+              font-weight: bold;
+              padding: $yaari-tiny 0 0 $yaari-base;
+              margin: 0;
+            }
 
-
-            &.underline-span {
-              margin: 0 $yaari-small;
-              border-bottom: 5px solid $yaari-red;
+            button {
+              font-size: $yaari-default-small;
+              font-weight: normal;
+              padding-left: $yaari-base;
             }
           }
         }
-
-
       }
 
-      .logout {
-        border-radius: 24px;
-        font-size: $yaari-h6;
-        background-color: $yaari-light;
-        color: $yaari-red;
-        border: 1px solid $yaari-red;
-        margin: 0 $yaari-large / 2;
+      .button-container {
+        @include yaari-display-flex(flex-end);
+        height: $yaari-xlarge;
+        border-bottom: 1px solid white;
+
+        button {
+          @include yaari-display-flex(flex-start, flex-end, column);
+          width: 100%;
+          height: 100%;
+          font-size: $yaari-default-small;
+          padding-left: $yaari-base;
+        }
+
+        &.isMenuOpened {
+          background: white;
+          color: $yaari-red;
+        }
+      }
+
+      .dashboard-menu {
+        @include yaari-display-flex(flex-start, flex-end, column);
+
+        button {
+          @include yaari-display-flex(flex-start, flex-end, column);
+          width: 100%;
+          height: 100%;
+          font-size: $yaari-default-small;
+          padding-left: $yaari-large;
+          color: $yaari-red;
+          background: $yaari-lighted;
+          border-bottom: 1px solid $yaari-separator;
+        }
+      }
+
+      .dashboard-button {
+        height: $yaari-base;
+      }
+    }
+  }
+
+  mat-drawer-content {
+
+    header {
+      @include yaari-display-flex(center, space-between);
+      box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.16);
+      height: $header-height;
+      padding: 0 $yaari-large * 2;
+
+      @include media-breakpoint(lt-md) {
+        padding: 0 $yaari-tiny;
+      }
+
+      div {
+
+        &.logo {
+          @include yaari-display-flex(center, flex-start);
+
+          img {
+            margin: $yaari-large / 2 0;
+            width: $yaari-large;
+            cursor: pointer;
+          }
+
+          p {
+            margin: 0 $yaari-xlarge;
+
+            @include media-breakpoint(lt-md) {
+              display: none;
+            }
+
+
+            span {
+              font-size: $yaari-h4;
+
+
+              &.underline-span {
+                margin: 0 $yaari-small;
+                border-bottom: 5px solid $yaari-red;
+              }
+            }
+          }
+
+
+        }
+
+        .logout {
+          border-radius: 24px;
+          font-size: $yaari-h6;
+          background-color: $yaari-light;
+          color: $yaari-red;
+          border: 1px solid $yaari-red;
+          margin: 0 $yaari-large / 2;
+        }
       }
     }
   }
