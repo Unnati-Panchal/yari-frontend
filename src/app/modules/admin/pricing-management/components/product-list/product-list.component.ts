@@ -1,12 +1,13 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
-import { IPricingEdit, IPricingProduct, IResMsg } from '@yaari/models/admin/admin.interface';
-import { AdminService } from '@yaari/services/admin/admin.service';
+import {Component, OnDestroy, OnInit} from '@angular/core';
+import {MatSnackBar} from '@angular/material/snack-bar';
+import {MatTableDataSource} from '@angular/material/table';
+import {ActivatedRoute} from '@angular/router';
+import {IPricingEdit, IPricingProduct, IResMsg} from '@yaari/models/admin/admin.interface';
+import {AdminService} from '@yaari/services/admin/admin.service';
 import * as fileSaver from 'file-saver';
-import { Subscription } from 'rxjs';
-import { AppFacade } from '~app/store/app.state';
+import {Subscription} from 'rxjs';
+import {AppFacade} from '~app/store/app.state';
+import {isSellingPriceNotInOfferRange} from '@yaari/utils/utlis';
 
 @Component({
   selector: 'app-product-list',
@@ -18,7 +19,8 @@ export class ProductListComponent implements OnInit, OnDestroy {
     private _adminService: AdminService,
     private _appFacade: AppFacade,
     private _route: ActivatedRoute,
-    private _snackbar: MatSnackBar) { }
+    private _snackbar: MatSnackBar) {
+  }
 
 
   displayedColumns = [
@@ -85,10 +87,10 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.res = [];
     this._subscription.add(
       this._adminService.getPricingProducts(this.catalogueId).subscribe((pricingProducts: IPricingProduct[]) => {
-      this.cpy = JSON.parse(JSON.stringify(pricingProducts));
-      this.res = pricingProducts;
-      this.dataSource = new MatTableDataSource(pricingProducts);
-      this.loading = false;
+        this.cpy = JSON.parse(JSON.stringify(pricingProducts));
+        this.res = pricingProducts;
+        this.dataSource = new MatTableDataSource(pricingProducts);
+        this.loading = false;
       })
     );
   }
@@ -96,30 +98,31 @@ export class ProductListComponent implements OnInit, OnDestroy {
   public change = (check, index) => {
     if (check) {
       this.checked.push(index);
-    }
-    else {
+    } else {
       this.checked = this.checked.filter(idx => idx !== index);
       const z = this.res[index];
-      this.cpy[index] = { ...z };
+      this.cpy[index] = {...z};
       this.offers = Object.keys(this.offerTypes);
     }
   }
 
-  public changeOffer(value: string, index: number): void {
-    this._snackbar.open('Please make sure the selling price is within the selected offers range.', 'Dismiss', { duration: 5000 });
+  public changeOffer(value: string, index: number, mrp: string, sp: string): void {
+    if (isSellingPriceNotInOfferRange(value, mrp, sp)) {
+      this._snackbar.open('Selling price should be within selected offer range.', 'Dismiss', {duration: 5000});
+    }
     this.cpy[index].offers = value;
   }
 
   public download = (catalogueId = this.catalogueId, catalogueName = this.catalogueName) => {
     this._subscription.add(this._adminService.getPricingCatalogueDownload(catalogueId).subscribe(res => {
-      const blob = new Blob([res], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+      const blob = new Blob([res], {type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
       fileSaver.saveAs(blob, `${catalogueName}.xlsx`);
     }));
   }
 
   public edit = () => {
-    if (!this.checked.length){
-      this._snackbar.open('Please select a product to edit', 'Dismiss', { duration: 5000 });
+    if (!this.checked.length) {
+      this._snackbar.open('Please select a product to edit', 'Dismiss', {duration: 5000});
       return;
     }
     this.loading = true;
@@ -141,7 +144,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   public editPricing = (editPricingDetails: IPricingEdit[]) => {
     this._subscription.add(this._adminService.editPricing(editPricingDetails).subscribe((res: IResMsg) => {
-      this._snackbar.open(res.msg, 'Dismiss', { duration: 5000 });
+      this._snackbar.open(res.msg, 'Dismiss', {duration: 5000});
       this.ngOnInit();
     }));
   }
@@ -151,7 +154,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     const file = new FormData();
     file.append('file', fileInputEvent.target.files[0]);
     this._subscription.add(this._adminService.uploadPricing(file).subscribe((res: IResMsg) => {
-      this._snackbar.open(res.msg, 'Dismiss', { duration: 5000 });
+      this._snackbar.open(res.msg, 'Dismiss', {duration: 5000});
       this.loading = false;
       if (res.success) {
         this.ngOnInit();
@@ -185,7 +188,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
       msg = 'MRP should be greater than 0';
     }
     if (msg) {
-      this._snackbar.open(msg, 'Dismiss', { duration: 5000 });
+      this._snackbar.open(msg, 'Dismiss', {duration: 5000});
     }
   }
 }

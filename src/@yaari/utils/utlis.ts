@@ -94,3 +94,22 @@ export async function downloadFile(url): Promise<void> {
   document.body.removeChild(pom);
 
 }
+
+export function isSellingPriceNotInOfferRange(offer: string,  mrp: string, sp: string): boolean {
+  const currentMrp = Number(mrp);
+  const currentSp = Number(sp);
+  switch (offer) {
+    case '0':
+      return currentMrp !== currentSp;
+    case 'Flat 10%':
+      return currentSp !== currentMrp * 0.9;
+    case 'Upto 50%':
+      return currentSp > currentMrp * 0.89 || currentSp < currentMrp * 0.50;
+    case '51%-80%':
+      return currentSp > currentMrp * 0.49 || currentSp < currentMrp * 0.20;
+    case '81% & above':
+      return currentSp > currentMrp * 0.19 || currentSp < currentMrp * 0.01;
+    case 'Combo offers':
+      return false;
+  }
+}
