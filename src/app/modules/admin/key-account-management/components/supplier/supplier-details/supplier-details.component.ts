@@ -1,15 +1,18 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
-import {combineLatest, Subscription} from 'rxjs';
-import {select, Store} from '@ngrx/store';
-import * as fromAdminSelectors from '~store/admin/admin.selectors';
-import {filter} from 'rxjs/operators';
-import {ISupplierDetails} from '@yaari/models/admin/admin.interface';
-import {IAppState} from '~store/app.state';
 import * as fromAdminActions from '~store/admin/admin.actions';
-import {downloadFile} from '@yaari/utils/utlis';
-import {Location} from '@angular/common';
+import * as fromAdminSelectors from '~store/admin/admin.selectors';
+
+import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Store, select } from '@ngrx/store';
+import { Subscription, combineLatest } from 'rxjs';
+
+import { IAppState } from '~store/app.state';
+import { ISupplierDetails } from '@yaari/models/admin/admin.interface';
+import { Location } from '@angular/common';
+import { downloadFile } from '@yaari/utils/utlis';
+import { filter } from 'rxjs/operators';
 import {MatSnackBar} from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-supplier-details',
@@ -38,7 +41,7 @@ export class SupplierDetailsComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.loading = true;
     const supplierId = this.route.snapshot.paramMap.get('id');
-    this._store.dispatch(fromAdminActions.getSupplierDetailsById({supplierId: Number(supplierId)}));
+    this._store.dispatch(fromAdminActions.getSupplierDetailsById({ supplierId: Number(supplierId) }));
     this.getCatalogList();
   }
 

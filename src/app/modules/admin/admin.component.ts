@@ -5,6 +5,8 @@ import { AuthService } from '@yaari/services/auth/auth.service';
 import { filter } from 'rxjs/operators';
 import { IAppState } from '~app/store/app.state';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
+import {AdminService, IMenuItem} from '@yaari/services/admin/admin.service';
+import {Observable} from 'rxjs';
 
 @Component({
   selector: 'app-auth',
@@ -12,6 +14,7 @@ import * as fromAuthSelectors from '~store/auth/auth.selectors';
   styleUrls: ['./admin.component.scss']
 })
 export class AdminComponent implements OnInit {
+  menu$: Observable<IMenuItem[]>;
 
   public adminDetails$ = this._store.pipe(
     select(fromAuthSelectors.adminDetails$),
@@ -22,10 +25,16 @@ export class AdminComponent implements OnInit {
     select(fromAuthSelectors.getToken),
     filter(token => !!token)
   );
-  constructor(private _auth: AuthService, private _store: Store<IAppState>, private _snackbar: MatSnackBar) { }
+  constructor(private _auth: AuthService,
+              private _store: Store<IAppState>,
+              private _snackbar: MatSnackBar,
+              private adminService: AdminService
+  ) { }
 
   adminRole: string;
+
   ngOnInit(): void {
+    this.menu$ = this.adminService.activeHeaderMenu$;
   }
 
   logout(): void {
@@ -37,6 +46,4 @@ export class AdminComponent implements OnInit {
       filter(details => !!details)
     );
   }
-
-
 }

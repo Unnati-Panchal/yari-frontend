@@ -1,4 +1,3 @@
-import * as fromAuthActions from '~store/auth/auth.actions';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
 
 import { AppFacade, IAppState } from '~app/store/app.state';
@@ -7,7 +6,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
 import { tap } from 'rxjs/operators';
 
-import { AdminService } from '@yaari/services/admin/admin.service';
+import {AdminService, IMenuItem} from '@yaari/services/admin/admin.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from '@yaari/services/auth/auth.service';
 import { IAdminDetails } from '@yaari/models/auth/auth.interface';
@@ -36,10 +35,10 @@ export class CatalogueManagementComponent implements OnInit, OnDestroy {
     private _auth: AuthService
   ) { }
 
-  menus: any = [
-    { name: 'Approve Uploaded Catalogues', link: 'catalogues' },
-    { name: 'Catalogue Content Management', link: '../catalogue-content-management' },
-    { name: 'View Catalogue' , link: '../view-catalogue'}
+  menu: IMenuItem[] = [
+    { label: 'Approve Uploaded Catalogues', url: 'catalogues' },
+    { label: 'Catalogue Content Management', url: '../catalogue-content-management' },
+    { label: 'View Catalogue' , url: '../view-catalogue'}
   ];
   clicked: number;
   ngOnInit(): void {
@@ -47,10 +46,10 @@ export class CatalogueManagementComponent implements OnInit, OnDestroy {
     // this._store.dispatch(fromAuthActions.adminDetails());
     this._adminService.authorizedAdmin('catalogue_management');
     this._auth.adminDetails().subscribe((adminDetails: IAdminDetails) => {
-      if(adminDetails.admin_designation == "associate"){
-        this.menus = [
-          { name: 'Approve Uploaded Catalogues', link: 'catalogues' },
-          { name: 'View Catalogue' , link: '../view-catalogue'}
+      if (adminDetails.admin_designation === 'associate'){
+        this.menu = [
+          { label: 'Approve Uploaded Catalogues', url: 'catalogues' },
+          { label: 'View Catalogue' , url: '../view-catalogue'}
         ];
       }
     });

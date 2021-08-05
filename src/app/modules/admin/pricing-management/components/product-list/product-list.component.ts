@@ -77,17 +77,20 @@ export class ProductListComponent implements OnInit, OnDestroy {
     this.dataSource.filter = filterValue;
     this.loading = false;
   }
+
   public getPricingProducts = () => {
 
     this.loading = true;
     this.cpy = [];
     this.res = [];
-    this._subscription.add(this._adminService.getPricingProducts(this.catalogueId).subscribe((pricingProducts: IPricingProduct[]) => {
+    this._subscription.add(
+      this._adminService.getPricingProducts(this.catalogueId).subscribe((pricingProducts: IPricingProduct[]) => {
       this.cpy = JSON.parse(JSON.stringify(pricingProducts));
       this.res = pricingProducts;
       this.dataSource = new MatTableDataSource(pricingProducts);
       this.loading = false;
-    }));
+      })
+    );
   }
 
   public change = (check, index) => {
@@ -139,9 +142,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
   public editPricing = (editPricingDetails: IPricingEdit[]) => {
     this._subscription.add(this._adminService.editPricing(editPricingDetails).subscribe((res: IResMsg) => {
       this._snackbar.open(res.msg, 'Dismiss', { duration: 5000 });
-      if (res.success) {
-        this.ngOnInit();
-      }
+      this.ngOnInit();
     }));
   }
 

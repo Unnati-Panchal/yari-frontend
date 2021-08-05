@@ -1,7 +1,7 @@
 <div class="card">
 
-    <div class="item" *ngFor="let menu of menus; let i = index" [routerLink]="[menu.link]" (click)="clicked=i"
+    <div class="item" *ngFor="let item of menu; let i = index" [routerLink]="[item.url]" (click)="clicked=i"
         [ngStyle]="{'background-color':clicked == i? '#848484': '#f62101'}">
-        {{ menu.name }}
+        {{ item.label }}
     </div>
 </div>

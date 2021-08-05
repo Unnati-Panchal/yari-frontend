@@ -1,11 +1,12 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {IMenuItem, resellerDashboardMenu, supplierDashboardMenu} from '~admin/key-account-management/components/dashboard/menu';
+import {resellerDashboardMenu, supplierDashboardMenu} from '~admin/key-account-management/components/dashboard/menu';
 import {Subscription} from 'rxjs';
 import {select, Store} from '@ngrx/store';
 import * as fromAuthSelectors from '~store/auth/auth.selectors';
 import {filter} from 'rxjs/operators';
 import {IAppState} from '~store/app.state';
 import {IAdminDetails} from '@yaari/models/auth/auth.interface';
+import {AdminService, IMenuItem} from '@yaari/services/admin/admin.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   constructor(
     private _store: Store<IAppState>,
+    private adminService: AdminService
   ) {}
 
   public supplierDashboardMenu: IMenuItem[] = supplierDashboardMenu;
@@ -31,6 +33,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
   );
 
   public ngOnInit(): void {
+    const menu = [...supplierDashboardMenu, ...resellerDashboardMenu];
+    this.adminService.activeHeaderMenu$.next(menu);
     this.authorizedAdmin();
   }
 
